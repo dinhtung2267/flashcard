@@ -1438,20 +1438,30 @@ updateNewWordCount();
 updateAutoCount();
 
 var savedCardIdx = localStorage.getItem('lastCardIndex');
-var savedFlipState = localStorage.getItem('lastFlipState');
+
 if(savedCardIdx !== null){
   var parsed = parseInt(savedCardIdx);
   if(!isNaN(parsed) && d[parsed]){
     i = parsed;
   }
   localStorage.removeItem('lastCardIndex');
-  localStorage.removeItem('lastFlipState');
-}
+
+  
+const globalFns = {
+  flip, say, next, prev, toggle, toggleBlur, checkEx,
+  shuffleCards, resetOrder, openImport, doImport, closeModal,
+  openList, closeList, toggleSelectMode, deleteSelected,
+  openNewWords, closeNewWords, openListen, closeListen,
+  backToListenHome, loadListenMode, regenListen, speakWordModal,
+  toggleSaveWord, closeWordModal, pickPhoto, uploadFromList,
+  removePhoto, pasteImage, searchGoogleImage, autoFindImage,
+  compressAllOldImages, addKey, clearAllKeys, showWordInfo, changeVoice
+};
+Object.keys(globalFns).forEach(function(name){
+  window[name] = globalFns[name];
+});
 r();
-if(savedFlipState === '1'){
-  f=1;
-  document.getElementById('c').classList.add('f');
-}
+
 </script>
 </body>
 </html>
