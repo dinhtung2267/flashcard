@@ -1445,8 +1445,8 @@ if(savedCardIdx !== null){
     i = parsed;
   }
   localStorage.removeItem('lastCardIndex');
+}
 
-  
 const globalFns = {
   flip, say, next, prev, toggle, toggleBlur, checkEx,
   shuffleCards, resetOrder, openImport, doImport, closeModal,
@@ -1460,8 +1460,8 @@ const globalFns = {
 Object.keys(globalFns).forEach(function(name){
   window[name] = globalFns[name];
 });
-r();
 
+r();
 </script>
 </body>
 </html>
