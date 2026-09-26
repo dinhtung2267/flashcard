@@ -1,0 +1,149 @@
+<!DOCTYPE html>
+<html>
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width,initial-scale=1">
+<title>Firebase Test 2</title>
+<style>
+body{font-family:Arial;background:linear-gradient(135deg,#667eea,#764ba2);min-height:100vh;margin:0;padding:20px;display:flex;flex-direction:column;align-items:center;justify-content:center}
+.box{background:#fff;border-radius:18px;padding:24px;max-width:420px;width:100%;box-shadow:0 10px 30px rgba(0,0,0,.3)}
+h2{margin:0 0 20px;color:#4338ca;text-align:center}
+button{width:100%;padding:14px;border-radius:10px;border:none;font-weight:700;font-size:1rem;cursor:pointer;margin-bottom:10px;color:#fff}
+.btn-login{background:#4285f4}
+.btn-logout{background:#ef4444;display:none}
+.btn-status{background:#4ade80}
+.result{margin-top:16px;padding:14px;border-radius:10px;font-size:.9rem;line-height:1.6;white-space:pre-wrap;word-break:break-word;min-height:60px;background:#f3f4f6;color:#1f2937}
+.result.ok{background:#dcfce7;color:#166534}
+.result.err{background:#fee2e2;color:#991b1b}
+.result.load{background:#dbeafe;color:#1e40af}
+.user-info{margin-top:16px;padding:14px;background:#f0fdf4;border-radius:10px;display:none;text-align:center}
+.user-info img{width:64px;height:64px;border-radius:50%;margin-bottom:8px;border:3px solid #4ade80}
+.user-info .name{font-weight:700;color:#166534;font-size:1rem}
+.user-info .email{color:#6b7280;font-size:.85rem;margin-top:4px}
+.sync-status{margin-top:10px;padding:10px;border-radius:8px;font-size:.85rem;text-align:center;background:#fef3c7;color:#92400e;font-weight:600}
+</style>
+</head>
+<body>
+<div class="box">
+  <h2>🔥 Firebase Test (Redirect)</h2>
+  
+  <button class="btn-login" id="btnLogin" onclick="loginGoogle()">🔐 Đăng nhập Google</button>
+  <button class="btn-logout" id="btnLogout" onclick="logoutGoogle()">🚪 Đăng xuất</button>
+  <button class="btn-status" onclick="checkStatus()">📊 Kiểm tra kết nối</button>
+  
+  <div class="result" id="result">Chưa có hành động.</div>
+  
+  <div class="user-info" id="userInfo">
+    <img id="userAvatar" src="" alt="avatar">
+    <div class="name" id="userName"></div>
+    <div class="email" id="userEmail"></div>
+    <div class="sync-status" id="syncStatus">☁️ Đã kết nối cloud</div>
+  </div>
+</div>
+
+<script type="module">
+import { initializeApp } from 'https://www.gstatic.com/firebasejs/10.7.0/firebase-app.js';
+import { getAuth, GoogleAuthProvider, signInWithRedirect, getRedirectResult, signOut, onAuthStateChanged } from 'https://www.gstatic.com/firebasejs/10.7.0/firebase-auth.js';
+import { getFirestore, doc, setDoc, getDoc } from 'https://www.gstatic.com/firebasejs/10.7.0/firebase-firestore.js';
+
+const firebaseConfig = {
+  apiKey: "AIzaSyBI1m4_K0ovnFlRtDs9uzmI9ax7whSG4tI",
+  authDomain: "flashcard-app-551d7.firebaseapp.com",
+  projectId: "flashcard-app-551d7",
+  storageBucket: "flashcard-app-551d7.firebasestorage.app",
+  messagingSenderId: "948001109480",
+  appId: "1:948001109480:web:cae02551e2b2e49db3a05d"
+};
+
+const app = initializeApp(firebaseConfig);
+const auth = getAuth(app);
+const db = getFirestore(app);
+
+const resultEl = document.getElementById('result');
+const userInfoEl = document.getElementById('userInfo');
+
+function setResult(msg, cls){
+  resultEl.textContent = msg;
+  resultEl.className = 'result ' + (cls || '');
+}
+
+window.loginGoogle = async function(){
+  setResult('⏳ Đang chuyển sang trang đăng nhập Google...', 'load');
+  try{
+    const provider = new GoogleAuthProvider();
+    await signInWithRedirect(auth, provider);
+  }catch(err){
+    setResult('❌ LỖI:\n\n' + err.code + '\n' + err.message, 'err');
+  }
+};
+
+window.logoutGoogle = async function(){
+  try{
+    await signOut(auth);
+    setResult('✅ Đã đăng xuất', 'ok');
+  }catch(err){
+    setResult('❌ LỖI:\n' + err.message, 'err');
+  }
+};
+
+window.checkStatus = async function(){
+  setResult('⏳ Đang kiểm tra...', 'load');
+  try{
+    const user = auth.currentUser;
+    if(!user){
+      setResult('⚠️ Chưa đăng nhập', 'err');
+      return;
+    }
+    
+    const testRef = doc(db, 'users', user.uid);
+    await setDoc(testRef, {
+      lastCheck: new Date().toISOString(),
+      email: user.email,
+      testValue: 'Hello Firebase!'
+    }, { merge: true });
+    
+    const snap = await getDoc(testRef);
+    
+    setResult(
+      '✅ KẾT NỐI FIREBASE OK!\n\n' +
+      '👤 Email: ' + user.email + '\n' +
+      '🆔 UID: ' + user.uid + '\n' +
+      '📝 Đã ghi test data\n' +
+      '📖 Đọc lại OK\n\n' +
+      '→ Firebase hoạt động 100%!', 
+      'ok'
+    );
+  }catch(err){
+    setResult('❌ LỖI FIREBASE:\n\n' + err.code + '\n' + err.message, 'err');
+  }
+};
+
+// Xử lý kết quả sau redirect
+getRedirectResult(auth).then(function(result){
+  if(result && result.user){
+    setResult('✅ Đăng nhập thành công!\n\nEmail: ' + result.user.email + '\nUID: ' + result.user.uid, 'ok');
+  }
+}).catch(function(err){
+  setResult('❌ LỖI REDIRECT:\n\n' + err.code + '\n' + err.message, 'err');
+});
+
+onAuthStateChanged(auth, function(user){
+  const btnLogin = document.getElementById('btnLogin');
+  const btnLogout = document.getElementById('btnLogout');
+  
+  if(user){
+    btnLogin.style.display = 'none';
+    btnLogout.style.display = 'block';
+    userInfoEl.style.display = 'block';
+    document.getElementById('userAvatar').src = user.photoURL || '';
+    document.getElementById('userName').textContent = user.displayName || 'User';
+    document.getElementById('userEmail').textContent = user.email;
+  }else{
+    btnLogin.style.display = 'block';
+    btnLogout.style.display = 'none';
+    userInfoEl.style.display = 'none';
+  }
+});
+</script>
+</body>
+</html>
