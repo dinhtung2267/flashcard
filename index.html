@@ -3,7 +3,7 @@
 <head>
 <meta charset="utf-8">
 <meta name="viewport" content="width=device-width,initial-scale=1">
-<title>Firebase Test 2</title>
+<title>Firebase Test</title>
 <style>
 body{font-family:Arial;background:linear-gradient(135deg,#667eea,#764ba2);min-height:100vh;margin:0;padding:20px;display:flex;flex-direction:column;align-items:center;justify-content:center}
 .box{background:#fff;border-radius:18px;padding:24px;max-width:420px;width:100%;box-shadow:0 10px 30px rgba(0,0,0,.3)}
@@ -25,7 +25,7 @@ button{width:100%;padding:14px;border-radius:10px;border:none;font-weight:700;fo
 </head>
 <body>
 <div class="box">
-  <h2>🔥 Firebase Test (Redirect)</h2>
+  <h2>🔥 Firebase Test</h2>
   
   <button class="btn-login" id="btnLogin" onclick="loginGoogle()">🔐 Đăng nhập Google</button>
   <button class="btn-logout" id="btnLogout" onclick="logoutGoogle()">🚪 Đăng xuất</button>
@@ -43,7 +43,7 @@ button{width:100%;padding:14px;border-radius:10px;border:none;font-weight:700;fo
 
 <script type="module">
 import { initializeApp } from 'https://www.gstatic.com/firebasejs/10.7.0/firebase-app.js';
-import { getAuth, GoogleAuthProvider, signInWithRedirect, getRedirectResult, signOut, onAuthStateChanged } from 'https://www.gstatic.com/firebasejs/10.7.0/firebase-auth.js';
+import { getAuth, GoogleAuthProvider, signInWithPopup, signOut, onAuthStateChanged } from 'https://www.gstatic.com/firebasejs/10.7.0/firebase-auth.js';
 import { getFirestore, doc, setDoc, getDoc } from 'https://www.gstatic.com/firebasejs/10.7.0/firebase-firestore.js';
 
 const firebaseConfig = {
@@ -68,10 +68,11 @@ function setResult(msg, cls){
 }
 
 window.loginGoogle = async function(){
-  setResult('⏳ Đang chuyển sang trang đăng nhập Google...', 'load');
+  setResult('⏳ Đang mở popup đăng nhập...', 'load');
   try{
     const provider = new GoogleAuthProvider();
-    await signInWithRedirect(auth, provider);
+    const result = await signInWithPopup(auth, provider);
+    setResult('✅ Đăng nhập thành công!\n\nEmail: ' + result.user.email + '\nUID: ' + result.user.uid, 'ok');
   }catch(err){
     setResult('❌ LỖI:\n\n' + err.code + '\n' + err.message, 'err');
   }
@@ -118,15 +119,6 @@ window.checkStatus = async function(){
   }
 };
 
-// Xử lý kết quả sau redirect
-getRedirectResult(auth).then(function(result){
-  if(result && result.user){
-    setResult('✅ Đăng nhập thành công!\n\nEmail: ' + result.user.email + '\nUID: ' + result.user.uid, 'ok');
-  }
-}).catch(function(err){
-  setResult('❌ LỖI REDIRECT:\n\n' + err.code + '\n' + err.message, 'err');
-});
-
 onAuthStateChanged(auth, function(user){
   const btnLogin = document.getElementById('btnLogin');
   const btnLogout = document.getElementById('btnLogout');
@@ -138,6 +130,7 @@ onAuthStateChanged(auth, function(user){
     document.getElementById('userAvatar').src = user.photoURL || '';
     document.getElementById('userName').textContent = user.displayName || 'User';
     document.getElementById('userEmail').textContent = user.email;
+    setResult('✅ ĐÃ ĐĂNG NHẬP!\n\nEmail: ' + user.email + '\nUID: ' + user.uid, 'ok');
   }else{
     btnLogin.style.display = 'block';
     btnLogout.style.display = 'none';
