@@ -141,7 +141,6 @@ h1{color:#fff;font-size:1.1rem;margin:0 0 8px}
 </style></head><body>
 <h1>📚 Flashcard Nghề Nghiệp</h1>
 
-<!-- 🔥 Khu vực đăng nhập Firebase -->
 <div class="authbox" id="authBox">
   <div class="authrow">
     <img id="authAvatar" class="authavatar" src="" alt="avatar">
@@ -308,7 +307,7 @@ h1{color:#fff;font-size:1.1rem;margin:0 0 8px}
 // ====== FIREBASE IMPORTS ======
 import { initializeApp } from 'https://www.gstatic.com/firebasejs/10.7.0/firebase-app.js';
 import { getAuth, GoogleAuthProvider, signInWithPopup, signOut, onAuthStateChanged } from 'https://www.gstatic.com/firebasejs/10.7.0/firebase-auth.js';
-import { getFirestore, doc, setDoc, getDoc } from 'https://www.gstatic.com/firebasejs/10.7.0/firebase-firestore.js';
+import { getFirestore, doc, setDoc, getDoc, deleteDoc } from 'https://www.gstatic.com/firebasejs/10.7.0/firebase-firestore.js';
 
 // ====== FIREBASE CONFIG ======
 const firebaseConfig = {
@@ -327,7 +326,6 @@ const fbDb = getFirestore(fbApp);
 let currentUser = null;
 let syncTimeout = null;
 
-// ====== DỮ LIỆU GỐC ======
 const MODELS=['gemini-2.5-flash','gemini-3.5-flash','gemini-3.5-flash-lite','gemini-flash-latest','gemini-2.5-flash-lite'];
 
 const original=[
@@ -363,14 +361,12 @@ const original=[
 ["firefighter","/ˈfaɪər.faɪ.tər/","(n)","lính cứu hỏa","The firefighter saved a cat from the tree and everyone clapped.","Lính cứu hỏa cứu con mèo trên cây và mọi người vỗ tay."]
 ];
 
-// ====== BIẾN TOÀN CỤC ======
 var keyList=JSON.parse(localStorage.getItem('keyList')||'[]');
 var WORKING_MODEL=localStorage.getItem('wm')||'';
 var currentKeyIndex=parseInt(localStorage.getItem('cki')||'0');
 var listenData=JSON.parse(localStorage.getItem('listenData')||'{}');
 var listenSpeed=parseFloat(localStorage.getItem('listenSpeed')||'0.8');
 var selectedVoice=localStorage.getItem('selectedVoice')||'';
-
 var savedCards=JSON.parse(localStorage.getItem('customCards')||'[]');
 var d=original.concat(savedCards);
 var i=0,f=0,blur=true;
@@ -379,12 +375,10 @@ var selectMode=false;
 var selected=new Set();
 var wordCache=JSON.parse(localStorage.getItem('wordCache')||'{}');
 var newWords=JSON.parse(localStorage.getItem('newWords')||'[]');
-var oldPhotos=JSON.parse(localStorage.getItem('photos')||'{}');
 var photos=JSON.parse(localStorage.getItem('photosByWord')||'{}');
 
-// ====== LƯU LOCAL ======
 function saveSavedCards(){localStorage.setItem('customCards',JSON.stringify(savedCards));scheduleSync();}
-function savePhotos(){localStorage.setItem('photosByWord',JSON.stringify(photos));}
+function savePhotos(){localStorage.setItem('photosByWord',JSON.stringify(photos));scheduleSync();}
 function saveWordCache(){localStorage.setItem('wordCache',JSON.stringify(wordCache));}
 function saveNewWords(){localStorage.setItem('newWords',JSON.stringify(newWords));scheduleSync();}
 function saveListenData(){localStorage.setItem('listenData',JSON.stringify(listenData));scheduleSync();}
@@ -411,7 +405,43 @@ async function pushToCloud(){
   try{
     setSyncStatus('⏳ Đang đồng bộ...','load');
     await setDoc(doc(fbDb,'users',currentUser.uid), getSyncData(), {merge:true});
-    setSyncStatus('✅ Đã đồng bộ ' + new Date().toLocaleTimeString('vi-VN'),'ok');
+    
+    // ✅ UPLOAD ẢNH THEO CHUNKS 20 ẢNH
+    var photoKeys = Object.keys(photos);
+    var chunks = [];
+    for(var k = 0; k < photoKeys.length; k += 20){
+      var chunk = {};
+      for(var j = k; j < k + 20 && j < photoKeys.length; j++){
+        chunk[photoKeys[j]] = photos[photoKeys[j]];
+      }
+      chunks.push(chunk);
+    }
+    
+    var oldChunkCount = 0;
+    try{
+      var mainDoc = await getDoc(doc(fbDb,'users',currentUser.uid));
+      if(mainDoc.exists() && mainDoc.data().photoChunks){
+        oldChunkCount = mainDoc.data().photoChunks;
+      }
+    }catch(e){}
+    
+    for(var k = 0; k < chunks.length; k++){
+      await setDoc(doc(fbDb, 'users', currentUser.uid, 'photos', 'chunk_' + k), {
+        data: JSON.stringify(chunks[k]),
+        count: Object.keys(chunks[k]).length
+      });
+    }
+    
+    for(var k = chunks.length; k < oldChunkCount; k++){
+      try{ await deleteDoc(doc(fbDb, 'users', currentUser.uid, 'photos', 'chunk_' + k)); }catch(e){}
+    }
+    
+    await setDoc(doc(fbDb,'users',currentUser.uid), {
+      photoChunks: chunks.length,
+      photoCount: photoKeys.length
+    }, {merge:true});
+    
+    setSyncStatus('✅ Đã đồng bộ ' + photoKeys.length + ' ảnh - ' + new Date().toLocaleTimeString('vi-VN'),'ok');
   }catch(err){
     setSyncStatus('❌ Lỗi sync: ' + err.message,'err');
   }
@@ -435,11 +465,30 @@ async function pullFromCloud(){
     if(data.keyList){keyList=data.keyList;localStorage.setItem('keyList',JSON.stringify(keyList));}
     if(data.listenSpeed){listenSpeed=data.listenSpeed;localStorage.setItem('listenSpeed',listenSpeed);}
     if(data.selectedVoice){selectedVoice=data.selectedVoice;localStorage.setItem('selectedVoice',selectedVoice);}
+    
+    // ✅ TẢI ẢNH THEO CHUNKS
+    var totalChunks = data.photoChunks || 0;
+    if(totalChunks > 0){
+      setSyncStatus('⏳ Đang tải ' + (data.photoCount||'?') + ' ảnh...','load');
+      var allPhotos = {};
+      for(var k = 0; k < totalChunks; k++){
+        try{
+          var chunkDoc = await getDoc(doc(fbDb, 'users', currentUser.uid, 'photos', 'chunk_' + k));
+          if(chunkDoc.exists()){
+            var chunkData = JSON.parse(chunkDoc.data().data);
+            Object.assign(allPhotos, chunkData);
+          }
+        }catch(e){ console.warn('Chunk ' + k + ' lỗi:', e.message); }
+      }
+      photos = allPhotos;
+      localStorage.setItem('photosByWord', JSON.stringify(photos));
+    }
+    
     rebuildD();
     updateNewWordCount();
     renderKeyList();
     r();
-    setSyncStatus('✅ Đã tải xong dữ liệu','ok');
+    setSyncStatus('✅ Đã tải xong (' + Object.keys(photos).length + ' ảnh)','ok');
   }catch(err){
     setSyncStatus('❌ Lỗi tải: ' + err.message,'err');
   }
@@ -448,7 +497,7 @@ async function pullFromCloud(){
 function scheduleSync(){
   if(!currentUser)return;
   clearTimeout(syncTimeout);
-  syncTimeout=setTimeout(pushToCloud, 2000);
+  syncTimeout=setTimeout(pushToCloud, 3000);
 }
 
 function setSyncStatus(msg, cls){
@@ -503,6 +552,7 @@ onAuthStateChanged(fbAuth, async function(user){
     setSyncStatus('⚪ Chưa kết nối','');
   }
 });
+
 // ====== HÀM LẤY GIỌNG ======
 function getVoice(){
   var voices=speechSynthesis.getVoices();
@@ -515,7 +565,6 @@ function getVoice(){
          voices.find(function(v){return v.lang.startsWith('en');});
 }
 
-// ====== CHỌN GIỌNG ======
 function loadVoices(){
   var sel=document.getElementById('voiceSelect');
   if(!sel)return;
@@ -548,7 +597,6 @@ function changeVoice(name){
   }
 }
 
-// ====== TÌM ẢNH GOOGLE ======
 function searchGoogleImage(e){
   if(e)e.stopPropagation();
   var word=d[i][0];
@@ -563,7 +611,6 @@ function searchGoogleImage(e){
   setTimeout(function(){document.body.removeChild(a);},100);
 }
 
-// ====== LUYỆN NGHE ======
 var currentListenMode='';
 var listenTopic={
   easy:'Giao tiếp hàng ngày (chào hỏi, giới thiệu, cảm ơn, xin lỗi)',
@@ -723,7 +770,6 @@ function similarity(a,b){
   return matches/Math.max(aw.length,bw.length);
 }
 
-// ====== LƯU TỪ MỚI ======
 var currentWordInfo=null;
 function isWordSaved(word){
   if(!word)return false;
@@ -773,7 +819,6 @@ function openNewWords(){
 }
 function closeNewWords(){document.getElementById('newwordmodal').classList.remove('show');}
 
-// ====== KEY ======
 function renderKeyList(){
   var el=document.getElementById('keylist');el.innerHTML='';
   if(!keyList.length){document.getElementById('keystat').textContent='🔑 Chưa có key';return;}
@@ -850,7 +895,6 @@ function markKeyDead(idx){
   keyList[idx].status='dead';saveKeyList();renderKeyList();
 }
 
-// ====== BẤM VÀO TỪ ======
 async function showWordInfo(word,ev){
   if(ev)ev.stopPropagation();
   var clean=word.replace(/[^a-zA-Z'-]/g,'').toLowerCase();
@@ -900,7 +944,6 @@ function speakWordModal(w){
 }
 function closeWordModal(){document.getElementById('wordmodal').classList.remove('show');currentWordInfo=null;}
 
-// ====== ẢNH ======
 function compressImage(dataUrl, callback){
   var img=new Image();
   img.onload=function(){
@@ -915,7 +958,7 @@ function compressImage(dataUrl, callback){
     canvas.width=w;canvas.height=h;
     var ctx=canvas.getContext('2d');
     ctx.drawImage(img,0,0,w,h);
-    var compressed=canvas.toDataURL('image/jpeg',0.7);
+    var compressed=canvas.toDataURL('image/jpeg',0.6);
     callback(compressed);
   };
   img.onerror=function(){callback(dataUrl);};
@@ -1100,6 +1143,7 @@ function compressAllOldImages(){
   function next(k){
     if(k>=words.length){
       alert('✅ Đã nén xong '+done+' ảnh!');
+      scheduleSync();
       return;
     }
     var w=words[k];
@@ -1113,7 +1157,6 @@ function compressAllOldImages(){
   next(0);
 }
 
-// ====== IMPORT ======
 function openImport(mode){
   importMode=mode;
   document.getElementById('modal').classList.add('show');
@@ -1226,7 +1269,6 @@ function parseAndAddCards(text,status){
   }catch(err){status.className='status no';status.textContent='❌ Lỗi: '+err.message;}
 }
 
-// ====== DANH SÁCH ======
 function openList(){
   var el=document.getElementById('cardlist');el.innerHTML='';
   document.getElementById('totalcount').textContent=d.length;
@@ -1317,7 +1359,6 @@ function shuffleCards(event){
 }
 function resetOrder(){d=original.concat(savedCards);i=0;r();}
 
-// ====== HIỂN THỊ THẺ ======
 function renderEx(text){
   var el=document.getElementById('e');
   el.innerHTML='';el.classList.toggle('blur',blur);
@@ -1376,7 +1417,6 @@ function toggle(){
   localStorage.setItem('lw',JSON.stringify(learned));scheduleSync();r();
 }
 
-// ====== AI CHẤM CÂU ======
 async function checkEx(e){
   e.stopPropagation();
   var user=document.getElementById('note').value.trim();
@@ -1406,7 +1446,6 @@ function say(e,t){
   u.lang='en-US';u.rate=t?0.95:0.85;speechSynthesis.speak(u);
 }
 
-// ====== KHỞI TẠO ======
 setInterval(function(){
   var needRefresh=false;
   keyList.forEach(function(item){
@@ -1438,12 +1477,9 @@ updateNewWordCount();
 updateAutoCount();
 
 var savedCardIdx = localStorage.getItem('lastCardIndex');
-
 if(savedCardIdx !== null){
   var parsed = parseInt(savedCardIdx);
-  if(!isNaN(parsed) && d[parsed]){
-    i = parsed;
-  }
+  if(!isNaN(parsed) && d[parsed]){ i = parsed; }
   localStorage.removeItem('lastCardIndex');
 }
 
