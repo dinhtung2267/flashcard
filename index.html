@@ -304,9 +304,8 @@ h1{color:#fff;font-size:1.1rem;margin:0 0 8px}
 <button class="mb-close" style="margin-top:12px" onclick="closeList()">Đóng</button>
 </div>
 </div><script type="module">
-// ====== FIREBASE IMPORTS ======
 import { initializeApp } from 'https://www.gstatic.com/firebasejs/10.7.0/firebase-app.js';
-import { getAuth, GoogleAuthProvider, signInWithPopup, signOut, onAuthStateChanged } from 'https://www.gstatic.com/firebasejs/10.7.0/firebase-auth.js';
+import { getAuth, GoogleAuthProvider, signInWithPopup, signInWithRedirect, getRedirectResult, signOut, onAuthStateChanged } from 'https://www.gstatic.com/firebasejs/10.7.0/firebase-auth.js';
 import { getFirestore, doc, setDoc, getDoc, deleteDoc } from 'https://www.gstatic.com/firebasejs/10.7.0/firebase-firestore.js';
 
 const firebaseConfig = {
@@ -495,10 +494,17 @@ function setSyncStatus(msg, cls){
   el.className = 'status ' + (cls||'');
 }
 
+// ✅ LOGIN — Tự detect PWA vs Safari
 window.loginGoogle = async function(){
   try{
     var provider = new GoogleAuthProvider();
-    await signInWithPopup(fbAuth, provider);
+    var isPWA = window.matchMedia('(display-mode: standalone)').matches || window.navigator.standalone === true;
+    if(isPWA){
+      setSyncStatus('⏳ Đang chuyển sang Google...','load');
+      await signInWithRedirect(fbAuth, provider);
+    }else{
+      await signInWithPopup(fbAuth, provider);
+    }
   }catch(err){
     alert('❌ Lỗi đăng nhập: ' + err.message);
   }
@@ -513,6 +519,15 @@ window.logoutGoogle = async function(){
     alert('❌ Lỗi: ' + err.message);
   }
 };
+
+// ✅ Xử lý redirect (cho PWA)
+getRedirectResult(fbAuth).then(function(result){
+  if(result && result.user){
+    console.log('✅ Đăng nhập qua redirect:', result.user.email);
+  }
+}).catch(function(err){
+  console.error('Lỗi redirect:', err.message);
+});
 
 onAuthStateChanged(fbAuth, async function(user){
   currentUser = user;
@@ -1163,12 +1178,7 @@ function openImport(mode){
   input.click();
 }
 function closeModal(){document.getElementById('modal').classList.remove('show');}
-function doImport(){
-  var file=document.getElementById('fileinput').files[0];
-  if(!file){alert('Chưa chọn file!');return;}
-  if(!keyList.length){alert('Chưa có key!');return;}
-  if(importMode==='image')processImage(file);else processFile(file);
-}
+function doImport(){}
 function fileToBase64(file){
   return new Promise(function(res,rej){
     var r=new FileReader();r.onload=function(){res(r.result.split(',')[1]);};r.onerror=rej;r.readAsDataURL(file);
