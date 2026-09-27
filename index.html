@@ -309,7 +309,6 @@ import { initializeApp } from 'https://www.gstatic.com/firebasejs/10.7.0/firebas
 import { getAuth, GoogleAuthProvider, signInWithPopup, signOut, onAuthStateChanged } from 'https://www.gstatic.com/firebasejs/10.7.0/firebase-auth.js';
 import { getFirestore, doc, setDoc, getDoc, deleteDoc } from 'https://www.gstatic.com/firebasejs/10.7.0/firebase-firestore.js';
 
-// ====== FIREBASE CONFIG ======
 const firebaseConfig = {
   apiKey: "AIzaSyBI1m4_K0ovnFlRtDs9uzmI9ax7whSG4tI",
   authDomain: "flashcard-app-551d7.firebaseapp.com",
@@ -386,7 +385,6 @@ function saveKeyList(){localStorage.setItem('keyList',JSON.stringify(keyList));s
 function rebuildD(){d=original.concat(savedCards);}
 function updateNewWordCount(){var el=document.getElementById('newword-count');if(el)el.textContent=newWords.length;}
 
-// ====== FIREBASE SYNC ======
 function getSyncData(){
   return {
     savedCards: savedCards,
@@ -405,8 +403,6 @@ async function pushToCloud(){
   try{
     setSyncStatus('⏳ Đang đồng bộ...','load');
     await setDoc(doc(fbDb,'users',currentUser.uid), getSyncData(), {merge:true});
-    
-    // ✅ UPLOAD ẢNH THEO CHUNKS 20 ẢNH
     var photoKeys = Object.keys(photos);
     var chunks = [];
     for(var k = 0; k < photoKeys.length; k += 20){
@@ -416,7 +412,6 @@ async function pushToCloud(){
       }
       chunks.push(chunk);
     }
-    
     var oldChunkCount = 0;
     try{
       var mainDoc = await getDoc(doc(fbDb,'users',currentUser.uid));
@@ -424,23 +419,19 @@ async function pushToCloud(){
         oldChunkCount = mainDoc.data().photoChunks;
       }
     }catch(e){}
-    
     for(var k = 0; k < chunks.length; k++){
       await setDoc(doc(fbDb, 'users', currentUser.uid, 'photos', 'chunk_' + k), {
         data: JSON.stringify(chunks[k]),
         count: Object.keys(chunks[k]).length
       });
     }
-    
     for(var k = chunks.length; k < oldChunkCount; k++){
       try{ await deleteDoc(doc(fbDb, 'users', currentUser.uid, 'photos', 'chunk_' + k)); }catch(e){}
     }
-    
     await setDoc(doc(fbDb,'users',currentUser.uid), {
       photoChunks: chunks.length,
       photoCount: photoKeys.length
     }, {merge:true});
-    
     setSyncStatus('✅ Đã đồng bộ ' + photoKeys.length + ' ảnh - ' + new Date().toLocaleTimeString('vi-VN'),'ok');
   }catch(err){
     setSyncStatus('❌ Lỗi sync: ' + err.message,'err');
@@ -465,8 +456,6 @@ async function pullFromCloud(){
     if(data.keyList){keyList=data.keyList;localStorage.setItem('keyList',JSON.stringify(keyList));}
     if(data.listenSpeed){listenSpeed=data.listenSpeed;localStorage.setItem('listenSpeed',listenSpeed);}
     if(data.selectedVoice){selectedVoice=data.selectedVoice;localStorage.setItem('selectedVoice',selectedVoice);}
-    
-    // ✅ TẢI ẢNH THEO CHUNKS
     var totalChunks = data.photoChunks || 0;
     if(totalChunks > 0){
       setSyncStatus('⏳ Đang tải ' + (data.photoCount||'?') + ' ảnh...','load');
@@ -483,7 +472,6 @@ async function pullFromCloud(){
       photos = allPhotos;
       localStorage.setItem('photosByWord', JSON.stringify(photos));
     }
-    
     rebuildD();
     updateNewWordCount();
     renderKeyList();
@@ -507,7 +495,6 @@ function setSyncStatus(msg, cls){
   el.className = 'status ' + (cls||'');
 }
 
-// ====== AUTH ======
 window.loginGoogle = async function(){
   try{
     var provider = new GoogleAuthProvider();
@@ -534,7 +521,6 @@ onAuthStateChanged(fbAuth, async function(user){
   var email = document.getElementById('authEmail');
   var btnLogin = document.getElementById('btnLogin');
   var btnLogout = document.getElementById('btnLogout');
-  
   if(user){
     avatar.src = user.photoURL || '';
     avatar.classList.add('show');
@@ -553,7 +539,6 @@ onAuthStateChanged(fbAuth, async function(user){
   }
 });
 
-// ====== HÀM LẤY GIỌNG ======
 function getVoice(){
   var voices=speechSynthesis.getVoices();
   if(selectedVoice){
@@ -1158,19 +1143,24 @@ function compressAllOldImages(){
 }
 
 function openImport(mode){
-  importMode=mode;
-  document.getElementById('modal').classList.add('show');
-  document.getElementById('modal-status').style.display='none';
-  document.getElementById('fileinput').value='';
-  if(mode==='image'){
-    document.getElementById('modal-title').textContent='📷 Tạo thẻ từ ảnh';
-    document.getElementById('modal-desc').textContent='Chọn ảnh chụp sách/vở.';
-    document.getElementById('fileinput').accept='image/*';
+  var input = document.getElementById('fileinput');
+  input.value = '';
+  if(mode === 'image'){
+    input.accept = 'image/*';
+    input.onchange = function(){
+      var file = input.files[0];
+      if(!file) return;
+      processImage(file);
+    };
   }else{
-    document.getElementById('modal-title').textContent='📄 Tạo thẻ từ file';
-    document.getElementById('modal-desc').textContent='Chọn file .txt hoặc .csv.';
-    document.getElementById('fileinput').accept='.txt,.csv,.text';
+    input.accept = '.txt,.csv,.text';
+    input.onchange = function(){
+      var file = input.files[0];
+      if(!file) return;
+      processFile(file);
+    };
   }
+  input.click();
 }
 function closeModal(){document.getElementById('modal').classList.remove('show');}
 function doImport(){
