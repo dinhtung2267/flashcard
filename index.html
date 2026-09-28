@@ -165,6 +165,9 @@ h1{color:#fff;font-size:1.1rem;margin:0 0 8px}
 .video-status{font-size:.85rem;color:#4338ca;text-align:center;padding:8px;background:#eef2ff;border-radius:8px;margin-bottom:10px}
 .video-status.ok{color:#166534;background:#dcfce7}
 .video-status.no{color:#991b1b;background:#fee2e2}
+body.video-open{overflow:hidden;position:fixed;width:100%;top:0}
+#videomodal{overflow-y:auto;-webkit-overflow-scrolling:touch}
+#videomodal .modal-box{overflow-y:auto;-webkit-overflow-scrolling:touch}
 </style></head><body>
 <h1>📚 Flashcard Nghề Nghiệp</h1>
 
@@ -1549,11 +1552,21 @@ var subVisible = true;
 function openVideo(){
   document.getElementById('videomodal').classList.add('show');
   backToVideoHome();
+  // Khóa scroll của trang để không bị kéo
+  document.body.style.overflow = 'hidden';
+  document.body.style.position = 'fixed';
+  document.body.style.width = '100%';
+  document.body.style.top = '0';
 }
 function closeVideo(){
   var v = document.getElementById('videoEl');
   if(v){ v.pause(); v.removeAttribute('src'); v.load(); }
   document.getElementById('videomodal').classList.remove('show');
+  // Mở khóa scroll
+  document.body.style.overflow = '';
+  document.body.style.position = '';
+  document.body.style.width = '';
+  document.body.style.top = '';
 }
 function backToVideoHome(){
   var v = document.getElementById('videoEl');
