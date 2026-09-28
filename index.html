@@ -142,7 +142,8 @@ h1{color:#fff;font-size:1.1rem;margin:0 0 8px}
 .video-input{width:100%;padding:10px;border:2px solid #c7d2fe;border-radius:10px;font-size:.85rem;font-family:Arial;resize:vertical;min-height:60px;box-sizing:border-box;margin-bottom:10px}
 .video-input.srt{min-height:150px;font-family:monospace;font-size:.8rem}
 .video-label{font-size:.75rem;font-weight:700;color:#9ca3af;letter-spacing:.5px;text-transform:uppercase;margin-bottom:4px;display:block}
-.video-wrapper{position:relative;width:100%;background:#000;border-radius:14px;overflow:hidden;margin-bottom:10px}
+.video-wrapper{position:relative;width:100%;background:#000;border-radius:14px;overflow:hidden;margin-bottom:10px;max-height:60vh;display:flex;align-items:center;justify-content:center}
+.video-wrapper video{width:100%;display:block;border-radius:14px;height:auto;object-fit:contain;background:#000}
 body.video-open{overflow:hidden}
 .sub-overlay{position:absolute;left:0;right:0;bottom:60px;text-align:center;pointer-events:none;padding:0 20px;z-index:10}
 .sub-overlay.hide{display:none}
@@ -343,7 +344,7 @@ body.video-open{overflow:hidden;position:fixed;width:100%;top:0}
 <button class="vc-hide" id="toggleSubBtn" onclick="toggleSubtitle()">💬 Ẩn phụ đề</button>
 </div>
 <div class="video-wrapper" id="videoWrapper">
-<video id="videoEl" controls playsinline></video>
+<video id="videoEl" controls playsinline disablepictureinpicture></video>
 <div class="sub-overlay" id="subOverlay">
 <div><span class="en" id="ovEn"></span></div>
 <div><span class="vi" id="ovVi"></span></div>
