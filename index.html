@@ -1671,7 +1671,18 @@ function onVideoTimeUpdate(){
   });
   if(idx >= 0){
     var active = document.querySelector('.sub-item.active');
-    if(active) active.scrollIntoView({behavior:'smooth', block:'center'});
+    var listBox = document.getElementById('subList');
+    if(active && listBox){
+      var listTop = listBox.scrollTop;
+      var listHeight = listBox.clientHeight;
+      var itemTop = active.offsetTop - listBox.offsetTop;
+      var itemHeight = active.offsetHeight;
+      // Chỉ cuộn bên trong khung phụ đề, không cuộn trang
+      listBox.scrollTo({
+        top: itemTop - (listHeight / 2) + (itemHeight / 2),
+        behavior: 'smooth'
+      });
+    }
   }
 }
 
