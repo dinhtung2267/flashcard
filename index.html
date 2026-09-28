@@ -138,27 +138,20 @@ h1{color:#fff;font-size:1.1rem;margin:0 0 8px}
 .voice-selector{background:#f0fdf4;border:2px solid #86efac;padding:10px;border-radius:10px;margin-bottom:12px}
 .voice-selector label{font-size:.8rem;color:#166534;font-weight:700;display:block;margin-bottom:6px}
 .voice-selector select{width:100%;padding:10px;border-radius:8px;border:2px solid #86efac;font-size:.85rem;background:#fff;color:#166534;font-weight:600}
-/* ========== HỌC QUA VIDEO ========== */
 .video-modal-box{max-width:900px;width:100%;max-height:95vh;overflow-y:auto}
 .video-input{width:100%;padding:10px;border:2px solid #c7d2fe;border-radius:10px;font-size:.85rem;font-family:Arial;resize:vertical;min-height:60px;box-sizing:border-box;margin-bottom:10px}
 .video-input.srt{min-height:150px;font-family:monospace;font-size:.8rem}
 .video-label{font-size:.75rem;font-weight:700;color:#9ca3af;letter-spacing:.5px;text-transform:uppercase;margin-bottom:4px;display:block}
 .video-wrapper{position:relative;width:100%;background:#000;border-radius:14px;overflow:hidden;margin-bottom:10px}
 .video-wrapper video{width:100%;display:block;border-radius:14px}
-.video-wrapper:fullscreen{border-radius:0;display:flex;align-items:center;justify-content:center;background:#000}
-.video-wrapper:fullscreen video{max-height:100vh;width:auto;max-width:100vw;border-radius:0}
 .sub-overlay{position:absolute;left:0;right:0;bottom:60px;text-align:center;pointer-events:none;padding:0 20px;z-index:10}
 .sub-overlay.hide{display:none}
 .sub-overlay .en{display:inline-block;background:rgba(0,0,0,.75);color:#fff;padding:6px 14px;border-radius:8px;font-size:1rem;font-weight:600;line-height:1.4;margin-bottom:4px;max-width:95%;text-shadow:1px 1px 2px #000}
 .sub-overlay .vi{display:inline-block;background:rgba(0,0,0,.65);color:#fbbf24;padding:4px 12px;border-radius:8px;font-size:.85rem;line-height:1.3;max-width:95%;text-shadow:1px 1px 2px #000}
-.video-wrapper:fullscreen .sub-overlay{bottom:80px}
-.video-wrapper:fullscreen .sub-overlay .en{font-size:1.5rem;padding:10px 20px}
-.video-wrapper:fullscreen .sub-overlay .vi{font-size:1.2rem;padding:8px 16px}
 .sub-controls{display:flex;gap:6px;margin-bottom:10px;flex-wrap:wrap}
 .sub-controls button{flex:1;padding:10px;border-radius:10px;border:none;font-weight:700;font-size:.8rem;cursor:pointer;min-width:100px}
 .vc-hide{background:#e0e7ff;color:#3730a3}
 .vc-hide.off{background:#fee2e2;color:#991b1b}
-.vc-full{background:#f0fdf4;color:#166534}
 .vc-back{background:#fef3c7;color:#92400e}
 .sub-list{max-height:400px;overflow-y:auto;background:#f9fafb;border-radius:12px;padding:8px;border:1px solid #e5e7eb}
 .sub-item{padding:10px 12px;border-radius:8px;margin-bottom:6px;cursor:pointer;transition:all .2s;border-left:4px solid transparent;background:#fff}
@@ -207,7 +200,7 @@ h1{color:#fff;font-size:1.1rem;margin:0 0 8px}
 <button onclick="openNewWords()" style="background:#93c5fd;color:#1e3a8a">📌 Kho từ mới (<span id="newword-count">0</span>)</button>
 <button onclick="openListen()" style="background:#c4b5fd;color:#4c1d95">🎧 Luyện nghe</button>
 <button onclick="autoFindImage(event)" id="autoBtn" style="background:#fb923c;color:#fff">⚡ Tự động (<span id="autoCount">0</span>)</button>
-<button onclick="compressAllOldImages()" style="background:#a78bfa;color:#fff">🗜 ️ Nén ảnh cũ</button4>
+<button onclick="compressAllOldImages()" style="background:#a78bfa;color:#fff">🗜️ Nén ảnh cũ</button>
 <button onclick="openVideo()" style="background:#f472b6;color:#fff">🎬 Học qua Video</button>
 </div>
 <div class="card" id="c" onclick="flip(event)">
@@ -332,11 +325,11 @@ h1{color:#fff;font-size:1.1rem;margin:0 0 8px}
 <div class="modal-box video-modal-box">
 <h2>🎬 Học qua Video</h2>
 <div id="video-home">
-<p style="font-size:.85rem;color:#6b7280">Nhập link video (định dạng .mp4) và nội dung phụ đề SRT song ngữ (Anh - Việt).</p>
+<p style="font-size:.85rem;color:#6b7280">Nhập link video (.mp4) và nội dung phụ đề SRT song ngữ (Anh - Việt).</p>
 <label class="video-label">📹 Link video (.mp4)</label>
 <input type="text" class="video-input" id="videoUrl" placeholder="https://example.com/video.mp4" />
 <label class="video-label">💬 Phụ đề SRT (Anh + Việt)</label>
-<textarea class="video-input srt" id="srtInput" placeholder="1&#10;00:00:00,000 --> 00:00:03,000&#10;Hello everyone.&#10;Xin chào mọi người.&#10;&#10;2&#10;00:00:03,500 --> 00:00:06,000&#10;Welcome to my class.&#10;Chào mừng đến lớp tôi."></textarea>
+<textarea class="video-input srt" id="srtInput" placeholder="1&#10;00:00:00,000 --> 00:00:03,000&#10;Hello everyone.&#10;Xin chào mọi người."></textarea>
 <button class="mb-primary" onclick="startVideo()" style="background:#f472b6;color:#fff">🚀 Bắt đầu học</button>
 <button class="mb-close" onclick="closeVideo()">Hủy</button>
 <div class="video-status" id="videoStatus" style="display:none"></div>
@@ -345,7 +338,6 @@ h1{color:#fff;font-size:1.1rem;margin:0 0 8px}
 <div class="sub-controls">
 <button class="vc-back" onclick="backToVideoHome()">◀ Nhập video khác</button>
 <button class="vc-hide" id="toggleSubBtn" onclick="toggleSubtitle()">💬 Ẩn phụ đề</button>
-<button class="vc-full" onclick="toggleFullscreen()">⛶ Toàn màn hình</button>
 </div>
 <div class="video-wrapper" id="videoWrapper">
 <video id="videoEl" controls playsinline></video>
@@ -1561,7 +1553,6 @@ function openVideo(){
 function closeVideo(){
   var v = document.getElementById('videoEl');
   if(v){ v.pause(); v.removeAttribute('src'); v.load(); }
-  if(document.fullscreenElement) document.exitFullscreen();
   document.getElementById('videomodal').classList.remove('show');
 }
 function backToVideoHome(){
@@ -1579,13 +1570,13 @@ function parseSRT(text){
   blocks.forEach(function(block){
     var lines = block.split('\n').map(function(s){return s.trim();}).filter(function(s){return s!=='';});
     if(lines.length < 3) return;
-    var i = 0;
-    if(/^\d+$/.test(lines[0])) i = 1;
-    var m = lines[i].match(timeRe);
+    var idx = 0;
+    if(/^\d+$/.test(lines[0])) idx = 1;
+    var m = lines[idx].match(timeRe);
     if(!m) return;
     var start = (+m[1])*3600 + (+m[2])*60 + (+m[3]) + (+m[4])/1000;
     var end   = (+m[5])*3600 + (+m[6])*60 + (+m[7]) + (+m[8])/1000;
-    var textLines = lines.slice(i+1);
+    var textLines = lines.slice(idx+1);
     var en = '', vi = '';
     if(textLines.length >= 2){
       if(textLines.length === 2){
@@ -1706,17 +1697,6 @@ function toggleSubtitle(){
   }
 }
 
-function toggleFullscreen(){
-  var wrap = document.getElementById('videoWrapper');
-  if(!document.fullscreenElement){
-    if(wrap.requestFullscreen) wrap.requestFullscreen();
-    else if(wrap.webkitRequestFullscreen) wrap.webkitRequestFullscreen();
-  } else {
-    if(document.exitFullscreen) document.exitFullscreen();
-    else if(document.webkitExitFullscreen) document.webkitExitFullscreen();
-  }
-}
-
 const globalFns = {
   flip, say, next, prev, toggle, toggleBlur, checkEx,
   shuffleCards, resetOrder, openImport, doImport, closeModal,
@@ -1727,7 +1707,7 @@ const globalFns = {
   removePhoto, pasteImage, searchGoogleImage, autoFindImage,
   compressAllOldImages, addKey, clearAllKeys, showWordInfo, changeVoice,
   openVideo, closeVideo, startVideo, backToVideoHome,
-  toggleSubtitle, toggleFullscreen, jumpToSub
+  toggleSubtitle, jumpToSub
 };
 Object.keys(globalFns).forEach(function(name){
   window[name] = globalFns[name];
