@@ -76,7 +76,7 @@ h1{color:#fff;font-size:1.1rem;margin:0 0 8px}
 .back{display:none}
 .card.f .front{display:none}
 .card.f .back{display:flex;flex-direction:column;width:100%}
-.modal{display:none;position:fixed;inset:0;background:rgba(0,0,0,.7);z-index:999;align-items:center;justify-content:center;padding:20px}
+.modal{display:none;position:fixed;inset:0;background:rgba(0,0,0,.7);z-index:999;align-items:center;justify-content:center;padding:12px;padding-top:env(safe-area-inset-top,12px);padding-bottom:env(safe-area-inset-bottom,12px)}
 .modal.show{display:flex}
 .modal-box{background:#fff;border-radius:18px;padding:20px;max-width:420px;width:100%;max-height:85vh;overflow-y:auto}
 .modal-box h2{font-size:1.1rem;margin:0 0 12px;color:#4338ca}
@@ -138,12 +138,12 @@ h1{color:#fff;font-size:1.1rem;margin:0 0 8px}
 .voice-selector{background:#f0fdf4;border:2px solid #86efac;padding:10px;border-radius:10px;margin-bottom:12px}
 .voice-selector label{font-size:.8rem;color:#166534;font-weight:700;display:block;margin-bottom:6px}
 .voice-selector select{width:100%;padding:10px;border-radius:8px;border:2px solid #86efac;font-size:.85rem;background:#fff;color:#166534;font-weight:600}
-.video-modal-box{max-width:900px;width:100%;max-height:95vh;overflow-y:auto}
+.video-modal-box{max-width:900px;width:100%;max-height:88vh;overflow-y:auto;margin-top:auto;margin-bottom:auto;padding:12px}
 .video-input{width:100%;padding:10px;border:2px solid #c7d2fe;border-radius:10px;font-size:.85rem;font-family:Arial;resize:vertical;min-height:60px;box-sizing:border-box;margin-bottom:10px}
 .video-input.srt{min-height:150px;font-family:monospace;font-size:.8rem}
 .video-label{font-size:.75rem;font-weight:700;color:#9ca3af;letter-spacing:.5px;text-transform:uppercase;margin-bottom:4px;display:block}
 .video-wrapper{position:relative;width:100%;background:#000;border-radius:14px;overflow:hidden;margin-bottom:10px}
-.video-wrapper video{width:100%;display:block;border-radius:14px}
+body.video-open{overflow:hidden}
 .sub-overlay{position:absolute;left:0;right:0;bottom:60px;text-align:center;pointer-events:none;padding:0 20px;z-index:10}
 .sub-overlay.hide{display:none}
 .sub-overlay .en{display:inline-block;background:rgba(0,0,0,.75);color:#fff;padding:6px 14px;border-radius:8px;font-size:1rem;font-weight:600;line-height:1.4;margin-bottom:4px;max-width:95%;text-shadow:1px 1px 2px #000}
