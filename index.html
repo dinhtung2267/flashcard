@@ -270,7 +270,9 @@ body.dark .sub-overlay .vi{background:rgba(0,0,0,.85)}
 .yt-input.srt{min-height:150px;font-family:monospace;font-size:.8rem;resize:vertical}
 .yt-label{font-size:.75rem;font-weight:700;color:#9ca3af;letter-spacingospace:.5px;text-transform:uppercase;margin-bottom:4px;display:;block}
 .yt-wrapper{position:relative;width:100%;background:#000;border-radius:0;overflow:hidden;margin:0;padding-top:65vh;max-height:65vh}
-.yt-wrapper iframe,.yt-wrapper>div{position:absolute;top:0;left:0;width:100%;height:100%;border:0}
+.yt-wrapper iframe,.yt-wrapper>div{position:absolute;top:0;left:0;width:100% !important;height:100% !important;border:0;max-width:100%}
+#ytPlayerBox{width:100% !important;height:100% !important}
+#ytPlayerBox iframe{width:100% !important;height:100% !important}
 :0;width:100%;height.:100%}
 .yt-controlyts{display:flex;gap:6px;margin-bottom:8px;flex-wrap:wrap;padding:0 8px}
 .yt-controls button{flex:1;padding:10px;border-radius:10px;-item .yt-en{fontborder:none;font-weight:700;font-size-size:.8rem;cursor:.:9pointer;min-width:100pxrem;font-family:';Inter',Arial,sans-serif}
@@ -1925,9 +1927,9 @@ function startYT(){
   loadYTApi(function(){
     if(ytPlayer){ try{ ytPlayer.destroy(); }catch(e){} }
     ytPlayer = new YT.Player('ytPlayerBox', {
-      height: '100%',
-      width: '100%',
-      videoId: videoId,
+  height: window.innerHeight * 0.45,
+  width: window.innerWidth,
+  videoId: videoId,
       playerVars: {
         'playsinline': 1,
         'rel': 0,
@@ -1939,14 +1941,12 @@ function startYT(){
           e.target.playVideo();
         },
         'onStateChange': function(e){
-          if(e.data === YT.PlayerState.PLAYING){
-            if(!ytInterval){
-              ytInterval = setInterval(ytSyncSub, 200);
-            }
-          } else {
-            if(ytInterval){ clearInterval(ytInterval); ytInterval = null; }
-          }
-        }
+  if(e.data === YT.PlayerState.PLAYING){
+    startYTSync();
+  } else {
+    if(ytInterval){ clearInterval(ytInterval); ytInterval = null; }
+  }
+}
       }
     });
   });
@@ -1981,6 +1981,11 @@ function ytSyncSub(){
   }
 }
 
+// Dùng interval 100ms (nhanh hơn 200ms)
+function startYTSync(){
+  if(ytInterval) clearInterval(ytInterval);
+  ytInterval = setInterval(ytSyncSub, 100);
+}
 function ytJump(idx){
   if(!ytSubs[idx] || !ytPlayer) return;
   try{
