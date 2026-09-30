@@ -1925,7 +1925,7 @@ function ytSyncSub(){
     var s = ytSubs[idx];
     var duration = s.end - s.start;
     var elapsed = t - s.start;
-    var pct = duration > 0 ? elapsed / duration : 0;
+    var pct = duration > 0 ? Math.min(elapsed / duration * 1.25, 1) : 0;
     var activeItem = document.querySelector('.yt-item[data-ytidx="' + idx + '"]');
     if(activeItem){
       var wordEls = activeItem.querySelectorAll('.yt-en .w');
