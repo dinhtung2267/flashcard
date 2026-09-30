@@ -1,8 +1,9 @@
 <!DOCTYPE html><html><head><meta charset="utf-8"><meta name="viewport" content="width=device-width,initial-scale=1"><title>Flashcard Nghề Nghiệp</title><style>
+@import url('https://fonts.googleapis.com/css2?family=Inter:wght@400;600;700;900&display=swap');
 *{box-sizing:border-box}
-body{font-family:Arial;background:linear-gradient(135deg,#667eea,#764ba2);min-height:100vh;margin:0;padding:12px;display:flex;flex-direction:column;align-items:center}
-h1{color:#fff;font-size:1.1rem;margin:0 0 8px}
-.authbox{width:100%;max-width:420px;background:rgba(255,255,255,.15);border-radius:12px;padding:12px;margin-bottom:8px}
+body{font-family:'Inter',Arial,sans-serif;background:linear-gradient(180deg,#ff6e7f 0%,#ff9a8b 30%,#ffb88c 60%,#bfe9ff 100%);background-attachment:fixed;min-height:100vh;margin:0;padding:12px;display:flex;flex-direction:column;align-items:center;transition:background .3s}
+h1{color:#fff;font-size:1.3rem;margin:0 0 8px;font-weight:900;text-shadow:0 2px 8px rgba(0,0,0,.3);letter-spacing:.5px}
+.authbox{width:100%;max-width:420px;background:rgba(255,255,255,.25);backdrop-filter:blur(10px);-webkit-backdrop-filter:blur(10px);border-radius:14px;padding:10px 12px;margin-bottom:8px;border:1px solid rgba(255,255,255,.3);box-shadow:0 8px 20px rgba(0,0,0,.1)}
 .authrow{display:flex;align-items:center;gap:10px}
 .authavatar{width:40px;height:40px;border-radius:50%;border:2px solid #fff;display:none}
 .authavatar.show{display:block}
@@ -17,11 +18,14 @@ h1{color:#fff;font-size:1.1rem;margin:0 0 8px}
 .authbtn.login{background:#4285f4;color:#fff}
 .authbtn.logout{background:#ef4444;color:#fff;display:none}
 .authbtn.logout.show{display:inline-block}
-.keybox{width:100%;max-width:420px;background:rgba(255,255,255,.15);border-radius:12px;padding:8px;margin-bottom:6px}
+.keybox{width:100%;max-width:420px;background:rgba(255,255,255,.25);backdrop-filter:blur(10px);-webkit-backdrop-filter:blur(10px);border-radius:16px;padding:12px;margin-bottom:10px;border:1px solid rgba(255,255,255,.3);box-shadow:0 8px 20px rgba(0,0,0,.1)}
 .keyrow{display:flex;gap:4px;align-items:center;margin-bottom:6px}
 .keyrow label{color:#fff;font-size:.7rem;min-width:55px;font-weight:600}
-.keyrow input{flex:1;padding:8px;border-radius:8px;border:none;font-size:.8rem;background:#fff;min-width:0}
-.keyrow button{padding:6px 8px;border-radius:8px;border:none;color:#fff;font-weight:600;font-size:.7rem;cursor:pointer;white-space:nowrap}
+.keyrow input{flex:1;padding:10px 14px;border-radius:12px;border:2px solid transparent;font-size:.8rem;background:rgba(255,255,255,.95);min-width:0;transition:all .2s;font-family:'Inter',Arial,sans-serif}
+.keyrow input:focus{outline:none;border-color:#fff;box-shadow:0 0 0 4px rgba(255,255,255,.3)}
+.keyrow button{padding:10px 14px;border-radius:12px;border:none;color:#fff;font-weight:700;font-size:.75rem;cursor:pointer;white-space:nowrap;box-shadow:0 4px 12px rgba(0,0,0,.15);transition:all .2s;font-family:'Inter',Arial,sans-serif}
+.keyrow button:hover{transform:translateY(-2px);box-shadow:0 6px 16px rgba(0,0,0,.2)}
+.keyrow button:active{transform:translateY(0)}
 .btn-add{background:#a78bfa}
 .btn-clear{background:#ef4444}
 .keystat{color:#fff;font-size:.7rem;text-align:center;margin-bottom:6px;padding:4px;background:rgba(0,0,0,.2);border-radius:6px}
@@ -34,9 +38,13 @@ h1{color:#fff;font-size:1.1rem;margin:0 0 8px}
 .keyitem .status.cool{background:#fbbf24;color:#78350f}
 .keyitem .status.dead{background:#ef4444;color:#fff}
 .keyitem .del{background:#dc2626;color:#fff;border:none;width:24px;height:24px;border-radius:4px;cursor:pointer;font-size:.7rem}
-.tools{width:100%;max-width:420px;display:flex;gap:6px;margin-bottom:8px;flex-wrap:wrap}
-.tools button{flex:1;padding:8px;border-radius:8px;border:none;background:rgba(255,255,255,.9);color:#4338ca;font-weight:600;font-size:.72rem;cursor:pointer;min-width:0}
-.card{width:100%;max-width:420px;min-height:600px;background:#fff;border-radius:18px;padding:22px;box-shadow:0 10px 30px rgba(0,0,0,.3);text-align:left;display:flex;flex-direction:column;justify-content:center;cursor:pointer;position:relative}
+.tools{width:100%;max-width:420px;display:flex;flex-direction:column;gap:6px;margin-bottom:6px}
+.tool-group{display:grid;grid-template-columns:1fr 1fr 1fr;gap:6px}
+.tools button{padding:8px 6px;border-radius:12px;border:1px solid rgba(255,255,255,.5);background:linear-gradient(135deg,#ffffff,#f0f4ff);color:#4338ca;font-weight:700;font-size:.68rem;cursor:pointer;box-shadow:0 3px 10px rgba(0,0,0,.12);transition:all .2s;font-family:'Inter',Arial,sans-serif;line-height:1.25;height:auto;min-height:50px;display:flex;flex-direction:column;align-items:center;justify-content:center;gap:1px}
+.tools button:hover{transform:translateY(-2px);box-shadow:0 6px 16px rgba(0,0,0,.2)}
+.tools button:active{transform:translateY(0);box-shadow:0 2px 8px rgba(0,0,0,.15)}
+.card{width:100%;max-width:420px;min-height:400px;background:#fff;border-radius:22px;padding:20px;box-shadow:0 20px 50px rgba(0,0,0,.25),0 8px 20px rgba(255,110,127,.15);text-align:left;display:flex;flex-direction:column;justify-content:center;cursor:pointer;position:relative;transition:transform .3s,box-shadow .3s}
+.card:hover{box-shadow:0 25px 60px rgba(0,0,0,.3),0 10px 25px rgba(255,110,127,.2)}
 .photo{width:100%;max-height:200px;object-fit:cover;border-radius:12px;margin-bottom:12px;display:none}
 .photo.show{display:block}
 .addphoto{background:#f0fdf4;border:2px dashed #86efac;color:#166534;padding:8px 14px;border-radius:10px;font-size:.8rem;font-weight:600;cursor:pointer;margin:6px 0;display:block;width:100%}
@@ -66,25 +74,30 @@ h1{color:#fff;font-size:1.1rem;margin:0 0 8px}
 .result.load{color:#1e40af;background:#dbeafe}
 .note{width:100%;margin-top:8px;padding:10px;border:2px dashed #c7d2fe;border-radius:10px;font-size:.9rem;font-family:Arial;resize:none;background:#f9fafb;min-height:55px}
 .notelabel{font-size:.7rem;font-weight:700;color:#9ca3af;margin-top:10px;letter-spacing:.5px;text-transform:uppercase}
-.ctrl{display:flex;gap:10px;margin-top:12px;flex-wrap:wrap;justify-content:center;align-items:center}
-.btn{padding:10px 20px;border:none;border-radius:10px;font-weight:600;cursor:pointer;font-size:.9rem}
-.nav{background:#fff;color:#4338ca}
-.learn{background:#4ade80;color:#fff}
-.learn.on{background:#16a34a}
-.shuffle{background:#fbbf24;color:#78350f}
+.ctrl{display:flex;gap:6px;margin-top:6px;flex-wrap:wrap;justify-content:center;align-items:center}
+.btn{padding:11px 22px;border:none;border-radius:12px;font-weight:700;cursor:pointer;font-size:.9rem;box-shadow:0 4px 12px rgba(0,0,0,.15);transition:all .2s;font-family:'Inter',Arial,sans-serif}
+.btn:hover{transform:translateY(-2px);box-shadow:0 6px 16px rgba(0,0,0,.2)}
+.btn:active{transform:translateY(0);box-shadow:0 2px 8px rgba(0,0,0,.15)}
+.nav{background:linear-gradient(135deg,#ffffff,#eef2ff);color:#4338ca}
+.learn{background:linear-gradient(135deg,#4ade80,#22c55e);color:#fff}
+.learn.on{background:linear-gradient(135deg,#16a34a,#15803d)}
+.shuffle{background:linear-gradient(135deg,#fbbf24,#f59e0b);color:#78350f}
 .cnt{color:#fff;font-weight:600}
 .back{display:none}
 .card.f .front{display:none}
 .card.f .back{display:flex;flex-direction:column;width:100%}
 .modal{display:none;position:fixed;inset:0;background:rgba(0,0,0,.7);z-index:999;align-items:center;justify-content:center;padding:12px;padding-top:env(safe-area-inset-top,12px);padding-bottom:env(safe-area-inset-bottom,12px)}
 .modal.show{display:flex}
-.modal-box{background:#fff;border-radius:18px;padding:20px;max-width:420px;width:100%;max-height:85vh;overflow-y:auto}
+.modal-box{background:#fff;border-radius:22px;padding:22px;max-width:420px;width:100%;max-height:85vh;overflow-y:auto;box-shadow:0 30px 80px rgba(0,0,0,.4);animation:modalIn .3s ease}
+@keyframes modalIn{from{opacity:0;transform:scale(.95) translateY(20px)}to{opacity:1;transform:scale(1) translateY(0)}}
 .modal-box h2{font-size:1.1rem;margin:0 0 12px;color:#4338ca}
 .modal-box p{font-size:.85rem;color:#6b7280;margin:0 0 12px;line-height:1.5}
 .modal-box input[type=file]{width:100%;padding:10px;border:2px dashed #c7d2fe;border-radius:10px;font-size:.85rem;background:#f9fafb;margin-bottom:10px}
-.modal-box button{width:100%;padding:10px;border-radius:10px;border:none;font-weight:600;cursor:pointer;margin-bottom:6px;font-size:.9rem}
-.mb-primary{background:#4ade80;color:#fff}
-.mb-close{background:#e5e7eb;color:#374151}
+.modal-box button{width:100%;padding:12px;border-radius:14px;border:none;font-weight:700;cursor:pointer;margin-bottom:8px;font-size:.9rem;box-shadow:0 4px 12px rgba(0,0,0,.15);transition:all .2s;font-family:'Inter',Arial,sans-serif}
+.modal-box button:hover{transform:translateY(-2px);box-shadow:0 6px 16px rgba(0,0,0,.2)}
+.modal-box button:active{transform:translateY(0)}
+.mb-primary{background:linear-gradient(135deg,#4ade80,#22c55e);color:#fff}
+.mb-close{background:linear-gradient(135deg,#e5e7eb,#d1d5db);color:#374151}
 .status{font-size:.85rem;color:#4338ca;text-align:center;padding:8px;background:#eef2ff;border-radius:8px;margin-top:8px}
 .status.ok{color:#166534;background:#dcfce7}
 .status.no{color:#991b1b;background:#fee2e2}
@@ -167,11 +180,139 @@ body.video-open{overflow:hidden}
 .video-status{font-size:.85rem;color:#4338ca;text-align:center;padding:8px;background:#eef2ff;border-radius:8px;margin-bottom:10px}
 .video-status.ok{color:#166534;background:#dcfce7}
 .video-status.no{color:#991b1b;background:#fee2e2}
+/* ========== QUIZ ========== */
+.quiz-box{width:100%;max-width:420px;background:#fff;border-radius:18px;padding:22px;box-shadow:0 10px 30px rgba(0,0,0,.3);min-height:500px;display:flex;flex-direction:column}
+.quiz-progress{background:#eef2ff;border-radius:10px;padding:8px 14px;font-size:.8rem;color:#4338ca;font-weight:700;text-align:center;margin-bottom:12px}
+.quiz-question{font-size:1.3rem;font-weight:700;color:#4338ca;text-align:center;margin:20px 0;line-height:1.5;padding:16px;background:#f9fafb;border-radius:12px;min-height:80px;display:flex;align-items:center;justify-content:center}
+.quiz-options{display:flex;flex-direction:column;gap:10px;margin-top:12px}
+.quiz-option{padding:14px 18px;border-radius:12px;border:2px solid #c7d2fe;background:#fff;font-size:1rem;font-weight:600;cursor:pointer;text-align:left;color:#1f2937;transition:all .2s}
+.quiz-option:hover{background:#eef2ff}
+.quiz-option.correct{background:#dcfce7;border-color:#4ade80;color:#166534}
+.quiz-option.wrong{background:#fee2e2;border-color:#ef4444;color:#991b1b}
+.quiz-option:disabled{cursor:not-allowed}
+.quiz-result{text-align:center;font-size:1rem;font-weight:700;margin-top:16px;padding:12px;border-radius:10px;display:none}
+.quiz-result.show{display:block}
+.quiz-result.ok{background:#dcfce7;color:#166534}
+.quiz-result.no{background:#fee2e2;color:#991b1b}
+.quiz-final{text-align:center;padding:20px}
+.quiz-final .score{font-size:3rem;font-weight:700;color:#4338ca;margin:20px 0}
+.quiz-final .msg{font-size:1.1rem;color:#6b7280;margin-bottom:20px}
+.quiz-mode-row{display:flex;gap:8px;margin-bottom:14px;flex-wrap:wrap}
+.quiz-mode-btn{flex:1;padding:10px;border-radius:10px;border:2px solid #c7d2fe;background:#fff;font-weight:700;font-size:.8rem;cursor:pointer;color:#4338ca;min-width:100px}
+.quiz-mode-btn.active{background:#4338ca;color:#fff;border-color:#4338ca}
+/* ========== DARK MODE ========== */
+body.dark{background:linear-gradient(180deg,#0f0c29 0%,#302b63 50%,#24243e 100%);background-attachment:fixed}
+body.dark .authbox,body.dark .keybox{background:rgba(255,255,255,.08);border-color:rgba(255,255,255,.15)}
+body.dark .authinfo .name,body.dark .authinfo .email,body.dark .keyrow label{color:#e5e7eb}
+body.dark .keyrow input{background:rgba(255,255,255,.1);color:#e5e7eb;border-color:rgba(255,255,255,.15)}
+body.dark .keyrow input::placeholder{color:#9ca3af}
+body.dark .keystat{background:rgba(0,0,0,.4);color:#e5e7eb}
+body.dark .card{background:#1f2937;color:#e5e7eb}
+body.dark .field-label{color:#9ca3af}
+body.dark .field-value{color:#e5e7eb}
+body.dark .field-value.word{color:#a5b4fc}
+body.dark .field-value.meaning{color:#4ade80}
+body.dark .field-value.ipa{color:#9ca3af}
+body.dark .field-value.type{color:#c4b5fd}
+body.dark .field-value.ex{color:#d1d5db}
+body.dark .field-value.exvi{color:#9ca3af}
+body.dark .note{background:#111827;border-color:#4b5563;color:#e5e7eb}
+body.dark .notelabel{color:#9ca3af}
+body.dark .modal-box{background:#1f2937;color:#e5e7eb}
+body.dark .modal-box h2{color:#a5b4fc}
+body.dark .modal-box p{color:#9ca3af}
+body.dark .sub-list{background:#111827;border-color:#374151}
+body.dark .sub-item{background:#1f2937;color:#e5e7eb}
+body.dark .sub-item:hover{background:#374151}
+body.dark .sub-item.active{background:#1e3a8a;border-left-color:#60a5fa}
+body.dark .sub-item .sub-en{color:#e5e7eb}
+body.dark .sub-item .sub-vi{color:#9ca3af}
+body.dark .sub-item.active .sub-en{color:#93c5fd}
+body.dark .sub-item.active .sub-vi{color:#fbbf24}
+body.dark .card-item{background:#1f2937;border-color:#374151}
+body.dark .card-item .word{color:#a5b4fc}
+body.dark .card-item .meaning{color:#9ca3af}
+body.dark .tools button{background:linear-gradient(135deg,#374151,#1f2937);color:#e5e7eb;border:1px solid rgba(255,255,255,.1)}
+body.dark .btn.nav{background:linear-gradient(135deg,#374151,#1f2937);color:#e5e7eb}
+body.dark .quiz-box{background:#1f2937}
+body.dark .quiz-question{background:#111827;color:#a5b4fc}
+body.dark .quiz-option{background:#1f2937;border-color:#4b5563;color:#e5e7eb}
+body.dark .quiz-option:hover{background:#374151}
+body.dark .quiz-option.correct{background:#064e3b;border-color:#10b981;color:#6ee7b7}
+body.dark .quiz-option.wrong{background:#7f1d1d;border-color:#ef4444;color:#fca5a5}
+body.dark .listen-item{background:#1f2937;border-color:#374151}
+body.dark .listen-input{background:#111827;border-color:#4b5563;color:#e5e7eb}
+body.dark .listen-answer{background:#064e3b;color:#e5e7eb}
+body.dark .voice-selector,body.dark .listen-speed{background:#1f2937;border-color:#4b5563}
+body.dark .voice-selector label,body.dark .listen-speed label{color:#a5b4fc}
+body.dark .voice-selector select,body.dark .listen-speed input{background:#111827;color:#e5e7eb;border-color:#4b5563}
+body.dark .save-word-btn{background:#78350f;color:#fbbf24;border-color:#f59e0b}
+body.dark .addphoto{background:#064e3b;border-color:#10b981;color:#6ee7b7}
+body.dark .btn-del{background:#7f1d1d;color:#fca5a5;border-color:#ef4444}
+body.dark .result.ok{background:#064e3b;color:#6ee7b7}
+body.dark .result.no{background:#7f1d1d;color:#fca5a5}
+body.dark .result.load{background:#1e3a8a;color:#93c5fd}
+body.dark .checkbtn{background:#1e3a8a;color:#93c5fd}
+body.dark .blurbtn{background:#78350f;color:#fbbf24}
+body.dark .spk{background:#1e3a8a;color:#93c5fd}
+body.dark .card-item.custom{background:#78350f}
+body.dark .card-item.new-word{background:#1e3a8a}
+body.dark .word-info .lbl{color:#9ca3af}
+body.dark .word-info .val{color:#e5e7eb}
+body.dark .word-info .val.word{color:#a5b4fc}
+body.dark .word-info .val.meaning{color:#4ade80}
+body.dark .mb-close{background:linear-gradient(135deg,#4b5563,#374151);color:#e5e7eb}
+body.dark .sub-overlay .en{background:rgba(0,0,0,.85)}
+body.dark .sub-overlay .vi{background:rgba(0,0,0,.85)}
+/* ========== YOUTUBE PLAYER ========== */
+.yt-modal-box{max-width:900px;width:100%;max-height:95vh;overflow-y:auto;padding:0}
+.yt-input{width:100%;padding:12px;border:2px solid #c7d2fe;border-radius:10px;font-size:.9rem;font-family:'Inter',Arial,sans-serif;margin-bottom:10px;box-sizing:border-box}
+.yt-input.srt{min-height:150px;font-family:monospace;font-size:.8rem;resize:vertical}
+.yt-label{font-size:.75rem;font-weight:700;color:#9ca3af;letter-spacingospace:.5px;text-transform:uppercase;margin-bottom:4px;display:;block}
+.yt-wrapper{position:relative;marginwidth:100%;background:#000;border-radius:0;overflow:hidden;margin:0;padding-top:56.25%}
+.yt-wrapper iframe,.yt-wrapper>div{position:absolute-bottom:2px;top:0;left}
+:0;width:100%;height.:100%}
+.yt-controlyts{display:flex;gap:6px;margin-bottom:8px;flex-wrap:wrap;padding:0 8px}
+.yt-controls button{flex:1;padding:10px;border-radius:10px;-item .yt-en{fontborder:none;font-weight:700;font-size-size:.8rem;cursor:.:9pointer;min-width:100pxrem;font-family:';Inter',Arial,sans-serif}
+.ytcolor-back{background:#fef3c7:#;color:#92400e}
+.1yt-hidef2937{background:#e0e;7ff;color:#3730a3font}
+.yt-hide.off{background:#-weightfee2e2;color:#991:b1b}
+.yt-list{max-height:60035vh;overflow-y:auto;background:#;f9fafb;border-radius:0line;padding:8px;border-top:1px-height solid #e5e7eb}
+:.yt-item{padding:10px1 12px;border-radius:8px;.margin-bottom:6px;cursor:pointer4;transition:all .2s;border-left:4px solid transparent;background:#fff}
+.yt-item:hover{background:#eef2ff}
+.yt-item.active{background:#dbeafe;border-left-color:#3b82f6;box-shadow:0 2px 8px rgba(59,130,246,.2)}
+.yt-item .yt-time{font-size:.7rem;color:#9ca3af;font-weight:700;font-family:mon;margin-bottom:2px}
+.yt-item .yt-vi{font-size:.8rem;color:#6b7280;font-style:italic;line-height:1.3}
+.yt-item.active .yt-en{color:#1e40af}
+.yt-item.active .yt-vi{color:#92400e;font-style:normal;font-weight:600}
+body.dark .yt-wrapper{background:#000}
+body.dark .yt-list{background:#111827;border-top-color:#374151}
+body.dark .yt-item{background:#1f2937;color:#e5e7eb}
+body.dark .yt-item:hover{background:#374151}
+body.dark .yt-item.active{background:#1e3a8a;border-left-color:#60a5fa}
+body.dark .yt-item .yt-en{color:#e5e7eb}
+body.dark .yt-item .yt-vi{color:#9ca3af}
+body.dark .yt-item.active .yt-en{color:#93c5fd}
+body.dark .yt-item.active .yt-vi{color:#fbbf24}
+body.dark .yt-input{background:#111827;color:#e5e7eb;border-color:#4b5563}
+body.dark .yt-label{color:#9ca3af}
+body.dark .video-input{background:#111827;color:#e5e7eb;border-color:#4b5563}
+body.dark .video-label{color:#9ca3af}
+body.dark .listen-hint{background:#78350f;color:#fbbf24;border-color:#f59e0b}
+body.dark .listen-hint-btn{background:#78350f;color:#fbbf24}
+body.dark .listen-regen{background:#78350f;color:#fbbf24}
+body.dark .vc-back{background:#78350f;color:#fbbf24}
+body.dark .vc-hide{background:#1e3a8a;color:#93c5fd}
+body.dark .blurbtn{background:#78350f;color:#fbbf24}
+body.dark .notelabel{color:#9ca3af}
 body.video-open{overflow:hidden;position:fixed;width:100%;top:0}
 #videomodal{overflow-y:auto;-webkit-overflow-scrolling:touch}
 #videomodal .modal-box{overflow-y:auto;-webkit-overflow-scrolling:touch}
 </style></head><body>
-<h1>📚 Flashcard Nghề Nghiệp</h1>
+<div style="width:100%;max-width:420px;display:flex;justify-content:space-between;align-items:center;margin-bottom:8px;padding:0 4px">
+<h1 style="margin:0">📚 Flashcard Nghề Nghiệp</h1>
+<button onclick="toggleDarkMode()" id="darkBtn" style="background:linear-gradient(135deg,#4f46e5,#7c3aed);color:#fff;border:none;width:42px;height:42px;border-radius:50%;font-size:1.1rem;cursor:pointer;box-shadow:0 4px 12px rgba(0,0,0,.2);transition:all .2s">🌙</button>
+</div>
 
 <div class="authbox" id="authBox">
   <div class="authrow">
@@ -199,14 +340,22 @@ body.video-open{overflow:hidden;position:fixed;width:100%;top:0}
 </div>
 </div>
 <div class="tools">
+<div class="tool-group">
 <button onclick="openImport('image')">📷 Tạo từ ảnh</button>
 <button onclick="openImport('file')">📄 Tạo từ file</button>
 <button onclick="openList()">📋 Xem toàn bộ</button>
-<button onclick="openNewWords()" style="background:#93c5fd;color:#1e3a8a">📌 Kho từ mới (<span id="newword-count">0</span>)</button>
-<button onclick="openListen()" style="background:#c4b5fd;color:#4c1d95">🎧 Luyện nghe</button>
-<button onclick="autoFindImage(event)" id="autoBtn" style="background:#fb923c;color:#fff">⚡ Tự động (<span id="autoCount">0</span>)</button>
-<button onclick="compressAllOldImages()" style="background:#a78bfa;color:#fff">🗜️ Nén ảnh cũ</button>
-<button onclick="openVideo()" style="background:#f472b6;color:#fff">🎬 Học qua Video</button>
+</div>
+<div class="tool-group">
+<button onclick="openListen()" style="background:linear-gradient(135deg,#c4b5fd,#a78bfa);color:#4c1d95">🎧 Luyện nghe</button>
+<button onclick="openQuiz()" style="background:linear-gradient(135deg,#fbbf24,#f59e0b);color:#78350f">🧠 Trắc nghiệm</button>
+<button onclick="openVideo()" style="background:linear-gradient(135deg,#f472b6,#ec4899);color:#fff">🎬 Học qua Video</button>
+<button onclick="openYT()" style="background:linear-gradient(135deg,#ef4444,#dc2626);color:#fff">📺 YouTube</button>
+</div>
+<div class="tool-group">
+<button onclick="openNewWords()" style="background:linear-gradient(135deg,#93c5fd,#60a5fa);color:#1e3a8a">📌 Kho từ (<span id="newword-count">0</span>)</button>
+<button onclick="autoFindImage(event)" id="autoBtn" style="background:linear-gradient(135deg,#fb923c,#f97316);color:#fff">⚡ Tự động (<span id="autoCount">0</span>)</button>
+<button onclick="compressAllOldImages()" style="background:linear-gradient(135deg,#a78bfa,#8b5cf6);color:#fff">🗜️ Nén ảnh</button>
+</div>
 </div>
 <div class="card" id="c" onclick="flip(event)">
 <div class="front">
@@ -326,6 +475,32 @@ body.video-open{overflow:hidden;position:fixed;width:100%;top:0}
 </div>
 </div>
 
+<div class="modal" id="ytmodal">
+<div class="modal-box yt-modal-box">
+<h2 style="padding:12px 12px 0">📺 Học qua YouTube</h2>
+<div id="yt-home" style="padding:0 12px 12px">
+<p style="font-size:.85rem;color:#6b7280">Dán link YouTube và phụ đề SRT song ngữ (Anh - Việt).</p>
+<label class="yt-label">🔗 Link YouTube</label>
+<input type="text" class="yt-input" id="ytUrl" placeholder="https://www.youtube.com/watch?v=..." />
+<label class="yt-label">💬 Phụ đề SRT (Anh + Việt)</label>
+<textarea class="yt-input srt" id="ytSrt" placeholder="1&#10;00:00:00,000 --> 00:00:03,000&#10;Hello everyone.&#10;Xin chào mọi người."></textarea>
+<button class="mb-primary" onclick="startYT()" style="background:linear-gradient(135deg,#ef4444,#dc2626);color:#fff">🚀 Bắt đầu học</button>
+<button class="mb-close" onclick="closeYT()">Hủy</button>
+<div class="status" id="ytStatus" style="display:none"></div>
+</div>
+<div id="yt-player" style="display:none">
+<div class="yt-controls">
+<button class="yt-back" onclick="backToYTHome()">◀ Nhập link khác</button>
+<button class="yt-hide" id="ytToggleBtn" onclick="ytToggleSub()">💬 Ẩn phụ đề</button>
+</div>
+<div class="yt-wrapper">
+<div id="ytPlayerBox"></div>
+</div>
+<div class="yt-list" id="ytList"></div>
+</div>
+</div>
+</div>
+
 <div class="modal" id="videomodal">
 <div class="modal-box video-modal-box">
 <h2>🎬 Học qua Video</h2>
@@ -352,6 +527,39 @@ body.video-open{overflow:hidden;position:fixed;width:100%;top:0}
 </div>
 </div>
 <div class="sub-list" id="subList"></div>
+</div>
+</div>
+</div>
+
+<div class="modal" id="quizmodal">
+<div class="modal-box" style="max-width:420px;padding:0">
+<div id="quiz-home" style="padding:20px">
+<h2>🧠 Trắc nghiệm</h2>
+<p style="font-size:.85rem;color:#6b7280;margin-bottom:12px">Chọn chế độ và bắt đầu làm bài.</p>
+<div class="quiz-mode-row">
+<button class="quiz-mode-btn active" id="qmode-en" onclick="setQuizMode('en')">Anh → Việt</button>
+<button class="quiz-mode-btn" id="qmode-vi" onclick="setQuizMode('vi')">Việt → Anh</button>
+<button class="quiz-mode-btn" id="qmode-mix" onclick="setQuizMode('mix')">Trộn</button>
+</div>
+<button class="mb-primary" onclick="startQuiz(10)" style="background:#fbbf24;color:#78350f">🚀 10 câu</button>
+<button class="mb-primary" onclick="startQuiz(20)" style="background:#fb923c;color:#fff">🚀 20 câu</button>
+<button class="mb-close" onclick="closeQuiz()">Đóng</button>
+</div>
+<div id="quiz-play" style="display:none;padding:16px">
+<div class="quiz-progress" id="quiz-progress">Câu 1/10</div>
+<div class="quiz-question" id="quiz-question">Đang tải...</div>
+<div class="quiz-options" id="quiz-options"></div>
+<div class="quiz-result" id="quiz-result"></div>
+<button class="mb-close" onclick="closeQuiz()" style="margin-top:16px">Thoát</button>
+</div>
+<div id="quiz-final" style="display:none;padding:20px">
+<div class="quiz-final">
+<h2>🎉 Hoàn thành!</h2>
+<div class="score" id="quiz-score">0/10</div>
+<div class="msg" id="quiz-msg"></div>
+<button class="mb-primary" onclick="openQuiz()" style="background:#4338ca;color:#fff">🔄 Làm lại</button>
+<button class="mb-close" onclick="closeQuiz()">Đóng</button>
+</div>
 </div>
 </div>
 </div>
@@ -1223,17 +1431,24 @@ function compressAllOldImages(){
 function openImport(mode){
   var input = document.getElementById('fileinput');
   input.value = '';
+  // Xóa event cũ để tránh bị gọi 2 lần
+  input.onchange = null;
   if(mode === 'image'){
     input.accept = 'image/*';
-    input.onchange = function(){
-      var file = input.files[0];
+    input.onchange = function(e){
+      var file = e.target.files[0];
       if(!file) return;
+      // Kiểm tra file size (giới hạn 10MB cho iOS)
+      if(file.size > 10*1024*1024){
+        alert('⚠️ Ảnh quá lớn (>10MB). Vui lòng chọn ảnh nhỏ hơn.');
+        return;
+      }
       processImage(file);
     };
   }else{
     input.accept = '.txt,.csv,.text';
-    input.onchange = function(){
-      var file = input.files[0];
+    input.onchange = function(e){
+      var file = e.target.files[0];
       if(!file) return;
       processFile(file);
     };
@@ -1257,24 +1472,45 @@ function buildExtractPrompt(text){
   'Trả về JSON (chỉ JSON):\n[{"word":"từ tiếng Anh","ipa":"phiên âm","type":"loại từ","meaning":"nghĩa","example":"câu ví dụ tiếng Anh","exampleVi":"nghĩa câu"}]\n\nNếu không có từ nào, trả về [].';
 }
 async function processImage(file){
+  // Mở modal trước khi xử lý
+  document.getElementById('modal').classList.add('show');
   var status=document.getElementById('modal-status');
   status.style.display='block';status.className='status';
-  status.innerHTML='<span class="spinner"></span>Đang đọc ảnh...';
+  status.innerHTML='<span class="spinner"></span>Đang đọc ảnh (' + (file.size/1024).toFixed(0) + 'KB)...';
   try{
+    if(!keyList.length){
+      status.className='status no';
+      status.textContent='⚠️ Chưa có key Gemini. Vào phần "🔑 Gemini" dán key trước.';
+      return;
+    }
     var b64=await fileToBase64(file);
+    status.innerHTML='<span class="spinner"></span>Đang gửi AI phân tích...';
     var text=await callWithRetry(buildExtractPrompt('nội dung trong ảnh này'),{type:file.type,b64:b64},status);
     parseAndAddCards(text,status);
-  }catch(err){status.className='status no';status.textContent='❌ Lỗi: '+err.message;}
+  }catch(err){
+    status.className='status no';
+    status.textContent='❌ Lỗi: '+err.message;
+  }
 }
 async function processFile(file){
+  document.getElementById('modal').classList.add('show');
   var status=document.getElementById('modal-status');
   status.style.display='block';status.className='status';
   status.innerHTML='<span class="spinner"></span>Đang đọc file...';
   try{
+    if(!keyList.length){
+      status.className='status no';
+      status.textContent='⚠️ Chưa có key Gemini.';
+      return;
+    }
     var content=await fileToText(file);
+    status.innerHTML='<span class="spinner"></span>Đang gửi AI phân tích...';
     var text=await callWithRetry(buildExtractPrompt(content),null,status);
     parseAndAddCards(text,status);
-  }catch(err){status.className='status no';status.textContent='❌ Lỗi: '+err.message;}
+  }catch(err){
+    status.className='status no';
+    status.textContent='❌ Lỗi: '+err.message;
+  }
 }
 async function callGeminiWithKey(key,model,prompt,imageData){
   var url='https://generativelanguage.googleapis.com/v1beta/models/'+model+':generateContent?key='+key;
@@ -1546,6 +1782,228 @@ if(savedCardIdx !== null){
   localStorage.removeItem('lastCardIndex');
 }
 
+/* ========== HỌC QUA YOUTUBE ========== */
+var ytPlayer = null;
+var ytPlayerReady = false;
+var ytSubs = [];
+var ytCurrentIdx = -1;
+var ytSubVisible = true;
+var ytInterval = null;
+var ytApiLoaded = false;
+
+function loadYTApi(callback){
+  if(ytApiLoaded){ callback(); return; }
+  var tag = document.createElement('script');
+  tag.src = 'https://www.youtube.com/iframe_api';
+  var firstScript = document.getElementsByTagName('script')[0];
+  firstScript.parentNode.insertBefore(tag, firstScript);
+  window.onYouTubeIframeAPIReady = function(){
+    ytApiLoaded = true;
+    callback();
+  };
+}
+
+function openYT(){
+  document.getElementById('ytmodal').classList.add('show');
+  backToYTHome();
+}
+function closeYT(){
+  if(ytPlayer){
+    try{ ytPlayer.pauseVideo(); }catch(e){}
+    try{ ytPlayer.destroy(); }catch(e){}
+    ytPlayer = null;
+  }
+  if(ytInterval){ clearInterval(ytInterval); ytInterval = null; }
+  document.getElementById('ytmodal').classList.remove('show');
+}
+function backToYTHome(){
+  if(ytPlayer){
+    try{ ytPlayer.pauseVideo(); }catch(e){}
+  }
+  if(ytInterval){ clearInterval(ytInterval); ytInterval = null; }
+  document.getElementById('yt-home').style.display = 'block';
+  document.getElementById('yt-player').style.display = 'none';
+}
+
+function extractYTVideoId(url){
+  url = url.trim();
+  var patterns = [
+    /(?:youtube\.com\/watch\?v=|youtu\.be\/|youtube\.com\/embed\/|youtube\.com\/v\/|youtube\.com\/shorts\/)([a-zA-Z0-9_-]{11})/,
+    /^([a-zA-Z0-9_-]{11})$/
+  ];
+  for(var i = 0; i < patterns.length; i++){
+    var m = url.match(patterns[i]);
+    if(m) return m[1];
+  }
+  return null;
+}
+
+function parseSRTyt(text){
+  text = text.replace(/\r\n/g, '\n').replace(/\r/g, '\n').trim();
+  var blocks = text.split(/\n\n+/);
+  var result = [];
+  var timeRe = /(\d{1,2}):(\d{2}):(\d{2})[,.](\d{1,3})\s*-->\s*(\d{1,2}):(\d{2}):(\d{2})[,.](\d{1,3})/;
+  blocks.forEach(function(block){
+    var lines = block.split('\n').map(function(s){return s.trim();}).filter(function(s){return s!=='';});
+    if(lines.length < 3) return;
+    var idx = 0;
+    if(/^\d+$/.test(lines[0])) idx = 1;
+    var m = lines[idx].match(timeRe);
+    if(!m) return;
+    var start = (+m[1])*3600 + (+m[2])*60 + (+m[3]) + (+m[4])/1000;
+    var end   = (+m[5])*3600 + (+m[6])*60 + (+m[7]) + (+m[8])/1000;
+    var textLines = lines.slice(idx+1);
+    var en = '', vi = '';
+    if(textLines.length >= 2){
+      if(textLines.length === 2){
+        en = textLines[0]; vi = textLines[1];
+      } else {
+        var enArr = [], viArr = [];
+        var viRegex = /[àáảãạăâầấẩẫậằắẳẵặèéẻẽẹêềếểễệìíỉĩịòóỏõọôồốổỗộơờớởỡợùúủũụưừứửữựỳýỷỹỵđ]/i;
+        textLines.forEach(function(l){
+          if(viRegex.test(l)) viArr.push(l);
+          else enArr.push(l);
+        });
+        en = enArr.join(' ').trim() || textLines[0];
+        vi = viArr.join(' ').trim() || textLines[textLines.length-1];
+      }
+    } else {
+      en = textLines[0] || '';
+    }
+    result.push({start:start, end:end, en:en, vi:vi});
+  });
+  result.sort(function(a,b){return a.start - b.start;});
+  return result;
+}
+
+function fmtTimeYT(sec){
+  var m = Math.floor(sec/60);
+  var s = Math.floor(sec%60);
+  return (m<10?'0':'')+m + ':' + (s<10?'0':'')+s;
+}
+
+function startYT(){
+  var url = document.getElementById('ytUrl').value.trim();
+  var srt = document.getElementById('ytSrt').value.trim();
+  var status = document.getElementById('ytStatus');
+  status.style.display = 'block';
+  status.className = 'status';
+  if(!url){ status.className='status no'; status.textContent='⚠️ Chưa nhập link YouTube!'; return; }
+  if(!srt){ status.className='status no'; status.textContent='⚠️ Chưa nhập phụ đề SRT!'; return; }
+  var videoId = extractYTVideoId(url);
+  if(!videoId){ status.className='status no'; status.textContent='❌ Link YouTube không hợp lệ!'; return; }
+  var subs = parseSRTyt(srt);
+  if(!subs.length){ status.className='status no'; status.textContent='❌ Không parse được SRT!'; return; }
+  ytSubs = subs;
+  ytCurrentIdx = -1;
+
+  // Render danh sách
+  var listEl = document.getElementById('ytList');
+  listEl.innerHTML = '';
+  subs.forEach(function(s, idx){
+    var div = document.createElement('div');
+    div.className = 'yt-item';
+    div.setAttribute('data-ytidx', idx);
+    div.innerHTML = '<div class="yt-time">' + fmtTimeYT(s.start) + ' → ' + fmtTimeYT(s.end) + '</div>' +
+                    '<div class="yt-en">' + s.en + '</div>' +
+                    (s.vi ? '<div class="yt-vi">' + s.vi + '</div>' : '');
+    div.onclick = function(){ ytJump(idx); };
+    listEl.appendChild(div);
+  });
+
+  // Ẩn home, hiện player
+  document.getElementById('yt-home').style.display = 'none';
+  document.getElementById('yt-player').style.display = 'block';
+  status.style.display = 'none';
+
+  // Reset UI
+  document.getElementById('ytToggleBtn').textContent = '💬 Ẩn phụ đề';
+  document.getElementById('ytToggleBtn').classList.remove('off');
+  ytSubVisible = true;
+
+  // Load YouTube API
+  loadYTApi(function(){
+    if(ytPlayer){ try{ ytPlayer.destroy(); }catch(e){} }
+    ytPlayer = new YT.Player('ytPlayerBox', {
+      height: '100%',
+      width: '100%',
+      videoId: videoId,
+      playerVars: {
+        'playsinline': 1,
+        'rel': 0,
+        'modestbranding': 1
+      },
+      events: {
+        'onReady': function(e){
+          ytPlayerReady = true;
+          e.target.playVideo();
+        },
+        'onStateChange': function(e){
+          if(e.data === YT.PlayerState.PLAYING){
+            if(!ytInterval){
+              ytInterval = setInterval(ytSyncSub, 200);
+            }
+          } else {
+            if(ytInterval){ clearInterval(ytInterval); ytInterval = null; }
+          }
+        }
+      }
+    });
+  });
+}
+
+function ytSyncSub(){
+  if(!ytPlayer || !ytPlayerReady) return;
+  var t;
+  try{ t = ytPlayer.getCurrentTime(); }catch(e){ return; }
+  var idx = -1;
+  for(var k=0;k<ytSubs.length;k++){
+    if(t >= ytSubs[k].start && t < ytSubs[k].end){ idx = k; break; }
+  }
+  if(idx === ytCurrentIdx) return;
+  ytCurrentIdx = idx;
+  var items = document.querySelectorAll('.yt-item');
+  items.forEach(function(it, k){
+    if(k === idx){ it.classList.add('active'); } else { it.classList.remove('active'); }
+  });
+  if(idx >= 0){
+    var active = document.querySelector('.yt-item.active');
+    if(active){
+      var listBox = document.getElementById('ytList');
+      var listHeight = listBox.clientHeight;
+      var itemTop = active.offsetTop - listBox.offsetTop;
+      var itemHeight = active.offsetHeight;
+      listBox.scrollTo({
+        top: itemTop - (listHeight / 2) + (itemHeight / 2),
+        behavior: 'smooth'
+      });
+    }
+  }
+}
+
+function ytJump(idx){
+  if(!ytSubs[idx] || !ytPlayer) return;
+  try{
+    ytPlayer.seekTo(ytSubs[idx].start + 0.05, true);
+    ytPlayer.playVideo();
+  }catch(e){}
+}
+
+function ytToggleSub(){
+  ytSubVisible = !ytSubVisible;
+  var btn = document.getElementById('ytToggleBtn');
+  var list = document.getElementById('ytList');
+  if(ytSubVisible){
+    list.style.display = 'block';
+    btn.textContent = '💬 Ẩn phụ đề';
+    btn.classList.remove('off');
+  } else {
+    list.style.display = 'none';
+    btn.textContent = '💬 Hiện phụ đề';
+    btn.classList.add('off');
+  }
+}
+
 /* ========== HỌC QUA VIDEO ========== */
 var videoSubs = [];
 var currentSubIdx = -1;
@@ -1723,6 +2181,171 @@ function toggleSubtitle(){
   }
 }
 
+/* ========== DARK MODE ========== */
+function applyDarkMode(isDark){
+  var btn = document.getElementById('darkBtn');
+  if(isDark){
+    document.body.classList.add('dark');
+    if(btn){
+      btn.textContent = '☀️';
+      btn.style.background = 'linear-gradient(135deg,#fbbf24,#f59e0b)';
+    }
+  } else {
+    document.body.classList.remove('dark');
+    if(btn){
+      btn.textContent = '🌙';
+      btn.style.background = 'linear-gradient(135deg,#4f46e5,#7c3aed)';
+    }
+  }
+}
+function toggleDarkMode(){
+  var isDark = !document.body.classList.contains('dark');
+  localStorage.setItem('darkMode', isDark ? '1' : '0');
+  applyDarkMode(isDark);
+}
+// Tự load khi mở app
+(function(){
+  var saved = localStorage.getItem('darkMode');
+  if(saved === '1') applyDarkMode(true);
+})();
+
+/* ========== QUIZ TRẮC NGHIỆM ========== */
+var quizMode = 'en';
+var quizQuestions = [];
+var quizCurrent = 0;
+var quizScore = 0;
+var quizAnswered = false;
+
+function openQuiz(){
+  document.getElementById('quiz-home').style.display = 'block';
+  document.getElementById('quiz-play').style.display = 'none';
+  document.getElementById('quiz-final').style.display = 'none';
+  document.getElementById('quizmodal').classList.add('show');
+}
+function closeQuiz(){
+  document.getElementById('quizmodal').classList.remove('show');
+}
+function setQuizMode(mode){
+  quizMode = mode;
+  document.getElementById('qmode-en').classList.toggle('active', mode === 'en');
+  document.getElementById('qmode-vi').classList.toggle('active', mode === 'vi');
+  document.getElementById('qmode-mix').classList.toggle('active', mode === 'mix');
+}
+function shuffleArray(arr){
+  var a = arr.slice();
+  for(var i = a.length - 1; i > 0; i--){
+    var j = Math.floor(Math.random() * (i + 1));
+    var t = a[i]; a[i] = a[j]; a[j] = t;
+  }
+  return a;
+}
+function startQuiz(count){
+  var pool = d.slice();
+  if(pool.length < 4){
+    alert('⚠️ Cần ít nhất 4 thẻ để làm quiz!');
+    return;
+  }
+  var shuffledPool = shuffleArray(pool);
+  var questions = [];
+  for(var i = 0; i < Math.min(count, shuffledPool.length); i++){
+    var card = shuffledPool[i];
+    var type = quizMode === 'mix' ? (Math.random() < 0.5 ? 'en' : 'vi') : quizMode;
+    var correct;
+    var questionText;
+    if(type === 'en'){
+      questionText = card[0];
+      correct = card[3];
+    } else {
+      questionText = card[3];
+      correct = card[0];
+    }
+    // Lấy 3 đáp án nhiễu
+    var others = pool.filter(function(c){ return c[0] !== card[0]; });
+    var shuffledOthers = shuffleArray(others);
+    var wrongs = [];
+    for(var k = 0; k < shuffledOthers.length && wrongs.length < 3; k++){
+      var wrongAns = type === 'en' ? shuffledOthers[k][3] : shuffledOthers[k][0];
+      if(wrongAns !== correct && wrongs.indexOf(wrongAns) < 0){
+        wrongs.push(wrongAns);
+      }
+    }
+    var options = shuffleArray([correct].concat(wrongs));
+    questions.push({
+      type: type,
+      question: questionText,
+      correct: correct,
+      options: options
+    });
+  }
+  quizQuestions = questions;
+  quizCurrent = 0;
+  quizScore = 0;
+  document.getElementById('quiz-home').style.display = 'none';
+  document.getElementById('quiz-play').style.display = 'block';
+  document.getElementById('quiz-final').style.display = 'none';
+  renderQuizQuestion();
+}
+function renderQuizQuestion(){
+  var q = quizQuestions[quizCurrent];
+  quizAnswered = false;
+  document.getElementById('quiz-progress').textContent = 'Câu ' + (quizCurrent + 1) + '/' + quizQuestions.length;
+  var label = q.type === 'en' ? 'Từ: ' : 'Nghĩa: ';
+  document.getElementById('quiz-question').textContent = label + q.question;
+  var optsEl = document.getElementById('quiz-options');
+  optsEl.innerHTML = '';
+  q.options.forEach(function(opt){
+    var btn = document.createElement('button');
+    btn.className = 'quiz-option';
+    btn.textContent = opt;
+    btn.onclick = function(){ answerQuiz(opt, btn); };
+    optsEl.appendChild(btn);
+  });
+  var resEl = document.getElementById('quiz-result');
+  resEl.className = 'quiz-result';
+  resEl.textContent = '';
+}
+function answerQuiz(opt, btn){
+  if(quizAnswered) return;
+  quizAnswered = true;
+  var q = quizQuestions[quizCurrent];
+  var buttons = document.querySelectorAll('.quiz-option');
+  buttons.forEach(function(b){
+    b.disabled = true;
+    if(b.textContent === q.correct) b.classList.add('correct');
+  });
+  var resEl = document.getElementById('quiz-result');
+  if(opt === q.correct){
+    quizScore++;
+    resEl.className = 'quiz-result show ok';
+    resEl.textContent = '✅ Chính xác!';
+  } else {
+    btn.classList.add('wrong');
+    resEl.className = 'quiz-result show no';
+    resEl.textContent = '❌ Sai. Đáp án đúng: ' + q.correct;
+  }
+  setTimeout(function(){
+    quizCurrent++;
+    if(quizCurrent >= quizQuestions.length){
+      finishQuiz();
+    } else {
+      renderQuizQuestion();
+    }
+  }, 1500);
+}
+function finishQuiz(){
+  document.getElementById('quiz-play').style.display = 'none';
+  document.getElementById('quiz-final').style.display = 'block';
+  var pct = Math.round(quizScore / quizQuestions.length * 100);
+  document.getElementById('quiz-score').textContent = quizScore + '/' + quizQuestions.length;
+  var msg = '';
+  if(pct === 100) msg = '🏆 Hoàn hảo! Bạn thật tuyệt vời!';
+  else if(pct >= 80) msg = '🌟 Xuất sắc! Tiếp tục phát huy!';
+  else if(pct >= 60) msg = '👍 Khá tốt! Cố gắng thêm nhé!';
+  else if(pct >= 40) msg = '💪 Cần ôn thêm. Đừng bỏ cuộc!';
+  else msg = '📚 Hãy ôn lại từ vựng rồi thử lại nhé!';
+  document.getElementById('quiz-msg').textContent = msg;
+}
+
 const globalFns = {
   flip, say, next, prev, toggle, toggleBlur, checkEx,
   shuffleCards, resetOrder, openImport, doImport, closeModal,
@@ -1733,7 +2356,10 @@ const globalFns = {
   removePhoto, pasteImage, searchGoogleImage, autoFindImage,
   compressAllOldImages, addKey, clearAllKeys, showWordInfo, changeVoice,
   openVideo, closeVideo, startVideo, backToVideoHome,
-  toggleSubtitle, jumpToSub
+  toggleSubtitle, jumpToSub,
+  openYT, closeYT, startYT, backToYTHome, ytToggleSub, ytJump,
+  openQuiz, closeQuiz, setQuizMode, startQuiz, answerQuiz,
+  toggleDarkMode, applyDarkMode
 };
 Object.keys(globalFns).forEach(function(name){
   window[name] = globalFns[name];
