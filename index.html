@@ -1819,7 +1819,7 @@ function splitLongMergeShort(result){
     var s = result[i];
     var dur = s.end - s.start;
     if(!s.en || s.en.trim() === '') continue;
-    if(dur > 6){
+    if(dur > 4){
       var parts = Math.ceil(dur / 3);
       var partDur = dur / parts;
       var enWords = s.en.split(/\s+/).filter(function(w){return w;});
@@ -1833,7 +1833,7 @@ function splitLongMergeShort(result){
           processed.push({start: s.start + p * partDur, end: s.start + (p + 1) * partDur, en: enChunk, vi: viChunk});
         }
       }
-    } else if(dur < 1.5 && processed.length > 0){
+    } else if(dur < 2 && processed.length > 0){
       var prev = processed[processed.length - 1];
       var gap = s.start - prev.end;
       if(gap < 1){
@@ -1962,7 +1962,7 @@ function ytSyncSub(){
     var s = ytSubs[idx];
     var duration = s.end - s.start;
     var elapsed = t - s.start;
-    var pct = duration > 0 ? Math.min(elapsed / duration * 1.25, 1) : 0;
+    var pct = duration > 0 ? Math.min(elapsed / duration * 1.4, 1) : 0;
     var activeItem = document.querySelector('.yt-item[data-ytidx="' + idx + '"]');
     if(activeItem){
       var wordEls = activeItem.querySelectorAll('.yt-en .w');
