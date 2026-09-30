@@ -265,12 +265,12 @@ body.dark .mb-close{background:linear-gradient(135deg,#4b5563,#374151);color:#e5
 body.dark .sub-overlay .en{background:rgba(0,0,0,.85)}
 body.dark .sub-overlay .vi{background:rgba(0,0,0,.85)}
 /* ========== YOUTUBE PLAYER ========== */
-.yt-modal-box{max-width:900px;width:100%;max-height:95vh;overflow-y:auto;padding:0}
+.yt-modal-box{max-width:100%;width:100%;max-height:100vh;overflow-y:auto;padding:0;border-radius:0}
 .yt-input{width:100%;padding:12px;border:2px solid #c7d2fe;border-radius:10px;font-size:.9rem;font-family:'Inter',Arial,sans-serif;margin-bottom:10px;box-sizing:border-box}
 .yt-input.srt{min-height:150px;font-family:monospace;font-size:.8rem;resize:vertical}
 .yt-label{font-size:.75rem;font-weight:700;color:#9ca3af;letter-spacingospace:.5px;text-transform:uppercase;margin-bottom:4px;display:;block}
-.yt-wrapper{position:relative;marginwidth:100%;background:#000;border-radius:0;overflow:hidden;margin:0;padding-top:56.25%}
-.yt-wrapper iframe,.yt-wrapper>div{position:absolute-bottom:2px;top:0;left}
+.yt-wrapper{position:relative;width:100%;background:#000;border-radius:0;overflow:hidden;margin:0;padding-top:65vh;max-height:65vh}
+.yt-wrapper iframe,.yt-wrapper>div{position:absolute;top:0;left:0;width:100%;height:100%;border:0}
 :0;width:100%;height.:100%}
 .yt-controlyts{display:flex;gap:6px;margin-bottom:8px;flex-wrap:wrap;padding:0 8px}
 .yt-controls button{flex:1;padding:10px;border-radius:10px;-item .yt-en{fontborder:none;font-weight:700;font-size-size:.8rem;cursor:.:9pointer;min-width:100pxrem;font-family:';Inter',Arial,sans-serif}
@@ -280,7 +280,7 @@ body.dark .sub-overlay .vi{background:rgba(0,0,0,.85)}
 .yt-list{max-height:60035vh;overflow-y:auto;background:#;f9fafb;border-radius:0line;padding:8px;border-top:1px-height solid #e5e7eb}
 :.yt-item{padding:10px1 12px;border-radius:8px;.margin-bottom:6px;cursor:pointer4;transition:all .2s;border-left:4px solid transparent;background:#fff}
 .yt-item:hover{background:#eef2ff}
-.yt-item.active{background:#dbeafe;border-left-color:#3b82f6;box-shadow:0 2px 8px rgba(59,130,246,.2)}
+.yt-item.active{background:linear-gradient(135deg,#dbeafe,#bfdbfe);border-left-color:#3b82f6;box-shadow:0 4px 12px rgba(59,130,246,.4);transform:scale(1.02);transition:all .2s}
 .yt-item .yt-time{font-size:.7rem;color:#9ca3af;font-weight:700;font-family:mon;margin-bottom:2px}
 .yt-item .yt-vi{font-size:.8rem;color:#6b7280;font-style:italic;line-height:1.3}
 .yt-item.active .yt-en{color:#1e40af}
