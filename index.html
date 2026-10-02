@@ -547,7 +547,7 @@ body.dark .yt-label{color:#9ca3af}
 import { initializeApp } from 'https://www.gstatic.com/firebasejs/10.7.0/firebase-app.js';
 import { getAuth, GoogleAuthProvider, signInWithPopup, signInWithRedirect, getRedirectResult, signOut, onAuthStateChanged } from 'https://www.gstatic.com/firebasejs/10.7.0/firebase-auth.js';
 import { getFirestore, doc, setDoc, getDoc, deleteDoc, updateDoc, arrayUnion } from 'https://www.gstatic.com/firebasejs/10.7.0/firebase-firestore.js';
-
+alert('SDK loaded!');
 const firebaseConfig = {
   apiKey: "AIzaSyBI1m4_K0ovnFlRtDs9uzmI9ax7whSG4tI",
   authDomain: "flashcard-app-551d7.firebaseapp.com",
@@ -600,7 +600,7 @@ async function checkAppLock(){
   error.textContent = '';
   
   try {
-    alert('🔍 BƯỚC 2: Đang gọi Firebase...');  // ← THÊM DÒNG NÀY
+    alert('🔍 BƯỚC 2:\n\nfbDb = ' + (typeof fbDb) + '\n\nProject = ' + (fbDb && fbDb.app ? fbDb.app.options.projectId : 'KHÔNG CÓ'));  // ← THÊM DÒNG NÀY
     
     const codeDoc = await getDoc(doc(fbDb, 'accessCodes', code));
     
@@ -608,7 +608,8 @@ async function checkAppLock(){
 const allDocs = await getDocs(collection(fbDb, 'accessCodes'));
 let listIds = [];
 allDocs.forEach(d => listIds.push('[' + d.id + ']'));
-alert('🔍 BƯỚC 3: Tồn tại = ' + codeDoc.exists() + '\n\nDANH SÁCH ID:\n' + listIds.join('\n') + '\n\nMÃ ĐANG TÌM: [' + code + ']');  // ← THÊM DÒNG NÀY
+alert('📋 DANH SÁCH ID: ' + (listIds.length ? listIds.join(', ') : '(TRỐNG)'));
+alert('🔍 DEBUG:\n\nCode tìm: [' + code + ']\n\nTồn tại: ' + codeDoc.exists() + '\n\nProject: ' + fbDb.app.options.projectId);  // ← THÊM DÒNG NÀY
     
     if(!codeDoc.exists()){
       error.textContent = '❌ Mã không đúng. Vui lòng kiểm tra lại.';
