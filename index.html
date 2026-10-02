@@ -274,7 +274,33 @@ body.dark .yt-input{background:#111827;color:#e5e7eb;border-color:#4b5563}
 body.dark .yt-label{color:#9ca3af}
 
 #videomodal .modal-box{overflow-y:auto;-webkit-overflow-scrolling:touch}
+
+@keyframes lockPulse {
+  0%, 100% { transform: scale(1); }
+  50% { transform: scale(1.1); }
+}
+@keyframes lockShake {
+  0%, 100% { transform: translateX(0); }
+  10%, 30%, 50%, 70%, 90% { transform: translateX(-8px); }
+  20%, 40%, 60%, 80% { transform: translateX(8px); }
+}
 </style></head><body>
+
+<div id="appLockScreen" style="position:fixed;inset:0;background:linear-gradient(135deg,#667eea 0%,#764ba2 100%);z-index:9999999;display:flex;align-items:center;justify-content:center;padding:20px;font-family:'Inter',Arial,sans-serif">
+  <div style="background:#fff;border-radius:24px;padding:36px 28px;max-width:420px;width:100%;box-shadow:0 30px 80px rgba(0,0,0,.4);text-align:center">
+    <div style="font-size:5rem;margin-bottom:12px;line-height:1;animation:lockPulse 2s infinite">🔐</div>
+    <h2 style="margin:0 0 8px;color:#4338ca;font-size:width1.5rem;font-weight:900">Nhập mã để sử dụng app</h2>
+    <p style="color:#6b7280;font-size:.9rem;margin:0 0 24px;line-height:1.5">
+      Liên hệ admin để nhận mã truy cập<br>
+      <span style="font-size:.8rem;color:#9ca3af">💬 Zalo: <b style="color:#4338ca">0912 345 678</b></span>
+    </p>
+    <input type="text" id="appLockInput" placeholder="Nhập mã tại đây..." autocomplete="off" autocapitalize="characters" style="width:100%;padding:16px;border:2px solid #c7d2fe;border-radius:14px;font-size:1.1rem;text-align:center;letter-spacing:2px;margin-bottom:14px;box-sizing:border-box;font-family:monospace;font-weight:700;outline:none">
+    <button id="appLockBtn" onclick="checkAppLock()" style=":100%;padding:16px;background:linear-gradient(135deg,#4ade80,#22c55e);color:#fff;border:none;border-radius:14px;font-weight:900;font-size:1rem;cursor:pointer;box-shadow:0 6px 20px rgba(34,197,94,.4)">🚀 Vào app</button>
+    <div id="appLockError" style="color:#ef4444;font-size:.85rem;margin-top:14px;min-height:20px;font-weight:600"></div>
+  </div>
+</div>
+
+<div id="appContent" style="display:none">
 <div style="width:100%;max-width:420px;display:flex;justify-content:space-between;align-items:center;margin-bottom:8px;padding:0 4px">
 <h1 style="margin:0">📚 Flashcard Nghề Nghiệp</h1>
 <button onclick="toggleDarkMode()" id="darkBtn" style="background:linear-gradient(135deg,#4f46e5,#7c3aed);color:#fff;border:none;width:42px;height:42px;border-radius:50%;font-size:1.1rem;cursor:pointer;box-shadow:0 4px 12px rgba(0,0,0,.2);transition:all .2s">🌙</button>
@@ -512,10 +538,15 @@ body.dark .yt-label{color:#9ca3af}
 <div id="cardlist"></div>
 <button class="mb-close" style="margin-top:12px" onclick="closeList()">Đóng</button>
 </div>
-</div><script type="module">
+</div>
+
+</div>
+<!-- Đóng appContent -->
+
+<script type="module">
 import { initializeApp } from 'https://www.gstatic.com/firebasejs/10.7.0/firebase-app.js';
 import { getAuth, GoogleAuthProvider, signInWithPopup, signInWithRedirect, getRedirectResult, signOut, onAuthStateChanged } from 'https://www.gstatic.com/firebasejs/10.7.0/firebase-auth.js';
-import { getFirestore, doc, setDoc, getDoc, deleteDoc } from 'https://www.gstatic.com/firebasejs/10.7.0/firebase-firestore.js';
+import { getFirestore, doc, setDoc, getDoc, deleteDoc, updateDoc, arrayUnion } from 'https://www.gstatic.com/firebasejs/10.7.0/firebase-firestore.js';
 
 const firebaseConfig = {
   apiKey: "AIzaSyBI1m4_K0ovnFlRtDs9uzmI9ax7whSG4tI",
@@ -529,6 +560,165 @@ const firebaseConfig = {
 const fbApp = initializeApp(firebaseConfig);
 const fbAuth = getAuth(fbApp);
 const fbDb = getFirestore(fbApp);
+
+const APP_CODE_STORAGE_KEY = 'appAccessCode';
+const APP_CODE_VERIFY = 'ACCESS_OK';
+
+function getAppDeviceId(){
+  let id = localStorage.getItem('appDeviceId');
+  if(!id){
+    id = 'dev_' + Math.random().toString(36).substr(2, 16) + Date.now().toString(36);
+    localStorage.setItem('appDeviceId', id);
+  }
+  return id;
+}
+
+function shakeLockScreen(){
+  const box = document.querySelector('#appLockScreen > div');
+  if(box){
+    box.style.animation = 'lockShake .4s';
+    setTimeout(() => box.style.animation = '', 400);
+  }
+}
+
+async function checkAppLock(){
+  const input = document.getElementById('appLockInput');
+  const error = document.getElementById('appLockError');
+  const btn = document.getElementById('appLockBtn');
+  const code = input.value.trim().toUpperCase();
+  
+  alert('🔍 BƯỚC 1: Mã nhập = "' + code + '"');  // ← THÊM DÒNG NÀY
+  
+  if(!code){
+    error.textContent = '⚠️ Vui lòng nhập mã';
+    shakeLockScreen();
+    return;
+  }
+  
+  btn.disabled = true;
+  btn.textContent = '⏳ Đang kiểm tra...';
+  error.textContent = '';
+  
+  try {
+    alert('🔍 BƯỚC 2: Đang gọi Firebase...');  // ← THÊM DÒNG NÀY
+    
+    const codeDoc = await getDoc(doc(fbDb, 'accessCodes', code));
+    
+    const { collection, getDocs } = await import('https://www.gstatic.com/firebasejs/10.7.0/firebase-firestore.js');
+const allDocs = await getDocs(collection(fbDb, 'accessCodes'));
+let listIds = [];
+allDocs.forEach(d => listIds.push('[' + d.id + ']'));
+alert('🔍 BƯỚC 3: Tồn tại = ' + codeDoc.exists() + '\n\nDANH SÁCH ID:\n' + listIds.join('\n') + '\n\nMÃ ĐANG TÌM: [' + code + ']');  // ← THÊM DÒNG NÀY
+    
+    if(!codeDoc.exists()){
+      error.textContent = '❌ Mã không đúng. Vui lòng kiểm tra lại.';
+      btn.disabled = false; btn.textContent = '🚀 Vào app';
+      shakeLockScreen();
+      return;
+    }
+    
+    const data = codeDoc.data();
+    
+    if(data.active === false){
+      error.textContent = '❌ Mã đã bị vô hiệu hóa.';
+      btn.disabled = false; btn.textContent = '🚀 Vào app';
+      shakeLockScreen();
+      return;
+    }
+    
+    if(data.expires){
+      const expireDate = new Date(data.expires);
+      if(new Date() > expireDate){
+        error.textContent = '❌ Mã đã hết hạn.';
+        btn.disabled = false; btn.textContent = '🚀 Vào app';
+        shakeLockScreen();
+        return;
+      }
+    }
+    
+    const deviceId = getAppDeviceId();
+    const usedBy = data.usedBy || [];
+    
+    if(usedBy.indexOf(deviceId) < 0){
+      if(usedBy.length >= (data.maxDevices || 3)){
+        error.textContent = '❌ Mã đã dùng tối đa ' + (data.maxDevices || 3) + ' thiết bị.';
+        btn.disabled = false; btn.textContent = '🚀 Vào app';
+        shakeLockScreen();
+        return;
+      }
+    }
+    
+    localStorage.setItem(APP_CODE_STORAGE_KEY, code);
+    localStorage.setItem(APP_CODE_VERIFY, 'yes');
+    
+    unlockTheApp();
+    
+  } catch(err) {
+    alert('🔍 LỖI: ' + err.message);  // ← THÊM DÒNG NÀY
+    console.error('Lỗi:', err);
+    error.textContent = '❌ Lỗi kết nối: ' + err.message;
+    btn.disabled = false; btn.textContent = '🚀 Vào app';
+    shakeLockScreen();
+  }
+}
+
+function unlockTheApp(){
+  const lock = document.getElementById('appLockScreen');
+  const content = document.getElementById('appContent');
+  lock.style.transition = 'opacity .5s ease';
+  lock.style.opacity = '0';
+  content.style.display = 'block';
+  setTimeout(() => { lock.style.display = 'none'; }, 500);
+}
+
+document.addEventListener('DOMContentLoaded', function(){
+  const input = document.getElementById('appLockInput');
+  if(input){
+    input.addEventListener('keypress', function(e){
+      if(e.key === 'Enter') checkAppLock();
+    });
+  }
+});
+
+(async function(){
+  const savedCode = localStorage.getItem(APP_CODE_STORAGE_KEY);
+  const verified = localStorage.getItem(APP_CODE_VERIFY);
+  
+  if(!savedCode || verified !== 'yes'){
+    setTimeout(() => {
+      const inp = document.getElementById('appLockInput');
+      if(inp) inp.focus();
+    }, 300);
+    return;
+  }
+  
+  try {
+    const codeDoc = await getDoc(doc(fbDb, 'accessCodes', savedCode));
+    
+    if(!codeDoc.exists() || codeDoc.data().active === false){
+      localStorage.removeItem(APP_CODE_STORAGE_KEY);
+      localStorage.removeItem(APP_CODE_VERIFY);
+      return;
+    }
+    
+    const data = codeDoc.data();
+    if(data.expires && new Date(data.expires) < new Date()){
+      localStorage.removeItem(APP_CODE_STORAGE_KEY);
+      localStorage.removeItem(APP_CODE_VERIFY);
+      return;
+    }
+    
+    document.getElementById('appLockScreen').style.display = 'none';
+    document.getElementById('appContent').style.display = 'block';
+    
+  } catch(err) {
+    console.warn('Không check được Firebase, dùng cache:', err.message);
+    document.getElementById('appLockScreen').style.display = 'none';
+    document.getElementById('appContent').style.display = 'block';
+  }
+})();
+
+window.checkAppLock = checkAppLock;
 
 let currentUser = null;
 let syncTimeout = null;
