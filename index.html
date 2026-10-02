@@ -546,8 +546,8 @@ body.dark .yt-label{color:#9ca3af}
 <script type="module">
 import { initializeApp } from 'https://www.gstatic.com/firebasejs/10.7.0/firebase-app.js';
 import { getAuth, GoogleAuthProvider, signInWithPopup, signInWithRedirect, getRedirectResult, signOut, onAuthStateChanged } from 'https://www.gstatic.com/firebasejs/10.7.0/firebase-auth.js';
-import { getFirestore, doc, setDoc, getDoc, deleteDoc, updateDoc, arrayUnion } from 'https://www.gstatic.com/firebasejs/10.7.0/firebase-firestore.js';
-alert('SDK loaded!');
+import { getDatabase, ref, child, get, set } from 'https://www.gstatic.com/firebasejs/10.7.0/firebase-database.js';
+
 const firebaseConfig = {
   apiKey: "AIzaSyBI1m4_K0ovnFlRtDs9uzmI9ax7whSG4tI",
   authDomain: "flashcard-app-551d7.firebaseapp.com",
@@ -559,7 +559,7 @@ const firebaseConfig = {
 
 const fbApp = initializeApp(firebaseConfig);
 const fbAuth = getAuth(fbApp);
-const fbDb = getFirestore(fbApp);
+const fbDb = getDatabase(fbApp);
 
 const APP_CODE_STORAGE_KEY = 'appAccessCode';
 const APP_CODE_VERIFY = 'ACCESS_OK';
@@ -587,7 +587,7 @@ async function checkAppLock(){
   const btn = document.getElementById('appLockBtn');
   const code = input.value.trim().toUpperCase();
   
-  alert('🔍 BƯỚC 1: Mã nhập = "' + code + '"');  // ← THÊM DÒNG NÀY
+    // ← THÊM DÒNG NÀY
   
   if(!code){
     error.textContent = '⚠️ Vui lòng nhập mã';
@@ -600,25 +600,18 @@ async function checkAppLock(){
   error.textContent = '';
   
   try {
-    alert('🔍 BƯỚC 2:\n\nfbDb = ' + (typeof fbDb) + '\n\nProject = ' + (fbDb && fbDb.app ? fbDb.app.options.projectId : 'KHÔNG CÓ'));  // ← THÊM DÒNG NÀY
+    // Kiểm tra tồn tại trên Realtime Database
+    const dbRef = ref(fbDb);
+    const snapshot = await get(child(dbRef, 'accessCodes/' + code));
     
-    const codeDoc = await getDoc(doc(fbDb, 'accessCodes', code));
-    
-    const { collection, getDocs } = await import('https://www.gstatic.com/firebasejs/10.7.0/firebase-firestore.js');
-const allDocs = await getDocs(collection(fbDb, 'accessCodes'));
-let listIds = [];
-allDocs.forEach(d => listIds.push('[' + d.id + ']'));
-alert('📋 DANH SÁCH ID: ' + (listIds.length ? listIds.join(', ') : '(TRỐNG)'));
-alert('🔍 DEBUG:\n\nCode tìm: [' + code + ']\n\nTồn tại: ' + codeDoc.exists() + '\n\nProject: ' + fbDb.app.options.projectId);  // ← THÊM DÒNG NÀY
-    
-    if(!codeDoc.exists()){
+    if(!snapshot.exists()){
       error.textContent = '❌ Mã không đúng. Vui lòng kiểm tra lại.';
       btn.disabled = false; btn.textContent = '🚀 Vào app';
       shakeLockScreen();
       return;
     }
     
-    const data = codeDoc.data();
+    const data = snapshot.val();
     
     if(data.active === false){
       error.textContent = '❌ Mã đã bị vô hiệu hóa.';
@@ -694,15 +687,16 @@ document.addEventListener('DOMContentLoaded', function(){
   }
   
   try {
-    const codeDoc = await getDoc(doc(fbDb, 'accessCodes', savedCode));
+    const dbRef = ref(fbDb);
+    const snapshot = await get(child(dbRef, 'accessCodes/' + savedCode));
     
-    if(!codeDoc.exists() || codeDoc.data().active === false){
+    if(!snapshot.exists() || snapshot.val().active === false){
       localStorage.removeItem(APP_CODE_STORAGE_KEY);
       localStorage.removeItem(APP_CODE_VERIFY);
       return;
     }
     
-    const data = codeDoc.data();
+    const data = snapshot.val();
     if(data.expires && new Date(data.expires) < new Date()){
       localStorage.removeItem(APP_CODE_STORAGE_KEY);
       localStorage.removeItem(APP_CODE_VERIFY);
@@ -801,37 +795,9 @@ async function pushToCloud(){
   if(!currentUser)return;
   try{
     setSyncStatus('⏳ Đang đồng bộ...','load');
-    await setDoc(doc(fbDb,'users',currentUser.uid), getSyncData(), {merge:true});
-    var photoKeys = Object.keys(photos);
-    var chunks = [];
-    for(var k = 0; k < photoKeys.length; k += 20){
-      var chunk = {};
-      for(var j = k; j < k + 20 && j < photoKeys.length; j++){
-        chunk[photoKeys[j]] = photos[photoKeys[j]];
-      }
-      chunks.push(chunk);
-    }
-    var oldChunkCount = 0;
-    try{
-      var mainDoc = await getDoc(doc(fbDb,'users',currentUser.uid));
-      if(mainDoc.exists() && mainDoc.data().photoChunks){
-        oldChunkCount = mainDoc.data().photoChunks;
-      }
-    }catch(e){}
-    for(var k = 0; k < chunks.length; k++){
-      await setDoc(doc(fbDb, 'users', currentUser.uid, 'photos', 'chunk_' + k), {
-        data: JSON.stringify(chunks[k]),
-        count: Object.keys(chunks[k]).length
-      });
-    }
-    for(var k = chunks.length; k < oldChunkCount; k++){
-      try{ await deleteDoc(doc(fbDb, 'users', currentUser.uid, 'photos', 'chunk_' + k)); }catch(e){}
-    }
-    await setDoc(doc(fbDb,'users',currentUser.uid), {
-      photoChunks: chunks.length,
-      photoCount: photoKeys.length
-    }, {merge:true});
-    setSyncStatus('✅ Đã đồng bộ ' + photoKeys.length + ' ảnh - ' + new Date().toLocaleTimeString('vi-VN'),'ok');
+    const userRef = ref(fbDb, 'users/' + currentUser.uid);
+    await set(userRef, getSyncData());
+    setSyncStatus('✅ Đã đồng bộ - ' + new Date().toLocaleTimeString('vi-VN'),'ok');
   }catch(err){
     setSyncStatus('❌ Lỗi sync: ' + err.message,'err');
   }
@@ -841,13 +807,16 @@ async function pullFromCloud(){
   if(!currentUser)return;
   try{
     setSyncStatus('⏳ Đang tải dữ liệu...','load');
-    var snap = await getDoc(doc(fbDb,'users',currentUser.uid));
-    if(!snap.exists()){
+    const userRef = ref(fbDb, 'users/' + currentUser.uid);
+    const snapshot = await get(userRef);
+    
+    if(!snapshot.exists()){
       setSyncStatus('📤 Lần đầu - Đang upload dữ liệu...','load');
       await pushToCloud();
       return;
     }
-    var data = snap.data();
+    
+    const data = snapshot.val();
     if(data.savedCards){savedCards=data.savedCards;localStorage.setItem('customCards',JSON.stringify(savedCards));}
     if(data.learned){learned=data.learned;localStorage.setItem('lw',JSON.stringify(learned));}
     if(data.newWords){newWords=data.newWords;localStorage.setItem('newWords',JSON.stringify(newWords));}
@@ -855,27 +824,12 @@ async function pullFromCloud(){
     if(data.keyList){keyList=data.keyList;localStorage.setItem('keyList',JSON.stringify(keyList));}
     if(data.listenSpeed){listenSpeed=data.listenSpeed;localStorage.setItem('listenSpeed',listenSpeed);}
     if(data.selectedVoice){selectedVoice=data.selectedVoice;localStorage.setItem('selectedVoice',selectedVoice);}
-    var totalChunks = data.photoChunks || 0;
-    if(totalChunks > 0){
-      setSyncStatus('⏳ Đang tải ' + (data.photoCount||'?') + ' ảnh...','load');
-      var allPhotos = {};
-      for(var k = 0; k < totalChunks; k++){
-        try{
-          var chunkDoc = await getDoc(doc(fbDb, 'users', currentUser.uid, 'photos', 'chunk_' + k));
-          if(chunkDoc.exists()){
-            var chunkData = JSON.parse(chunkDoc.data().data);
-            Object.assign(allPhotos, chunkData);
-          }
-        }catch(e){ console.warn('Chunk ' + k + ' lỗi:', e.message); }
-      }
-      photos = allPhotos;
-      localStorage.setItem('photosByWord', JSON.stringify(photos));
-    }
+    
     rebuildD();
     updateNewWordCount();
     renderKeyList();
     r();
-    setSyncStatus('✅ Đã tải xong (' + Object.keys(photos).length + ' ảnh)','ok');
+    setSyncStatus('✅ Đã tải xong','ok');
   }catch(err){
     setSyncStatus('❌ Lỗi tải: ' + err.message,'err');
   }
