@@ -1,0 +1,1938 @@
+<!DOCTYPE html>
+<html lang="vi">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>AI Tạo Trắc Nghiệm Từ Văn Bản</title>
+<script src="https://cdnjs.cloudflare.com/ajax/libs/pdf.js/3.11.174/pdf.min.js"></script>
+<script src="https://cdnjs.cloudflare.com/ajax/libs/mammoth/1.6.0/mammoth.browser.min.js"></script>
+<script type="module">
+  window.FIREBASE_CONFIG = {
+    apiKey: "AIzaSyBI1m4_K0ovnFlRtDs9uzmI9ax7whSG4tI",
+    authDomain: "flashcard-app-551d7.firebaseapp.com",
+    databaseURL: "https://flashcard-app-551d7-default-rtdb.asia-southeast1.firebasedatabase.app",
+    projectId: "flashcard-app-551d7",
+    storageBucket: "flashcard-app-551d7.firebasestorage.app",
+    messagingSenderId: "948001109480",
+    appId: "1:948001109480:web:cae02551e2b2e49db3a05d",
+    measurementId: "G-0FYMP0NMS4"
+  };
+</script>
+<style>
+  * { box-sizing: border-box; margin: 0; padding: 0; -webkit-tap-highlight-color: transparent; }
+  body {
+    font-family: -apple-system, 'Segoe UI', Roboto, sans-serif;
+    background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
+    min-height: 100vh; padding: 12px; color: #333; font-size: 14px;
+    transition: background 0.3s;
+  }
+  .container { max-width: 700px; margin: 0 auto; }
+  h1 {
+    text-align: center; color: white; margin-bottom: 16px;
+    font-size: 20px; text-shadow: 2px 2px 4px rgba(0,0,0,0.2);
+  }
+  .card {
+    background: white; border-radius: 12px; padding: 16px;
+    margin-bottom: 12px; box-shadow: 0 6px 16px rgba(0,0,0,0.15);
+    transition: background 0.3s;
+  }
+  .card h2 {
+    font-size: 15px; margin-bottom: 12px; color: #764ba2;
+    border-bottom: 2px solid #eee; padding-bottom: 8px;
+  }
+  .row { display: flex; gap: 8px; flex-wrap: wrap; margin-bottom: 10px; }
+  input[type="text"], input[type="password"], select, textarea {
+    flex: 1; min-width: 120px; padding: 10px 12px;
+    border: 2px solid #ddd; border-radius: 8px;
+    font-size: 14px; outline: none; font-family: inherit;
+    background: white;
+  }
+  input:focus, textarea:focus, select:focus { border-color: #764ba2; }
+  textarea { width: 100%; min-height: 180px; resize: vertical; font-family: inherit; }
+  button {
+    padding: 10px 16px; border: none; border-radius: 8px;
+    background: #764ba2; color: white; font-size: 14px;
+    font-weight: 600; cursor: pointer; transition: opacity 0.15s;
+  }
+  button:active:not(:disabled) { opacity: 0.75; }
+  button:disabled { opacity: 0.45; cursor: not-allowed; }
+  button.success { background: #27ae60; }
+  button.danger { background: #e74c3c; }
+  button.warning { background: #f39c12; }
+  button.ai {
+    background: linear-gradient(135deg, #f093fb, #f5576c);
+    padding: 14px 20px; font-size: 15px; width: 100%;
+    margin-top: 8px; font-weight: 700;
+  }
+  button.small { padding: 6px 12px; font-size: 12px; }
+
+  .note {
+    font-size: 12px; color: #888; margin-top: 8px;
+    padding: 10px; background: #f9f9f9; border-radius: 6px;
+    line-height: 1.5;
+  }
+  .note b { color: #764ba2; }
+
+  .loading {
+    display: none; text-align: center; padding: 16px;
+    background: #fff8e1; border-radius: 8px; margin-top: 10px;
+  }
+  .loading.show { display: block; }
+  .spinner {
+    width: 32px; height: 32px; border: 4px solid #ffe0b2;
+    border-top-color: #f39c12; border-radius: 50%;
+    animation: spin 0.8s linear infinite; margin: 0 auto 8px;
+  }
+  @keyframes spin { to { transform: rotate(360deg); } }
+
+  .toast {
+    position: fixed; top: 12px; left: 12px; right: 12px;
+    padding: 12px 16px; border-radius: 8px; color: white;
+    font-weight: 600; box-shadow: 0 4px 12px rgba(0,0,0,0.25);
+    z-index: 9999; text-align: center; font-size: 13px;
+    transform: translateY(-200%); transition: transform 0.3s ease;
+    pointer-events: none;
+  }
+  .toast.show { transform: translateY(0); }
+  .toast.error { background: #e74c3c; }
+  .toast.success { background: #27ae60; }
+  .toast.info { background: #3498db; }
+
+  .progress {
+    background: #eef2ff; border-radius: 10px; padding: 10px 14px;
+    font-size: 13px; color: #4338ca; font-weight: 700;
+    text-align: center; margin-bottom: 12px;
+  }
+  .progress-bar {
+    height: 6px; background: #ddd; border-radius: 3px;
+    margin-top: 8px; overflow: hidden;
+  }
+  .progress-fill {
+    height: 100%; background: linear-gradient(90deg, #764ba2, #f093fb);
+    width: 0%; transition: width 0.3s;
+  }
+  .question {
+    font-size: 16px; font-weight: 600; color: #333;
+    margin: 16px 0; padding: 16px; background: #f9fafb;
+    border-radius: 10px; line-height: 1.5;
+    border-left: 4px solid #764ba2;
+    white-space: pre-wrap;
+    padding-right: 50px;
+  }
+  .options { display: flex; flex-direction: column; gap: 10px; }
+  .option {
+    padding: 14px 18px; border-radius: 10px;
+    border: 2px solid #c7d2fe; background: #fff;
+    font-size: 15px; font-weight: 500; cursor: pointer;
+    text-align: left; color: #1f2937; transition: all 0.15s;
+    line-height: 1.5;
+  }
+  .option:hover:not(:disabled) { background: #eef2ff; border-color: #764ba2; }
+  .option:disabled { cursor: not-allowed; }
+  .option.correct {
+    background: #dcfce7; border-color: #4ade80; color: #166534;
+    font-weight: 700;
+  }
+  .option.wrong {
+    background: #fee2e2; border-color: #ef4444; color: #991b1b;
+    font-weight: 700;
+  }
+  .result-box {
+    text-align: center; font-size: 15px; font-weight: 700;
+    margin-top: 14px; padding: 14px; border-radius: 10px;
+    display: none;
+  }
+  .result-box.show { display: block; }
+  .result-box.ok { background: #dcfce7; color: #166534; }
+  .result-box.no { background: #fee2e2; color: #991b1b; }
+
+  .explanation {
+    margin-top: 10px; padding: 12px;
+    background: #f0f7ff; border-left: 4px solid #3498db;
+    border-radius: 6px; font-size: 13px; color: #555;
+    line-height: 1.6; white-space: pre-wrap; text-align: left;
+    display: none;
+  }
+  .explanation.show { display: block; }
+
+  .tip-box {
+    margin-top: 10px; padding: 12px;
+    background: #fef9c3; border-left: 4px solid #fbbf24;
+    border-radius: 6px; font-size: 13px; color: #78350f;
+    line-height: 1.6; white-space: pre-wrap; text-align: left;
+    display: none; font-weight: 500;
+  }
+  .tip-box.show { display: block; }
+  .tip-box.loading { color: #999; font-style: italic; font-weight: 400; }
+
+  .final-box { text-align: center; padding: 20px; }
+  .final-box .score {
+    font-size: 48px; font-weight: 900; color: #764ba2;
+    margin: 16px 0;
+  }
+  .final-box .msg {
+    font-size: 16px; color: #666; margin-bottom: 20px;
+    line-height: 1.5;
+  }
+
+  .stats-grid {
+    display: grid; grid-template-columns: repeat(3, 1fr);
+    gap: 8px; margin: 16px 0;
+  }
+  .stat-item {
+    background: #f8f6ff; padding: 12px; border-radius: 8px;
+    text-align: center;
+  }
+  .stat-item .num { font-size: 22px; font-weight: 700; color: #764ba2; }
+  .stat-item .lbl { font-size: 11px; color: #666; margin-top: 4px; }
+
+  .review-list {
+    margin-top: 16px; max-height: 400px; overflow-y: auto;
+    text-align: left;
+  }
+  .review-item {
+    padding: 12px; border-radius: 8px; margin-bottom: 8px;
+    background: #f9fafb; border-left: 4px solid #ddd;
+    font-size: 13px; line-height: 1.5;
+  }
+  .review-item.ok { border-left-color: #4ade80; background: #f0fdf4; }
+  .review-item.no { border-left-color: #ef4444; background: #fef2f2; }
+  .review-item .q { font-weight: 700; margin-bottom: 6px; color: #333; }
+  .review-item .ans { color: #666; font-size: 12px; margin-top: 4px; }
+  .review-item .ans b { color: #764ba2; }
+
+  .btn-row { display: flex; gap: 8px; margin-top: 12px; flex-wrap: wrap; }
+  .btn-row button { flex: 1; min-width: 100px; }
+
+  .hidden { display: none !important; }
+
+  .tabs { display: flex; gap: 6px; margin-bottom: 14px; }
+  .tab {
+    flex: 1; padding: 10px 6px; text-align: center;
+    background: #f0f0f0; border-radius: 10px;
+    font-size: 13px; cursor: pointer;
+    font-weight: 600; color: #666; transition: all 0.2s;
+  }
+  .tab.active {
+    background: linear-gradient(135deg, #764ba2, #f093fb);
+    color: white;
+  }
+  .tab-content { display: none; }
+  .tab-content.active { display: block; }
+
+  .upload-zone {
+    border: 3px dashed #764ba2; border-radius: 12px;
+    padding: 30px 16px; text-align: center;
+    cursor: pointer; background: #faf8ff;
+    transition: all 0.2s;
+  }
+  .upload-zone:active { transform: scale(0.98); }
+  .upload-zone .icon { font-size: 40px; margin-bottom: 8px; }
+  .upload-zone p { color: #666; font-size: 14px; margin: 4px 0; }
+
+  .image-preview {
+    display: grid;
+    grid-template-columns: repeat(auto-fill, minmax(100px, 1fr));
+    gap: 8px; margin-top: 12px;
+  }
+  .image-thumb {
+    position: relative;
+    aspect-ratio: 1;
+    border-radius: 8px;
+    overflow: hidden;
+    border: 2px solid #e0e0e0;
+    background: #f9f9f9;
+  }
+  .image-thumb img { width: 100%; height: 100%; object-fit: cover; display: block; }
+  .thumb-del {
+    position: absolute; top: 4px; right: 4px;
+    width: 24px; height: 24px;
+    background: #e74c3c; color: white;
+    border: none; border-radius: 50%;
+    font-size: 12px; font-weight: 700;
+    cursor: pointer;
+    display: flex; align-items: center; justify-content: center;
+    box-shadow: 0 2px 6px rgba(0,0,0,0.3);
+  }
+  .thumb-del:active { transform: scale(0.9); }
+
+  /* ========== KEY SCREEN ========== */
+  #keyScreen {
+    position: fixed; top: 0; left: 0; right: 0; bottom: 0;
+    background: linear-gradient(135deg, #667eea, #764ba2);
+    z-index: 9999; display: flex; align-items: center; justify-content: center;
+    padding: 20px;
+  }
+  #keyScreen .key-card {
+    background: white; border-radius: 20px; padding: 30px 25px;
+    max-width: 400px; width: 100%;
+    box-shadow: 0 20px 60px rgba(0,0,0,0.3); text-align: center;
+  }
+  #keyScreen .key-icon { font-size: 50px; margin-bottom: 15px; }
+  #keyScreen h2 { font-size: 20px; color: #764ba2; margin-bottom: 10px; }
+  #keyScreen p { font-size: 13px; color: #666; margin-bottom: 20px; line-height: 1.5; }
+  #licenseInput {
+    width: 100%; padding: 14px 16px;
+    border: 2px solid #ddd; border-radius: 10px;
+    font-size: 15px; text-align: center;
+    font-family: monospace; letter-spacing: 1px;
+    outline: none; margin-bottom: 12px;
+  }
+  #keyError { color: #e74c3c; font-size: 13px; margin-bottom: 12px; min-height: 20px; font-weight: 600; }
+  #keyBtn {
+    width: 100%; padding: 14px;
+    background: linear-gradient(135deg, #4ade80, #22c55e);
+    color: white; border: none; border-radius: 10px;
+    font-size: 15px; font-weight: 700; cursor: pointer;
+    margin-bottom: 10px;
+  }
+  #keyBtn:disabled { opacity: 0.6; cursor: not-allowed; }
+
+  /* ========== DARK MODE ========== */
+  body.dark {
+    background: linear-gradient(135deg, #0f0c29 0%, #302b63 50%, #24243e 100%);
+    color: #e5e7eb;
+  }
+  body.dark .card { background: #1f2937; color: #e5e7eb; }
+  body.dark .card h2 { color: #a5b4fc; border-bottom-color: #374151; }
+  body.dark input, body.dark textarea, body.dark select {
+    background: #111827; color: #e5e7eb; border-color: #4b5563;
+  }
+  body.dark .note { background: #111827; color: #9ca3af; }
+  body.dark .question { background: #111827; color: #e5e7eb; border-left-color: #a5b4fc; }
+  body.dark .option { background: #1f2937; border-color: #4b5563; color: #e5e7eb; }
+  body.dark .option:hover:not(:disabled) { background: #374151; }
+  body.dark .option.correct { background: #064e3b; color: #6ee7b7; }
+  body.dark .option.wrong { background: #7f1d1d; color: #fca5a5; }
+  body.dark .progress { background: #1e293b; color: #a5b4fc; }
+  body.dark .progress-bar { background: #374151; }
+  body.dark .explanation { background: #1e3a8a; color: #bfdbfe; border-left-color: #60a5fa; }
+  body.dark .tip-box { background: #78350f; color: #fde68a; border-left-color: #f59e0b; }
+  body.dark .tab { background: #374151; color: #9ca3af; }
+  body.dark .tab.active { background: linear-gradient(135deg, #6366f1, #a855f7); color: white; }
+  body.dark .upload-zone { background: #111827; border-color: #6366f1; }
+  body.dark .upload-zone p { color: #9ca3af; }
+  body.dark .review-item { background: #1f2937; border-left-color: #4b5563; }
+  body.dark .review-item.ok { background: #064e3b; }
+  body.dark .review-item.no { background: #7f1d1d; }
+  body.dark .stat-item { background: #1f2937; }
+  body.dark .stat-item .lbl { color: #9ca3af; }
+  body.dark .final-box .msg { color: #9ca3af; }
+
+  .dark-toggle {
+    position: fixed; top: 12px; right: 12px;
+    width: 44px; height: 44px;
+    background: rgba(255,255,255,0.9);
+    border: none; border-radius: 50%;
+    font-size: 20px; cursor: pointer;
+    box-shadow: 0 4px 12px rgba(0,0,0,0.2);
+    z-index: 100; transition: all 0.2s;
+  }
+  .dark-toggle:active { transform: scale(0.9); }
+  body.dark .dark-toggle { background: rgba(31,41,55,0.9); color: #fbbf24; }
+
+  .btn-star {
+    position: absolute; top: 10px; right: 10px;
+    width: 40px; height: 40px;
+    background: transparent;
+    border: none; border-radius: 50%;
+    font-size: 22px; cursor: pointer;
+    transition: all 0.2s;
+    color: #9ca3af;
+  }
+  .btn-star:active { transform: scale(0.9); }
+  .btn-star.starred { color: #fbbf24; }
+
+  .timer-bar {
+    display: flex; justify-content: space-between; align-items: center;
+    background: linear-gradient(135deg, #667eea, #764ba2);
+    color: white; padding: 10px 14px;
+    border-radius: 10px; margin-bottom: 12px;
+    font-weight: 700; font-size: 15px;
+  }
+  .timer-bar.warning { background: linear-gradient(135deg, #f59e0b, #ef4444); }
+  .timer-bar.danger { background: linear-gradient(135deg, #dc2626, #991b1b); animation: pulse 1s infinite; }
+  @keyframes pulse { 0%,100% { opacity: 1; } 50% { opacity: 0.7; } }
+  .timer-bar .timer-icon { margin-right: 6px; }
+
+  .saved-quiz-list {
+    max-height: 250px; overflow-y: auto; margin-top: 10px;
+  }
+  .saved-quiz-item {
+    display: flex; justify-content: space-between; align-items: center;
+    gap: 10px; padding: 10px 12px; background: #f0f7ff;
+    border-left: 4px solid #3498db; border-radius: 8px;
+    margin-bottom: 6px;
+  }
+  .saved-quiz-item .info { flex: 1; min-width: 0; }
+  .saved-quiz-item .name { font-weight: 700; font-size: 13px; color: #333; word-break: break-word; }
+  .saved-quiz-item .meta { font-size: 11px; color: #666; margin-top: 2px; }
+  .saved-quiz-item .actions { display: flex; gap: 4px; }
+  body.dark .saved-quiz-item { background: #1e293b; border-left-color: #6366f1; }
+  body.dark .saved-quiz-item .name { color: #e5e7eb; }
+  body.dark .saved-quiz-item .meta { color: #9ca3af; }
+
+  @media (max-width: 600px) {
+    h1 { font-size: 18px; }
+    body { padding: 8px; }
+    .card { padding: 12px; }
+    .question { font-size: 15px; }
+    .tab { font-size: 12px; padding: 9px 4px; }
+    .dark-toggle { width: 40px; height: 40px; font-size: 18px; }
+  }
+</style>
+</head>
+<body>
+<button class="dark-toggle" id="darkToggle" onclick="toggleDark()" title="Bật/tắt chế độ tối">🌙</button>
+
+<!-- MÀN HÌNH NHẬP KEY -->
+<div id="keyScreen">
+  <div class="key-card">
+    <div class="key-icon">🔐</div>
+    <h2>Nhập key để vào cày đề</h2>
+    <p>Nhập key để đợi gì</p>
+
+    <input type="text" id="licenseInput" placeholder="Nhập key của bạn..." autocomplete="off">
+
+    <div id="keyError"></div>
+
+    <button id="keyBtn" onclick="checkLicenseKey()">✅ Xác nhận</button>
+
+    <div style="font-size:11px;color:#999;margin-top:15px;padding-top:15px;border-top:1px solid #eee;">
+      💡 Chưa có key? Liên hệ Tùndz🫠🫠
+    </div>
+  </div>
+</div>
+
+<div class="container" id="mainApp" style="display:none;">
+  <h1>🧠 AI Tạo Trắc Nghiệm Từ Văn Bản</h1>
+  
+  <div style="text-align:center;margin-bottom:10px;">
+    <button onclick="logoutLicense()" style="background:#ef4444;color:white;border:none;padding:8px 16px;border-radius:8px;font-size:12px;font-weight:600;cursor:pointer;">🚪 Đăng xuất key</button>
+  </div>
+
+  <div class="card">
+    <h2>🔑 API Key Gemini</h2>
+    <div class="row">
+      <input type="password" id="apiKey" placeholder="Dán API key vào đây..." autocomplete="off">
+      <button onclick="saveKey()">Lưu</button>
+    </div>
+    <div class="note">
+      💡 Lấy key <b>MIỄN PHÍ</b> tại: <b>aistudio.google.com/apikey</b><br>
+      🔒 Key chỉ lưu trong máy bạn.
+    </div>
+  </div>
+
+  <div class="card" id="inputSection">
+    <h2>📝 Nhập nội dung</h2>
+
+    <div class="tabs">
+      <div class="tab active" onclick="switchTab('text')" id="tabBtnText">✏️ Dán text</div>
+      <div class="tab" onclick="switchTab('image')" id="tabBtnImage">🖼️ Upload ảnh</div>
+      <div class="tab" onclick="switchTab('file')" id="tabBtnFile">📄 Upload file</div>
+    </div>
+
+    <div id="tabText" class="tab-content active">
+      <textarea id="sourceText" placeholder="Dán văn bản vào đây...&#10;&#10;App sẽ TRÍCH XUẤT tất cả câu hỏi có sẵn trong văn bản."></textarea>
+    </div>
+
+    <div id="tabImage" class="tab-content">
+      <div class="upload-zone" id="uploadZone">
+        <div class="icon">📸</div>
+        <p><strong>Bấm để chọn ảnh</strong></p>
+        <p style="font-size:12px;color:#999">Có thể chọn NHIỀU ảnh cùng lúc</p>
+        <p style="font-size:11px;color:#bbb">Hỗ trợ: JPG, PNG, WEBP</p>
+        <input type="file" id="imageInput" hidden accept="image/*" multiple>
+      </div>
+      <div id="imagePreview" class="image-preview"></div>
+      <div id="imageActions" style="display:none; margin-top:10px; gap:8px; align-items:center;">
+        <button class="warning small" onclick="clearAllImages()">🗑️ Xoá tất cả ảnh</button>
+        <span id="imageCount" style="flex:1; text-align:center; font-size:13px; color:#666;"></span>
+      </div>
+    </div>
+
+    <div id="tabFile" class="tab-content">
+      <div class="upload-zone" id="fileZone">
+        <div class="icon">📄</div>
+        <p><strong>Bấm để chọn file</strong></p>
+        <p style="font-size:12px;color:#999">Có thể chọn NHIỀU file cùng lúc</p>
+        <p style="font-size:11px;color:#bbb">Hỗ trợ: PDF, DOCX, TXT</p>
+        <input type="file" id="fileInput" hidden accept=".pdf,.docx,.doc,.txt,application/pdf,application/msword,application/vnd.openxmlformats-officedocument.wordprocessingml.document,text/plain" multiple>
+      </div>
+      <div id="fileInfo" style="display:none; margin-top:12px;">
+        <div id="fileList"></div>
+        <div style="margin-top:8px; padding:10px; background:#f0f7ff; border-left:4px solid #3498db; border-radius:8px; display:flex; justify-content:space-between; align-items:center; gap:10px;">
+          <div>
+            <div style="font-weight:700; color:#3498db; font-size:13px;" id="fileTotal">0 file</div>
+            <div style="font-size:11px; color:#666;" id="fileTotalMeta">0 ký tự</div>
+          </div>
+          <button class="danger small" onclick="clearAllFiles()">🗑️ Xoá tất cả</button>
+        </div>
+      </div>
+    </div>
+
+    <button class="ai" id="genBtn" onclick="generateQuiz()" disabled>✨ Trích xuất câu hỏi</button>
+
+    <div style="margin-top: 14px; border-top: 2px solid #eee; padding-top: 12px;">
+  <div style="display:flex; justify-content:space-between; align-items:center; margin-bottom: 8px;">
+    <div style="font-size: 13px; color: #764ba2; font-weight: 700;">💾 Đề đã lưu</div>
+    <div style="display:flex; gap:6px;">
+      <button class="success small" onclick="exportBackup()">⬇️ Xuất</button>
+      <button class="warning small" onclick="importBackup()">⬆️ Nhập</button>
+    </div>
+  </div>
+  <div id="savedQuizList" class="saved-quiz-list"></div>
+  <input type="file" id="backupInput" hidden accept=".json">
+</div>
+
+    <div class="loading" id="loading">
+      <div class="spinner"></div>
+      <div id="loadingText">AI đang phân tích...</div>
+    </div>
+  </div>
+
+  <div class="card hidden" id="quizSection">
+    <h2>📋 Bài trắc nghiệm</h2>
+
+    <div class="timer-bar" id="timerBar" style="display:none;">
+      <span><span class="timer-icon">⏱️</span><span id="timerText">40:00</span></span>
+      <span id="timerLabel" style="font-size:12px; opacity:0.9;"></span>
+    </div>
+
+    <div class="progress">
+      <div id="progressText">Câu 1/10</div>
+      <div class="progress-bar"><div class="progress-fill" id="progressFill"></div></div>
+    </div>
+    <div style="position:relative;">
+      <button class="btn-star" id="starBtn" onclick="toggleStar()" title="Đánh dấu câu khó">☆</button>
+      <div class="question" id="questionText"></div>
+    </div>
+    <div class="options" id="optionsBox"></div>
+    <div class="result-box" id="resultBox"></div>
+    <div class="explanation" id="explanationBox"></div>
+    <div class="tip-box" id="tipBox"></div>
+    <div class="btn-row">
+      <button class="success" id="nextBtn" onclick="nextQuestion()" disabled>Tiếp theo →</button>
+    </div>
+    <div class="btn-row">
+      <button class="warning small" onclick="shuffleAnswers()">🔄 Xáo đáp án</button>
+      <button class="warning small" onclick="shuffleQuestions()">🔀 Xáo câu hỏi</button>
+    </div>
+    <div class="btn-row">
+      <button class="danger small" onclick="restartQuiz()">🔄 Làm lại</button>
+      <button class="warning small" onclick="newQuiz()">📝 Đề mới</button>
+    </div>
+    <div class="btn-row">
+      <button class="success small" onclick="saveCurrentQuiz()">💾 Lưu đề ngay</button>
+    </div>
+  </div>
+
+  <div class="card hidden" id="finalSection">
+    <h2>🎉 Kết quả</h2>
+    <div class="final-box">
+      <div class="score" id="finalScore">0/10</div>
+      <div class="msg" id="finalMsg"></div>
+      <div class="stats-grid">
+        <div class="stat-item"><div class="num" id="statCorrect">0</div><div class="lbl">Đúng</div></div>
+        <div class="stat-item"><div class="num" id="statWrong" style="color:#e74c3c">0</div><div class="lbl">Sai</div></div>
+        <div class="stat-item"><div class="num" id="statPercent">0%</div><div class="lbl">Tỷ lệ</div></div>
+      </div>
+      <div class="review-list" id="reviewList"></div>
+      <div class="btn-row" style="margin-top:16px">
+        <button class="success" onclick="restartQuiz()">🔄 Làm lại</button>
+        <button class="warning" onclick="reviewWrongAnswers()">🎯 Ôn câu sai</button>
+      </div>
+      <div class="btn-row">
+        <button onclick="newQuiz()">📝 Đề mới</button>
+        <button class="warning" onclick="saveCurrentQuiz()">💾 Lưu đề</button>
+      </div>
+      <div class="btn-row">
+        <button style="background:linear-gradient(135deg,#f093fb,#f5576c); font-weight:700;" onclick="generateSimilarQuiz()">🎓 Tạo đề tương tự (30 câu)</button>
+      </div>
+    </div>
+  </div>
+</div>
+
+<div class="toast" id="toast"></div>
+
+<script type="module">
+// ================== FIREBASE SETUP ==================
+import { initializeApp } from 'https://www.gstatic.com/firebasejs/10.7.0/firebase-app.js';
+import { getFirestore, doc, getDoc } from 'https://www.gstatic.com/firebasejs/10.7.0/firebase-firestore.js';
+
+const fbApp = initializeApp(window.FIREBASE_CONFIG);
+const fbDb = getFirestore(fbApp);
+
+// ================== LICENSE KEY ==================
+window.checkLicenseKey = async function() {
+  const input = document.getElementById('licenseInput');
+  const errorEl = document.getElementById('keyError');
+  const btn = document.getElementById('keyBtn');
+
+  const key = input.value.trim();
+  if (!key) {
+    errorEl.textContent = '⚠️ Vui lòng nhập key';
+    return;
+  }
+
+  btn.disabled = true;
+  btn.textContent = '⏳ Đang kiểm tra...';
+  errorEl.textContent = '';
+
+  try {
+    const docRef = doc(fbDb, 'licenses_ktct', key);
+    const docSnap = await getDoc(docRef);
+
+    if (!docSnap.exists()) {
+      errorEl.textContent = '❌ Key không tồn tại';
+      btn.disabled = false;
+      btn.textContent = '✅ Xác nhận';
+      return;
+    }
+
+    const data = docSnap.data();
+
+    if (data.active !== true) {
+      errorEl.textContent = '❌ Key đã bị vô hiệu hóa';
+      btn.disabled = false;
+      btn.textContent = '✅ Xác nhận';
+      return;
+    }
+
+    if (data.expiredAt) {
+      const expired = new Date(data.expiredAt);
+      if (expired < new Date()) {
+        errorEl.textContent = '❌ Key đã hết hạn';
+        btn.disabled = false;
+        btn.textContent = '✅ Xác nhận';
+        return;
+      }
+    }
+
+    document.getElementById('keyScreen').style.display = 'none';
+    document.getElementById('mainApp').style.display = 'block';
+
+  } catch (err) {
+    console.error(err);
+    errorEl.textContent = '❌ Lỗi kết nối: ' + err.message;
+    btn.disabled = false;
+    btn.textContent = '✅ Xác nhận';
+  }
+};
+
+window.autoCheckLicense = async function() {
+  // Không tự động đăng nhập — luôn yêu cầu nhập key mỗi lần mở app
+  localStorage.removeItem('licenseKey_ktct');
+  return false;
+};
+
+window.logoutLicense = function() {
+  if (!confirm('Đăng xuất key? Bạn sẽ cần nhập lại key để vào app.')) return;
+  localStorage.removeItem('licenseKey_ktct');
+  location.reload();
+};
+
+// ================== BIẾN CHÍNH ==================
+const MODELS = ['gemini-3.8-flash', 'gemini-3.5-flash', 'gemini-3-flash-preview', 'gemini-3.1-pro-preview', 'gemini-3-pro-preview', 'gemini-flash-latest', 'gemini-pro-latest'];
+const CHUNK_SIZE = 5000;
+
+let questions = [];
+let current = 0;
+let score = 0;
+let answered = false;
+let userAnswers = [];
+let selectedImages = [];
+let currentTab = 'text';
+let uploadedFiles = [];
+let starredQuestions = new Set();
+let timerInterval = null;
+let timerSeconds = 0;
+let timerLimit = 40 * 60;
+
+const apiKeyInput = document.getElementById('apiKey');
+apiKeyInput.value = localStorage.getItem('geminiKey') || '';
+
+window.saveKey = function() {
+  const key = apiKeyInput.value.trim();
+  if (!key) return toast('Chưa nhập key!', 'error');
+  localStorage.setItem('geminiKey', key);
+  toast('✅ Đã lưu API key', 'success');
+};
+apiKeyInput.addEventListener('input', () => {
+  localStorage.setItem('geminiKey', apiKeyInput.value.trim());
+});
+
+let toastTimer;
+window.toast = function(msg, type) {
+  type = type || 'info';
+  const t = document.getElementById('toast');
+  t.textContent = msg;
+  t.className = 'toast show ' + type;
+  clearTimeout(toastTimer);
+  toastTimer = setTimeout(() => t.className = 'toast ' + type, 3500);
+};
+
+window.switchTab = function(tab) {
+  currentTab = tab;
+  document.getElementById('tabBtnText').classList.toggle('active', tab === 'text');
+  document.getElementById('tabBtnImage').classList.toggle('active', tab === 'image');
+  document.getElementById('tabBtnFile').classList.toggle('active', tab === 'file');
+  document.getElementById('tabText').classList.toggle('active', tab === 'text');
+  document.getElementById('tabImage').classList.toggle('active', tab === 'image');
+  document.getElementById('tabFile').classList.toggle('active', tab === 'file');
+  updateGenBtn();
+};
+
+// ================== DARK MODE ==================
+window.toggleDark = function() {
+  const isDark = !document.body.classList.contains('dark');
+  document.body.classList.toggle('dark', isDark);
+  document.getElementById('darkToggle').textContent = isDark ? '☀️' : '🌙';
+  localStorage.setItem('darkMode', isDark ? '1' : '0');
+};
+
+(function() {
+  if (localStorage.getItem('darkMode') === '1') {
+    document.body.classList.add('dark');
+    document.getElementById('darkToggle').textContent = '☀️';
+  }
+})();
+
+// ================== STAR ==================
+window.toggleStar = function() {
+  const btn = document.getElementById('starBtn');
+  if (starredQuestions.has(current)) {
+    starredQuestions.delete(current);
+    btn.textContent = '☆';
+    btn.classList.remove('starred');
+    toast('Đã bỏ đánh dấu', 'info');
+  } else {
+    starredQuestions.add(current);
+    btn.textContent = '★';
+    btn.classList.add('starred');
+    toast('⭐ Đã đánh dấu câu khó', 'success');
+  }
+  saveStarred();
+};
+
+function saveStarred() {
+  localStorage.setItem('starredQuestions', JSON.stringify(Array.from(starredQuestions)));
+}
+
+function loadStarred() {
+  try {
+    const saved = JSON.parse(localStorage.getItem('starredQuestions') || '[]');
+    starredQuestions = new Set(saved);
+  } catch (e) {
+    starredQuestions = new Set();
+  }
+}
+
+function updateStarButton() {
+  const btn = document.getElementById('starBtn');
+  if (starredQuestions.has(current)) {
+    btn.textContent = '★';
+    btn.classList.add('starred');
+  } else {
+    btn.textContent = '☆';
+    btn.classList.remove('starred');
+  }
+}
+
+// ================== TIMER ==================
+function startTimer() {
+  stopTimer();
+  timerSeconds = timerLimit;
+  updateTimerDisplay();
+  document.getElementById('timerBar').style.display = 'flex';
+
+  timerInterval = setInterval(() => {
+    timerSeconds--;
+    updateTimerDisplay();
+
+    if (timerSeconds <= 0) {
+      stopTimer();
+      alert('⏰ Hết giờ! Hệ thống sẽ tự động nộp bài.');
+      finishQuiz();
+    }
+  }, 1000);
+}
+
+function stopTimer() {
+  if (timerInterval) {
+    clearInterval(timerInterval);
+    timerInterval = null;
+  }
+}
+
+function updateTimerDisplay() {
+  const bar = document.getElementById('timerBar');
+  const text = document.getElementById('timerText');
+  const label = document.getElementById('timerLabel');
+
+  const min = Math.floor(timerSeconds / 60);
+  const sec = timerSeconds % 60;
+  text.textContent = String(min).padStart(2, '0') + ':' + String(sec).padStart(2, '0');
+
+  bar.classList.remove('warning', 'danger');
+  if (timerSeconds <= 60) {
+    bar.classList.add('danger');
+    label.textContent = 'SẮP HẾT!';
+  } else if (timerSeconds <= 5 * 60) {
+    bar.classList.add('warning');
+    label.textContent = 'Còn 5 phút';
+  } else {
+    label.textContent = '';
+  }
+}
+
+async function askQuizTime() {
+  const input = prompt('⏱️ Thời gian làm bài (phút). Để 0 nếu không giới hạn:', 40);
+  if (input === null) return null;
+  const min = parseInt(input);
+  if (isNaN(min) || min < 0) {
+    toast('Thời gian không hợp lệ. Mặc định 40 phút.', 'error');
+    return 40 * 60;
+  }
+  return min * 60;
+}
+
+// ================== ÔN CÂU SAI ==================
+window.reviewWrongAnswers = function() {
+  const wrongQuestions = userAnswers
+    .filter(a => !a.isCorrect)
+    .map(a => questions.find(q => q.question === a.question))
+    .filter(q => q);
+
+  if (wrongQuestions.length === 0) {
+    toast('🎉 Bạn không có câu sai nào!', 'success');
+    return;
+  }
+
+  if (!confirm('Bắt đầu ôn ' + wrongQuestions.length + ' câu sai?')) return;
+
+  questions = wrongQuestions;
+  current = 0;
+  score = 0;
+  userAnswers = [];
+  answered = false;
+  starredQuestions.clear();
+
+  document.getElementById('finalSection').classList.add('hidden');
+  document.getElementById('quizSection').classList.remove('hidden');
+
+  renderQuestion();
+  startTimer();
+  toast('🎯 Bắt đầu ôn ' + questions.length + ' câu sai', 'info');
+  window.scrollTo({ top: 0, behavior: 'smooth' });
+};
+
+// ================== TẠO ĐỀ TƯƠNG TỰ ==================
+window.generateSimilarQuiz = async function() {
+  const apiKey = (localStorage.getItem('geminiKey') || '').trim();
+  if (!apiKey) {
+    toast('Chưa nhập API key!', 'error');
+    return;
+  }
+
+  if (questions.length === 0) {
+    toast('Chưa có đề gốc để tạo tương tự!', 'error');
+    return;
+  }
+
+  const numInput = prompt('🎓 Tạo bao nhiêu câu hỏi TƯƠNG TỰ?\n\n(Đề gốc có ' + questions.length + ' câu)', '30');
+  if (numInput === null) return;
+
+  const num = parseInt(numInput);
+  if (isNaN(num) || num < 1 || num > 50) {
+    toast('Số câu không hợp lệ (1-50)', 'error');
+    return;
+  }
+
+  const loading = document.getElementById('loading');
+  const loadingText = document.getElementById('loadingText');
+  loading.classList.add('show');
+  loadingText.textContent = '🎓 AI đang tạo ' + num + ' câu tương tự...';
+  window.scrollTo({ top: 0, behavior: 'smooth' });
+
+  try {
+    const sampleCount = Math.min(5, questions.length);
+    const samples = questions.slice(0, sampleCount).map(q =>
+      'Câu hỏi: ' + q.question + '\n' +
+      'Đáp án: ' + q.options.map((o, i) => String.fromCharCode(65 + i) + '. ' + o).join(' | ') + '\n' +
+      'Đáp án đúng: ' + String.fromCharCode(65 + q.correct)
+    ).join('\n\n---\n\n');
+
+    const promptText = 'Bạn là chuyên gia tạo đề trắc nghiệm.\n\n' +
+      '=== ĐỀ GỐC (mẫu) ===\n' + samples + '\n\n' +
+      '=== NHIỆM VỤ ===\n' +
+      'Dựa vào các câu hỏi mẫu trên, hãy TẠO MỚI ' + num + ' câu hỏi TRẮC NGHIỆM TƯƠNG TỰ.\n\n' +
+      'YÊU CẦU:\n' +
+      '1. Cùng CHỦ ĐỀ, cùng DẠNG với đề gốc\n' +
+      '2. KHÔNG copy y nguyên câu gốc — phải viết câu MỚI\n' +
+      '3. Mỗi câu có 4 đáp án A/B/C/D, chỉ 1 đáp án đúng\n' +
+      '4. Có giải thích ngắn cho đáp án đúng\n' +
+      '5. Đáp án nhiễu hợp lý, không quá dễ đoán\n' +
+      '6. Đa dạng nội dung, không lặp lại\n\n' +
+      '=== FORMAT JSON (CHỈ TRẢ VỀ JSON) ===\n' +
+      '{\n' +
+      '  "questions": [\n' +
+      '    {\n' +
+      '      "question": "Câu hỏi mới?",\n' +
+      '      "options": ["A", "B", "C", "D"],\n' +
+      '      "correct": 0,\n' +
+      '      "explanation": "Giải thích tại sao đáp án này đúng..."\n' +
+      '    }\n' +
+      '  ]\n' +
+      '}';
+
+    let res = null;
+    let lastErr = 'Không model nào chạy được.';
+
+    for (const modelName of MODELS) {
+      loadingText.textContent = 'Đang thử ' + modelName + '...';
+      const url = 'https://generativelanguage.googleapis.com/v1beta/models/' + modelName + ':generateContent?key=' + apiKey;
+
+      try {
+        res = await fetch(url, {
+          method: 'POST',
+          headers: { 'Content-Type': 'application/json' },
+          body: JSON.stringify({
+            contents: [{ parts: [{ text: promptText }] }],
+            generationConfig: {
+              temperature: 0.9,
+              responseMimeType: 'application/json',
+              maxOutputTokens: 32000
+            }
+          })
+        });
+
+        if (res.ok) break;
+        const errData = await res.json().catch(() => ({}));
+        lastErr = (errData.error && errData.error.message) || ('Lỗi ' + res.status);
+        if (res.status === 503 || res.status === 429 || res.status === 500) {
+          await new Promise(r => setTimeout(r, 800));
+          continue;
+        } else break;
+      } catch (e) {
+        lastErr = e.message;
+        continue;
+      }
+    }
+
+    if (!res || !res.ok) throw new Error(lastErr);
+
+    const data = await res.json();
+    let responseText = (data.candidates && data.candidates[0] && data.candidates[0].content &&
+                        data.candidates[0].content.parts && data.candidates[0].content.parts[0].text) || '';
+
+    responseText = responseText.replace(/```json\s*|\s*```/g, '').trim();
+
+    let parsed = null;
+    try {
+      const match = responseText.match(/\{[\s\S]*\}/);
+      if (match) parsed = JSON.parse(match[0]);
+    } catch (e) {
+      let fixed = responseText;
+      const lastCompleteObj = fixed.lastIndexOf('}');
+      if (lastCompleteObj > 0) fixed = fixed.slice(0, lastCompleteObj + 1);
+      if (!fixed.includes(']}')) {
+        fixed = fixed.replace(/,\s*$/, '');
+        fixed += ']}';
+      }
+      try {
+        const match2 = fixed.match(/\{[\s\S]*\}/);
+        if (match2) parsed = JSON.parse(match2[0]);
+      } catch (e2) {}
+    }
+
+    if (!parsed || !parsed.questions || !Array.isArray(parsed.questions) || parsed.questions.length === 0) {
+      throw new Error('AI không tạo được câu hỏi tương tự');
+    }
+
+    const newQuestions = parsed.questions.map(q => ({
+      question: String(q.question || '').trim(),
+      options: Array.isArray(q.options)
+        ? q.options.map(o => String(o).trim().replace(/^[A-D][\.\)\:]?\s+/, ''))
+        : [],
+      correct: parseInt(q.correct) || 0,
+      explanation: String(q.explanation || '').trim()
+    })).filter(q => q.question && q.options.length >= 2);
+
+    if (newQuestions.length === 0) throw new Error('Dữ liệu không hợp lệ');
+
+    if (!confirm('🎓 AI đã tạo ' + newQuestions.length + ' câu tương tự.\n\nLàm đề mới ngay?')) {
+      loading.classList.remove('show');
+      return;
+    }
+
+    questions = newQuestions;
+    current = 0;
+    score = 0;
+    userAnswers = [];
+    answered = false;
+    starredQuestions.clear();
+
+    const timeLimit = await askQuizTime();
+    if (timeLimit === null) {
+      loading.classList.remove('show');
+      return;
+    }
+    timerLimit = timeLimit;
+
+    document.getElementById('finalSection').classList.add('hidden');
+    document.getElementById('quizSection').classList.remove('hidden');
+
+    renderQuestion();
+
+    if (timerLimit > 0) {
+      startTimer();
+    } else {
+      document.getElementById('timerBar').style.display = 'none';
+    }
+
+    toast('✅ Đã tạo ' + questions.length + ' câu tương tự!', 'success');
+    window.scrollTo({ top: 0, behavior: 'smooth' });
+
+  } catch (err) {
+    console.error(err);
+    toast('Lỗi: ' + err.message, 'error');
+  } finally {
+    loading.classList.remove('show');
+  }
+};
+
+// ================== LƯU ĐỀ ==================
+window.saveCurrentQuiz = function() {
+  if (questions.length === 0) {
+    toast('Chưa có đề để lưu!', 'error');
+    return;
+  }
+
+  const defaultName = 'Đề ' + questions.length + ' câu - ' + new Date().toLocaleDateString('vi-VN');
+  const name = prompt('Đặt tên cho đề:', defaultName);
+  if (!name) return;
+
+  const saved = JSON.parse(localStorage.getItem('savedQuizzes') || '[]');
+  const existed = saved.find(q => q.name.toLowerCase() === name.trim().toLowerCase());
+  if (existed && !confirm('Đã có đề tên "' + name + '". Ghi đè?')) return;
+
+  const filtered = saved.filter(q => q.name.toLowerCase() !== name.trim().toLowerCase());
+
+  filtered.push({
+    id: Date.now(),
+    name: name.trim(),
+    questions: questions,
+    createdAt: new Date().toISOString(),
+    count: questions.length
+  });
+
+  if (filtered.length > 30) filtered.shift();
+
+  localStorage.setItem('savedQuizzes', JSON.stringify(filtered));
+  toast('💾 Đã lưu đề "' + name + '"', 'success');
+  renderSavedQuizzes();
+};
+
+window.loadSavedQuiz = function(id) {
+  const saved = JSON.parse(localStorage.getItem('savedQuizzes') || '[]');
+  const quiz = saved.find(q => q.id === id);
+  if (!quiz) return;
+
+  if (!confirm('Mở đề "' + quiz.name + '" (' + quiz.count + ' câu)?\n\nSẽ đóng đề hiện tại.')) return;
+
+  questions = quiz.questions;
+  current = 0;
+  score = 0;
+  userAnswers = [];
+  answered = false;
+  starredQuestions.clear();
+
+  document.getElementById('inputSection').classList.add('hidden');
+  document.getElementById('finalSection').classList.add('hidden');
+  document.getElementById('quizSection').classList.remove('hidden');
+
+  renderQuestion();
+  startTimer();
+  toast('✅ Đã mở đề "' + quiz.name + '"', 'success');
+  window.scrollTo({ top: 0, behavior: 'smooth' });
+};
+
+window.deleteSavedQuiz = function(id) {
+  if (!confirm('Xoá đề này?')) return;
+  const saved = JSON.parse(localStorage.getItem('savedQuizzes') || '[]');
+  const filtered = saved.filter(q => q.id !== id);
+  localStorage.setItem('savedQuizzes', JSON.stringify(filtered));
+  renderSavedQuizzes();
+  toast('Đã xoá đề', 'info');
+};
+window.exportBackup = async function() {
+  const savedQuizzes = JSON.parse(localStorage.getItem('savedQuizzes') || '[]');
+  const starredQuestions = JSON.parse(localStorage.getItem('starredQuestions') || '[]');
+  const tipCache = {};
+  for (let i = 0; i < localStorage.length; i++) {
+    const key = localStorage.key(i);
+    if (key && key.startsWith('tipCache_')) tipCache[key] = localStorage.getItem(key);
+  }
+  if (savedQuizzes.length === 0 && Object.keys(tipCache).length === 0) {
+    toast('Chưa có dữ liệu để xuất!', 'error'); return;
+  }
+  const backup = { version: 1, exportedAt: new Date().toISOString(), app: 'AI-Trac-Nghiem-KTCT',
+    data: { savedQuizzes, starredQuestions, tipCache } };
+  const jsonStr = JSON.stringify(backup, null, 2);
+  const filename = 'de-thi-backup-' + new Date().toISOString().slice(0,10) + '.json';
+
+  // Ưu tiên share sheet iOS (chạy trong Koder, Safari mobile...)
+  try {
+    if (navigator.canShare && navigator.share) {
+      const file = new File([jsonStr], filename, { type: 'application/json' });
+      if (navigator.canShare({ files: [file] })) {
+        await navigator.share({
+          files: [file],
+          title: 'Backup đề thi',
+          text: 'File backup đề trắc nghiệm — ' + savedQuizzes.length + ' đề'
+        });
+        toast('✅ Đã chia sẻ: ' + savedQuizzes.length + ' đề', 'success');
+        return;
+      }
+    }
+  } catch (err) {
+    if (err.name === 'AbortError') return; // user huỷ
+    console.warn('Share sheet fail, fallback tải file', err);
+  }
+
+  // Fallback: tải file truyền thống (dùng cho desktop browser)
+  const blob = new Blob([jsonStr], { type: 'application/json' });
+  const url = URL.createObjectURL(blob);
+  const a = document.createElement('a');
+  a.href = url; a.download = filename;
+  document.body.appendChild(a); a.click(); document.body.removeChild(a);
+  URL.revokeObjectURL(url);
+  toast('✅ Đã xuất: ' + savedQuizzes.length + ' đề', 'success');
+};
+
+window.importBackup = function() { document.getElementById('backupInput').click(); };
+
+document.getElementById('backupInput').addEventListener('change', async (e) => {
+  const file = e.target.files[0]; if (!file) return;
+  try {
+    const backup = JSON.parse(await file.text());
+    if (!backup.data || !backup.data.savedQuizzes) throw new Error('File không đúng định dạng');
+    const mode = confirm('OK = GỘP (giữ đề cũ)\nCancel = GHI ĐÈ (xóa hết)');
+    if (mode) {
+      const old = JSON.parse(localStorage.getItem('savedQuizzes') || '[]');
+      const names = new Set(old.map(q => q.name.toLowerCase()));
+      const add = (backup.data.savedQuizzes || []).map(q => {
+        if (names.has(q.name.toLowerCase())) { q.name += ' (từ backup)'; q.id = Date.now() + Math.random()*10000; }
+        return q;
+      });
+      localStorage.setItem('savedQuizzes', JSON.stringify(old.concat(add).slice(-100)));
+      const s = new Set(JSON.parse(localStorage.getItem('starredQuestions') || '[]'));
+      (backup.data.starredQuestions || []).forEach(i => s.add(i));
+      localStorage.setItem('starredQuestions', JSON.stringify([...s]));
+      Object.entries(backup.data.tipCache || {}).forEach(([k,v]) => { if (!localStorage.getItem(k)) localStorage.setItem(k,v); });
+      toast('✅ Gộp ' + add.length + ' đề', 'success');
+    } else {
+      localStorage.setItem('savedQuizzes', JSON.stringify(backup.data.savedQuizzes || []));
+      localStorage.setItem('starredQuestions', JSON.stringify(backup.data.starredQuestions || []));
+      Object.entries(backup.data.tipCache || {}).forEach(([k,v]) => localStorage.setItem(k,v));
+      toast('✅ Ghi đè ' + (backup.data.savedQuizzes?.length || 0) + ' đề', 'success');
+    }
+    renderSavedQuizzes(); loadStarred();
+  } catch (err) { toast('❌ ' + err.message, 'error'); }
+  e.target.value = '';
+});
+
+function renderSavedQuizzes() {
+  const list = document.getElementById('savedQuizList');
+  if (!list) return;
+  const saved = JSON.parse(localStorage.getItem('savedQuizzes') || '[]');
+
+  if (saved.length === 0) {
+    list.innerHTML = '<div style="text-align:center; color:#9ca3af; font-size:13px; padding:10px;">Chưa có đề nào được lưu</div>';
+    return;
+  }
+
+  list.innerHTML = '';
+  saved.forEach(q => {
+    const div = document.createElement('div');
+    div.className = 'saved-quiz-item';
+    const date = new Date(q.createdAt).toLocaleDateString('vi-VN');
+    div.innerHTML =
+      '<div class="info">' +
+        '<div class="name">📝 ' + escapeHtml(q.name) + '</div>' +
+        '<div class="meta">' + q.count + ' câu · ' + date + '</div>' +
+      '</div>' +
+      '<div class="actions">' +
+        '<button class="success small" onclick="loadSavedQuiz(' + q.id + ')">▶️</button>' +
+        '<button class="danger small" onclick="deleteSavedQuiz(' + q.id + ')">✕</button>' +
+      '</div>';
+    list.appendChild(div);
+  });
+}
+
+// ================== UPLOAD ẢNH ==================
+const uploadZone = document.getElementById('uploadZone');
+const imageInput = document.getElementById('imageInput');
+
+uploadZone.onclick = () => imageInput.click();
+
+imageInput.onchange = (e) => {
+  const files = Array.from(e.target.files);
+  if (!files.length) return;
+
+  files.forEach(file => {
+    if (file.size > 10 * 1024 * 1024) {
+      toast('Ảnh "' + file.name + '" quá lớn (tối đa 10MB)', 'error');
+      return;
+    }
+    const reader = new FileReader();
+    reader.onload = (ev) => {
+      compressImage(ev.target.result, function(compressed) {
+        selectedImages.push({
+          name: file.name,
+          type: 'image/jpeg',
+          data: compressed.split(',')[1]
+        });
+        renderImagePreview();
+      });
+    };
+    reader.readAsDataURL(file);
+  });
+
+  imageInput.value = '';
+};
+
+function renderImagePreview() {
+  const preview = document.getElementById('imagePreview');
+  const actions = document.getElementById('imageActions');
+  const count = document.getElementById('imageCount');
+
+  preview.innerHTML = '';
+  if (selectedImages.length === 0) {
+    actions.style.display = 'none';
+    return;
+  }
+
+  actions.style.display = 'flex';
+  count.textContent = selectedImages.length + ' ảnh đã chọn';
+
+  selectedImages.forEach((img, idx) => {
+    const div = document.createElement('div');
+    div.className = 'image-thumb';
+    div.innerHTML =
+      '<img src="data:' + img.type + ';base64,' + img.data + '" alt="">' +
+      '<button class="thumb-del" onclick="removeImage(' + idx + ')">✕</button>';
+    preview.appendChild(div);
+  });
+
+  updateGenBtn();
+}
+
+window.removeImage = function(idx) {
+  selectedImages.splice(idx, 1);
+  renderImagePreview();
+  updateGenBtn();
+};
+
+window.clearAllImages = function() {
+  if (!confirm('Xoá tất cả ảnh đã chọn?')) return;
+  selectedImages = [];
+  renderImagePreview();
+  updateGenBtn();
+};
+
+// ================== UPLOAD FILE ==================
+const fileZone = document.getElementById('fileZone');
+const fileInput = document.getElementById('fileInput');
+
+fileZone.onclick = () => fileInput.click();
+
+fileInput.onchange = async (e) => {
+  const files = Array.from(e.target.files);
+  if (!files.length) return;
+
+  const loading = document.getElementById('loading');
+  const loadingText = document.getElementById('loadingText');
+  loading.classList.add('show');
+  loadingText.textContent = 'Đang đọc ' + files.length + ' file...';
+  document.getElementById('fileInfo').style.display = 'block';
+
+  for (let i = 0; i < files.length; i++) {
+    const file = files[i];
+
+    if (file.size > 20 * 1024 * 1024) {
+      toast('File "' + file.name + '" quá lớn — bỏ qua', 'error');
+      continue;
+    }
+
+    loadingText.textContent = 'Đang đọc file ' + (i + 1) + '/' + files.length + ': ' + file.name;
+
+    const name = file.name.toLowerCase();
+    let text = '';
+
+    try {
+      if (name.endsWith('.pdf') || file.type === 'application/pdf') {
+        text = await extractPDF(file);
+      } else if (name.endsWith('.docx') || name.endsWith('.doc')) {
+        text = await extractDOCX(file);
+      } else if (name.endsWith('.txt') || file.type === 'text/plain') {
+        text = await file.text();
+      } else {
+        toast('File "' + file.name + '" không hỗ trợ', 'error');
+        continue;
+      }
+
+      if (!text || text.trim().length < 50) {
+        toast('File "' + file.name + '" có ít text', 'error');
+      }
+
+      uploadedFiles.push({
+        name: file.name,
+        size: file.size,
+        text: text.trim(),
+        chars: text.trim().length
+      });
+
+    } catch (err) {
+      console.error(err);
+      toast('Lỗi đọc "' + file.name + '": ' + err.message, 'error');
+    }
+  }
+
+  loading.classList.remove('show');
+  fileInput.value = '';
+
+  renderFileList();
+  updateGenBtn();
+
+  if (uploadedFiles.length > 0) {
+    toast('✅ Đã đọc ' + uploadedFiles.length + ' file', 'success');
+  }
+};
+
+function renderFileList() {
+  const list = document.getElementById('fileList');
+  const info = document.getElementById('fileInfo');
+
+  list.innerHTML = '';
+
+  if (uploadedFiles.length === 0) {
+    info.style.display = 'none';
+    return;
+  }
+
+  info.style.display = 'block';
+
+  uploadedFiles.forEach((f, idx) => {
+    const div = document.createElement('div');
+    div.style.cssText = 'display:flex; justify-content:space-between; align-items:center; gap:10px; padding:10px 12px; background:#f0f7ff; border-left:4px solid #3498db; border-radius:8px; margin-bottom:6px;';
+    div.innerHTML =
+      '<div style="flex:1; min-width:0;">' +
+        '<div style="font-weight:700; color:#333; font-size:13px; word-break:break-all;">📄 ' + escapeHtml(f.name) + '</div>' +
+        '<div style="font-size:11px; color:#666;">' + f.chars.toLocaleString('vi-VN') + ' ký tự · ' + (f.size/1024).toFixed(0) + ' KB</div>' +
+      '</div>' +
+      '<button class="danger small" onclick="removeFile(' + idx + ')">✖</button>';
+    list.appendChild(div);
+  });
+
+  const totalChars = uploadedFiles.reduce((sum, f) => sum + f.chars, 0);
+  document.getElementById('fileTotal').textContent = uploadedFiles.length + ' file';
+  document.getElementById('fileTotalMeta').textContent = totalChars.toLocaleString('vi-VN') + ' ký tự';
+}
+
+window.removeFile = function(idx) {
+  uploadedFiles.splice(idx, 1);
+  renderFileList();
+  updateGenBtn();
+};
+
+window.clearAllFiles = function() {
+  if (!confirm('Xoá tất cả file?')) return;
+  uploadedFiles = [];
+  fileInput.value = '';
+  renderFileList();
+  updateGenBtn();
+};
+
+async function extractPDF(file) {
+  const arrayBuffer = await file.arrayBuffer();
+  const pdf = await pdfjsLib.getDocument({ data: arrayBuffer }).promise;
+  let fullText = '';
+
+  for (let i = 1; i <= pdf.numPages; i++) {
+    document.getElementById('loadingText').textContent = 'Đang đọc ' + file.name + ' - trang ' + i + '/' + pdf.numPages;
+    const page = await pdf.getPage(i);
+    const content = await page.getTextContent();
+    let pageText = '';
+    content.items.forEach(item => { pageText += item.str + ' '; });
+    fullText += '\n' + pageText;
+  }
+
+  return fullText.trim();
+}
+
+async function extractDOCX(file) {
+  const arrayBuffer = await file.arrayBuffer();
+  const result = await mammoth.extractRawText({ arrayBuffer: arrayBuffer });
+  return result.value;
+}
+
+function compressImage(dataUrl, callback) {
+  const img = new Image();
+  img.onload = function() {
+    const canvas = document.createElement('canvas');
+    const maxSize = 1200;
+    let w = img.width, h = img.height;
+    if (w > h) {
+      if (w > maxSize) { h = h * maxSize / w; w = maxSize; }
+    } else {
+      if (h > maxSize) { w = w * maxSize / h; h = maxSize; }
+    }
+    canvas.width = w;
+    canvas.height = h;
+    const ctx = canvas.getContext('2d');
+    ctx.drawImage(img, 0, 0, w, h);
+    callback(canvas.toDataURL('image/jpeg', 0.7));
+  };
+  img.onerror = function() { callback(dataUrl); };
+  img.src = dataUrl;
+}
+
+function updateGenBtn() {
+  const text = document.getElementById('sourceText').value.trim();
+  const btn = document.getElementById('genBtn');
+  const hasContent =
+    (currentTab === 'text' && text.length >= 50) ||
+    (currentTab === 'image' && selectedImages.length > 0) ||
+    (currentTab === 'file' && uploadedFiles.length > 0);
+  btn.disabled = !hasContent;
+}
+
+document.getElementById('sourceText').addEventListener('input', updateGenBtn);
+
+// ================== GỌI AI ==================
+async function callAIWithFallback(parts, apiKey, loadingText) {
+  let lastErr = 'Không model nào chạy được.';
+
+  for (const modelName of MODELS) {
+    if (loadingText) loadingText.textContent = 'Đang thử ' + modelName + '...';
+    const url = 'https://generativelanguage.googleapis.com/v1beta/models/' + modelName + ':generateContent?key=' + apiKey;
+
+    try {
+      const res = await fetch(url, {
+        method: 'POST',
+        headers: { 'Content-Type': 'application/json' },
+        body: JSON.stringify({
+          contents: [{ parts }],
+          generationConfig: {
+            temperature: 0.3,
+            responseMimeType: 'application/json',
+            maxOutputTokens: 32000
+          }
+        })
+      });
+
+      if (!res.ok) {
+        const errData = await res.json().catch(() => ({}));
+        lastErr = (errData.error && errData.error.message) || ('Lỗi ' + res.status);
+        if (res.status === 503 || res.status === 429 || res.status === 500) {
+          await new Promise(r => setTimeout(r, 800));
+          continue;
+        } else {
+          continue;
+        }
+      }
+
+      const data = await res.json();
+      let responseText = (data.candidates && data.candidates[0] && data.candidates[0].content &&
+                          data.candidates[0].content.parts && data.candidates[0].content.parts[0].text) || '';
+
+      responseText = responseText.replace(/```json\s*|\s*```/g, '').trim();
+
+      let parsed = null;
+      try {
+        const match = responseText.match(/\{[\s\S]*\}/);
+        if (match) parsed = JSON.parse(match[0]);
+      } catch (e) {
+        let fixed = responseText;
+        const lastCompleteObj = fixed.lastIndexOf('}');
+        if (lastCompleteObj > 0) fixed = fixed.slice(0, lastCompleteObj + 1);
+        if (!fixed.includes(']}')) {
+          fixed = fixed.replace(/,\s*$/, '');
+          fixed += ']}';
+        }
+        try {
+          const match2 = fixed.match(/\{[\s\S]*\}/);
+          if (match2) parsed = JSON.parse(match2[0]);
+        } catch (e2) {}
+      }
+
+      if (!parsed || !parsed.questions || !Array.isArray(parsed.questions)) continue;
+
+      return parsed.questions.map(q => ({
+        question: String(q.question || '').trim(),
+        options: Array.isArray(q.options)
+          ? q.options.map(o => String(o).trim().replace(/^[A-D][\.\)\:]?\s+/, ''))
+          : [],
+        correct: parseInt(q.correct) || 0,
+        explanation: String(q.explanation || '').trim()
+      })).filter(q => q.question && q.options.length >= 2);
+
+    } catch (e) {
+      lastErr = e.message;
+      continue;
+    }
+  }
+
+  throw new Error(lastErr);
+}
+
+// ================== GENERATE QUIZ ==================
+window.generateQuiz = async function() {
+  const apiKey = (localStorage.getItem('geminiKey') || '').trim();
+  if (!apiKey) {
+    toast('Chưa nhập API key!', 'error');
+    window.scrollTo({ top: 0, behavior: 'smooth' });
+    return;
+  }
+
+  let sourceContent = '';
+  let imageParts = null;
+
+  if (currentTab === 'text') {
+    sourceContent = document.getElementById('sourceText').value.trim();
+    if (sourceContent.length < 50) {
+      toast('Văn bản quá ngắn!', 'error');
+      return;
+    }
+  } else if (currentTab === 'file') {
+    if (uploadedFiles.length === 0) {
+      toast('Chưa chọn file!', 'error');
+      return;
+    }
+    uploadedFiles.forEach((f, idx) => {
+      sourceContent += '\n\n=== FILE ' + (idx + 1) + ': ' + f.name + ' ===\n\n';
+      sourceContent += f.text;
+    });
+  } else {
+    if (selectedImages.length === 0) {
+      toast('Chưa chọn ảnh!', 'error');
+      return;
+    }
+    imageParts = selectedImages.map(img => ({
+      inlineData: { data: img.data, mimeType: img.type || 'image/jpeg' }
+    }));
+    sourceContent = 'IMAGE_MODE';
+  }
+
+  const loading = document.getElementById('loading');
+  const loadingText = document.getElementById('loadingText');
+  const btn = document.getElementById('genBtn');
+
+  loading.classList.add('show');
+  btn.disabled = true;
+
+  let allQuestions = [];
+
+  try {
+    if (imageParts) {
+      loadingText.textContent = 'AI đang đọc ' + selectedImages.length + ' ảnh...';
+      const promptText = buildPrompt('(Nội dung nằm trong ảnh)');
+      const parts = [{ text: promptText }, ...imageParts];
+      const result = await callAIWithFallback(parts, apiKey, loadingText);
+      allQuestions = result;
+    } else {
+      const chunks = [];
+      if (sourceContent.length > CHUNK_SIZE) {
+        let start = 0;
+        while (start < sourceContent.length) {
+          chunks.push(sourceContent.slice(start, start + CHUNK_SIZE));
+          start += CHUNK_SIZE;
+        }
+      } else {
+        chunks.push(sourceContent);
+      }
+
+      for (let i = 0; i < chunks.length; i++) {
+        loadingText.textContent = 'Đang xử lý phần ' + (i + 1) + '/' + chunks.length + '...';
+        const promptText = buildPrompt(
+          'Đây là PHẦN ' + (i + 1) + '/' + chunks.length + '. Chỉ trích xuất câu hỏi có trong phần này.\n\n' + chunks[i]
+        );
+        const result = await callAIWithFallback([{ text: promptText }], apiKey, loadingText);
+        allQuestions = allQuestions.concat(result);
+
+        if (i < chunks.length - 1) {
+          await new Promise(r => setTimeout(r, 1000));
+        }
+      }
+    }
+
+    if (allQuestions.length === 0) throw new Error('Không trích xuất được câu hỏi nào');
+
+    const seen = new Set();
+    questions = allQuestions.filter(q => {
+      const key = q.question.substring(0, 80);
+      if (seen.has(key)) return false;
+      seen.add(key);
+      return true;
+    });
+
+    const timeLimit = await askQuizTime();
+    if (timeLimit === null) {
+      loading.classList.remove('show');
+      btn.disabled = false;
+      return;
+    }
+    timerLimit = timeLimit;
+
+    current = 0;
+    score = 0;
+    userAnswers = [];
+    starredQuestions.clear();
+
+    document.getElementById('inputSection').classList.add('hidden');
+    document.getElementById('quizSection').classList.remove('hidden');
+    document.getElementById('finalSection').classList.add('hidden');
+
+    renderQuestion();
+
+    if (timerLimit > 0) {
+      startTimer();
+    } else {
+      document.getElementById('timerBar').style.display = 'none';
+    }
+
+    toast('✅ Đã trích xuất ' + questions.length + ' câu hỏi!', 'success');
+    window.scrollTo({ top: 0, behavior: 'smooth' });
+
+  } catch (err) {
+    console.error(err);
+    toast('Lỗi: ' + err.message, 'error');
+  } finally {
+    loading.classList.remove('show');
+    btn.disabled = false;
+  }
+};
+
+function buildPrompt(content) {
+  return 'Bạn là trợ lý TRÍCH XUẤT đề trắc nghiệm. Nhiệm vụ: COPY TẤT CẢ câu hỏi có sẵn trong file, KHÔNG sáng tác.\n\n' +
+    '=== NỘI DUNG ===\n' + content + '\n\n' +
+    '=== QUY TẮC (BẮT BUỘC) ===\n' +
+    '1. Đọc TOÀN BỘ, tìm TẤT CẢ câu hỏi trắc nghiệm\n' +
+    '2. COPY Y NGUYÊN câu hỏi\n' +
+    '3. COPY Y NGUYÊN đáp án A/B/C/D\n' +
+    '4. Nếu câu hỏi KHÔNG có đáp án → tự tạo 4 đáp án\n' +
+    '5. Số câu trả về = ĐÚNG số câu trong phần này\n' +
+    '6. KHÔNG sáng tác câu hỏi mới\n\n' +
+    '=== XÁC ĐỊNH ĐÁP ÁN ĐÚNG ===\n' +
+    'Tìm dấu hiệu: in đậm, *, ✓, "Đáp án: X", hoặc mục "ĐÁP ÁN" cuối file.\n\n' +
+    '=== FORMAT JSON (CHỈ TRẢ VỀ JSON) ===\n' +
+    '{\n' +
+    '  "questions": [\n' +
+    '    {\n' +
+    '      "question": "Câu hỏi nguyên văn",\n' +
+    '      "options": ["A", "B", "C", "D"],\n' +
+    '      "correct": 0,\n' +
+    '      "explanation": "Giải thích tại sao..."\n' +
+    '    }\n' +
+    '  ]\n' +
+    '}\n\n' +
+    '"correct" là chỉ số 0/1/2/3. Trả về ĐẦY ĐỦ tất cả câu hỏi.';
+}
+
+function renderQuestion() {
+  if (current >= questions.length) return finishQuiz();
+
+  const q = questions[current];
+  answered = false;
+
+  document.getElementById('progressText').textContent = 'Câu ' + (current + 1) + '/' + questions.length;
+  document.getElementById('progressFill').style.width = ((current + 1) / questions.length * 100) + '%';
+  document.getElementById('questionText').textContent = q.question;
+
+  const optionsBox = document.getElementById('optionsBox');
+  optionsBox.innerHTML = '';
+  const labels = ['A', 'B', 'C', 'D', 'E', 'F'];
+
+  q.options.forEach((opt, i) => {
+    const btn = document.createElement('button');
+    btn.className = 'option';
+    btn.textContent = labels[i] + '. ' + opt;
+    btn.onclick = () => answer(i, btn);
+    optionsBox.appendChild(btn);
+  });
+
+  document.getElementById('resultBox').className = 'result-box';
+  document.getElementById('resultBox').textContent = '';
+  document.getElementById('explanationBox').className = 'explanation';
+  document.getElementById('explanationBox').textContent = '';
+  document.getElementById('tipBox').className = 'tip-box';
+  document.getElementById('tipBox').textContent = '';
+  document.getElementById('nextBtn').disabled = true;
+  document.getElementById('nextBtn').textContent = current === questions.length - 1 ? 'Xem kết quả →' : 'Tiếp theo →';
+
+  updateStarButton();
+}
+
+function answer(selectedIdx, btnEl) {
+  if (answered) return;
+  answered = true;
+
+  const q = questions[current];
+  const correct = q.correct;
+  const allButtons = document.querySelectorAll('.option');
+
+  allButtons.forEach((btn, i) => {
+    btn.disabled = true;
+    if (i === correct) btn.classList.add('correct');
+    else if (i === selectedIdx && i !== correct) btn.classList.add('wrong');
+  });
+
+  userAnswers.push({
+    question: q.question,
+    selected: selectedIdx,
+    correct: correct,
+    options: q.options,
+    isCorrect: selectedIdx === correct
+  });
+
+  const resultBox = document.getElementById('resultBox');
+  const isCorrect = selectedIdx === correct;
+
+  if (isCorrect) {
+    score++;
+    resultBox.className = 'result-box show ok';
+    resultBox.textContent = '✅ Chính xác!';
+  } else {
+    resultBox.className = 'result-box show no';
+    let correctText = q.options[correct].replace(/^[A-D][\.\)\:]?\s*/, '');
+    resultBox.textContent = '❌ Sai rồi. Đáp án đúng: ' + String.fromCharCode(65 + correct) + '. ' + correctText;
+  }
+
+  if (q.explanation) {
+    const expBox = document.getElementById('explanationBox');
+    expBox.textContent = '💡 Giải thích: ' + q.explanation;
+    expBox.classList.add('show');
+  }
+
+  if (!isCorrect) {
+    const cacheKey = 'tipCache_' + q.question.substring(0, 60);
+    const cached = localStorage.getItem(cacheKey);
+    if (cached) {
+      const tipBox = document.getElementById('tipBox');
+      tipBox.className = 'tip-box show';
+      tipBox.textContent = '📖 AI giảng cho bạn hiểu:\n\n' + cached;
+    } else {
+      showTipForQuestion(q, q.options[correct], q.options[selectedIdx]);
+    }
+  }
+
+  document.getElementById('nextBtn').disabled = false;
+}
+
+async function showTipForQuestion(q, correctAnswer, wrongAnswer) {
+  const tipBox = document.getElementById('tipBox');
+  tipBox.className = 'tip-box loading show';
+  tipBox.textContent = '⚡ AI đang phân tích...';
+
+  const apiKey = (localStorage.getItem('geminiKey') || '').trim();
+  if (!apiKey) {
+    tipBox.className = 'tip-box show';
+    tipBox.textContent = '📖 Hãy đọc kỹ định nghĩa khái niệm trong câu hỏi, so sánh với từng đáp án.';
+    return;
+  }
+
+  const promptText = 'Bạn là gia sư.\n\n' +
+    'CÂU HỎI: ' + q.question + '\n\n' +
+    'CÁC ĐÁP ÁN:\n' +
+    q.options.map((opt, i) => String.fromCharCode(65 + i) + '. ' + opt).join('\n') + '\n\n' +
+    'ĐÁP ÁN ĐÚNG: ' + correctAnswer + '\n' +
+    'HỌC SINH CHỌN SAI: ' + wrongAnswer + '\n\n' +
+    'Giải thích NGẮN GỌN (250-400 ký tự): tại sao đáp án đúng, tại sao đáp án sai, cách nhớ.\n\n' +
+    'KHÔNG dùng "Chào em". Đi thẳng vào vấn đề. CHỈ TRẢ VỀ ĐOẠN GIẢI THÍCH.';
+
+  const FAST_MODELS = ['gemini-3.5-flash-lite', 'gemini-2.5-flash-lite', 'gemini-2.0-flash-lite', 'gemini-3.5-flash'];
+
+  try {
+    const promises = FAST_MODELS.map(async (modelName) => {
+      const url = 'https://generativelanguage.googleapis.com/v1beta/models/' + modelName + ':generateContent?key=' + apiKey;
+      const res = await fetch(url, {
+        method: 'POST',
+        headers: { 'Content-Type': 'application/json' },
+        body: JSON.stringify({
+          contents: [{ parts: [{ text: promptText }] }],
+          generationConfig: { temperature: 0.5, maxOutputTokens: 600 }
+        })
+      });
+
+      if (!res.ok) throw new Error('fail');
+      const data = await res.json();
+      const text = (data.candidates && data.candidates[0] && data.candidates[0].content &&
+                    data.candidates[0].content.parts && data.candidates[0].content.parts[0].text) || '';
+      if (!text.trim()) throw new Error('empty');
+      return text.trim();
+    });
+
+    const explanation = await Promise.any(promises);
+    const cacheKey = 'tipCache_' + q.question.substring(0, 60);
+    localStorage.setItem(cacheKey, explanation);
+
+    tipBox.className = 'tip-box show';
+    tipBox.textContent = '📖 AI giảng cho bạn hiểu:\n\n' + explanation;
+
+  } catch (err) {
+    tipBox.className = 'tip-box show';
+    tipBox.textContent = '📖 Hãy đọc kỹ định nghĩa khái niệm, so sánh với từng đáp án.';
+  }
+}
+
+// ================== XÁO TRỘN ==================
+window.shuffleAnswers = function() {
+  if (questions.length === 0) return;
+  const confirmMsg = current > 0
+    ? '⚠️ Bạn đang làm dở câu ' + (current + 1) + '/' + questions.length + '.\n\nXáo đáp án sẽ BẮT ĐẦU LẠI từ câu 1. Tiếp tục?'
+    : '🔄 Xáo trộn A/B/C/D trong TẤT CẢ câu?';
+  if (!confirm(confirmMsg)) return;
+
+  questions.forEach(q => {
+    const correctText = q.options[q.correct];
+    const shuffled = q.options.slice();
+    for (let i = shuffled.length - 1; i > 0; i--) {
+      const j = Math.floor(Math.random() * (i + 1));
+      [shuffled[i], shuffled[j]] = [shuffled[j], shuffled[i]];
+    }
+    q.options = shuffled;
+    q.correct = shuffled.indexOf(correctText);
+  });
+
+  current = 0;
+  score = 0;
+  userAnswers = [];
+  answered = false;
+  renderQuestion();
+  toast('✅ Đã xáo đáp án!', 'success');
+  window.scrollTo({ top: 0, behavior: 'smooth' });
+};
+
+window.shuffleQuestions = function() {
+  if (questions.length === 0) return;
+  const confirmMsg = current > 0
+    ? '⚠️ Xáo câu hỏi sẽ BẮT ĐẦU LẠI. Tiếp tục?'
+    : '🔀 Xáo trộn ' + questions.length + ' câu hỏi?';
+  if (!confirm(confirmMsg)) return;
+
+  for (let i = questions.length - 1; i > 0; i--) {
+    const j = Math.floor(Math.random() * (i + 1));
+    [questions[i], questions[j]] = [questions[j], questions[i]];
+  }
+
+  current = 0;
+  score = 0;
+  userAnswers = [];
+  answered = false;
+  renderQuestion();
+  toast('✅ Đã xáo ' + questions.length + ' câu!', 'success');
+  window.scrollTo({ top: 0, behavior: 'smooth' });
+};
+
+window.nextQuestion = function() {
+  current++;
+  if (current >= questions.length) return finishQuiz();
+  renderQuestion();
+  window.scrollTo({ top: 0, behavior: 'smooth' });
+};
+
+function finishQuiz() {
+  stopTimer();
+
+  document.getElementById('quizSection').classList.add('hidden');
+  document.getElementById('finalSection').classList.remove('hidden');
+
+  const total = questions.length;
+  const correct = score;
+  const wrong = total - correct;
+  const percent = Math.round(correct / total * 100);
+
+  document.getElementById('finalScore').textContent = correct + '/' + total;
+  document.getElementById('statCorrect').textContent = correct;
+  document.getElementById('statWrong').textContent = wrong;
+  document.getElementById('statPercent').textContent = percent + '%';
+
+  let msg = '';
+  if (percent === 100) msg = '🏆 Hoàn hảo!';
+  else if (percent >= 80) msg = '🌟 Xuất sắc!';
+  else if (percent >= 60) msg = '👍 Khá tốt!';
+  else if (percent >= 40) msg = '💪 Cần cố gắng thêm!';
+  else msg = '📚 Hãy đọc kỹ lại và làm lại nhé!';
+
+  document.getElementById('finalMsg').textContent = msg;
+
+  const reviewList = document.getElementById('reviewList');
+  reviewList.innerHTML = '';
+  userAnswers.forEach((ans, i) => {
+    const div = document.createElement('div');
+    div.className = 'review-item ' + (ans.isCorrect ? 'ok' : 'no');
+    const labels = ['A', 'B', 'C', 'D', 'E', 'F'];
+    let html = '<div class="q">Câu ' + (i + 1) + ': ' + escapeHtml(ans.question) + '</div>';
+    html += '<div class="ans">Bạn chọn: <b>' + labels[ans.selected] + '. ' + escapeHtml(ans.options[ans.selected]) + '</b>';
+    if (!ans.isCorrect) {
+      html += '<br>Đáp án đúng: <b style="color:#27ae60">' + labels[ans.correct] + '. ' + escapeHtml(ans.options[ans.correct]) + '</b>';
+    }
+    html += '</div>';
+    div.innerHTML = html;
+    reviewList.appendChild(div);
+  });
+
+  window.scrollTo({ top: 0, behavior: 'smooth' });
+}
+
+window.restartQuiz = function() {
+  current = 0;
+  score = 0;
+  userAnswers = [];
+  starredQuestions.clear();
+  document.getElementById('finalSection').classList.add('hidden');
+  document.getElementById('quizSection').classList.remove('hidden');
+  renderQuestion();
+  if (timerLimit > 0) startTimer();
+  window.scrollTo({ top: 0, behavior: 'smooth' });
+};
+
+window.newQuiz = function() {
+  stopTimer();
+  questions = [];
+  current = 0;
+  score = 0;
+  userAnswers = [];
+  starredQuestions.clear();
+  document.getElementById('finalSection').classList.add('hidden');
+  document.getElementById('quizSection').classList.add('hidden');
+  document.getElementById('inputSection').classList.remove('hidden');
+  renderSavedQuizzes();
+  window.scrollTo({ top: 0, behavior: 'smooth' });
+};
+
+function escapeHtml(s) {
+  return String(s).replace(/[&<>"']/g, c => ({
+    '&': '&amp;', '<': '&lt;', '>': '&gt;', '"': '&quot;', "'": '&#39;'
+  }[c]));
+}
+
+// ================== INIT ==================
+document.addEventListener('DOMContentLoaded', () => {
+  const input = document.getElementById('licenseInput');
+  if (input) {
+    input.addEventListener('keypress', (e) => {
+      if (e.key === 'Enter') window.checkLicenseKey();
+    });
+  }
+  window.autoCheckLicense();
+});
+
+updateGenBtn();
+loadStarred();
+renderSavedQuizzes();
+</script>
+</body>
+</html>
