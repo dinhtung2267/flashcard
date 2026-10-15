@@ -25,8 +25,6 @@ h1{color:#fff;font-size:1.3rem;margin:0 0 8px;font-weight:900;text-shadow:0 2px 
 .keyrow input{flex:1;padding:10px 14px;border-radius:12px;border:2px solid transparent;font-size:.8rem;background:rgba(255,255,255,.95);min-width:0;transition:all .2s;font-family:'Inter',Arial,sans-serif}
 .keyrow input:focus{outline:none;border-color:#fff;box-shadow:0 0 0 4px rgba(255,255,255,.3)}
 .keyrow button{padding:10px 14px;border-radius:12px;border:none;color:#fff;font-weight:700;font-size:.75rem;cursor:pointer;white-space:nowrap;box-shadow:0 4px 12px rgba(0,0,0,.15);transition:all .2s;font-family:'Inter',Arial,sans-serif}
-.keyrow button:hover{transform:translateY(-2px);box-shadow:0 6px 16px rgba(0,0,0,.2)}
-.keyrow button:active{transform:translateY(0)}
 .btn-add{background:#a78bfa}
 .btn-clear{background:#ef4444}
 .keystat{color:#fff;font-size:.7rem;text-align:center;margin-bottom:6px;padding:4px;background:rgba(0,0,0,.2);border-radius:6px}
@@ -43,9 +41,7 @@ h1{color:#fff;font-size:1.3rem;margin:0 0 8px;font-weight:900;text-shadow:0 2px 
 .tool-group{display:grid;grid-template-columns:1fr 1fr 1fr;gap:6px}
 .tools button{padding:8px 6px;border-radius:12px;border:1px solid rgba(255,255,255,.5);background:linear-gradient(135deg,#ffffff,#f0f4ff);color:#4338ca;font-weight:700;font-size:.68rem;cursor:pointer;box-shadow:0 3px 10px rgba(0,0,0,.12);transition:all .2s;font-family:'Inter',Arial,sans-serif;line-height:1.25;height:auto;min-height:50px;display:flex;flex-direction:column;align-items:center;justify-content:center;gap:1px}
 .tools button:hover{transform:translateY(-2px);box-shadow:0 6px 16px rgba(0,0,0,.2)}
-.tools button:active{transform:translateY(0);box-shadow:0 2px 8px rgba(0,0,0,.15)}
-.card{width:100%;max-width:420px;min-height:400px;background:#fff;border-radius:22px;padding:20px;box-shadow:0 20px 50px rgba(0,0,0,.25),0 8px 20px rgba(255,110,127,.15);text-align:left;display:flex;flex-direction:column;justify-content:center;cursor:pointer;position:relative;transition:transform .3s,box-shadow .3s}
-.card:hover{box-shadow:0 25px 60px rgba(0,0,0,.3),0 10px 25px rgba(255,110,127,.2)}
+.card{width:100%;max-width:420px;min-height:400px;background:#fff;border-radius:22px;padding:20px;box-shadow:0 20px 50px rgba(0,0,0,.25);text-align:left;display:flex;flex-direction:column;justify-content:center;cursor:pointer;position:relative;transition:transform .3s,box-shadow .3s}
 .photo{width:100%;max-height:200px;object-fit:cover;border-radius:12px;margin-bottom:12px;display:none}
 .photo.show{display:block}
 .addphoto{background:#f0fdf4;border:2px dashed #86efac;color:#166534;padding:8px 14px;border-radius:10px;font-size:.8rem;font-weight:600;cursor:pointer;margin:6px 0;display:block;width:100%}
@@ -60,7 +56,6 @@ h1{color:#fff;font-size:1.3rem;margin:0 0 8px;font-weight:900;text-shadow:0 2px 
 .field-value.ex{font-size:.95rem;color:#374151;transition:filter .3s}
 .field-value.ex.blur{filter:blur(6px)}
 .field-value.ex span{cursor:pointer;padding:0 1px;border-radius:4px;border-bottom:1px dotted #c7d2fe}
-.field-value.ex span:active{background:#fde68a}
 .field-value.exvi{font-size:.85rem;color:#6b7280;font-style:italic}
 .type-row{display:flex;gap:15px;flex-wrap:wrap}
 .type-row .field{flex:1;min-width:120px}
@@ -68,7 +63,6 @@ h1{color:#fff;font-size:1.3rem;margin:0 0 8px;font-weight:900;text-shadow:0 2px 
 .spk-row{display:flex;gap:8px;align-items:center;margin-top:6px;flex-wrap:wrap}
 .blurbtn{background:#fef3c7;border:none;color:#92400e;padding:6px 14px;border-radius:20px;font-size:.8rem;margin-top:8px;cursor:pointer;font-weight:600}
 .checkbtn{background:#dbeafe;border:none;color:#1e40af;padding:7px 16px;border-radius:20px;font-size:.85rem;margin-top:8px;cursor:pointer;font-weight:600}
-.checkbtn:disabled{opacity:.5}
 .result{font-size:.85rem;font-weight:600;margin-top:8px;min-height:20px;text-align:left;width:100%;padding:8px;border-radius:8px;white-space:pre-wrap;line-height:1.5}
 .result.ok{color:#166534;background:#dcfce7}
 .result.no{color:#991b1b;background:#fee2e2}
@@ -77,8 +71,6 @@ h1{color:#fff;font-size:1.3rem;margin:0 0 8px;font-weight:900;text-shadow:0 2px 
 .notelabel{font-size:.7rem;font-weight:700;color:#9ca3af;margin-top:10px;letter-spacing:.5px;text-transform:uppercase}
 .ctrl{display:flex;gap:6px;margin-top:6px;flex-wrap:wrap;justify-content:center;align-items:center}
 .btn{padding:11px 22px;border:none;border-radius:12px;font-weight:700;cursor:pointer;font-size:.9rem;box-shadow:0 4px 12px rgba(0,0,0,.15);transition:all .2s;font-family:'Inter',Arial,sans-serif}
-.btn:hover{transform:translateY(-2px);box-shadow:0 6px 16px rgba(0,0,0,.2)}
-.btn:active{transform:translateY(0);box-shadow:0 2px 8px rgba(0,0,0,.15)}
 .nav{background:linear-gradient(135deg,#ffffff,#eef2ff);color:#4338ca}
 .learn{background:linear-gradient(135deg,#4ade80,#22c55e);color:#fff}
 .learn.on{background:linear-gradient(135deg,#16a34a,#15803d)}
@@ -87,16 +79,13 @@ h1{color:#fff;font-size:1.3rem;margin:0 0 8px;font-weight:900;text-shadow:0 2px 
 .back{display:none}
 .card.f .front{display:none}
 .card.f .back{display:flex;flex-direction:column;width:100%}
-.modal{display:none;position:fixed;inset:0;background:rgba(0,0,0,.7);z-index:999;align-items:center;justify-content:center;padding:12px;padding-top:env(safe-area-inset-top,12px);padding-bottom:env(safe-area-inset-bottom,12px)}
+.modal{display:none;position:fixed;inset:0;background:rgba(0,0,0,.7);z-index:999;align-items:center;justify-content:center;padding:12px}
 .modal.show{display:flex}
-.modal-box{background:#fff;border-radius:22px;padding:22px;max-width:420px;width:100%;max-height:85vh;overflow-y:auto;box-shadow:0 30px 80px rgba(0,0,0,.4);animation:modalIn .3s ease}
-@keyframes modalIn{from{opacity:0;transform:scale(.95) translateY(20px)}to{opacity:1;transform:scale(1) translateY(0)}}
+.modal-box{background:#fff;border-radius:22px;padding:22px;max-width:420px;width:100%;max-height:85vh;overflow-y:auto;box-shadow:0 30px 80px rgba(0,0,0,.4)}
 .modal-box h2{font-size:1.1rem;margin:0 0 12px;color:#4338ca}
 .modal-box p{font-size:.85rem;color:#6b7280;margin:0 0 12px;line-height:1.5}
 .modal-box input[type=file]{width:100%;padding:10px;border:2px dashed #c7d2fe;border-radius:10px;font-size:.85rem;background:#f9fafb;margin-bottom:10px}
-.modal-box button{width:100%;padding:12px;border-radius:14px;border:none;font-weight:700;cursor:pointer;margin-bottom:8px;font-size:.9rem;box-shadow:0 4px 12px rgba(0,0,0,.15);transition:all .2s;font-family:'Inter',Arial,sans-serif}
-.modal-box button:hover{transform:translateY(-2px);box-shadow:0 6px 16px rgba(0,0,0,.2)}
-.modal-box button:active{transform:translateY(0)}
+.modal-box button{width:100%;padding:12px;border-radius:14px;border:none;font-weight:700;cursor:pointer;margin-bottom:8px;font-size:.9rem;font-family:'Inter',Arial,sans-serif}
 .mb-primary{background:linear-gradient(135deg,#4ade80,#22c55e);color:#fff}
 .mb-close{background:linear-gradient(135deg,#e5e7eb,#d1d5db);color:#374151}
 .status{font-size:.85rem;color:#4338ca;text-align:center;padding:8px;background:#eef2ff;border-radius:8px;margin-top:8px}
@@ -105,7 +94,6 @@ h1{color:#fff;font-size:1.3rem;margin:0 0 8px;font-weight:900;text-shadow:0 2px 
 .spinner{display:inline-block;width:14px;height:14px;border:2px solid #4338ca;border-top-color:transparent;border-radius:50%;animation:spin .8s linear infinite;vertical-align:middle;margin-right:6px}
 @keyframes spin{to{transform:rotate(360deg)}}
 .card-item{display:flex;align-items:center;padding:10px;border-bottom:1px solid #e5e7eb;gap:6px}
-.card-item:last-child{border-bottom:none}
 .card-item .num{font-size:.75rem;color:#9ca3af;min-width:24px}
 .card-item .text{flex:1;cursor:pointer;padding:4px;border-radius:6px;min-width:0}
 .card-item .word{font-weight:700;color:#4338ca;font-size:.9rem}
@@ -118,24 +106,21 @@ h1{color:#fff;font-size:1.3rem;margin:0 0 8px;font-weight:900;text-shadow:0 2px 
 .card-item .check{font-size:1.2rem;min-width:24px;cursor:pointer;text-align:center}
 .word-info{font-size:.9rem;line-height:1.6}
 .word-info .row{margin-bottom:8px;padding-bottom:8px;border-bottom:1px solid #f3f4f6}
-.word-info .row:last-child{border-bottom:none;margin-bottom:0}
-.word-info .lbl{font-size:.7rem;color:#9ca3af;font-weight:700;text-transform:uppercase;letter-spacing:.5px}
+.word-info .lbl{font-size:.7rem;color:#9ca3af;font-weight:700;text-transform:uppercase}
 .word-info .val{color:#1f2937;margin-top:2px}
 .word-info .val.word{font-size:1.4rem;font-weight:700;color:#4338ca}
-.word-info .val.ipa{font-style:italic;color:#6b7280}
 .word-info .val.meaning{font-size:1.15rem;color:#16a34a;font-weight:600}
-.word-info .val.syn{color:#7c3aed}
 .save-word-btn{background:#fef3c7;color:#92400e;border:2px solid #fbbf24;padding:10px;border-radius:10px;font-weight:700;font-size:.9rem;cursor:pointer;width:100%;margin-top:10px}
 .save-word-btn.saved{background:#4ade80;color:#fff;border-color:#4ade80}
 .listen-item{background:#f9fafb;border:1px solid #e5e7eb;border-radius:12px;padding:12px;margin-bottom:12px}
 .listen-num{font-size:.75rem;color:#6b7280;font-weight:700;margin-bottom:6px}
 .listen-speak{background:#eef2ff;border:none;color:#4338ca;padding:10px 16px;border-radius:10px;font-weight:700;font-size:.85rem;cursor:pointer;width:100%;margin-bottom:8px}
-.listen-input{width:100%;padding:10px;border:2px solid #c7d2fe;border-radius:10px;font-size:.9rem;font-family:Arial;resize:none;min-height:50px;box-sizing:border-box}
+.listen-input{width:100%;padding:10px;border:2px solid #c7d2fe;border-radius:10px;font-size:.9rem;font-family:Arial;resize:none;min-height:50px}
 .listen-actions{display:flex;gap:6px;margin-top:8px;flex-wrap:wrap}
 .listen-actions button{flex:1;padding:8px;border-radius:8px;border:none;font-weight:700;font-size:.8rem;cursor:pointer;min-width:70px}
 .listen-check{background:#4ade80;color:#fff}
 .listen-del{background:#fee2e2;color:#dc2626}
-.listen-result{margin-top:8px;padding:10px;border-radius:8px;font-size:.85rem;line-height:1.5}
+.listen-result{margin-top:8px;padding:10px;border-radius:8px;font-size:.85rem}
 .listen-result.ok{background:#dcfce7;color:#166534;font-weight:700}
 .listen-result.no{background:#fee2e2;color:#991b1b;font-weight:700}
 .listen-result.warn{background:#fef9c3;color:#854d0e;font-weight:700}
@@ -144,154 +129,174 @@ h1{color:#fff;font-size:1.3rem;margin:0 0 8px;font-weight:900;text-shadow:0 2px 
 .listen-regen{background:#fbbf24;color:#78350f;padding:12px;border-radius:10px;border:none;font-weight:700;cursor:pointer;width:100%;margin-top:10px;font-size:.9rem}
 .listen-speed{background:#f0f9ff;border:2px solid #bae6fd;padding:10px;border-radius:10px;margin-bottom:12px}
 .listen-speed label{font-size:.8rem;color:#0369a1;font-weight:700;display:block;margin-bottom:6px}
-.listen-speed input{width:100%;margin-bottom:4px}
-.listen-speed .val{font-size:.75rem;color:#0c4a6e;text-align:center;font-weight:700}
-.listen-hint{background:#fef9c3;color:#854d0e;padding:10px;border-radius:8px;font-size:.85rem;margin-top:8px;line-height:1.6;display:none;white-space:pre-wrap;border-left:3px solid #fbbf24;text-align:left}
+.listen-speed input{width:100%}
+.listen-hint{background:#fef9c3;color:#854d0e;padding:10px;border-radius:8px;font-size:.85rem;margin-top:8px;display:none;white-space:pre-wrap;border-left:3px solid #fbbf24}
 .listen-hint.show{display:block}
 .listen-hint-btn{background:#fef3c7;color:#92400e;padding:8px;border-radius:8px;border:none;font-weight:700;font-size:.8rem;cursor:pointer;flex:1}
 .voice-selector{background:#f0fdf4;border:2px solid #86efac;padding:10px;border-radius:10px;margin-bottom:12px}
 .voice-selector label{font-size:.8rem;color:#166534;font-weight:700;display:block;margin-bottom:6px}
 .voice-selector select{width:100%;padding:10px;border-radius:8px;border:2px solid #86efac;font-size:.85rem;background:#fff;color:#166534;font-weight:600}
-
-/* ========== QUIZ ========== */
-.quiz-box{width:100%;max-width:420px;background:#fff;border-radius:18px;padding:22px;box-shadow:0 10px 30px rgba(0,0,0,.3);min-height:500px;display:flex;flex-direction:column}
 .quiz-progress{background:#eef2ff;border-radius:10px;padding:8px 14px;font-size:.8rem;color:#4338ca;font-weight:700;text-align:center;margin-bottom:12px}
 .quiz-question{font-size:1.3rem;font-weight:700;color:#4338ca;text-align:center;margin:20px 0;line-height:1.5;padding:16px;background:#f9fafb;border-radius:12px;min-height:80px;display:flex;align-items:center;justify-content:center}
-.quiz-options{display:flex;flex-direction:column;gap:10px;margin-top:12px}
-.quiz-option{padding:14px 18px;border-radius:12px;border:2px solid #c7d2fe;background:#fff;font-size:1rem;font-weight:600;cursor:pointer;text-align:left;color:#1f2937;transition:all .2s}
-.quiz-option:hover{background:#eef2ff}
+.quiz-options{display:flex;flex-direction:column;gap:10px}
+.quiz-option{padding:14px 18px;border-radius:12px;border:2px solid #c7d2fe;background:#fff;font-size:1rem;font-weight:600;cursor:pointer;text-align:left;color:#1f2937}
 .quiz-option.correct{background:#dcfce7;border-color:#4ade80;color:#166534}
 .quiz-option.wrong{background:#fee2e2;border-color:#ef4444;color:#991b1b}
-.quiz-option:disabled{cursor:not-allowed}
 .quiz-result{text-align:center;font-size:1rem;font-weight:700;margin-top:16px;padding:12px;border-radius:10px;display:none}
 .quiz-result.show{display:block}
 .quiz-result.ok{background:#dcfce7;color:#166534}
 .quiz-result.no{background:#fee2e2;color:#991b1b}
 .quiz-final{text-align:center;padding:20px}
 .quiz-final .score{font-size:3rem;font-weight:700;color:#4338ca;margin:20px 0}
-.quiz-final .msg{font-size:1.1rem;color:#6b7280;margin-bottom:20px}
 .quiz-mode-row{display:flex;gap:8px;margin-bottom:14px;flex-wrap:wrap}
 .quiz-mode-btn{flex:1;padding:10px;border-radius:10px;border:2px solid #c7d2fe;background:#fff;font-weight:700;font-size:.8rem;cursor:pointer;color:#4338ca;min-width:100px}
 .quiz-mode-btn.active{background:#4338ca;color:#fff;border-color:#4338ca}
-
-/* ========== DARK MODE ========== */
 body.dark{background:linear-gradient(180deg,#0f0c29 0%,#302b63 50%,#24243e 100%);background-attachment:fixed}
 body.dark .authbox,body.dark .keybox{background:rgba(255,255,255,.08);border-color:rgba(255,255,255,.15)}
 body.dark .authinfo .name,body.dark .authinfo .email,body.dark .keyrow label{color:#e5e7eb}
 body.dark .keyrow input{background:rgba(255,255,255,.1);color:#e5e7eb;border-color:rgba(255,255,255,.15)}
-body.dark .keyrow input::placeholder{color:#9ca3af}
 body.dark .keystat{background:rgba(0,0,0,.4);color:#e5e7eb}
 body.dark .card{background:#1f2937;color:#e5e7eb}
-body.dark .field-label{color:#9ca3af}
+body.dark .field-label,body.dark .notelabel{color:#9ca3af}
 body.dark .field-value{color:#e5e7eb}
 body.dark .field-value.word{color:#a5b4fc}
 body.dark .field-value.meaning{color:#4ade80}
-body.dark .field-value.ipa{color:#9ca3af}
-body.dark .field-value.type{color:#c4b5fd}
-body.dark .field-value.ex{color:#d1d5db}
-body.dark .field-value.exvi{color:#9ca3af}
 body.dark .note{background:#111827;border-color:#4b5563;color:#e5e7eb}
-body.dark .notelabel{color:#9ca3af}
 body.dark .modal-box{background:#1f2937;color:#e5e7eb}
 body.dark .modal-box h2{color:#a5b4fc}
-body.dark .modal-box p{color:#9ca3af}
 body.dark .card-item{background:#1f2937;border-color:#374151}
-body.dark .card-item .word{color:#a5b4fc}
-body.dark .card-item .meaning{color:#9ca3af}
 body.dark .tools button{background:linear-gradient(135deg,#374151,#1f2937);color:#e5e7eb;border:1px solid rgba(255,255,255,.1)}
 body.dark .btn.nav{background:linear-gradient(135deg,#374151,#1f2937);color:#e5e7eb}
-body.dark .quiz-box{background:#1f2937}
-body.dark .quiz-question{background:#111827;color:#a5b4fc}
-body.dark .quiz-option{background:#1f2937;border-color:#4b5563;color:#e5e7eb}
-body.dark .quiz-option:hover{background:#374151}
-body.dark .quiz-option.correct{background:#064e3b;border-color:#10b981;color:#6ee7b7}
-body.dark .quiz-option.wrong{background:#7f1d1d;border-color:#ef4444;color:#fca5a5}
 body.dark .listen-item{background:#1f2937;border-color:#374151}
 body.dark .listen-input{background:#111827;border-color:#4b5563;color:#e5e7eb}
-body.dark .listen-answer{background:#064e3b;color:#e5e7eb}
 body.dark .voice-selector,body.dark .listen-speed{background:#1f2937;border-color:#4b5563}
 body.dark .voice-selector label,body.dark .listen-speed label{color:#a5b4fc}
 body.dark .voice-selector select,body.dark .listen-speed input{background:#111827;color:#e5e7eb;border-color:#4b5563}
-body.dark .save-word-btn{background:#78350f;color:#fbbf24;border-color:#f59e0b}
-body.dark .addphoto{background:#064e3b;border-color:#10b981;color:#6ee7b7}
-body.dark .btn-del{background:#7f1d1d;color:#fca5a5;border-color:#ef4444}
-body.dark .result.ok{background:#064e3b;color:#6ee7b7}
-body.dark .result.no{background:#7f1d1d;color:#fca5a5}
-body.dark .result.load{background:#1e3a8a;color:#93c5fd}
-body.dark .checkbtn{background:#1e3a8a;color:#93c5fd}
-body.dark .blurbtn{background:#78350f;color:#fbbf24}
-body.dark .spk{background:#1e3a8a;color:#93c5fd}
-body.dark .card-item.custom{background:#78350f}
-body.dark .card-item.new-word{background:#1e3a8a}
-body.dark .word-info .lbl{color:#9ca3af}
-body.dark .word-info .val{color:#e5e7eb}
-body.dark .word-info .val.word{color:#a5b4fc}
-body.dark .word-info .val.meaning{color:#4ade80}
 body.dark .mb-close{background:linear-gradient(135deg,#4b5563,#374151);color:#e5e7eb}
 
-/* ═══════════════════════════════════════════════════════
-   YOUTUBE PLAYER — GIAO DIỆN MỚI
-   ═══════════════════════════════════════════════════════ */
+/* ═══════════════ YOUTUBE PLAYER ═══════════════ */
 .yt-modal-box{max-width:100%;width:100%;max-height:100vh;overflow-y:auto;padding:0;border-radius:0;background:linear-gradient(180deg,#0f172a 0%,#1e293b 100%);color:#e2e8f0}
-.yt-modal-box h2{color:#fbbf24}
-.yt-input{width:100%;padding:14px 16px;background:rgba(255,255,255,.06);border:1.5px solid rgba(255,255,255,.12);border-radius:12px;color:#e2e8f0;font-size:.9rem;font-family:'Inter',Arial,sans-serif;margin-bottom:12px;box-sizing:border-box;transition:all .2s}
+.yt-input{width:100%;padding:14px 16px;background:rgba(255,255,255,.06);border:1.5px solid rgba(255,255,255,.12);border-radius:12px;color:#e2e8f0;font-size:.9rem;font-family:'Inter',sans-serif;margin-bottom:12px;box-sizing:border-box}
 .yt-input:focus{outline:none;border-color:#fbbf24;background:rgba(251,191,36,.06);box-shadow:0 0 0 4px rgba(251,191,36,.15)}
-.yt-input::placeholder{color:#64748b}
 .yt-input.srt{min-height:160px;font-family:monospace;font-size:.8rem;resize:vertical;line-height:1.6}
 .yt-label{font-size:.72rem;font-weight:700;color:#94a3b8;letter-spacing:.8px;text-transform:uppercase;margin-bottom:6px;display:flex;align-items:center;gap:6px}
-
-.yt-wrapper{position:relative;width:100%;aspect-ratio:16/9;min-height:220px;background:#000;overflow:hidden}
+.yt-wrapper{position:relative;width:100%;aspect-ratio:16/9;background:#000;overflow:hidden}
 .yt-wrapper iframe,#ytPlayerBox,#ytPlayerBox iframe{position:absolute;top:0;left:0;width:100%!important;height:100%!important;border:0;pointer-events:none!important}
-#ytClickGuard{position:absolute;inset:0;z-index:5;background:transparent;cursor:pointer;-webkit-tap-highlight-color:transparent}
-
-.yt-controls{display:flex;gap:8px;padding:12px 14px;background:rgba(15,23,42,.95);backdrop-filter:blur(12px);-webkit-backdrop-filter:blur(12px);border-bottom:1px solid rgba(255,255,255,.06);flex-wrap:wrap;position:sticky;top:0;z-index:20}
-.yt-controls button{flex:1;padding:11px 14px;border:none;border-radius:11px;font-weight:700;font-size:.78rem;cursor:pointer;min-width:80px;font-family:'Inter',Arial,sans-serif;transition:all .2s ease;display:flex;align-items:center;justify-content:center;gap:5px;white-space:nowrap;flex-direction:column;line-height:1.2}
+#ytClickGuard{position:absolute;inset:0;z-index:5;background:transparent;cursor:pointer}
+.yt-controls{display:flex;gap:8px;padding:12px 14px;background:rgba(15,23,42,.95);backdrop-filter:blur(12px);border-bottom:1px solid rgba(255,255,255,.06);flex-wrap:wrap;position:sticky;top:0;z-index:20}
+.yt-controls button{flex:1;padding:11px 8px;border:none;border-radius:11px;font-weight:700;font-size:.75rem;cursor:pointer;min-width:72px;font-family:'Inter',sans-serif;transition:all .2s;display:flex;align-items:center;justify-content:center;gap:5px;flex-direction:column;line-height:1.2}
 .yt-controls button .e{font-size:1.1rem}
-.yt-controls button:hover{transform:translateY(-2px)}
-.yt-controls button:active{transform:translateY(0) scale(.97)}
 .yt-back{background:linear-gradient(135deg,rgba(251,191,36,.15),rgba(245,158,11,.2));color:#fbbf24;border:1px solid rgba(251,191,36,.3)}
 .yt-hide{background:linear-gradient(135deg,rgba(99,102,241,.15),rgba(79,70,229,.2));color:#a5b4fc;border:1px solid rgba(99,102,241,.3)}
 .yt-hide.off{background:linear-gradient(135deg,rgba(239,68,68,.15),rgba(220,38,38,.2));color:#fca5a5;border-color:rgba(239,68,68,.3)}
 .yt-hide.highlight{background:linear-gradient(135deg,rgba(251,191,36,.15),rgba(245,158,11,.2));color:#fbbf24;border-color:rgba(251,191,36,.3)}
-
 #ytSubOutside{background:linear-gradient(180deg,#0f172a 0%,#020617 100%);padding:22px 20px;border-top:1px solid rgba(251,191,36,.25);min-height:140px;position:relative;overflow:hidden;display:flex;flex-direction:column;justify-content:center}
 #ytSubOutside::before{content:'';position:absolute;top:0;left:0;right:0;height:2px;background:linear-gradient(90deg,transparent,#fbbf24,#ef4444,#fbbf24,transparent);background-size:200% 100%;animation:subGlow 3s linear infinite}
 @keyframes subGlow{0%{background-position:200% 0}100%{background-position:-200% 0}}
 #ytSubEn{font-size:clamp(1.4rem,5.5vw,1.9rem);font-weight:800;color:#f8fafc;line-height:1.5;margin-bottom:14px;text-align:center;letter-spacing:-.01em;text-shadow:0 2px 8px rgba(0,0,0,.5)}
-#ytSubEn .w{padding:3px 6px;margin:0 2px;border-radius:6px;transition:all .12s ease;cursor:pointer;display:inline-block}
-#ytSubEn .w:hover{background:rgba(251,191,36,.15)}
+#ytSubEn .w{padding:3px 6px;margin:0 2px;border-radius:6px;transition:all .12s;cursor:pointer;display:inline-block}
 #ytSubEn .w.read{background:linear-gradient(135deg,rgba(251,191,36,.3),rgba(245,158,11,.25));color:#fbbf24}
 #ytSubEn .w.current{background:linear-gradient(135deg,#ef4444,#dc2626);color:#fff;font-weight:900;box-shadow:0 6px 20px rgba(239,68,68,.6),0 0 0 2px rgba(255,255,255,.15);transform:scale(1.1)}
-#ytSubVi{font-size:clamp(1.05rem,4vw,1.35rem);color:#fbbf24;line-height:1.5;text-align:center;font-weight:600;padding-top:12px;border-top:1px dashed rgba(251,191,36,.2);text-shadow:0 1px 4px rgba(0,0,0,.3)}
+#ytSubVi{font-size:clamp(1.05rem,4vw,1.35rem);color:#fbbf24;line-height:1.5;text-align:center;font-weight:600;padding-top:12px;border-top:1px dashed rgba(251,191,36,.2)}
 @media(min-width:600px){#ytSubOutside{padding:26px 24px;min-height:160px}#ytSubEn{font-size:2rem}#ytSubVi{font-size:1.5rem}}
-
-.yt-list{max-height:42vh;overflow-y:auto;background:linear-gradient(180deg,#0f172a 0%,#020617 100%);padding:12px 10px 24px;scroll-behavior:smooth}
+.yt-list{max-height:42vh;overflow-y:auto;background:linear-gradient(180deg,#0f172a 0%,#020617 100%);padding:12px 10px 24px}
 .yt-list::-webkit-scrollbar{width:6px}
-.yt-list::-webkit-scrollbar-track{background:transparent}
 .yt-list::-webkit-scrollbar-thumb{background:rgba(251,191,36,.3);border-radius:3px}
-.yt-item{padding:12px 14px;border-radius:12px;margin-bottom:8px;cursor:pointer;transition:all .25s cubic-bezier(.4,0,.2,1);border:1px solid rgba(255,255,255,.06);background:rgba(255,255,255,.03);position:relative;overflow:hidden}
-.yt-item::before{content:'';position:absolute;left:0;top:0;bottom:0;width:3px;background:transparent;transition:all .25s}
+.yt-item{padding:12px 14px;border-radius:12px;margin-bottom:8px;cursor:pointer;transition:all .25s;border:1px solid rgba(255,255,255,.06);background:rgba(255,255,255,.03)}
 .yt-item:hover{background:rgba(255,255,255,.06);border-color:rgba(251,191,36,.2);transform:translateX(2px)}
-.yt-item.active{background:linear-gradient(135deg,rgba(30,64,175,.4),rgba(30,58,138,.5));border-color:rgba(96,165,250,.4);box-shadow:0 6px 20px rgba(30,64,175,.35);transform:scale(1.01)}
-.yt-item.active::before{background:linear-gradient(180deg,#60a5fa,#3b82f6);box-shadow:0 0 12px rgba(96,165,250,.7)}
-.yt-item .yt-time{font-size:.68rem;color:#64748b;font-weight:700;font-family:monospace;margin-bottom:6px;letter-spacing:.3px;display:flex;align-items:center;gap:6px}
-.yt-item .yt-time::before{content:'⏱';opacity:.5}
+.yt-item.active{background:linear-gradient(135deg,rgba(30,64,175,.4),rgba(30,58,138,.5));border-color:rgba(96,165,250,.4);box-shadow:0 6px 20px rgba(30,64,175,.35)}
+.yt-item .yt-time{font-size:.68rem;color:#64748b;font-weight:700;font-family:monospace;margin-bottom:6px}
 .yt-item .yt-en{font-size:.88rem;color:#cbd5e1;line-height:1.5;margin-bottom:4px}
-.yt-item .yt-en .w{padding:0 1px;border-radius:2px;transition:all .12s}
+.yt-item .yt-en .w{padding:0 1px;border-radius:2px}
 .yt-item .yt-en .w.read{background:linear-gradient(180deg,transparent 65%,rgba(251,191,36,.5) 65%);color:#fbbf24}
 .yt-item.active .yt-en{color:#e0e7ff}
 .yt-item .yt-vi{font-size:.8rem;color:#94a3b8;line-height:1.4;font-style:italic}
 .yt-item.active .yt-vi{color:#fbbf24;font-style:normal;font-weight:600}
-
 .yt-debug{margin:0 14px 14px;padding:12px 14px;background:rgba(0,0,0,.3);border:1px solid rgba(255,255,255,.08);border-radius:12px;font-family:monospace;font-size:.72rem;color:#94a3b8;display:grid;gap:6px}
 .yt-debug-row{display:flex;justify-content:space-between;align-items:center;gap:8px}
 .yt-debug-row b{color:#fbbf24;font-weight:700}
-
+.yt-tabs{display:flex;padding:0 14px;background:rgba(15,23,42,.95);border-bottom:1px solid rgba(255,255,255,.08)}
+.yt-tab{flex:1;padding:14px 6px;background:transparent;border:none;color:#94a3b8;font-weight:700;font-size:.78rem;cursor:pointer;border-bottom:3px solid transparent;transition:all .2s;font-family:'Inter',sans-serif;display:flex;align-items:center;justify-content:center;gap:5px;white-space:nowrap}
+.yt-tab.active{color:#fbbf24;border-bottom-color:#fbbf24;background:rgba(251,191,36,.06)}
+.yt-tab:hover{color:#e2e8f0}
+.mode-card{margin:14px;padding:20px;background:linear-gradient(135deg,rgba(255,255,255,.05),rgba(255,255,255,.02));border:1px solid rgba(255,255,255,.08);border-radius:18px}
+.mode-top{display:flex;align-items:center;gap:10px;margin-bottom:16px;flex-wrap:wrap}
+.mode-play{width:56px;height:56px;border-radius:50%;background:linear-gradient(135deg,#4ade80,#22c55e);color:#fff;border:none;font-size:1.5rem;cursor:pointer;box-shadow:0 6px 18px rgba(74,222,128,.4);display:flex;align-items:center;justify-content:center;position:relative}
+.mode-play::after{content:'';position:absolute;inset:-4px;border-radius:50%;border:2px solid rgba(74,222,128,.3);opacity:0;transition:opacity .3s}
+.mode-play.playing::after{opacity:1;animation:playPulse 1.5s ease-out infinite}
+@keyframes playPulse{0%{transform:scale(1);opacity:1}100%{transform:scale(1.3);opacity:0}}
+.mode-play.playing{background:linear-gradient(135deg,#ef4444,#dc2626);box-shadow:0 6px 18px rgba(239,68,68,.5)}
+.mode-btn{padding:11px 14px;border-radius:12px;background:rgba(255,255,255,.06);border:1px solid rgba(255,255,255,.1);color:#e2e8f0;font-weight:700;font-size:.82rem;cursor:pointer;font-family:'Inter',sans-serif}
+.mode-btn.on{background:rgba(251,191,36,.15);border-color:rgba(251,191,36,.3);color:#fbbf24}
+.mode-counter{margin-left:auto;font-family:monospace;font-size:1.05rem;color:#fbbf24;font-weight:700;padding:8px 14px;background:rgba(251,191,36,.08);border-radius:12px;border:1px solid rgba(251,191,36,.2)}
+.mode-counter span{color:#64748b;font-size:.85rem;font-weight:400;margin:0 2px}
+.prog{height:4px;background:rgba(255,255,255,.08);border-radius:2px;overflow:hidden;margin-bottom:16px}
+.prog>div{height:100%;background:linear-gradient(90deg,#4ade80,#fbbf24);border-radius:2px;transition:width .3s ease}
+.fill-sentence{font-size:1.15rem;line-height:2.2;color:#e2e8f0;padding:18px;background:rgba(0,0,0,.25);border:1px solid rgba(255,255,255,.08);border-radius:14px;margin-bottom:14px}
+.fill-sentence .txt{color:#e2e8f0;font-weight:500}
+.fill-sentence .punct{color:#94a3b8}
+.fill-input{display:inline-block;min-width:80px;max-width:140px;padding:6px 10px;background:rgba(96,165,250,.12);border:2px solid rgba(96,165,250,.4);border-radius:10px;color:#fbbf24;font-family:'Inter',sans-serif;font-weight:700;font-size:1.05rem;text-align:center;vertical-align:middle;transition:all .2s;margin:2px 3px;outline:none}
+.fill-input:focus{border-color:#fbbf24;background:rgba(251,191,36,.1);box-shadow:0 0 0 4px rgba(251,191,36,.15)}
+.fill-input.correct{background:rgba(74,222,128,.15);border-color:#4ade80;color:#4ade80}
+.fill-input.wrong{background:rgba(239,68,68,.15);border-color:#ef4444;color:#fca5a5}
+.fill-input.revealed{background:rgba(251,191,36,.15);border-color:#fbbf24;color:#fbbf24}
+.fill-input:disabled{cursor:not-allowed}
+.fill-actions{display:flex;gap:8px;margin-top:14px}
+.fill-check{flex:2;padding:15px;background:linear-gradient(135deg,#4ade80,#22c55e);color:#fff;border:none;border-radius:12px;font-weight:700;font-size:.95rem;font-family:'Inter',sans-serif;cursor:pointer}
+.fill-eye{width:56px;padding:15px 0;background:rgba(96,165,250,.15);border:1px solid rgba(96,165,250,.3);color:#60a5fa;border-radius:12px;font-weight:700;font-size:1.1rem;font-family:'Inter',sans-serif;cursor:pointer;display:flex;align-items:center;justify-content:center}
+.fill-next{flex:1;padding:15px;background:rgba(255,255,255,.06);border:1px solid rgba(255,255,255,.1);color:#e2e8f0;border-radius:12px;font-weight:700;font-size:.9rem;font-family:'Inter',sans-serif;cursor:pointer;display:flex;align-items:center;justify-content:center;gap:6px}
+.fill-feedback{margin-top:14px;padding:16px;border-radius:14px;font-size:.9rem;line-height:1.6;display:none}
+.fill-feedback.show{display:block}
+.fill-feedback.ok{background:rgba(74,222,128,.1);border:1px solid rgba(74,222,128,.3);color:#86efac}
+.fill-feedback.no{background:rgba(239,68,68,.1);border:1px solid rgba(239,68,68,.3);color:#fca5a5}
+.fill-feedback .title{font-weight:800;margin-bottom:10px;font-size:1rem}
+.fill-feedback .row{margin-bottom:6px}
+.fill-feedback .lbl{font-size:.72rem;font-weight:700;text-transform:uppercase;opacity:.7;margin-bottom:3px}
+.fill-feedback .answer{color:#fbbf24;font-weight:700}
+.fill-feedback .your{color:#e2e8f0}
+.fill-config{display:flex;gap:8px;margin-bottom:14px;align-items:center;flex-wrap:wrap}
+.fill-config label{font-size:.75rem;color:#94a3b8;font-weight:600}
+.fill-config select{background:rgba(255,255,255,.06);border:1px solid rgba(255,255,255,.1);color:#e2e8f0;padding:8px 12px;border-radius:8px;font-size:.8rem;font-family:'Inter',sans-serif;cursor:pointer}
+.dict-input{width:100%;padding:16px;background:rgba(0,0,0,.3);border:2px solid rgba(255,255,255,.1);border-radius:14px;color:#e2e8f0;font-size:1.05rem;font-family:'Inter',sans-serif;resize:vertical;min-height:100px;line-height:1.5}
+.dict-input:focus{outline:none;border-color:#fbbf24;box-shadow:0 0 0 4px rgba(251,191,36,.12)}
+.dict-input.correct{border-color:#4ade80;background:rgba(74,222,128,.08)}
+.dict-input.wrong{border-color:#ef4444;background:rgba(239,68,68,.08)}
+.dict-meta{display:flex;justify-content:space-between;margin:8px 4px 14px;font-size:.75rem;color:#64748b;font-family:monospace}
+.dict-meta .ok{color:#4ade80;font-weight:700}
+.dict-meta .no{color:#ef4444;font-weight:700}
+.dict-actions{display:flex;gap:8px}
+.dict-check{flex:2;padding:15px;background:linear-gradient(135deg,#4ade80,#22c55e);color:#fff;border:none;border-radius:12px;font-weight:700;font-size:.95rem;font-family:'Inter',sans-serif;cursor:pointer}
+.dict-eye{width:56px;padding:15px 0;background:rgba(96,165,250,.15);border:1px solid rgba(96,165,250,.3);color:#60a5fa;border-radius:12px;font-weight:700;font-size:1.1rem;font-family:'Inter',sans-serif;cursor:pointer;display:flex;align-items:center;justify-content:center}
+.dict-next{flex:1;padding:15px;background:rgba(255,255,255,.06);border:1px solid rgba(255,255,255,.1);color:#e2e8f0;border-radius:12px;font-weight:700;font-size:.9rem;font-family:'Inter',sans-serif;cursor:pointer;display:flex;align-items:center;justify-content:center;gap:6px}
+.dict-feedback{margin-top:14px;padding:16px;border-radius:14px;font-size:.9rem;line-height:1.6;display:none}
+.dict-feedback.show{display:block}
+.dict-feedback.ok{background:rgba(74,222,128,.1);border:1px solid rgba(74,222,128,.3);color:#86efac}
+.dict-feedback.no{background:rgba(239,68,68,.1);border:1px solid rgba(239,68,68,.3);color:#fca5a5}
+.dict-feedback .title{font-weight:800;margin-bottom:10px;font-size:1rem}
+.dict-feedback .row{margin-bottom:8px}
+.dict-feedback .lbl{font-size:.72rem;font-weight:700;text-transform:uppercase;opacity:.7;margin-bottom:3px}
+.dict-feedback .answer{color:#fbbf24;font-weight:700;font-size:1rem}
+.dict-feedback .your{color:#e2e8f0}
+.nav-row{display:flex;gap:8px;padding:14px;background:rgba(15,23,42,.95);border-top:1px solid rgba(255,255,255,.06);margin-top:14px}
+.nav-row button{flex:1;padding:12px;border-radius:12px;font-weight:700;font-size:.8rem;cursor:pointer;font-family:'Inter',sans-serif;background:rgba(255,255,255,.05);border:1px solid rgba(255,255,255,.08);color:#e2e8f0}
+.seg-list{max-height:45vh;overflow-y:auto;padding:0 14px 24px}
+.seg-list::-webkit-scrollbar{width:6px}
+.seg-list::-webkit-scrollbar-thumb{background:rgba(251,191,36,.3);border-radius:3px}
+.seg{padding:12px 14px;margin-bottom:8px;background:rgba(255,255,255,.03);border:1px solid rgba(255,255,255,.06);border-left:3px solid transparent;border-radius:12px;display:flex;gap:12px;align-items:center;cursor:pointer;transition:all .2s}
+.seg:hover{background:rgba(255,255,255,.06)}
+.seg.active{background:linear-gradient(135deg,rgba(30,64,175,.4),rgba(30,58,138,.5));border-color:rgba(96,165,250,.4);border-left-color:#60a5fa}
+.seg.done-ok{background:rgba(74,222,128,.06);border-color:rgba(74,222,128,.2);border-left-color:#4ade80}
+.seg.done-no{background:rgba(239,68,68,.06);border-color:rgba(239,68,68,.2);border-left-color:#ef4444}
+.seg .idx{font-size:.7rem;color:#64748b;font-family:monospace;font-weight:700;min-width:36px;text-align:center;padding:4px 6px;background:rgba(0,0,0,.3);border-radius:6px}
+.seg.active .idx{color:#60a5fa;background:rgba(96,165,250,.15)}
+.seg.done-ok .idx{color:#4ade80;background:rgba(74,222,128,.15)}
+.seg.done-no .idx{color:#fca5a5;background:rgba(239,68,68,.15)}
+.seg .content{flex:1;font-size:.85rem;color:#cbd5e1;line-height:1.45}
+.seg .content.blur{filter:blur(6px);user-select:none;pointer-events:none}
+.seg.active .content{color:#e0e7ff}
+.seg .status{font-size:1.1rem;min-width:24px;text-align:center}
 .yt-toast{position:fixed;bottom:24px;left:50%;transform:translateX(-50%) translateY(100px);background:rgba(30,30,40,.95);backdrop-filter:blur(20px);color:#fff;padding:12px 20px;border-radius:12px;font-size:.85rem;font-weight:600;box-shadow:0 12px 40px rgba(0,0,0,.5);opacity:0;transition:all .3s cubic-bezier(.4,0,.2,1);z-index:99999;border:1px solid rgba(255,255,255,.1);pointer-events:none}
 .yt-toast.show{transform:translateX(-50%) translateY(0);opacity:1}
-
-#videomodal .modal-box{overflow-y:auto;-webkit-overflow-scrolling:touch}
-
 @keyframes lockPulse{0%,100%{transform:scale(1)}50%{transform:scale(1.1)}}
 @keyframes lockShake{0%,100%{transform:translateX(0)}10%,30%,50%,70%,90%{transform:translateX(-8px)}20%,40%,60%,80%{transform:translateX(8px)}}
 </style></head><body>
@@ -300,12 +305,9 @@ body.dark .mb-close{background:linear-gradient(135deg,#4b5563,#374151);color:#e5
   <div style="background:#fff;border-radius:24px;padding:36px 28px;max-width:420px;width:100%;box-shadow:0 30px 80px rgba(0,0,0,.4);text-align:center">
     <div style="font-size:5rem;margin-bottom:12px;line-height:1;animation:lockPulse 2s infinite">🔐</div>
     <h2 style="margin:0 0 8px;color:#4338ca;font-size:1.5rem;font-weight:900">Nhập mã để sử dụng app</h2>
-    <p style="color:#6b7280;font-size:.9rem;margin:0 0 24px;line-height:1.5">
-      Liên hệ admin để nhận mã truy cập<br>
-      <span style="font-size:.8rem;color:#9ca3af">💬 Zalo: <b style="color:#4338ca">0912 345 678</b></span>
-    </p>
+    <p style="color:#6b7280;font-size:.9rem;margin:0 0 24px;line-height:1.5">Liên hệ admin để nhận mã truy cập<br><span style="font-size:.8rem;color:#9ca3af">💬 Zalo: <b style="color:#4338ca">0912 345 678</b></span></p>
     <input type="text" id="appLockInput" placeholder="Nhập mã tại đây..." autocomplete="off" autocapitalize="characters" style="width:100%;padding:16px;border:2px solid #c7d2fe;border-radius:14px;font-size:1.1rem;text-align:center;letter-spacing:2px;margin-bottom:14px;box-sizing:border-box;font-family:monospace;font-weight:700;outline:none">
-    <button id="appLockBtn" onclick="checkAppLock()" style="width:100%;padding:16px;background:linear-gradient(135deg,#4ade80,#22c55e);color:#fff;border:none;border-radius:14px;font-weight:900;font-size:1rem;cursor:pointer;box-shadow:0 6px 20px rgba(34,197,94,.4)">🚀 Vào app</button>
+    <button id="appLockBtn" onclick="checkAppLock()" style="width:100%;padding:16px;background:linear-gradient(135deg,#4ade80,#22c55e);color:#fff;border:none;border-radius:14px;font-weight:900;font-size:1rem;cursor:pointer">🚀 Vào app</button>
     <div id="appLockError" style="color:#ef4444;font-size:.85rem;margin-top:14px;min-height:20px;font-weight:600"></div>
   </div>
 </div>
@@ -313,13 +315,13 @@ body.dark .mb-close{background:linear-gradient(135deg,#4b5563,#374151);color:#e5
 <div id="appContent" style="display:none">
 <div style="width:100%;max-width:420px;display:flex;justify-content:space-between;align-items:center;margin-bottom:8px;padding:0 4px">
 <h1 style="margin:0">📚 Flashcard Nghề Nghiệp</h1>
-<button onclick="toggleDarkMode()" id="darkBtn" style="background:linear-gradient(135deg,#4f46e5,#7c3aed);color:#fff;border:none;width:42px;height:42px;border-radius:50%;font-size:1.1rem;cursor:pointer;box-shadow:0 4px 12px rgba(0,0,0,.2);transition:all .2s">🌙</button>
+<button onclick="toggleDarkMode()" id="darkBtn" style="background:linear-gradient(135deg,#4f46e5,#7c3aed);color:#fff;border:none;width:42px;height:42px;border-radius:50%;font-size:1.1rem;cursor:pointer">🌙</button>
 </div>
 
-<div class="authbox" id="authBox">
+<div class="authbox">
   <div class="authrow">
-    <img id="authAvatar" class="authavatar" src="" alt="avatar">
-    <div class="authinfo" id="authInfo">
+    <img id="authAvatar" class="authavatar" src="">
+    <div class="authinfo">
       <div class="name" id="authName">Chưa đăng nhập</div>
       <div class="email" id="authEmail">Đăng nhập để đồng bộ dữ liệu</div>
       <div class="status" id="authStatus">⚪ Chưa kết nối</div>
@@ -335,12 +337,13 @@ body.dark .mb-close{background:linear-gradient(135deg,#4b5563,#374151);color:#e5
 <input id="geminikey" type="password" placeholder="Dán Gemini key..." />
 <button class="btn-add" onclick="addKey()">➕ Thêm</button>
 </div>
-<div id="keystat" class="keystat">🔑 Chưa có key — dán key vào ô trên</div>
+<div id="keystat" class="keystat">🔑 Chưa có key</div>
 <div id="keylist" class="keylist"></div>
 <div class="keyrow" style="margin-top:6px">
 <button class="btn-clear" onclick="clearAllKeys()" style="flex:1">🗑 Xóa tất cả key</button>
 </div>
 </div>
+
 <div class="tools">
 <div class="tool-group">
 <button onclick="openImport('image')">📷 Tạo từ ảnh</button>
@@ -358,20 +361,12 @@ body.dark .mb-close{background:linear-gradient(135deg,#4b5563,#374151);color:#e5
 <button onclick="compressAllOldImages()" style="background:linear-gradient(135deg,#a78bfa,#8b5cf6);color:#fff">🗜️ Nén ảnh</button>
 </div>
 </div>
+
 <div class="card" id="c" onclick="flip(event)">
 <div class="front">
-<div class="field">
-<div class="field-label">THUẬT NGỮ</div>
-<div class="field-value word" id="w"></div>
-</div>
-<div class="field">
-<div class="field-label">PHÁT ÂM</div>
-<div class="field-value ipa" id="p"></div>
-</div>
-<div class="spk-row">
-<button class="spk" onclick="say(event,0)">🔊</button>
-<span style="font-size:.75rem;color:#9ca3af">Nghe phát âm</span>
-</div>
+<div class="field"><div class="field-label">THUẬT NGỮ</div><div class="field-value word" id="w"></div></div>
+<div class="field"><div class="field-label">PHÁT ÂM</div><div class="field-value ipa" id="p"></div></div>
+<div class="spk-row"><button class="spk" onclick="say(event,0)">🔊</button><span style="font-size:.75rem;color:#9ca3af">Nghe phát âm</span></div>
 </div>
 <div class="back">
 <img id="photo2" class="photo" />
@@ -381,31 +376,20 @@ body.dark .mb-close{background:linear-gradient(135deg,#4b5563,#374151);color:#e5
 <button class="addphoto" onclick="pasteImage(event)" style="flex:1;margin:0;background:#fef3c7;border-color:#fbbf24;color:#92400e;min-width:90px">📋 Dán ảnh</button>
 </div>
 <button class="btn-del" id="delphoto2" onclick="removePhoto(event)" style="display:none">🗑 Xóa ảnh</button>
-<div class="field">
-<div class="field-label">ĐỊNH NGHĨA</div>
-<div class="field-value meaning" id="m"></div>
-</div>
-<div class="type-row">
-<div class="field">
-<div class="field-label">LOẠI TỪ</div>
-<div class="field-value type" id="t"></div>
-</div>
-</div>
-<div class="field">
-<div class="field-label">VÍ DỤ (bấm từ để tra nghĩa)</div>
-<div class="field-value ex" id="e"></div>
-<div class="field-value exvi" id="ev"></div>
-</div>
+<div class="field"><div class="field-label">ĐỊNH NGHĨA</div><div class="field-value meaning" id="m"></div></div>
+<div class="type-row"><div class="field"><div class="field-label">LOẠI TỪ</div><div class="field-value type" id="t"></div></div></div>
+<div class="field"><div class="field-label">VÍ DỤ</div><div class="field-value ex" id="e"></div><div class="field-value exvi" id="ev"></div></div>
 <div class="spk-row">
 <button class="spk" onclick="say(event,1)">🔊</button>
 <button class="blurbtn" id="blurbtn" onclick="toggleBlur(event)">👁 Làm mờ tiếng Anh</button>
 </div>
-<div class="notelabel">📝 Viết lại câu ví dụ bằng tiếng Anh:</div>
+<div class="notelabel">📝 Viết lại câu ví dụ:</div>
 <textarea class="note" id="note" placeholder="Gõ câu tiếng Anh..." onclick="event.stopPropagation()"></textarea>
 <button class="checkbtn" id="checkbtn" onclick="checkEx(event)">✅ Kiểm tra bằng AI</button>
 <div class="result" id="result"></div>
 </div>
 </div>
+
 <div class="ctrl">
 <button class="btn nav" onclick="prev()">◀ Trước</button>
 <span class="cnt" id="cnt"></span>
@@ -434,7 +418,7 @@ body.dark .mb-close{background:linear-gradient(135deg,#4b5563,#374151);color:#e5
 <div class="modal-box">
 <h2>🔍 <span id="wordmodal-word"></span></h2>
 <div id="wordinfo" class="word-info"></div>
-<button class="save-word-btn" id="savewordbtn" onclick="toggleSaveWord()">⭐ Lưu vào kho từ mới</button>
+<button class="save-word-btn" id="savewordbtn" onclick="toggleSaveWord()">⭐ Lưu vào kho từ</button>
 <button class="mb-close" onclick="closeWordModal()" style="margin-top:12px">Đóng</button>
 </div>
 </div>
@@ -454,23 +438,20 @@ body.dark .mb-close{background:linear-gradient(135deg,#4b5563,#374151);color:#e5
 <p style="font-size:.85rem;color:#6b7280">Chọn chế độ. Mỗi chế độ có 10 câu do AI tạo.</p>
 <div class="voice-selector">
 <label>🗣️ Chọn giọng đọc:</label>
-<select id="voiceSelect" onchange="changeVoice(this.value)">
-<option value="">Đang tải giọng...</option>
-</select>
+<select id="voiceSelect" onchange="changeVoice(this.value)"><option value="">Đang tải giọng...</option></select>
 </div>
 <div class="listen-speed">
 <label>⚡ Tốc độ đọc: <span id="speedLabel">Bình thường (0.80x)</span></label>
 <input type="range" id="speedSlider" min="0.3" max="1.0" step="0.05" value="0.8" />
-<div class="val">🐢 Chậm nhất ← → 🐰 Bình thường</div>
 </div>
-<button class="mb-primary" onclick="loadListenMode('easy')" style="background:#4ade80">😊 DỄ — Giao tiếp hàng ngày</button>
-<button class="mb-primary" onclick="loadListenMode('medium')" style="background:#fbbf24;color:#78350f">😐 TRUNG BÌNH — Công việc, học tập</button>
-<button class="mb-primary" onclick="loadListenMode('hard')" style="background:#ef4444">😰 KHÓ — Đời sống, xã hội</button>
+<button class="mb-primary" onclick="loadListenMode('easy')" style="background:#4ade80">😊 DỄ</button>
+<button class="mb-primary" onclick="loadListenMode('medium')" style="background:#fbbf24;color:#78350f">😐 TRUNG BÌNH</button>
+<button class="mb-primary" onclick="loadListenMode('hard')" style="background:#ef4444">😰 KHÓ</button>
 <button class="mb-close" onclick="closeListen()">Đóng</button>
 </div>
 <div id="listen-content" style="display:none">
 <button class="mb-close" onclick="backToListenHome()" style="margin-bottom:10px">◀ Quay lại</button>
-<button class="listen-regen" id="regenBtn" onclick="regenListen()" style="margin-bottom:10px">🔄 Tạo lại 10 câu mới</button>
+<button class="listen-regen" onclick="regenListen()" style="margin-bottom:10px">🔄 Tạo lại 10 câu mới</button>
 <div id="listen-list"></div>
 </div>
 </div>
@@ -479,25 +460,15 @@ body.dark .mb-close{background:linear-gradient(135deg,#4b5563,#374151);color:#e5
 <div class="modal" id="ytmodal">
 <div class="modal-box yt-modal-box">
 <div id="yt-home" style="padding:18px">
-<h2 style="color:#fbbf24;font-size:1.3rem;margin-bottom:8px;display:flex;align-items:center;gap:8px">
-  <span style="font-size:1.6rem">🎬</span> Học qua YouTube
-</h2>
-<p style="font-size:.82rem;color:#94a3b8;margin-bottom:18px">Dán link YouTube và phụ đề SRT song ngữ để bắt đầu học</p>
-
+<h2 style="color:#fbbf24;font-size:1.3rem;margin-bottom:8px">🎬 Học qua YouTube</h2>
+<p style="font-size:.82rem;color:#94a3b8;margin-bottom:18px">Dán link YouTube và phụ đề SRT song ngữ</p>
 <label class="yt-label">🔗 Link YouTube</label>
 <input type="text" class="yt-input" id="ytUrl" placeholder="https://www.youtube.com/watch?v=...">
-
 <label class="yt-label">💬 Phụ đề SRT (Anh - Việt)</label>
 <textarea class="yt-input srt" id="ytSrt" placeholder="1
 00:00:00,000 --> 00:00:03,000
 Hello everyone, welcome to my channel.
-Xin chào mọi người, chào mừng đến kênh của tôi.
-
-2
-00:00:03,200 --> 00:00:06,000
-Today we're going to learn about English.
-Hôm nay chúng ta sẽ học về tiếng Anh."></textarea>
-
+Xin chào mọi người, chào mừng đến kênh của tôi."></textarea>
 <button class="mb-primary" onclick="startYT()" style="background:linear-gradient(135deg,#ef4444,#dc2626);color:#fff;font-size:1rem;padding:16px;border-radius:14px;margin-top:6px">🚀 Bắt đầu học</button>
 <button class="mb-close" onclick="closeYT()" style="margin-top:8px">Hủy</button>
 <div id="ytStatus" style="display:none" class="status"></div>
@@ -509,23 +480,98 @@ Hôm nay chúng ta sẽ học về tiếng Anh."></textarea>
 <button class="yt-hide highlight" id="ytPlayBtn" onclick="ytTogglePlay()"><span class="e">⏸</span><span>Tạm dừng</span></button>
 <button class="yt-hide" id="ytMuteBtn" onclick="ytToggleMute()"><span class="e">🔇</span><span>Bật tiếng</span></button>
 <button class="yt-hide" id="ytSpeedBtn" onclick="ytCycleSpeed()"><span class="e">⚡</span><span>1.0x</span></button>
-<button class="yt-hide" id="ytToggleBtn" onclick="ytToggleSub()"><span class="e">💬</span><span>Ẩn phụ đề</span></button>
 </div>
+
 <div class="yt-wrapper">
     <div id="ytPlayerBox"></div>
     <div id="ytClickGuard"></div>
 </div>
-<div id="ytSubOutside">
-  <div id="ytSubEn"></div>
-  <div id="ytSubVi"></div>
+
+<div class="yt-tabs">
+  <button class="yt-tab active" id="ytTabView" onclick="ytSwitchMode('view')">👁 Xem phụ đề</button>
+  <button class="yt-tab" id="ytTabFill" onclick="ytSwitchMode('fill')">📝 Điền từ</button>
+  <button class="yt-tab" id="ytTabDict" onclick="ytSwitchMode('dict')">⌨️ Chính tả</button>
 </div>
-<div class="yt-debug">
-  <div class="yt-debug-row"><span>⏱️ Time</span><b id="ytDbgTime">0.00s</b></div>
-  <div class="yt-debug-row"><span>📄 Câu</span><b id="ytDbgSeg">-/-</b></div>
-  <div class="yt-debug-row"><span>📊 Tốc độ</span><b id="ytDbgSpeed">-</b></div>
-  <div class="yt-debug-row"><span>🎯 Từ</span><b id="ytDbgWord">-/-</b></div>
+
+<!-- VIEW MODE -->
+<div id="ytViewMode">
+  <div id="ytSubOutside">
+    <div id="ytSubEn"></div>
+    <div id="ytSubVi"></div>
+  </div>
+  <div class="yt-debug">
+    <div class="yt-debug-row"><span>⏱️ Time</span><b id="ytDbgTime">0.00s</b></div>
+    <div class="yt-debug-row"><span>📄 Câu</span><b id="ytDbgSeg">-/-</b></div>
+    <div class="yt-debug-row"><span>📊 Tốc độ</span><b id="ytDbgSpeed">-</b></div>
+    <div class="yt-debug-row"><span>🎯 Từ</span><b id="ytDbgWord">-/-</b></div>
+  </div>
+  <div class="yt-list" id="ytList"></div>
 </div>
-<div class="yt-list" id="ytList"></div>
+
+<!-- FILL MODE -->
+<div id="ytFillMode" style="display:none">
+  <div class="mode-card">
+    <div class="prog"><div id="fillProgBar" style="width:0%"></div></div>
+    <div class="mode-top">
+      <button class="mode-play" id="fillPlayBtn" onclick="fillPlay()">▶</button>
+      <button class="mode-btn" id="fillSpeedBtn" onclick="fillCycleSpeed()">1.0x</button>
+      <button class="mode-btn" id="fillLoopBtn" onclick="fillToggleLoop()">🔁 Lặp</button>
+      <div class="mode-counter"><span id="fillIdx">1</span><span>/</span><span id="fillTotal">0</span></div>
+    </div>
+    <div class="fill-config">
+      <label>Mức độ:</label>
+      <select id="fillLevel" onchange="fillChangeLevel()">
+        <option value="0.2">😊 Dễ (20%)</option>
+        <option value="0.3" selected>😐 Vừa (30%)</option>
+        <option value="0.5">😰 Khó (50%)</option>
+        <option value="1">🔥 Cực khó (100%)</option>
+      </select>
+    </div>
+    <div class="fill-sentence" id="fillSentence"></div>
+    <div class="fill-actions">
+      <button class="fill-check" onclick="fillCheck()">✓ Kiểm tra</button>
+      <button class="fill-eye" onclick="fillReveal()">👁</button>
+      <button class="fill-next" onclick="fillNext()">Tiếp →</button>
+    </div>
+    <div class="fill-feedback" id="fillFeedback"></div>
+  </div>
+  <div class="nav-row">
+    <button onclick="fillPrev()">◀ Trước</button>
+    <button onclick="fillFirstUnfinished()">⌂ Chưa làm</button>
+    <button onclick="fillReset()">🔄 Reset</button>
+  </div>
+  <div class="seg-list" id="fillList"></div>
+</div>
+
+<!-- DICT MODE -->
+<div id="ytDictMode" style="display:none">
+  <div class="mode-card">
+    <div class="prog"><div id="dictProgBar" style="width:0%"></div></div>
+    <div class="mode-top">
+      <button class="mode-play" id="dictPlayBtn" onclick="dictPlay()">▶</button>
+      <button class="mode-btn" id="dictSpeedBtn" onclick="dictCycleSpeed()">1.0x</button>
+      <button class="mode-btn" id="dictLoopBtn" onclick="dictToggleLoop()">🔁 Lặp</button>
+      <div class="mode-counter"><span id="dictIdx">1</span><span>/</span><span id="dictTotal">0</span></div>
+    </div>
+    <textarea class="dict-input" id="dictInput" placeholder="Gõ những gì bạn nghe được..." oninput="dictUpdateCount()" spellcheck="false" autocomplete="off" autocorrect="off" autocapitalize="off"></textarea>
+    <div class="dict-meta">
+      <span id="dictCharCount">0 ký tự</span>
+      <span id="dictAccuracy"></span>
+    </div>
+    <div class="dict-actions">
+      <button class="dict-check" onclick="dictCheck()">✓ Kiểm tra</button>
+      <button class="dict-eye" onclick="dictRevealDict()">👁</button>
+      <button class="dict-next" onclick="dictNext()">Tiếp →</button>
+    </div>
+    <div class="dict-feedback" id="dictFeedback"></div>
+  </div>
+  <div class="nav-row">
+    <button onclick="dictPrev()">◀ Trước</button>
+    <button onclick="dictFirstUnfinished()">⌂ Chưa làm</button>
+    <button onclick="dictReset()">🔄 Reset</button>
+  </div>
+  <div class="seg-list" id="dictList"></div>
+</div>
 </div>
 </div>
 </div>
@@ -534,7 +580,6 @@ Hôm nay chúng ta sẽ học về tiếng Anh."></textarea>
 <div class="modal-box" style="max-width:420px;padding:0">
 <div id="quiz-home" style="padding:20px">
 <h2>🧠 Trắc nghiệm</h2>
-<p style="font-size:.85rem;color:#6b7280;margin-bottom:12px">Chọn chế độ và bắt đầu làm bài.</p>
 <div class="quiz-mode-row">
 <button class="quiz-mode-btn active" id="qmode-en" onclick="setQuizMode('en')">Anh → Việt</button>
 <button class="quiz-mode-btn" id="qmode-vi" onclick="setQuizMode('vi')">Việt → Anh</button>
@@ -545,8 +590,8 @@ Hôm nay chúng ta sẽ học về tiếng Anh."></textarea>
 <button class="mb-close" onclick="closeQuiz()">Đóng</button>
 </div>
 <div id="quiz-play" style="display:none;padding:16px">
-<div class="quiz-progress" id="quiz-progress">Câu 1/10</div>
-<div class="quiz-question" id="quiz-question">Đang tải...</div>
+<div class="quiz-progress" id="quiz-progress"></div>
+<div class="quiz-question" id="quiz-question"></div>
 <div class="quiz-options" id="quiz-options"></div>
 <div class="quiz-result" id="quiz-result"></div>
 <button class="mb-close" onclick="closeQuiz()" style="margin-top:16px">Thoát</button>
@@ -592,7 +637,6 @@ const firebaseConfig = {
   messagingSenderId: "948001109480",
   appId: "1:948001109480:web:cae02551e2b2e49db3a05d"
 };
-
 const fbApp = initializeApp(firebaseConfig);
 const fbAuth = getAuth(fbApp);
 const fbDb = getFirestore(fbApp);
@@ -600,84 +644,61 @@ const fbDb = getFirestore(fbApp);
 const APP_CODE_STORAGE_KEY = 'appAccessCode';
 const APP_CODE_VERIFY = 'ACCESS_OK';
 
-function getAppDeviceId(){
-  let id = localStorage.getItem('appDeviceId');
-  if(!id){
-    id = 'dev_' + Math.random().toString(36).substr(2, 16) + Date.now().toString(36);
-    localStorage.setItem('appDeviceId', id);
-  }
-  return id;
-}
-
-function shakeLockScreen(){
-  const box = document.querySelector('#appLockScreen > div');
-  if(box){
-    box.style.animation = 'lockShake .4s';
-    setTimeout(() => box.style.animation = '', 400);
-  }
-}
+function getAppDeviceId(){let id=localStorage.getItem('appDeviceId');if(!id){id='dev_'+Math.random().toString(36).substr(2,16)+Date.now().toString(36);localStorage.setItem('appDeviceId',id);}return id;}
+function shakeLockScreen(){const box=document.querySelector('#appLockScreen > div');if(box){box.style.animation='lockShake .4s';setTimeout(()=>box.style.animation='',400);}}
 
 window.checkAppLock = checkAppLock;
 async function checkAppLock(){
-  const input = document.getElementById('appLockInput');
-  const error = document.getElementById('appLockError');
-  const btn = document.getElementById('appLockBtn');
-  const code = input.value.trim().toUpperCase();
-  if(!code){ error.textContent = '⚠️ Vui lòng nhập mã'; shakeLockScreen(); return; }
-  btn.disabled = true; btn.textContent = '⏳ Đang kiểm tra...'; error.textContent = '';
-  try {
-    const codeDoc = await getDoc(doc(fbDb, 'accessCodes', code));
-    if(!codeDoc.exists()){ error.textContent = '❌ Mã không đúng.'; btn.disabled = false; btn.textContent = '🚀 Vào app'; shakeLockScreen(); return; }
-    const data = codeDoc.data();
-    if(data.active === false){ error.textContent = '❌ Mã đã bị vô hiệu hóa.'; btn.disabled = false; btn.textContent = '🚀 Vào app'; shakeLockScreen(); return; }
-    if(data.expires && new Date() > new Date(data.expires)){ error.textContent = '❌ Mã đã hết hạn.'; btn.disabled = false; btn.textContent = '🚀 Vào app'; shakeLockScreen(); return; }
-    const deviceId = getAppDeviceId();
-    const usedBy = data.usedBy || [];
-    if(usedBy.indexOf(deviceId) < 0 && usedBy.length >= (data.maxDevices || 3)){ error.textContent = '❌ Mã đã dùng tối đa ' + (data.maxDevices || 3) + ' thiết bị.'; btn.disabled = false; btn.textContent = '🚀 Vào app'; shakeLockScreen(); return; }
-    localStorage.setItem(APP_CODE_STORAGE_KEY, code);
-    localStorage.setItem(APP_CODE_VERIFY, 'yes');
+  const input=document.getElementById('appLockInput');
+  const error=document.getElementById('appLockError');
+  const btn=document.getElementById('appLockBtn');
+  const code=input.value.trim().toUpperCase();
+  if(!code){error.textContent='⚠️ Vui lòng nhập mã';shakeLockScreen();return;}
+  btn.disabled=true;btn.textContent='⏳ Đang kiểm tra...';error.textContent='';
+  try{
+    const codeDoc=await getDoc(doc(fbDb,'accessCodes',code));
+    if(!codeDoc.exists()){error.textContent='❌ Mã không đúng.';btn.disabled=false;btn.textContent='🚀 Vào app';shakeLockScreen();return;}
+    const data=codeDoc.data();
+    if(data.active===false){error.textContent='❌ Mã bị vô hiệu hóa.';btn.disabled=false;btn.textContent='🚀 Vào app';shakeLockScreen();return;}
+    if(data.expires&&new Date()>new Date(data.expires)){error.textContent='❌ Mã hết hạn.';btn.disabled=false;btn.textContent='🚀 Vào app';shakeLockScreen();return;}
+    localStorage.setItem(APP_CODE_STORAGE_KEY,code);
+    localStorage.setItem(APP_CODE_VERIFY,'yes');
     unlockTheApp();
-  } catch(err) {
-    error.textContent = '❌ Lỗi: ' + err.message;
-    btn.disabled = false; btn.textContent = '🚀 Vào app';
-    shakeLockScreen();
-  }
+  }catch(err){error.textContent='❌ Lỗi: '+err.message;btn.disabled=false;btn.textContent='🚀 Vào app';shakeLockScreen();}
 }
 
 function unlockTheApp(){
-  const lock = document.getElementById('appLockScreen');
-  const content = document.getElementById('appContent');
-  lock.style.transition = 'opacity .5s ease';
-  lock.style.opacity = '0';
-  content.style.display = 'block';
-  setTimeout(() => { lock.style.display = 'none'; }, 500);
+  const lock=document.getElementById('appLockScreen');
+  const content=document.getElementById('appContent');
+  lock.style.transition='opacity .5s ease';
+  lock.style.opacity='0';
+  content.style.display='block';
+  setTimeout(()=>{lock.style.display='none';},500);
 }
 
-document.addEventListener('DOMContentLoaded', function(){
-  const input = document.getElementById('appLockInput');
-  if(input){ input.addEventListener('keypress', function(e){ if(e.key === 'Enter') checkAppLock(); }); }
+document.addEventListener('DOMContentLoaded',function(){
+  const input=document.getElementById('appLockInput');
+  if(input){input.addEventListener('keypress',function(e){if(e.key==='Enter')checkAppLock();});}
 });
 
 (async function(){
-  const savedCode = localStorage.getItem(APP_CODE_STORAGE_KEY);
-  const verified = localStorage.getItem(APP_CODE_VERIFY);
-  if(!savedCode || verified !== 'yes'){ setTimeout(() => { const inp = document.getElementById('appLockInput'); if(inp) inp.focus(); }, 300); return; }
-  try {
-    const codeDoc = await getDoc(doc(fbDb, 'accessCodes', savedCode));
-    if(!codeDoc.exists() || codeDoc.data().active === false){ localStorage.removeItem(APP_CODE_STORAGE_KEY); localStorage.removeItem(APP_CODE_VERIFY); return; }
-    const data = codeDoc.data();
-    if(data.expires && new Date(data.expires) < new Date()){ localStorage.removeItem(APP_CODE_STORAGE_KEY); localStorage.removeItem(APP_CODE_VERIFY); return; }
-    document.getElementById('appLockScreen').style.display = 'none';
-    document.getElementById('appContent').style.display = 'block';
-  } catch(err) {
-    document.getElementById('appLockScreen').style.display = 'none';
-    document.getElementById('appContent').style.display = 'block';
+  const savedCode=localStorage.getItem(APP_CODE_STORAGE_KEY);
+  const verified=localStorage.getItem(APP_CODE_VERIFY);
+  if(!savedCode||verified!=='yes'){setTimeout(()=>{const inp=document.getElementById('appLockInput');if(inp)inp.focus();},300);return;}
+  try{
+    const codeDoc=await getDoc(doc(fbDb,'accessCodes',savedCode));
+    if(!codeDoc.exists()||codeDoc.data().active===false){localStorage.removeItem(APP_CODE_STORAGE_KEY);localStorage.removeItem(APP_CODE_VERIFY);return;}
+    const data=codeDoc.data();
+    if(data.expires&&new Date(data.expires)<new Date()){localStorage.removeItem(APP_CODE_STORAGE_KEY);localStorage.removeItem(APP_CODE_VERIFY);return;}
+    document.getElementById('appLockScreen').style.display='none';
+    document.getElementById('appContent').style.display='block';
+  }catch(err){
+    document.getElementById('appLockScreen').style.display='none';
+    document.getElementById('appContent').style.display='block';
   }
 })();
 
-let currentUser = null;
-let syncTimeout = null;
-
+let currentUser=null,syncTimeout=null;
 const MODELS=['gemini-2.5-flash','gemini-3.5-flash','gemini-3.5-flash-lite','gemini-flash-latest','gemini-2.5-flash-lite'];
 
 const original=[
@@ -723,8 +744,7 @@ var savedCards=JSON.parse(localStorage.getItem('customCards')||'[]');
 var d=original.concat(savedCards);
 var i=0,f=0,blur=true;
 var learned=JSON.parse(localStorage.getItem('lw')||'[]');
-var selectMode=false;
-var selected=new Set();
+var selectMode=false,selected=new Set();
 var wordCache=JSON.parse(localStorage.getItem('wordCache')||'{}');
 var newWords=JSON.parse(localStorage.getItem('newWords')||'[]');
 var photos=JSON.parse(localStorage.getItem('photosByWord')||'{}');
@@ -739,41 +759,35 @@ function rebuildD(){d=original.concat(savedCards);}
 function updateNewWordCount(){var el=document.getElementById('newword-count');if(el)el.textContent=newWords.length;}
 
 function getSyncData(){
-  return { savedCards: savedCards, learned: learned, newWords: newWords, listenData: listenData,
-    keyList: keyList.map(function(k){return {key:k.key,status:k.status,coolUntil:k.coolUntil};}),
-    listenSpeed: listenSpeed, selectedVoice: selectedVoice, lastSync: new Date().toISOString() };
+  return {savedCards:savedCards,learned:learned,newWords:newWords,listenData:listenData,
+    keyList:keyList.map(function(k){return {key:k.key,status:k.status,coolUntil:k.coolUntil};}),
+    listenSpeed:listenSpeed,selectedVoice:selectedVoice,lastSync:new Date().toISOString()};
 }
 
 async function pushToCloud(){
   if(!currentUser)return;
   try{
     setSyncStatus('⏳ Đang đồng bộ...','load');
-    await setDoc(doc(fbDb,'users',currentUser.uid), getSyncData(), {merge:true});
-    var photoKeys = Object.keys(photos);
-    var chunks = [];
-    for(var k = 0; k < photoKeys.length; k += 20){
-      var chunk = {};
-      for(var j = k; j < k + 20 && j < photoKeys.length; j++){ chunk[photoKeys[j]] = photos[photoKeys[j]]; }
-      chunks.push(chunk);
-    }
-    var oldChunkCount = 0;
-    try{ var mainDoc = await getDoc(doc(fbDb,'users',currentUser.uid)); if(mainDoc.exists() && mainDoc.data().photoChunks){ oldChunkCount = mainDoc.data().photoChunks; } }catch(e){}
-    for(var k = 0; k < chunks.length; k++){
-      await setDoc(doc(fbDb, 'users', currentUser.uid, 'photos', 'chunk_' + k), { data: JSON.stringify(chunks[k]), count: Object.keys(chunks[k]).length });
-    }
-    for(var k = chunks.length; k < oldChunkCount; k++){ try{ await deleteDoc(doc(fbDb, 'users', currentUser.uid, 'photos', 'chunk_' + k)); }catch(e){} }
-    await setDoc(doc(fbDb,'users',currentUser.uid), { photoChunks: chunks.length, photoCount: photoKeys.length }, {merge:true});
-    setSyncStatus('✅ Đã đồng bộ ' + photoKeys.length + ' ảnh - ' + new Date().toLocaleTimeString('vi-VN'),'ok');
-  }catch(err){ setSyncStatus('❌ Lỗi sync: ' + err.message,'err'); }
+    await setDoc(doc(fbDb,'users',currentUser.uid),getSyncData(),{merge:true});
+    var photoKeys=Object.keys(photos);
+    var chunks=[];
+    for(var k=0;k<photoKeys.length;k+=20){var chunk={};for(var j=k;j<k+20&&j<photoKeys.length;j++){chunk[photoKeys[j]]=photos[photoKeys[j]];}chunks.push(chunk);}
+    var oldChunkCount=0;
+    try{var mainDoc=await getDoc(doc(fbDb,'users',currentUser.uid));if(mainDoc.exists()&&mainDoc.data().photoChunks){oldChunkCount=mainDoc.data().photoChunks;}}catch(e){}
+    for(var k=0;k<chunks.length;k++){await setDoc(doc(fbDb,'users',currentUser.uid,'photos','chunk_'+k),{data:JSON.stringify(chunks[k]),count:Object.keys(chunks[k]).length});}
+    for(var k=chunks.length;k<oldChunkCount;k++){try{await deleteDoc(doc(fbDb,'users',currentUser.uid,'photos','chunk_'+k));}catch(e){}}
+    await setDoc(doc(fbDb,'users',currentUser.uid),{photoChunks:chunks.length,photoCount:photoKeys.length},{merge:true});
+    setSyncStatus('✅ Đã đồng bộ '+photoKeys.length+' ảnh','ok');
+  }catch(err){setSyncStatus('❌ Lỗi sync: '+err.message,'err');}
 }
 
 async function pullFromCloud(){
   if(!currentUser)return;
   try{
     setSyncStatus('⏳ Đang tải dữ liệu...','load');
-    var snap = await getDoc(doc(fbDb,'users',currentUser.uid));
-    if(!snap.exists()){ setSyncStatus('📤 Lần đầu - Đang upload dữ liệu...','load'); await pushToCloud(); return; }
-    var data = snap.data();
+    var snap=await getDoc(doc(fbDb,'users',currentUser.uid));
+    if(!snap.exists()){setSyncStatus('📤 Lần đầu - Đang upload...','load');await pushToCloud();return;}
+    var data=snap.data();
     if(data.savedCards){savedCards=data.savedCards;localStorage.setItem('customCards',JSON.stringify(savedCards));}
     if(data.learned){learned=data.learned;localStorage.setItem('lw',JSON.stringify(learned));}
     if(data.newWords){newWords=data.newWords;localStorage.setItem('newWords',JSON.stringify(newWords));}
@@ -781,113 +795,96 @@ async function pullFromCloud(){
     if(data.keyList){keyList=data.keyList;localStorage.setItem('keyList',JSON.stringify(keyList));}
     if(data.listenSpeed){listenSpeed=data.listenSpeed;localStorage.setItem('listenSpeed',listenSpeed);}
     if(data.selectedVoice){selectedVoice=data.selectedVoice;localStorage.setItem('selectedVoice',selectedVoice);}
-    var totalChunks = data.photoChunks || 0;
-    if(totalChunks > 0){
-      setSyncStatus('⏳ Đang tải ' + (data.photoCount||'?') + ' ảnh...','load');
-      var allPhotos = {};
-      for(var k = 0; k < totalChunks; k++){
-        try{ var chunkDoc = await getDoc(doc(fbDb, 'users', currentUser.uid, 'photos', 'chunk_' + k)); if(chunkDoc.exists()){ var chunkData = JSON.parse(chunkDoc.data().data); Object.assign(allPhotos, chunkData); } }catch(e){}
-      }
-      photos = allPhotos;
-      localStorage.setItem('photosByWord', JSON.stringify(photos));
+    var totalChunks=data.photoChunks||0;
+    if(totalChunks>0){
+      var allPhotos={};
+      for(var k=0;k<totalChunks;k++){try{var cd=await getDoc(doc(fbDb,'users',currentUser.uid,'photos','chunk_'+k));if(cd.exists()){var cdata=JSON.parse(cd.data().data);Object.assign(allPhotos,cdata);}}catch(e){}}
+      photos=allPhotos;
+      localStorage.setItem('photosByWord',JSON.stringify(photos));
     }
-    rebuildD(); updateNewWordCount(); renderKeyList(); r();
-    setSyncStatus('✅ Đã tải xong (' + Object.keys(photos).length + ' ảnh)','ok');
-  }catch(err){ setSyncStatus('❌ Lỗi tải: ' + err.message,'err'); }
+    rebuildD();updateNewWordCount();renderKeyList();r();
+    setSyncStatus('✅ Đã tải xong','ok');
+  }catch(err){setSyncStatus('❌ Lỗi tải: '+err.message,'err');}
 }
 
-function scheduleSync(){ if(!currentUser)return; clearTimeout(syncTimeout); syncTimeout=setTimeout(pushToCloud, 3000); }
-function setSyncStatus(msg, cls){ var el = document.getElementById('authStatus'); if(!el)return; el.textContent = msg; el.className = 'status ' + (cls||''); }
+function scheduleSync(){if(!currentUser)return;clearTimeout(syncTimeout);syncTimeout=setTimeout(pushToCloud,3000);}
+function setSyncStatus(msg,cls){var el=document.getElementById('authStatus');if(!el)return;el.textContent=msg;el.className='status '+(cls||'');}
 
-window.loginGoogle = async function(){
+window.loginGoogle=async function(){
   try{
-    var provider = new GoogleAuthProvider();
-    var isPWA = window.matchMedia('(display-mode: standalone)').matches || window.navigator.standalone === true;
-    if(isPWA){ setSyncStatus('⏳ Đang chuyển sang Google...','load'); await signInWithRedirect(fbAuth, provider); }
-    else { await signInWithPopup(fbAuth, provider); }
-  }catch(err){ alert('❌ Lỗi đăng nhập: ' + err.message); }
+    var provider=new GoogleAuthProvider();
+    var isPWA=window.matchMedia('(display-mode: standalone)').matches||window.navigator.standalone===true;
+    if(isPWA){setSyncStatus('⏳ Đang chuyển sang Google...','load');await signInWithRedirect(fbAuth,provider);}
+    else{await signInWithPopup(fbAuth,provider);}
+  }catch(err){alert('❌ Lỗi đăng nhập: '+err.message);}
 };
-
-window.logoutGoogle = async function(){
-  if(!confirm('Đăng xuất? Dữ liệu vẫn giữ trên cloud.'))return;
-  try{ await signOut(fbAuth); alert('✅ Đã đăng xuất'); }catch(err){ alert('❌ Lỗi: ' + err.message); }
+window.logoutGoogle=async function(){
+  if(!confirm('Đăng xuất?'))return;
+  try{await signOut(fbAuth);alert('✅ Đã đăng xuất');}catch(err){alert('❌ Lỗi: '+err.message);}
 };
+getRedirectResult(fbAuth).then(function(result){if(result&&result.user){console.log('✅ Đăng nhập qua redirect:',result.user.email);}}).catch(function(err){console.error('Lỗi redirect:',err.message);});
 
-getRedirectResult(fbAuth).then(function(result){ if(result && result.user){ console.log('✅ Đăng nhập qua redirect:', result.user.email); } }).catch(function(err){ console.error('Lỗi redirect:', err.message); });
-
-onAuthStateChanged(fbAuth, async function(user){
-  currentUser = user;
-  var avatar = document.getElementById('authAvatar');
-  var name = document.getElementById('authName');
-  var email = document.getElementById('authEmail');
-  var btnLogin = document.getElementById('btnLogin');
-  var btnLogout = document.getElementById('btnLogout');
+onAuthStateChanged(fbAuth,async function(user){
+  currentUser=user;
+  var avatar=document.getElementById('authAvatar'),name=document.getElementById('authName');
+  var email=document.getElementById('authEmail'),btnLogin=document.getElementById('btnLogin'),btnLogout=document.getElementById('btnLogout');
   if(user){
-    avatar.src = user.photoURL || ''; avatar.classList.add('show');
-    name.textContent = user.displayName || 'User'; email.textContent = user.email;
-    btnLogin.style.display = 'none'; btnLogout.classList.add('show');
+    avatar.src=user.photoURL||'';avatar.classList.add('show');
+    name.textContent=user.displayName||'User';email.textContent=user.email;
+    btnLogin.style.display='none';btnLogout.classList.add('show');
     await pullFromCloud();
   }else{
     avatar.classList.remove('show');
-    name.textContent = 'Chưa đăng nhập'; email.textContent = 'Đăng nhập để đồng bộ dữ liệu';
-    btnLogin.style.display = 'inline-block'; btnLogout.classList.remove('show');
+    name.textContent='Chưa đăng nhập';email.textContent='Đăng nhập để đồng bộ dữ liệu';
+    btnLogin.style.display='inline-block';btnLogout.classList.remove('show');
     setSyncStatus('⚪ Chưa kết nối','');
   }
 });
 
 function getVoice(){
   var voices=speechSynthesis.getVoices();
-  if(selectedVoice){ var found=voices.find(function(v){return v.name===selectedVoice;}); if(found)return found; }
+  if(selectedVoice){var found=voices.find(function(v){return v.name===selectedVoice;});if(found)return found;}
   return voices.find(function(v){return v.lang==='en-US'&&/allison|ava|samantha|alex/i.test(v.name);})||
-         voices.find(function(v){return v.lang==='en-US';}) ||
-         voices.find(function(v){return v.lang.startsWith('en');});
+    voices.find(function(v){return v.lang==='en-US';})||
+    voices.find(function(v){return v.lang.startsWith('en');});
 }
 
 function loadVoices(){
-  var sel=document.getElementById('voiceSelect'); if(!sel)return;
+  var sel=document.getElementById('voiceSelect');if(!sel)return;
   var voices=speechSynthesis.getVoices();
   var enVoices=voices.filter(function(v){return v.lang.startsWith('en');});
-  if(enVoices.length===0){ sel.innerHTML='<option value="">Không có giọng tiếng Anh</option>'; return; }
+  if(enVoices.length===0){sel.innerHTML='<option value="">Không có giọng tiếng Anh</option>';return;}
   var html='<option value="">Mặc định (tự chọn)</option>';
-  enVoices.forEach(function(v){
-    var label=v.name+' ('+v.lang+')';
-    var selected=(v.name===selectedVoice)?' selected':'';
-    html+='<option value="'+v.name+'"'+selected+'>'+label+'</option>';
-  });
+  enVoices.forEach(function(v){var label=v.name+' ('+v.lang+')';var selected=(v.name===selectedVoice)?' selected':'';html+='<option value="'+v.name+'"'+selected+'>'+label+'</option>';});
   sel.innerHTML=html;
 }
 function changeVoice(name){
-  selectedVoice=name; localStorage.setItem('selectedVoice',name); scheduleSync();
+  selectedVoice=name;localStorage.setItem('selectedVoice',name);scheduleSync();
   if(name){
     speechSynthesis.cancel();
     var voice=getVoice();
-    if(voice){ var u=new SpeechSynthesisUtterance('Hello, this is my voice.'); u.voice=voice;u.lang='en-US';u.rate=listenSpeed; speechSynthesis.speak(u); }
+    if(voice){var u=new SpeechSynthesisUtterance('Hello, this is my voice.');u.voice=voice;u.lang='en-US';u.rate=listenSpeed;speechSynthesis.speak(u);}
   }
 }
 
 function searchGoogleImage(e){
   if(e)e.stopPropagation();
-  var word=d[i][0]; var meaning=d[i][3];
+  var word=d[i][0];var meaning=d[i][3];
   var query=encodeURIComponent(meaning||word);
   var url='https://www.google.com/search?tbm=isch&q='+query;
-  var a=document.createElement('a'); a.href=url;a.target='_blank';a.rel='noopener'; a.style.display='none';
-  document.body.appendChild(a); a.click(); setTimeout(function(){document.body.removeChild(a);},100);
+  var a=document.createElement('a');a.href=url;a.target='_blank';a.rel='noopener';a.style.display='none';
+  document.body.appendChild(a);a.click();setTimeout(function(){document.body.removeChild(a);},100);
 }
 
 var currentListenMode='';
-var listenTopic={ easy:'Giao tiếp hàng ngày (chào hỏi, giới thiệu, cảm ơn, xin lỗi)', medium:'Công việc, học tập (nghề nghiệp, trường học, văn phòng)', hard:'Đời sống, xã hội (môi trường, công nghệ, văn hóa, du lịch)' };
+var listenTopic={easy:'Giao tiếp hàng ngày',medium:'Công việc, học tập',hard:'Đời sống, xã hội'};
 
-function openListen(){
-  document.getElementById('listen-home').style.display='block';
-  document.getElementById('listen-content').style.display='none';
-  document.getElementById('listenmodal').classList.add('show');
-  setTimeout(loadVoices,300);
-}
+function openListen(){document.getElementById('listen-home').style.display='block';document.getElementById('listen-content').style.display='none';document.getElementById('listenmodal').classList.add('show');setTimeout(loadVoices,300);}
 function closeListen(){document.getElementById('listenmodal').classList.remove('show');}
-function backToListenHome(){ document.getElementById('listen-home').style.display='block'; document.getElementById('listen-content').style.display='none'; }
+function backToListenHome(){document.getElementById('listen-home').style.display='block';document.getElementById('listen-content').style.display='none';}
 
 function updateSpeedLabel(){
-  var lbl=document.getElementById('speedLabel'); if(!lbl)return;
+  var lbl=document.getElementById('speedLabel');if(!lbl)return;
   var text;
   if(listenSpeed<=0.4)text='🐢 Rất chậm ('+listenSpeed.toFixed(2)+'x)';
   else if(listenSpeed<=0.6)text='🚶 Chậm ('+listenSpeed.toFixed(2)+'x)';
@@ -902,31 +899,25 @@ async function loadListenMode(mode){
   document.getElementById('listen-content').style.display='block';
   var list=document.getElementById('listen-list');
   if(listenData[mode]&&listenData[mode].length){renderListenList(mode);return;}
-  if(!keyList.length){list.innerHTML='<div style="color:#991b1b;text-align:center;padding:20px">⚠️ Cần có key Gemini.</div>';return;}
+  if(!keyList.length){list.innerHTML='<div style="color:#991b1b;text-align:center;padding:20px">⚠️ Cần key Gemini.</div>';return;}
   list.innerHTML='<div style="text-align:center;padding:20px"><span class="spinner"></span>AI đang tạo 10 câu...</div>';
   var topic=listenTopic[mode];
-  var levelDesc=mode==='easy'?'ngắn (3-5 từ), đơn giản':mode==='medium'?'trung bình (6-10 từ)':'dài (11-15 từ), phức tạp';
-  var prompt='Tạo 10 câu tiếng Anh theo chủ đề: "'+topic+'".\n\nYêu cầu: mỗi câu có độ dài '+levelDesc+'. Câu tự nhiên, đúng ngữ pháp.\n\nTrả về JSON (chỉ JSON):\n[\n  {"en":"câu tiếng Anh","vi":"nghĩa tiếng Việt"}\n]';
+  var levelDesc=mode==='easy'?'ngắn (3-5 từ)':mode==='medium'?'trung bình (6-10 từ)':'dài (11-15 từ)';
+  var prompt='Tạo 10 câu tiếng Anh theo chủ đề: "'+topic+'".\n\nYêu cầu: mỗi câu có độ dài '+levelDesc+'. Trả về JSON (chỉ JSON):\n[\n  {"en":"câu tiếng Anh","vi":"nghĩa tiếng Việt"}\n]';
   try{
     var text=await callWithRetry(prompt,null,null);
-    var m=text.match(/\[[\s\S]*\]/); if(!m)throw new Error('Không parse được');
+    var m=text.match(/\[[\s\S]*\]/);if(!m)throw new Error('Không parse được');
     var arr=JSON.parse(m[0]);
     listenData[mode]=arr.map(function(x){return {en:x.en,vi:x.vi,answered:false,userAnswer:'',correct:false};});
-    saveListenData(); renderListenList(mode);
+    saveListenData();renderListenList(mode);
   }catch(err){list.innerHTML='<div style="color:#991b1b;text-align:center;padding:20px">❌ Lỗi: '+err.message+'</div>';}
 }
 
 function makeHint(text){
   var words=text.trim().split(/\s+/);
-  var hint='💡 Gợi ý:\n\n';
-  hint+='📏 Số từ: '+words.length+' từ\n';
-  hint+='📝 Độ dài: '+text.length+' ký tự\n\n';
-  hint+='🔤 Chữ cái đầu:\n';
+  var hint='💡 Gợi ý:\n\n📏 Số từ: '+words.length+'\n📝 Độ dài: '+text.length+' ký tự\n\n🔤 Chữ cái đầu:\n';
   var lines=[];
-  words.forEach(function(w){
-    var clean=w.replace(/[^a-zA-Z]/g,'');
-    if(clean){ var line='  '; for(var k=0;k<clean.length;k++){line+=(k===0?clean[0].toUpperCase():'_')+' ';} lines.push(line.trim()); }
-  });
+  words.forEach(function(w){var clean=w.replace(/[^a-zA-Z]/g,'');if(clean){var line='  ';for(var k=0;k<clean.length;k++){line+=(k===0?clean[0].toUpperCase():'_')+' ';}lines.push(line.trim());}});
   hint+=lines.join('\n');
   return hint;
 }
@@ -953,13 +944,9 @@ function renderListenList(mode){
       var text=item.correct?'✅ ĐÚNG RỒI!':(pct>=0.5?'⚠️ Gần đúng ('+Math.round(pct*100)+'%)':'❌ Sai rồi ('+Math.round(pct*100)+'%)');
       html+='<div class="listen-result '+cls+'">'+text+'</div>';
       html+='<button class="listen-speak" data-reset="'+idx+'" style="margin-top:8px;background:#e0e7ff;color:#3730a3">↩️ Làm lại</button>';
-    } else {
+    }else{
       html+='<textarea class="listen-input" id="listen-input-'+idx+'" placeholder="Gõ lại câu bạn nghe được..."></textarea>';
-      html+='<div class="listen-actions">'+
-        '<button class="listen-hint-btn" data-hint="'+idx+'">💡 Gợi ý</button>'+
-        '<button class="listen-check" data-check="'+idx+'">✅ Kiểm tra</button>'+
-        '<button class="listen-del" data-del="'+idx+'">🗑 Xóa</button>'+
-        '</div>';
+      html+='<div class="listen-actions"><button class="listen-hint-btn" data-hint="'+idx+'">💡 Gợi ý</button><button class="listen-check" data-check="'+idx+'">✅ Kiểm tra</button><button class="listen-del" data-del="'+idx+'">🗑 Xóa</button></div>';
       html+='<div class="listen-hint" id="listen-hint-'+idx+'"></div>';
     }
     div.innerHTML=html;
@@ -971,18 +958,18 @@ function renderListenList(mode){
         else{hint.textContent=makeHint(item.en);hint.classList.add('show');this.textContent='🙈 Ẩn gợi ý';}
       };
       div.querySelector('[data-check]').onclick=function(){
-        var input=document.getElementById('listen-input-'+idx); var ans=input.value.trim();
+        var input=document.getElementById('listen-input-'+idx);var ans=input.value.trim();
         if(!ans){alert('Chưa gõ gì!');return;}
-        item.userAnswer=ans; item.correct=normalize(ans)===normalize(item.en); item.answered=true;
+        item.userAnswer=ans;item.correct=normalize(ans)===normalize(item.en);item.answered=true;
         saveListenData();renderListenList(mode);
       };
       div.querySelector('[data-del]').onclick=function(){
         if(!confirm('Xóa câu này?'))return;
         listenData[mode].splice(idx,1);saveListenData();renderListenList(mode);
       };
-    } else {
+    }else{
       var resetBtn=div.querySelector('[data-reset]');
-      if(resetBtn)resetBtn.onclick=function(){ item.answered=false;item.userAnswer='';item.correct=false; saveListenData();renderListenList(mode); };
+      if(resetBtn)resetBtn.onclick=function(){item.answered=false;item.userAnswer='';item.correct=false;saveListenData();renderListenList(mode);};
     }
     list.appendChild(div);
   });
@@ -1004,16 +991,10 @@ function speakText(text){
   speechSynthesis.speak(u);
 }
 function normalize(s){return s.toLowerCase().replace(/[.,!?;:'"“”‘’\-–—]/g,'').replace(/\s+/g,' ').trim();}
-function similarity(a,b){
-  a=normalize(a);b=normalize(b);
-  if(a===b)return 1; if(!a||!b)return 0;
-  var aw=a.split(' '),bw=b.split(' ');
-  var matches=0;aw.forEach(function(w){if(bw.indexOf(w)>=0)matches++;});
-  return matches/Math.max(aw.length,bw.length);
-}
+function similarity(a,b){a=normalize(a);b=normalize(b);if(a===b)return 1;if(!a||!b)return 0;var aw=a.split(' '),bw=b.split(' ');var matches=0;aw.forEach(function(w){if(bw.indexOf(w)>=0)matches++;});return matches/Math.max(aw.length,bw.length);}
 
 var currentWordInfo=null;
-function isWordSaved(word){ if(!word)return false; return newWords.some(function(w){return w.word.toLowerCase()===word.toLowerCase();}); }
+function isWordSaved(word){if(!word)return false;return newWords.some(function(w){return w.word.toLowerCase()===word.toLowerCase();});}
 function toggleSaveWord(){
   if(!currentWordInfo)return;
   var word=currentWordInfo.word;
@@ -1021,7 +1002,7 @@ function toggleSaveWord(){
     if(!confirm('Bỏ từ "'+word+'" khỏi kho?'))return;
     newWords=newWords.filter(function(w){return w.word.toLowerCase()!==word.toLowerCase();});
     saveNewWords();updateSaveBtn();updateNewWordCount();
-  } else {
+  }else{
     newWords.push({word:currentWordInfo.word,ipa:currentWordInfo.ipa||'',type:currentWordInfo.type||'',meaning:currentWordInfo.meaning||'',example:currentWordInfo.example||'',exampleVi:currentWordInfo.exampleVi||'',synonyms:currentWordInfo.synonyms||'',savedAt:Date.now()});
     saveNewWords();updateSaveBtn();updateNewWordCount();
     alert('✅ Đã lưu "'+word+'"!');
@@ -1042,9 +1023,7 @@ function openNewWords(){
     newWords.forEach(function(w,idx){
       var item=document.createElement('div');
       item.className='card-item new-word';
-      item.innerHTML='<div class="num">'+(idx+1)+'</div>'+
-        '<div class="text"><div class="word">'+w.word+'</div><div class="meaning">'+w.meaning+'</div></div>'+
-        '<button class="delbtn" data-delnewword="'+idx+'">🗑</button>';
+      item.innerHTML='<div class="num">'+(idx+1)+'</div><div class="text"><div class="word">'+w.word+'</div><div class="meaning">'+w.meaning+'</div></div><button class="delbtn" data-delnewword="'+idx+'">🗑</button>';
       item.querySelector('.text').onclick=function(){showWordInfo(w.word);};
       item.querySelector('[data-delnewword]').onclick=function(ev){
         ev.stopPropagation();
@@ -1066,13 +1045,10 @@ function renderKeyList(){
     var div=document.createElement('div');
     div.className='keyitem';
     var status='active';var statusText='Sẵn sàng';
-    if(item.status==='cool'&&item.coolUntil>Date.now()){ status='cool';var remain=Math.ceil((item.coolUntil-Date.now())/1000);statusText='Chờ '+remain+'s'; }
+    if(item.status==='cool'&&item.coolUntil>Date.now()){status='cool';var remain=Math.ceil((item.coolUntil-Date.now())/1000);statusText='Chờ '+remain+'s';}
     else if(item.status==='dead'){status='dead';statusText='Lỗi';}
     else{item.status='active';}
-    div.innerHTML='<div class="idx">#'+(idx+1)+'</div>'+
-      '<div class="keyval">'+item.key.slice(0,15)+'...'+item.key.slice(-5)+'</div>'+
-      '<div class="status '+status+'">'+statusText+'</div>'+
-      '<button class="del" data-delkey="'+idx+'">✕</button>';
+    div.innerHTML='<div class="idx">#'+(idx+1)+'</div><div class="keyval">'+item.key.slice(0,15)+'...'+item.key.slice(-5)+'</div><div class="status '+status+'">'+statusText+'</div><button class="del" data-delkey="'+idx+'">✕</button>';
     div.querySelector('[data-delkey]').onclick=function(){deleteKey(idx);};
     el.appendChild(div);
   });
@@ -1080,7 +1056,7 @@ function renderKeyList(){
 function addKey(){
   var v=document.getElementById('geminikey').value.trim();
   if(!v){alert('Chưa nhập key!');return;}
-  if(v.indexOf('\n')>=0||v.indexOf(' ')>=0){alert('⚠️ Key có dấu cách hoặc xuống dòng!');return;}
+  if(v.indexOf('\n')>=0||v.indexOf(' ')>=0){alert('⚠️ Key có dấu cách!');return;}
   for(var k=0;k<keyList.length;k++){if(keyList[k].key===v){alert('⚠️ Key đã có!');return;}}
   keyList.push({key:v,status:'active',coolUntil:0});
   saveKeyList();document.getElementById('geminikey').value='';renderKeyList();
@@ -1100,7 +1076,7 @@ function clearAllKeys(){
 function getCurrentKey(){
   if(!keyList.length)return '';
   var aliveIdx=[];
-  for(var k=0;k<keyList.length;k++){ if(keyList[k].status!=='dead')aliveIdx.push(k); }
+  for(var k=0;k<keyList.length;k++){if(keyList[k].status!=='dead')aliveIdx.push(k);}
   if(aliveIdx.length===0)return '';
   for(var k=0;k<aliveIdx.length;k++){
     var idx=(currentKeyIndex+k)%keyList.length;
@@ -1111,15 +1087,12 @@ function getCurrentKey(){
     return item.key;
   }
   var minTime=Infinity,minIdx=-1;
-  for(var k=0;k<aliveIdx.length;k++){
-    var idx2=aliveIdx[k];
-    if(keyList[idx2].coolUntil<minTime){minTime=keyList[idx2].coolUntil;minIdx=idx2;}
-  }
-  if(minIdx>=0){ currentKeyIndex=minIdx;localStorage.setItem('cki',currentKeyIndex); return keyList[minIdx].key; }
+  for(var k=0;k<aliveIdx.length;k++){var idx2=aliveIdx[k];if(keyList[idx2].coolUntil<minTime){minTime=keyList[idx2].coolUntil;minIdx=idx2;}}
+  if(minIdx>=0){currentKeyIndex=minIdx;localStorage.setItem('cki',currentKeyIndex);return keyList[minIdx].key;}
   return '';
 }
-function markKeyCool(idx,seconds){ if(!keyList[idx])return; keyList[idx].status='cool';keyList[idx].coolUntil=Date.now()+seconds*1000; saveKeyList();renderKeyList(); }
-function markKeyDead(idx){ if(!keyList[idx])return; keyList[idx].status='dead';saveKeyList();renderKeyList(); }
+function markKeyCool(idx,seconds){if(!keyList[idx])return;keyList[idx].status='cool';keyList[idx].coolUntil=Date.now()+seconds*1000;saveKeyList();renderKeyList();}
+function markKeyDead(idx){if(!keyList[idx])return;keyList[idx].status='dead';saveKeyList();renderKeyList();}
 
 async function showWordInfo(word,ev){
   if(ev)ev.stopPropagation();
@@ -1143,36 +1116,33 @@ async function showWordInfo(word,ev){
   var prompt='Tra từ tiếng Anh "'+clean+'". Trả lời ĐÚNG định dạng JSON:\n{"word":"'+clean+'","ipa":"phiên âm","type":"loại từ","meaning":"nghĩa tiếng Việt","example":"câu ví dụ","exampleVi":"nghĩa câu","synonyms":"từ đồng nghĩa"}';
   try{
     var text=await callWithRetry(prompt,null,null);
-    var m=text.match(/\{[\s\S]*\}/); if(!m)throw new Error('Không parse được');
+    var m=text.match(/\{[\s\S]*\}/);if(!m)throw new Error('Không parse được');
     var obj=JSON.parse(m[0]);
     wordCache[clean]=obj;saveWordCache();
     currentWordInfo=obj;renderWordInfo(obj);updateSaveBtn();
   }catch(err){info.innerHTML='<div style="color:#991b1b">❌ Lỗi: '+err.message+'</div>';}
 }
 function renderWordInfo(obj){
-  var info=document.getElementById('wordinfo'); var html='';
-  if(obj.ipa) html+='<div class="row"><div class="lbl">PHIÊN ÂM</div><div class="val ipa">'+obj.ipa+'</div></div>';
-  if(obj.type) html+='<div class="row"><div class="lbl">LOẠI TỪ</div><div class="val">'+obj.type+'</div></div>';
-  if(obj.meaning) html+='<div class="row"><div class="lbl">NGHĨA</div><div class="val meaning">'+obj.meaning+'</div></div>';
-  if(obj.example) html+='<div class="row"><div class="lbl">VÍ DỤ</div><div class="val">'+obj.example+'<br><i style="color:#6b7280">'+obj.exampleVi+'</i></div></div>';
-  if(obj.synonyms) html+='<div class="row"><div class="lbl">TỪ ĐỒNG NGHĨA</div><div class="val syn">'+obj.synonyms+'</div></div>';
+  var info=document.getElementById('wordinfo');var html='';
+  if(obj.ipa)html+='<div class="row"><div class="lbl">PHIÊN ÂM</div><div class="val ipa">'+obj.ipa+'</div></div>';
+  if(obj.type)html+='<div class="row"><div class="lbl">LOẠI TỪ</div><div class="val">'+obj.type+'</div></div>';
+  if(obj.meaning)html+='<div class="row"><div class="lbl">NGHĨA</div><div class="val meaning">'+obj.meaning+'</div></div>';
+  if(obj.example)html+='<div class="row"><div class="lbl">VÍ DỤ</div><div class="val">'+obj.example+'<br><i style="color:#6b7280">'+obj.exampleVi+'</i></div></div>';
+  if(obj.synonyms)html+='<div class="row"><div class="lbl">TỪ ĐỒNG NGHĨA</div><div class="val syn">'+obj.synonyms+'</div></div>';
   html+='<div style="text-align:center;margin-top:10px"><button class="spk" onclick="speakWordModal(\''+obj.word+'\')">🔊</button></div>';
   info.innerHTML=html;
 }
-function speakWordModal(w){ speechSynthesis.cancel(); var voice=getVoice(); var u=new SpeechSynthesisUtterance(w); if(voice)u.voice=voice; u.lang='en-US';u.rate=0.85;speechSynthesis.speak(u); }
+function speakWordModal(w){speechSynthesis.cancel();var voice=getVoice();var u=new SpeechSynthesisUtterance(w);if(voice)u.voice=voice;u.lang='en-US';u.rate=0.85;speechSynthesis.speak(u);}
 function closeWordModal(){document.getElementById('wordmodal').classList.remove('show');currentWordInfo=null;}
 
-function compressImage(dataUrl, callback){
+function compressImage(dataUrl,callback){
   var img=new Image();
   img.onload=function(){
-    var canvas=document.createElement('canvas');
-    var maxSize=400;
-    var w=img.width,h=img.height;
-    if(w>h){ if(w>maxSize){h=h*maxSize/w;w=maxSize;} }else{ if(h>maxSize){w=w*maxSize/h;h=maxSize;} }
+    var canvas=document.createElement('canvas');var maxSize=400;var w=img.width,h=img.height;
+    if(w>h){if(w>maxSize){h=h*maxSize/w;w=maxSize;}}else{if(h>maxSize){w=w*maxSize/h;h=maxSize;}}
     canvas.width=w;canvas.height=h;
-    var ctx=canvas.getContext('2d'); ctx.drawImage(img,0,0,w,h);
-    var compressed=canvas.toDataURL('image/jpeg',0.6);
-    callback(compressed);
+    var ctx=canvas.getContext('2d');ctx.drawImage(img,0,0,w,h);
+    callback(canvas.toDataURL('image/jpeg',0.6));
   };
   img.onerror=function(){callback(dataUrl);};
   img.src=dataUrl;
@@ -1185,7 +1155,7 @@ function pickPhoto(e){
   input.onchange=function(){
     var file=input.files[0];if(!file)return;
     var reader=new FileReader();
-    reader.onload=function(){ compressImage(reader.result,function(compressed){ photos[word]=compressed; savePhotos(); showPhoto(); if(document.getElementById('listmodal').classList.contains('show'))openList(); }); };
+    reader.onload=function(){compressImage(reader.result,function(c){photos[word]=c;savePhotos();showPhoto();if(document.getElementById('listmodal').classList.contains('show'))openList();});};
     reader.readAsDataURL(file);
   };
   input.click();
@@ -1197,15 +1167,15 @@ function uploadFromList(idx,e){
   input.onchange=function(){
     var file=input.files[0];if(!file)return;
     var reader=new FileReader();
-    reader.onload=function(){ compressImage(reader.result,function(compressed){ photos[word]=compressed; savePhotos(); if(document.getElementById('listmodal').classList.contains('show'))openList(); if(i===idx)showPhoto(); }); };
+    reader.onload=function(){compressImage(reader.result,function(c){photos[word]=c;savePhotos();if(document.getElementById('listmodal').classList.contains('show'))openList();if(i===idx)showPhoto();});};
     reader.readAsDataURL(file);
   };
   input.click();
 }
-function removePhoto(e){ e.stopPropagation(); var word=d[i][0]; if(!confirm('Xóa ảnh thẻ này?'))return; delete photos[word];savePhotos();showPhoto(); }
+function removePhoto(e){e.stopPropagation();var word=d[i][0];if(!confirm('Xóa ảnh thẻ này?'))return;delete photos[word];savePhotos();showPhoto();}
 function showPhoto(){
   var word=d[i][0];var src=photos[word];
-  var p2=document.getElementById('photo2'); var delBtn=document.getElementById('delphoto2');
+  var p2=document.getElementById('photo2');var delBtn=document.getElementById('delphoto2');
   if(src){p2.src=src;p2.classList.add('show');delBtn.style.display='block';}
   else{p2.classList.remove('show');delBtn.style.display='none';}
 }
@@ -1223,104 +1193,95 @@ async function pasteImage(e){
         if(type.startsWith('image/')){
           var blob=await item.getType(type);
           var reader=new FileReader();
-          reader.onload=function(){ compressImage(reader.result,function(compressed){ photos[word]=compressed; savePhotos(); updateAutoCount(); showPhoto(); if(document.getElementById('listmodal').classList.contains('show'))openList(); moveToNextMissing(); }); };
+          reader.onload=function(){compressImage(reader.result,function(c){photos[word]=c;savePhotos();updateAutoCount();showPhoto();if(document.getElementById('listmodal').classList.contains('show'))openList();moveToNextMissing();});};
           reader.readAsDataURL(blob);
           return;
         }
       }
     }
-    var useUpload = confirm('⚠️ Không tìm thấy ảnh trong clipboard.\n\nCách dùng:\n1. Vào tab Google vừa mở\n2. Nhấn giữ ảnh → "Sao chép"\n3. Quay lại app → bấm "Dán ảnh"\n\n👉 Bấm OK để chuyển sang UPLOAD ảnh từ máy.');
-    if(useUpload){ pickPhoto({stopPropagation:function(){}}); }
+    if(confirm('⚠️ Không tìm thấy ảnh trong clipboard.\n\nChuyển sang UPLOAD?'))pickPhoto({stopPropagation:function(){}});
   }catch(err){
-    var useUpload2 = confirm('⚠️ Không đọc được clipboard.\n\nLỗi: '+err.message+'\n\n👉 Bấm OK để chuyển sang UPLOAD ảnh từ máy.');
-    if(useUpload2){ pickPhoto({stopPropagation:function(){}}); }
+    if(confirm('⚠️ Không đọc được clipboard.\n\nLỗi: '+err.message+'\n\nChuyển sang UPLOAD?'))pickPhoto({stopPropagation:function(){}});
   }
 }
 
 function moveToNextMissing(){
   setTimeout(function(){
     var missing=[];
-    for(var k=0;k<d.length;k++){ if(!photos[d[k][0]])missing.push(k); }
-    if(missing.length===0){ alert('🎉 Đã có đủ ảnh cho tất cả thẻ!'); return; }
-    i=missing[0]; r(); f=1; document.getElementById('c').classList.add('f');
-    localStorage.setItem('lastCardIndex', i); localStorage.setItem('lastFlipState', '1');
-    alert('✅ Đã lưu ảnh!\n\n👉 Bấm nút "⚡ Tự động" để đi tiếp');
+    for(var k=0;k<d.length;k++){if(!photos[d[k][0]])missing.push(k);}
+    if(missing.length===0){alert('🎉 Đã có đủ ảnh!');return;}
+    i=missing[0];r();f=1;document.getElementById('c').classList.add('f');
+    localStorage.setItem('lastCardIndex',i);localStorage.setItem('lastFlipState','1');
+    alert('✅ Đã lưu ảnh!\n\n👉 Bấm "⚡ Tự động" để đi tiếp');
   },500);
 }
 
 function updateAutoCount(){
   var missing=0;
-  for(var k=0;k<d.length;k++){ if(!photos[d[k][0]])missing++; }
-  var el=document.getElementById('autoCount'); if(el)el.textContent=missing;
+  for(var k=0;k<d.length;k++){if(!photos[d[k][0]])missing++;}
+  var el=document.getElementById('autoCount');if(el)el.textContent=missing;
   var btn=document.getElementById('autoBtn');
   if(btn){
-    if(missing===0){ btn.textContent='✅ Đã có đủ ảnh'; btn.style.background='#4ade80'; }
-    else{ btn.innerHTML='⚡ Tự động ('+missing+')'; btn.style.background='#fb923c'; }
+    if(missing===0){btn.textContent='✅ Đã có đủ ảnh';btn.style.background='#4ade80';}
+    else{btn.innerHTML='⚡ Tự động ('+missing+')';btn.style.background='#fb923c';}
   }
 }
 
 function autoFindImage(e){
   if(e)e.stopPropagation();
   var missing=[];
-  for(var k=0;k<d.length;k++){ if(!photos[d[k][0]])missing.push(k); }
-  if(missing.length===0){ alert('✅ Tất cả thẻ đã có ảnh!'); return; }
-  i=missing[0]; r(); f=1; document.getElementById('c').classList.add('f');
-  localStorage.setItem('lastCardIndex', i); localStorage.setItem('lastFlipState', '1');
-  var word=d[i][0]; var meaning=d[i][3];
+  for(var k=0;k<d.length;k++){if(!photos[d[k][0]])missing.push(k);}
+  if(missing.length===0){alert('✅ Tất cả thẻ đã có ảnh!');return;}
+  i=missing[0];r();f=1;document.getElementById('c').classList.add('f');
+  localStorage.setItem('lastCardIndex',i);localStorage.setItem('lastFlipState','1');
+  var word=d[i][0];var meaning=d[i][3];
   var query=encodeURIComponent(meaning||word);
   var url='https://www.google.com/search?tbm=isch&q='+query;
-  var a=document.createElement('a'); a.href=url;a.target='_blank';a.rel='noopener noreferrer'; a.style.display='none';
-  document.body.appendChild(a); a.click(); setTimeout(function(){document.body.removeChild(a);},100);
+  var a=document.createElement('a');a.href=url;a.target='_blank';a.rel='noopener noreferrer';a.style.display='none';
+  document.body.appendChild(a);a.click();setTimeout(function(){document.body.removeChild(a);},100);
 }
 
 function compressAllOldImages(){
   var words=Object.keys(photos);
   if(words.length===0){alert('Không có ảnh nào để nén!');return;}
-  if(!confirm('Nén '+words.length+' ảnh cũ?\n\nQuá trình mất 30-60 giây.'))return;
+  if(!confirm('Nén '+words.length+' ảnh cũ?'))return;
   var done=0;
   function next(k){
-    if(k>=words.length){ alert('✅ Đã nén xong '+done+' ảnh!'); scheduleSync(); return; }
+    if(k>=words.length){alert('✅ Đã nén xong '+done+' ảnh!');scheduleSync();return;}
     var w=words[k];
-    compressImage(photos[w],function(compressed){ photos[w]=compressed; done++; if(done%5===0){savePhotos();} next(k+1); });
+    compressImage(photos[w],function(c){photos[w]=c;done++;if(done%5===0){savePhotos();}next(k+1);});
   }
   next(0);
 }
 
 function openImport(mode){
-  var input = document.getElementById('fileinput'); input.value = ''; input.onchange = null;
-  if(mode === 'image'){
-    input.accept = 'image/*';
-    input.onchange = function(e){
-      var file = e.target.files[0]; if(!file) return;
-      if(file.size > 10*1024*1024){ alert('⚠️ Ảnh quá lớn (>10MB). Vui lòng chọn ảnh nhỏ hơn.'); return; }
-      processImage(file);
-    };
+  var input=document.getElementById('fileinput');input.value='';input.onchange=null;
+  if(mode==='image'){
+    input.accept='image/*';
+    input.onchange=function(e){var file=e.target.files[0];if(!file)return;if(file.size>10*1024*1024){alert('⚠️ Ảnh quá lớn (>10MB)');return;}processImage(file);};
   }else{
-    input.accept = '.txt,.csv,.text';
-    input.onchange = function(e){ var file = e.target.files[0]; if(!file) return; processFile(file); };
+    input.accept='.txt,.csv,.text';
+    input.onchange=function(e){var file=e.target.files[0];if(!file)return;processFile(file);};
   }
   input.click();
 }
 function closeModal(){document.getElementById('modal').classList.remove('show');}
 function doImport(){}
-function fileToBase64(file){ return new Promise(function(res,rej){ var r=new FileReader();r.onload=function(){res(r.result.split(',')[1]);};r.onerror=rej;r.readAsDataURL(file); }); }
-function fileToText(file){ return new Promise(function(res,rej){ var r=new FileReader();r.onload=function(){res(r.result);};r.onerror=rej;r.readAsText(file); }); }
-function buildExtractPrompt(text){
-  return 'Đọc nội dung sau và trích xuất TẤT CẢ từ vựng:\n\n'+text+'\n\n'+
-  'Trả về JSON (chỉ JSON):\n[{"word":"từ tiếng Anh","ipa":"phiên âm","type":"loại từ","meaning":"nghĩa","example":"câu ví dụ tiếng Anh","exampleVi":"nghĩa câu"}]\n\nNếu không có từ nào, trả về [].';
-}
+function fileToBase64(file){return new Promise(function(res,rej){var r=new FileReader();r.onload=function(){res(r.result.split(',')[1]);};r.onerror=rej;r.readAsDataURL(file);});}
+function fileToText(file){return new Promise(function(res,rej){var r=new FileReader();r.onload=function(){res(r.result);};r.onerror=rej;r.readAsText(file);});}
+function buildExtractPrompt(text){return 'Đọc nội dung sau và trích xuất TẤT CẢ từ vựng:\n\n'+text+'\n\nTrả về JSON (chỉ JSON):\n[{"word":"từ tiếng Anh","ipa":"phiên âm","type":"loại từ","meaning":"nghĩa","example":"câu ví dụ tiếng Anh","exampleVi":"nghĩa câu"}]\n\nNếu không có từ nào, trả về [].';}
 async function processImage(file){
   document.getElementById('modal').classList.add('show');
   var status=document.getElementById('modal-status');
   status.style.display='block';status.className='status';
-  status.innerHTML='<span class="spinner"></span>Đang đọc ảnh (' + (file.size/1024).toFixed(0) + 'KB)...';
+  status.innerHTML='<span class="spinner"></span>Đang đọc ảnh...';
   try{
-    if(!keyList.length){ status.className='status no'; status.textContent='⚠️ Chưa có key Gemini.'; return; }
+    if(!keyList.length){status.className='status no';status.textContent='⚠️ Chưa có key Gemini.';return;}
     var b64=await fileToBase64(file);
     status.innerHTML='<span class="spinner"></span>Đang gửi AI phân tích...';
     var text=await callWithRetry(buildExtractPrompt('nội dung trong ảnh này'),{type:file.type,b64:b64},status);
     parseAndAddCards(text,status);
-  }catch(err){ status.className='status no'; status.textContent='❌ Lỗi: '+err.message; }
+  }catch(err){status.className='status no';status.textContent='❌ Lỗi: '+err.message;}
 }
 async function processFile(file){
   document.getElementById('modal').classList.add('show');
@@ -1328,12 +1289,12 @@ async function processFile(file){
   status.style.display='block';status.className='status';
   status.innerHTML='<span class="spinner"></span>Đang đọc file...';
   try{
-    if(!keyList.length){ status.className='status no'; status.textContent='⚠️ Chưa có key Gemini.'; return; }
+    if(!keyList.length){status.className='status no';status.textContent='⚠️ Chưa có key Gemini.';return;}
     var content=await fileToText(file);
     status.innerHTML='<span class="spinner"></span>Đang gửi AI phân tích...';
     var text=await callWithRetry(buildExtractPrompt(content),null,status);
     parseAndAddCards(text,status);
-  }catch(err){ status.className='status no'; status.textContent='❌ Lỗi: '+err.message; }
+  }catch(err){status.className='status no';status.textContent='❌ Lỗi: '+err.message;}
 }
 async function callGeminiWithKey(key,model,prompt,imageData){
   var url='https://generativelanguage.googleapis.com/v1beta/models/'+model+':generateContent?key='+key;
@@ -1379,7 +1340,7 @@ async function callWithRetry(prompt,imageData,statusEl){
 }
 function parseAndAddCards(text,status){
   try{
-    var m=text.match(/\[[\s\S]*\]/); if(!m)throw new Error('Không tìm thấy danh sách');
+    var m=text.match(/\[[\s\S]*\]/);if(!m)throw new Error('Không tìm thấy danh sách');
     var arr=JSON.parse(m[0]);
     if(!arr.length){status.className='status no';status.textContent='⚠️ Không có từ.';return;}
     var newCards=[];
@@ -1402,12 +1363,8 @@ function openList(){
     var checkHtml=selectMode?'<div class="check">'+(selected.has(idx)?'✅':'⬜')+'</div>':'';
     var hasPh=hasPhoto(card[0]);
     var photoBtnClass='photo-btn'+(hasPh?' has':'');
-    item.innerHTML=checkHtml+
-      '<div class="num">'+(idx+1)+'</div>'+
-      '<div class="text"><div class="word">'+card[0]+'</div><div class="meaning">'+card[3]+'</div></div>'+
-      '<button class="'+photoBtnClass+'" data-photobtn="'+idx+'">📷</button>'+
-      (selectMode?'':'<button class="delbtn" data-delbtn="'+idx+'">🗑</button>');
-    item.querySelector('.text').onclick=function(ev){ if(selectMode)toggleSelectCard(idx,ev);else{i=idx;r();closeList();} };
+    item.innerHTML=checkHtml+'<div class="num">'+(idx+1)+'</div><div class="text"><div class="word">'+card[0]+'</div><div class="meaning">'+card[3]+'</div></div><button class="'+photoBtnClass+'" data-photobtn="'+idx+'">📷</button>'+(selectMode?'':'<button class="delbtn" data-delbtn="'+idx+'">🗑</button>');
+    item.querySelector('.text').onclick=function(ev){if(selectMode)toggleSelectCard(idx,ev);else{i=idx;r();closeList();}};
     item.querySelector('[data-photobtn]').onclick=function(ev){uploadFromList(idx,ev);};
     if(selectMode){item.querySelector('.check').onclick=function(ev){toggleSelectCard(idx,ev);};}
     else{item.querySelector('[data-delbtn]').onclick=function(ev){ev.stopPropagation();deleteCard(idx);};}
@@ -1464,35 +1421,19 @@ function deleteCard(idx){
   r();openList();
 }
 function shuffleCards(event){
-  for(var j=d.length-1;j>0;j--){ var k=Math.floor(Math.random()*(j+1)); var t=d[j];d[j]=d[k];d[k]=t; }
+  for(var j=d.length-1;j>0;j--){var k=Math.floor(Math.random()*(j+1));var t=d[j];d[j]=d[k];d[k]=t;}
   i=0;r();
-  if(event && event.target){
-    var btn=event.target; var old=btn.textContent;
-    btn.textContent='✅ Đã xáo!';
-    setTimeout(function(){btn.textContent=old;},1000);
-  }
+  if(event&&event.target){var btn=event.target;var old=btn.textContent;btn.textContent='✅ Đã xáo!';setTimeout(function(){btn.textContent=old;},1000);}
 }
 function resetOrder(){d=original.concat(savedCards);i=0;r();}
 
 function renderEx(text){
-  var el=document.getElementById('e');
-  el.innerHTML='';el.classList.toggle('blur',blur);
+  var el=document.getElementById('e');el.innerHTML='';el.classList.toggle('blur',blur);
   text.split(/(\s+)/).forEach(function(w){
     if(w.trim()===''){el.appendChild(document.createTextNode(w));return;}
-    var s=document.createElement('span');
-    s.textContent=w;
-    s.onclick=function(e){e.stopPropagation();showWordInfo(w,e);};
+    var s=document.createElement('span');s.textContent=w;s.onclick=function(e){e.stopPropagation();showWordInfo(w,e);};
     el.appendChild(s);
   });
-}
-function speakWord(w){
-  var clean=w.replace(/[^a-zA-Z']/g,'');
-  if(!clean)return;
-  speechSynthesis.cancel();
-  var voice=getVoice();
-  var u=new SpeechSynthesisUtterance(clean);
-  if(voice)u.voice=voice;
-  u.lang='en-US';u.rate=0.85;speechSynthesis.speak(u);
 }
 function r(){
   if(!d.length){document.getElementById('cnt').textContent='0/0';return;}
@@ -1519,11 +1460,7 @@ function flip(e){
   if(e.target.classList.contains('spk')||e.target.classList.contains('blurbtn')||e.target.classList.contains('checkbtn')||e.target.classList.contains('addphoto')||e.target.classList.contains('btn-del')||e.target.tagName==='SPAN'||e.target.tagName==='TEXTAREA'||e.target.tagName==='BUTTON'||e.target.tagName==='INPUT'||e.target.tagName==='IMG')return;
   f=!f;document.getElementById('c').classList.toggle('f',f);
 }
-function toggleBlur(e){
-  e.stopPropagation();blur=!blur;
-  document.getElementById('e').classList.toggle('blur',blur);
-  document.getElementById('blurbtn').textContent=blur?'👁 Hiện tiếng Anh':'👁 Làm mờ tiếng Anh';
-}
+function toggleBlur(e){e.stopPropagation();blur=!blur;document.getElementById('e').classList.toggle('blur',blur);document.getElementById('blurbtn').textContent=blur?'👁 Hiện tiếng Anh':'👁 Làm mờ tiếng Anh';}
 function next(){if(i<d.length-1){i++;r();}}
 function prev(){if(i>0){i--;r();}}
 function toggle(){
@@ -1542,7 +1479,7 @@ async function checkEx(e){
   btn.disabled=true;
   res.textContent='🤖 AI đang chấm...';res.className='result load';
   var job=d[i][3];var jobEn=d[i][0];
-  var prompt='Bạn là giáo viên tiếng Anh chấm bài học sinh Việt Nam.\n\nYêu cầu: học sinh viết MỘT CÂU tiếng Anh có sử dụng từ "'+jobEn+'" (nghĩa: "'+job+'").\n\nCâu học sinh viết: "'+user+'"\n\nHãy TỰ ĐÁNH GIÁ câu theo tiêu chí:\n1. Câu hoàn chỉnh?\n2. Ngữ pháp đúng không?\n3. Dùng từ "'+jobEn+'" đúng cách không?\n4. Nghĩa hợp lý tự nhiên không?\n5. Chính tả đúng không?\n\nTrả lời NGẮN GỌN bằng tiếng Việt, ĐÚNG định dạng:\nKẾT QUẢ: ĐẠT hoặc CHƯA ĐẠT\nNGỮ PHÁP: [nhận xét]\nTỪ VỰNG: [nhận xét]\nNGHĨA: [nhận xét]\nGỢI Ý: [sửa lại hoặc khen]';
+  var prompt='Bạn là giáo viên tiếng Anh. Học sinh viết câu với từ "'+jobEn+'" (nghĩa: "'+job+'"). Câu: "'+user+'"\n\nTrả lời NGẮN GỌN:\nKẾT QUẢ: ĐẠT hoặc CHƯA ĐẠT\nNGỮ PHÁP: [nhận xét]\nTỪ VỰNG: [nhận xét]\nNGHĨA: [nhận xét]\nGỢI Ý: [sửa lại hoặc khen]';
   try{
     var text=await callWithRetry(prompt,null,null);
     var pass=text.indexOf('KẾT QUẢ: ĐẠT')>=0;
@@ -1563,14 +1500,14 @@ function say(e,t){
 
 setInterval(function(){
   var needRefresh=false;
-  keyList.forEach(function(item){ if(item.status==='cool'&&item.coolUntil<=Date.now()){item.status='active';needRefresh=true;} });
+  keyList.forEach(function(item){if(item.status==='cool'&&item.coolUntil<=Date.now()){item.status='active';needRefresh=true;}});
   if(needRefresh){saveKeyList();renderKeyList();}
 },5000);
 
 var speedSlider=document.getElementById('speedSlider');
 if(speedSlider){
-  speedSlider.value=listenSpeed; updateSpeedLabel();
-  speedSlider.oninput=function(){ listenSpeed=parseFloat(this.value); localStorage.setItem('listenSpeed',listenSpeed); updateSpeedLabel(); scheduleSync(); };
+  speedSlider.value=listenSpeed;updateSpeedLabel();
+  speedSlider.oninput=function(){listenSpeed=parseFloat(this.value);localStorage.setItem('listenSpeed',listenSpeed);updateSpeedLabel();scheduleSync();};
 }
 loadVoices();
 if(typeof speechSynthesis!=='undefined'){
@@ -1583,280 +1520,194 @@ renderKeyList();
 updateNewWordCount();
 updateAutoCount();
 
-var savedCardIdx = localStorage.getItem('lastCardIndex');
-if(savedCardIdx !== null){ var parsed = parseInt(savedCardIdx); if(!isNaN(parsed) && d[parsed]){ i = parsed; } localStorage.removeItem('lastCardIndex'); }
+var savedCardIdx=localStorage.getItem('lastCardIndex');
+if(savedCardIdx!==null){var parsed=parseInt(savedCardIdx);if(!isNaN(parsed)&&d[parsed]){i=parsed;}localStorage.removeItem('lastCardIndex');}
 
 /* ═══════════════════════════════════════════════════════════
-   HỌC QUA YOUTUBE — PHIÊN BẢN MỚI
+   YOUTUBE PLAYER + 3 CHẾ ĐỘ
    ═══════════════════════════════════════════════════════════ */
 
-// ─── ĐẾM ÂM TIẾT TIẾNG ANH ───
-function ytCountSyllables(word) {
-  word = word.toLowerCase().replace(/[^a-z]/g, '');
-  if (!word) return 1;
-  if (word.length <= 3) return 1;
-  var ex = {
-    'business':2,'every':2,'different':3,'chocolate':3,'interesting':4,
-    'vegetable':4,'comfortable':4,'temperature':4,'queue':1,'people':2,
-    'beautiful':3,'favorite':3,'area':3,'idea':3,'science':2,'quiet':2,
-    'hour':1,'our':1,'fire':1,'hire':1,'wire':1,'being':2,'doing':2,
-    'going':2,'seeing':2,'created':3,'wanted':2,'needed':2,'started':2,
-    'worked':1,'looked':1,'helped':1,'washed':1
-  };
-  if (ex[word] !== undefined) return ex[word];
-  word = word.replace(/(?:[^laeiouy]es|ed|[^laeiouy]e)$/, '');
-  word = word.replace(/^y/, '');
-  var m = word.match(/[aeiouy]{1,2}/g);
-  var c = m ? m.length : 1;
-  if (/[^aeiou]le$/.test(word)) c++;
-  return Math.max(c, 1);
+function ytCountSyllables(word){
+  word=word.toLowerCase().replace(/[^a-z]/g,'');
+  if(!word)return 1;
+  if(word.length<=3)return 1;
+  var ex={business:2,every:2,different:3,chocolate:3,interesting:4,vegetable:4,comfortable:4,temperature:4,queue:1,people:2,beautiful:3,favorite:3,area:3,idea:3,science:2,quiet:2,hour:1,our:1,fire:1,hire:1,wire:1,being:2,doing:2,going:2,seeing:2,created:3,wanted:2,needed:2,started:2,worked:1,looked:1,helped:1,washed:1};
+  if(ex[word]!==undefined)return ex[word];
+  word=word.replace(/(?:[^laeiouy]es|ed|[^laeiouy]e)$/,'');
+  word=word.replace(/^y/,'');
+  var m=word.match(/[aeiouy]{1,2}/g);
+  var c=m?m.length:1;
+  if(/[^aeiou]le$/.test(word))c++;
+  return Math.max(c,1);
 }
 
-var YT_FUNCTION_WORDS = {
-  'a':.35,'an':.35,'the':.4,'of':.4,'to':.45,'in':.45,'on':.5,'at':.45,
-  'by':.5,'for':.5,'with':.6,'from':.6,'up':.6,'off':.6,'out':.6,'into':.7,
-  'and':.5,'or':.5,'but':.6,'so':.6,'as':.6,'if':.6,'than':.6,'that':.55,
-  'which':.7,'is':.55,'are':.55,'was':.55,'were':.6,'am':.5,'be':.55,
-  'been':.6,'being':.7,'do':.55,'does':.6,'did':.6,'done':.65,'have':.65,
-  'has':.6,'had':.6,'having':.8,'will':.65,'would':.7,'can':.6,'could':.7,
-  'should':.75,'may':.6,'might':.7,'must':.65,'it':.5,'he':.5,'she':.5,
-  'we':.5,'you':.55,'i':.5,'me':.5,'him':.55,'her':.55,'us':.55,'them':.65,
-  'they':.6,'my':.5,'your':.6,'his':.55,'its':.5,'our':.55,'their':.65,
-  'not':.6,'no':.55,'yes':.6,'there':.65,'here':.65
-};
+var YT_FUNCTION_WORDS={a:.35,an:.35,the:.4,of:.4,to:.45,in:.45,on:.5,at:.45,by:.5,for:.5,with:.6,from:.6,up:.6,off:.6,out:.6,into:.7,and:.5,or:.5,but:.6,so:.6,as:.6,if:.6,than:.6,that:.55,which:.7,is:.55,are:.55,was:.55,were:.6,am:.5,be:.55,been:.6,being:.7,do:.55,does:.6,did:.6,done:.65,have:.65,has:.6,had:.6,having:.8,will:.65,would:.7,can:.6,could:.7,should:.75,may:.6,might:.7,must:.65,it:.5,he:.5,she:.5,we:.5,you:.55,i:.5,me:.5,him:.55,her:.55,us:.55,them:.65,they:.6,my:.5,your:.6,his:.55,its:.5,our:.55,their:.65,not:.6,no:.55,yes:.6,there:.65,here:.65};
 
-var YT_STRESSED_WORDS = {
-  'very':1.25,'really':1.35,'actually':1.4,'absolutely':1.5,'definitely':1.4,
-  'completely':1.4,'totally':1.35,'important':1.3,'beautiful':1.25,
-  'wonderful':1.25,'amazing':1.25,'awesome':1.25,'excellent':1.3,
-  'terrible':1.25,'horrible':1.3,'incredible':1.3,'never':1.2,'always':1.2,
-  'forever':1.25,'love':1.2,'hate':1.2,'like':1.15,'now':1.15,'today':1.15,
-  'tomorrow':1.15,'please':1.2,'sorry':1.2,'thank':1.2
-};
+var YT_STRESSED_WORDS={very:1.25,really:1.35,actually:1.4,absolutely:1.5,definitely:1.4,completely:1.4,totally:1.35,important:1.3,beautiful:1.25,wonderful:1.25,amazing:1.25,awesome:1.25,excellent:1.3,terrible:1.25,horrible:1.3,incredible:1.3,never:1.2,always:1.2,forever:1.25,love:1.2,hate:1.2,like:1.15,now:1.15,today:1.15,tomorrow:1.15,please:1.2,sorry:1.2,thank:1.2};
 
-var YT_MANUAL_SPEED = 1.0;
+var YT_MANUAL_SPEED=1.0;
 
-function ytCalculateWordTimings(text, startTime, endTime) {
-  var tokens = text.split(/(\s+)/);
-  var words = [];
-  for (var i = 0; i < tokens.length; i++) {
-    if (tokens[i].trim() !== '') words.push({ text: tokens[i], tokenIdx: i });
+function ytCalculateWordTimings(text,startTime,endTime){
+  var tokens=text.split(/(\s+)/);
+  var words=[];
+  for(var i=0;i<tokens.length;i++){if(tokens[i].trim()!=='')words.push({text:tokens[i],tokenIdx:i});}
+  if(!words.length)return [];
+  var totalDuration=endTime-startTime;
+  if(totalDuration<=0)totalDuration=0.1;
+  var totalSyllables=0;
+  for(var s=0;s<words.length;s++){totalSyllables+=ytCountSyllables(words[s].text.replace(/[^a-zA-Z0-9']/g,''));}
+  var actualSpeed=totalSyllables/totalDuration;
+  var NORMAL_SPEED=4.2;
+  var speedFactor=actualSpeed/NORMAL_SPEED;
+  if(speedFactor<0.6)speedFactor=0.6;
+  if(speedFactor>1.8)speedFactor=1.8;
+  var weights=[],totalWeight=0;
+  for(var w=0;w<words.length;w++){
+    var raw=words[w].text;
+    var clean=raw.replace(/[^a-zA-Z0-9']/g,'').toLowerCase();
+    var weight=ytCountSyllables(clean);
+    if(YT_FUNCTION_WORDS[clean])weight*=YT_FUNCTION_WORDS[clean];
+    if(YT_STRESSED_WORDS[clean])weight*=YT_STRESSED_WORDS[clean];
+    if(clean.length>=10)weight*=1.15;
+    if(/[A-Z]/.test(raw.substring(1)))weight*=1.1;
+    var after='';
+    for(var j=words[w].tokenIdx+1;j<tokens.length;j++){after+=tokens[j];if(tokens[j].trim()!=='')break;}
+    if(/[.!?]/.test(after))weight+=3.0;
+    else if(/[,;:]/.test(after))weight+=1.0;
+    else if(/[-—]/.test(after))weight+=0.8;
+    weights.push(weight);totalWeight+=weight;
   }
-  if (!words.length) return [];
-
-  var totalDuration = endTime - startTime;
-  if (totalDuration <= 0) totalDuration = 0.1;
-
-  var totalSyllables = 0;
-  for (var s = 0; s < words.length; s++) {
-    totalSyllables += ytCountSyllables(words[s].text.replace(/[^a-zA-Z0-9']/g, ''));
+  var scale=totalDuration/totalWeight/speedFactor;
+  var timings=[],acc=startTime;
+  for(var t=0;t<words.length;t++){
+    var dur=weights[t]*scale;
+    if(dur<0.08)dur=0.08;
+    timings.push({start:acc,end:acc+dur,weight:weights[t]});
+    acc+=dur;
   }
-  var actualSpeed = totalSyllables / totalDuration;
-  var NORMAL_SPEED = 4.2;
-  var speedFactor = actualSpeed / NORMAL_SPEED;
-  if (speedFactor < 0.6) speedFactor = 0.6;
-  if (speedFactor > 1.8) speedFactor = 1.8;
-
-  var weights = [], totalWeight = 0;
-  for (var w = 0; w < words.length; w++) {
-    var raw = words[w].text;
-    var clean = raw.replace(/[^a-zA-Z0-9']/g, '').toLowerCase();
-    var weight = ytCountSyllables(clean);
-    if (YT_FUNCTION_WORDS[clean]) weight *= YT_FUNCTION_WORDS[clean];
-    if (YT_STRESSED_WORDS[clean]) weight *= YT_STRESSED_WORDS[clean];
-    if (clean.length >= 10) weight *= 1.15;
-    if (/[A-Z]/.test(raw.substring(1))) weight *= 1.1;
-
-    var after = '';
-    for (var j = words[w].tokenIdx + 1; j < tokens.length; j++) {
-      after += tokens[j];
-      if (tokens[j].trim() !== '') break;
-    }
-    if (/[.!?]/.test(after)) weight += 3.0;
-    else if (/[,;:]/.test(after)) weight += 1.0;
-    else if (/[-—]/.test(after)) weight += 0.8;
-
-    weights.push(weight);
-    totalWeight += weight;
-  }
-
-  var scale = totalDuration / totalWeight / speedFactor;
-  var timings = [], acc = startTime;
-  for (var t = 0; t < words.length; t++) {
-    var dur = weights[t] * scale;
-    if (dur < 0.08) dur = 0.08;
-    timings.push({ start: acc, end: acc + dur, weight: weights[t] });
-    acc += dur;
-  }
-  var actualEnd = timings[timings.length - 1].end;
-  if (Math.abs(actualEnd - endTime) > 0.05) {
-    var ratio = totalDuration / (actualEnd - startTime);
-    for (var r = 0; r < timings.length; r++) {
-      timings[r].start = startTime + (timings[r].start - startTime) * ratio;
-      timings[r].end = startTime + (timings[r].end - startTime) * ratio;
+  var actualEnd=timings[timings.length-1].end;
+  if(Math.abs(actualEnd-endTime)>0.05){
+    var ratio=totalDuration/(actualEnd-startTime);
+    for(var r=0;r<timings.length;r++){
+      timings[r].start=startTime+(timings[r].start-startTime)*ratio;
+      timings[r].end=startTime+(timings[r].end-startTime)*ratio;
     }
   }
-  timings._speedFactor = speedFactor;
-  timings._actualSpeed = actualSpeed;
+  timings._speedFactor=speedFactor;
+  timings._actualSpeed=actualSpeed;
   return timings;
 }
 
-function ytParseSRT(text) {
-  text = text.replace(/\r\n/g, '\n').replace(/\r/g, '\n').trim();
-  var blocks = text.split(/\n\n+/);
-  var result = [];
-  var timeRe = /(\d{1,2}):(\d{2}):(\d{2})[,.](\d{1,3})\s*-->\s*(\d{1,2}):(\d{2}):(\d{2})[,.](\d{1,3})/;
-  var viRe = /[àáảãạăâầấẩẫậằắẳẵặèéẻẽẹêềếểễệìíỉĩịòóỏõọôồốổỗộơờớởỡợùúủũụưừứửữựỳýỷỹỵđ]/i;
-  blocks.forEach(function(block) {
-    var lines = block.split('\n').map(function(s){return s.trim();}).filter(function(s){return s;});
-    if (lines.length < 3) return;
-    var idx = /^\d+$/.test(lines[0]) ? 1 : 0;
-    var m = lines[idx].match(timeRe);
-    if (!m) return;
-    var start = (+m[1])*3600 + (+m[2])*60 + (+m[3]) + (+m[4])/1000;
-    var end = (+m[5])*3600 + (+m[6])*60 + (+m[7]) + (+m[8])/1000;
-    var tl = lines.slice(idx+1);
-    var en = '', vi = '';
-    if (tl.length === 2) { en = tl[0]; vi = tl[1]; }
-    else if (tl.length > 2) {
-      var ea = [], va = [];
-      tl.forEach(function(l){ if (viRe.test(l)) va.push(l); else ea.push(l); });
-      en = ea.join(' ').trim() || tl[0];
-      vi = va.join(' ').trim() || tl[tl.length-1];
-    } else en = tl[0] || '';
-    result.push({ start: start, end: end, en: en, vi: vi });
+function ytParseSRT(text){
+  text=text.replace(/\r\n/g,'\n').replace(/\r/g,'\n').trim();
+  var blocks=text.split(/\n\n+/);
+  var result=[];
+  var timeRe=/(\d{1,2}):(\d{2}):(\d{2})[,.](\d{1,3})\s*-->\s*(\d{1,2}):(\d{2}):(\d{2})[,.](\d{1,3})/;
+  var viRe=/[àáảãạăâầấẩẫậằắẳẵặèéẻẽẹêềếểễệìíỉĩịòóỏõọôồốổỗộơờớởỡợùúủũụưừứửữựỳýỷỹỵđ]/i;
+  blocks.forEach(function(block){
+    var lines=block.split('\n').map(function(s){return s.trim();}).filter(function(s){return s;});
+    if(lines.length<3)return;
+    var idx=/^\d+$/.test(lines[0])?1:0;
+    var m=lines[idx].match(timeRe);if(!m)return;
+    var start=(+m[1])*3600+(+m[2])*60+(+m[3])+(+m[4])/1000;
+    var end=(+m[5])*3600+(+m[6])*60+(+m[7])+(+m[8])/1000;
+    var tl=lines.slice(idx+1);
+    var en='',vi='';
+    if(tl.length===2){en=tl[0];vi=tl[1];}
+    else if(tl.length>2){
+      var ea=[],va=[];
+      tl.forEach(function(l){if(viRe.test(l))va.push(l);else ea.push(l);});
+      en=ea.join(' ').trim()||tl[0];
+      vi=va.join(' ').trim()||tl[tl.length-1];
+    }else en=tl[0]||'';
+    result.push({start:start,end:end,en:en,vi:vi});
   });
   result.sort(function(a,b){return a.start-b.start;});
   return result;
 }
 
-var ytPlayer = null, ytPlayerReady = false, ytSubs = [], ytCurrentIdx = -1;
-var ytInterval = null, ytApiLoaded = false, ytSubVisible = true, ytMuted = true;
+var ytPlayer=null,ytPlayerReady=false,ytSubs=[],ytCurrentIdx=-1;
+var ytInterval=null,ytApiLoaded=false,ytSubVisible=true,ytMuted=true;
+var ytMode='view';
+var fillCurrent=0,fillLoop=false,fillSpeed=1.0,fillResults={},fillPlaying=false,fillStopTimer=null,fillLevel=0.3,fillBlanks={};
+var dictCurrent=0,dictLoop=false,dictSpeed=1.0,dictResults={},dictPlaying=false,dictStopTimer=null;
 
-function ytLoadApi(cb) {
-  if (ytApiLoaded) { cb(); return; }
-  var t = document.createElement('script');
-  t.src = 'https://www.youtube.com/iframe_api';
+function ytLoadApi(cb){
+  if(ytApiLoaded){cb();return;}
+  var t=document.createElement('script');
+  t.src='https://www.youtube.com/iframe_api';
   document.head.appendChild(t);
-  window.onYouTubeIframeAPIReady = function(){ ytApiLoaded = true; cb(); };
+  window.onYouTubeIframeAPIReady=function(){ytApiLoaded=true;cb();};
 }
-
-function ytExtractVideoId(url) {
-  url = url.trim();
-  var ps = [
-    /(?:youtube\.com\/watch\?v=|youtu\.be\/|youtube\.com\/embed\/|youtube\.com\/v\/|youtube\.com\/shorts\/)([a-zA-Z0-9_-]{11})/,
-    /^([a-zA-Z0-9_-]{11})$/
-  ];
-  for (var i=0;i<ps.length;i++){var m=url.match(ps[i]);if(m)return m[1];}
+function ytExtractVideoId(url){
+  url=url.trim();
+  var ps=[/(?:youtube\.com\/watch\?v=|youtu\.be\/|youtube\.com\/embed\/|youtube\.com\/v\/|youtube\.com\/shorts\/)([a-zA-Z0-9_-]{11})/,/^([a-zA-Z0-9_-]{11})$/];
+  for(var i=0;i<ps.length;i++){var m=url.match(ps[i]);if(m)return m[1];}
   return null;
 }
-
-function ytFmtTime(sec) {
-  var m = Math.floor(sec/60), s = Math.floor(sec%60);
-  return (m<10?'0':'')+m+':'+(s<10?'0':'')+s;
+function ytFmtTime(sec){var m=Math.floor(sec/60),s=Math.floor(sec%60);return (m<10?'0':'')+m+':'+(s<10?'0':'')+s;}
+function ytShowToast(msg,ms){
+  var t=document.getElementById('ytToast');if(!t)return;
+  t.textContent=msg;t.classList.add('show');
+  clearTimeout(t._timer);t._timer=setTimeout(function(){t.classList.remove('show');},ms||1800);
 }
 
-function ytShowToast(msg, ms) {
-  var t = document.getElementById('ytToast');
-  if (!t) return;
-  t.textContent = msg;
-  t.classList.add('show');
-  clearTimeout(t._timer);
-  t._timer = setTimeout(function() { t.classList.remove('show'); }, ms || 1800);
-}
-
-function openYT() {
-  document.getElementById('yt-home').style.display = 'block';
-  document.getElementById('yt-player').style.display = 'none';
+function openYT(){
+  document.getElementById('yt-home').style.display='block';
+  document.getElementById('yt-player').style.display='none';
   document.getElementById('ytmodal').classList.add('show');
 }
-function closeYT() {
-  if (ytPlayer) { try { ytPlayer.pauseVideo(); } catch(e){} }
-  if (ytInterval) { clearInterval(ytInterval); ytInterval = null; }
+function closeYT(){
+  if(ytPlayer){try{ytPlayer.pauseVideo();}catch(e){}}
+  if(ytInterval){clearInterval(ytInterval);ytInterval=null;}
   document.getElementById('ytmodal').classList.remove('show');
 }
-function backToYTHome() {
-  if (ytPlayer) { try { ytPlayer.pauseVideo(); } catch(e){} }
-  if (ytInterval) { clearInterval(ytInterval); ytInterval = null; }
-  document.getElementById('yt-home').style.display = 'block';
-  document.getElementById('yt-player').style.display = 'none';
+function backToYTHome(){
+  if(ytPlayer){try{ytPlayer.pauseVideo();}catch(e){}}
+  if(ytInterval){clearInterval(ytInterval);ytInterval=null;}
+  document.getElementById('yt-home').style.display='block';
+  document.getElementById('yt-player').style.display='none';
 }
 
-function startYT() {
-  var url = document.getElementById('ytUrl').value.trim();
-  var srt = document.getElementById('ytSrt').value.trim();
-  var status = document.getElementById('ytStatus');
-  status.style.display = 'block'; status.className = 'status';
-  if (!url) { status.className='status no'; status.textContent='⚠️ Chưa nhập link YouTube!'; return; }
-  if (!srt) { status.className='status no'; status.textContent='⚠️ Chưa nhập phụ đề SRT!'; return; }
-  var vid = ytExtractVideoId(url);
-  if (!vid) { status.className='status no'; status.textContent='❌ Link YouTube không hợp lệ!'; return; }
-
-  ytSubs = ytParseSRT(srt);
-  if (!ytSubs.length) { status.className='status no'; status.textContent='❌ Không parse được SRT!'; return; }
-
-  for (var si = 0; si < ytSubs.length; si++) {
-    ytSubs[si]._wordTimings = ytCalculateWordTimings(ytSubs[si].en, ytSubs[si].start, ytSubs[si].end);
-  }
-
-  var listEl = document.getElementById('ytList');
-  listEl.innerHTML = '';
-  ytSubs.forEach(function(s, idx) {
-    var d = document.createElement('div');
-    d.className = 'yt-item';
-    d.setAttribute('data-idx', idx);
-    var words = s.en.split(/(\s+)/).map(function(w){
-      return w.trim()==='' ? w : '<span class="w">'+w.replace(/</g,'&lt;')+'</span>';
-    }).join('');
-    d.innerHTML = '<div class="yt-time">'+ytFmtTime(s.start)+' → '+ytFmtTime(s.end)+'</div>' +
-                  '<div class="yt-en">'+words+'</div>' +
-                  (s.vi ? '<div class="yt-vi">'+s.vi+'</div>' : '');
-    d.onclick = function() { ytJumpTo(idx); };
-    listEl.appendChild(d);
-  });
-
-  document.getElementById('yt-home').style.display = 'none';
-  document.getElementById('yt-player').style.display = 'block';
-  status.style.display = 'none';
-  ytSubVisible = true;
-  document.getElementById('ytToggleBtn').classList.remove('off');
-  document.getElementById('ytToggleBtn').querySelector('span:last-child').textContent = 'Ẩn phụ đề';
-
-  ytLoadApi(function() {
-    if (ytPlayer) { try { ytPlayer.destroy(); } catch(e){} }
-    ytPlayer = new YT.Player('ytPlayerBox', {
-      height: '100%',
-      width: '100%',
-      videoId: vid,
-      playerVars: {
-        'playsinline': 1,
-        'rel': 0,
-        'modestbranding': 1,
-        'controls': 0,
-        'fs': 0,
-        'disablekb': 1,
-        'iv_load_policy': 3
-      },
-      events: {
-        'onReady': function(e) {
-          ytPlayerReady = true;
-          ytMuted = true;
-          e.target.mute();
-          e.target.playVideo();
-          var b = document.getElementById('ytMuteBtn');
-          if (b) { b.querySelector('.e').textContent = '🔇'; b.querySelector('span:last-child').textContent = 'Bật tiếng'; }
+function startYT(){
+  var url=document.getElementById('ytUrl').value.trim();
+  var srt=document.getElementById('ytSrt').value.trim();
+  var status=document.getElementById('ytStatus');
+  status.style.display='block';status.className='status';
+  if(!url){status.className='status no';status.textContent='⚠️ Chưa nhập link!';return;}
+  if(!srt){status.className='status no';status.textContent='⚠️ Chưa nhập SRT!';return;}
+  var vid=ytExtractVideoId(url);
+  if(!vid){status.className='status no';status.textContent='❌ Link không hợp lệ!';return;}
+  ytSubs=ytParseSRT(srt);
+  if(!ytSubs.length){status.className='status no';status.textContent='❌ Không parse được SRT!';return;}
+  for(var si=0;si<ytSubs.length;si++){ytSubs[si]._wordTimings=ytCalculateWordTimings(ytSubs[si].en,ytSubs[si].start,ytSubs[si].end);}
+  renderYTViewList();
+  document.getElementById('yt-home').style.display='none';
+  document.getElementById('yt-player').style.display='block';
+  status.style.display='none';
+  ytSubVisible=true;
+  ytMode='view';
+  ytSwitchMode('view');
+  ytLoadApi(function(){
+    if(ytPlayer){try{ytPlayer.destroy();}catch(e){}}
+    ytPlayer=new YT.Player('ytPlayerBox',{
+      height:'100%',width:'100%',videoId:vid,
+      playerVars:{playsinline:1,rel:0,modestbranding:1,controls:0,fs:0,disablekb:1,iv_load_policy:3},
+      events:{
+        onReady:function(e){
+          ytPlayerReady=true;ytMuted=true;
+          e.target.mute();e.target.playVideo();
+          var b=document.getElementById('ytMuteBtn');
+          if(b){b.querySelector('.e').textContent='🔇';b.querySelector('span:last-child').textContent='Bật tiếng';}
         },
-        'onStateChange': function(e) {
-          var btn = document.getElementById('ytPlayBtn');
-          if (e.data === YT.PlayerState.PLAYING) {
-            ytStartSync();
-            if (btn) { btn.querySelector('.e').textContent = '⏸'; btn.querySelector('span:last-child').textContent = 'Tạm dừng'; }
-          } else {
-            if (ytInterval) { clearInterval(ytInterval); ytInterval = null; }
-            if (e.data === YT.PlayerState.PAUSED && btn) {
-              btn.querySelector('.e').textContent = '▶';
-              btn.querySelector('span:last-child').textContent = 'Phát';
-            }
+        onStateChange:function(e){
+          var btn=document.getElementById('ytPlayBtn');
+          if(e.data===YT.PlayerState.PLAYING){
+            if(ytMode==='view')ytStartSync();
+            if(btn){btn.querySelector('.e').textContent='⏸';btn.querySelector('span:last-child').textContent='Tạm dừng';}
+          }else{
+            if(ytInterval){clearInterval(ytInterval);ytInterval=null;}
+            if(e.data===YT.PlayerState.PAUSED&&btn){btn.querySelector('.e').textContent='▶';btn.querySelector('span:last-child').textContent='Phát';}
           }
         }
       }
@@ -1864,301 +1715,594 @@ function startYT() {
   });
 }
 
-function ytStartSync() {
-  if (ytInterval) clearInterval(ytInterval);
-  ytInterval = setInterval(ytSyncTick, 60);
+function renderYTViewList(){
+  var listEl=document.getElementById('ytList');listEl.innerHTML='';
+  ytSubs.forEach(function(s,idx){
+    var d=document.createElement('div');
+    d.className='yt-item';d.setAttribute('data-idx',idx);
+    var words=s.en.split(/(\s+)/).map(function(w){return w.trim()===''?w:'<span class="w">'+w.replace(/</g,'&lt;')+'</span>';}).join('');
+    d.innerHTML='<div class="yt-time">'+ytFmtTime(s.start)+' → '+ytFmtTime(s.end)+'</div><div class="yt-en">'+words+'</div>'+(s.vi?'<div class="yt-vi">'+s.vi+'</div>':'');
+    d.onclick=function(){ytJumpTo(idx);};
+    listEl.appendChild(d);
+  });
 }
 
-function ytSyncTick() {
-  if (!ytPlayer || !ytPlayerReady) return;
-  var t;
-  try { t = ytPlayer.getCurrentTime(); } catch(e) { return; }
-  var dbgTime = document.getElementById('ytDbgTime');
-  if (dbgTime) dbgTime.textContent = t.toFixed(2) + 's';
+function ytStartSync(){if(ytInterval)clearInterval(ytInterval);ytInterval=setInterval(ytSyncTick,60);}
 
-  var idx = -1;
-  for (var k=0; k<ytSubs.length; k++) {
-    if (t >= ytSubs[k].start && t < ytSubs[k].end) { idx = k; break; }
-  }
-
-  if (idx !== ytCurrentIdx) {
-    ytCurrentIdx = idx;
-    document.querySelectorAll('.yt-item').forEach(function(el, k){
-      el.classList.toggle('active', k === idx);
-    });
-    if (idx >= 0) {
-      var active = document.querySelector('.yt-item.active');
-      if (active) {
-        var box = document.querySelector('.yt-list');
-        var lt = active.offsetTop - box.offsetTop;
-        box.scrollTo({ top: lt - box.clientHeight/2 + active.offsetHeight/2, behavior: 'smooth' });
+function ytSyncTick(){
+  if(!ytPlayer||!ytPlayerReady||ytMode!=='view')return;
+  var t;try{t=ytPlayer.getCurrentTime();}catch(e){return;}
+  var dt=document.getElementById('ytDbgTime');if(dt)dt.textContent=t.toFixed(2)+'s';
+  var idx=-1;
+  for(var k=0;k<ytSubs.length;k++){if(t>=ytSubs[k].start&&t<ytSubs[k].end){idx=k;break;}}
+  if(idx!==ytCurrentIdx){
+    ytCurrentIdx=idx;
+    document.querySelectorAll('.yt-item').forEach(function(el,k){el.classList.toggle('active',k===idx);});
+    if(idx>=0){
+      var active=document.querySelector('.yt-item.active');
+      if(active){
+        var box=document.querySelector('.yt-list');
+        var lt=active.offsetTop-box.offsetTop;
+        box.scrollTo({top:lt-box.clientHeight/2+active.offsetHeight/2,behavior:'smooth'});
       }
       ytRenderSub(idx);
     }
-    var dbgSeg = document.getElementById('ytDbgSeg');
-    if (dbgSeg) dbgSeg.textContent = idx>=0 ? (idx+1)+'/'+ytSubs.length : '-/-';
+    var ds=document.getElementById('ytDbgSeg');if(ds)ds.textContent=idx>=0?(idx+1)+'/'+ytSubs.length:'-/-';
   }
-
-  if (idx >= 0) {
-    var s = ytSubs[idx];
-    var tim = s._wordTimings;
-    var aw = -1;
-    for (var wi=0; wi<tim.length; wi++) {
-      if (t >= tim[wi].start) aw = wi;
-      if (t < tim[wi].end && t >= tim[wi].start) { aw = wi; break; }
+  if(idx>=0){
+    var s=ytSubs[idx];var tim=s._wordTimings;var aw=-1;
+    for(var wi=0;wi<tim.length;wi++){
+      if(t>=tim[wi].start)aw=wi;
+      if(t<tim[wi].end&&t>=tim[wi].start){aw=wi;break;}
     }
-    ytHighlight(idx, aw);
-
-    var dbgSpeed = document.getElementById('ytDbgSpeed');
-    if (dbgSpeed) dbgSpeed.textContent = (tim._actualSpeed||0).toFixed(2) + ' âm/s';
-    var dbgWord = document.getElementById('ytDbgWord');
-    if (dbgWord) dbgWord.textContent = (aw+1)+'/'+tim.length;
+    ytHighlight(idx,aw);
+    var dsp=document.getElementById('ytDbgSpeed');if(dsp)dsp.textContent=(tim._actualSpeed||0).toFixed(2)+' âm/s';
+    var dw=document.getElementById('ytDbgWord');if(dw)dw.textContent=(aw+1)+'/'+tim.length;
   }
 }
 
-function ytRenderSub(idx) {
-  if (!ytSubVisible) return;
-  var s = ytSubs[idx];
-  var enEl = document.getElementById('ytSubEn');
-  var viEl = document.getElementById('ytSubVi');
-  if (!enEl || !viEl) return;
-  var words = s.en.split(/(\s+)/).map(function(w){
-    return w.trim()==='' ? w : '<span class="w">'+w.replace(/</g,'&lt;')+'</span>';
-  }).join('');
-  enEl.innerHTML = words;
-  viEl.textContent = s.vi || '';
-  enEl.querySelectorAll('.w').forEach(function(wEl){
-    wEl.onclick = function(e){
-      e.stopPropagation();
-      showWordInfo(wEl.textContent, e);
-    };
+function ytRenderSub(idx){
+  if(!ytSubVisible)return;
+  var s=ytSubs[idx];
+  var enEl=document.getElementById('ytSubEn');
+  var viEl=document.getElementById('ytSubVi');
+  if(!enEl||!viEl)return;
+  var words=s.en.split(/(\s+)/).map(function(w){return w.trim()===''?w:'<span class="w">'+w.replace(/</g,'&lt;')+'</span>';}).join('');
+  enEl.innerHTML=words;
+  viEl.textContent=s.vi||'';
+  enEl.querySelectorAll('.w').forEach(function(wEl){wEl.onclick=function(e){e.stopPropagation();showWordInfo(wEl.textContent,e);};});
+}
+
+function ytHighlight(idx,aw){
+  var enEl=document.getElementById('ytSubEn');
+  if(enEl){
+    enEl.querySelectorAll('.w').forEach(function(w,i){
+      w.classList.remove('read','current');
+      if(i<aw)w.classList.add('read');
+      else if(i===aw)w.classList.add('read','current');
+    });
+  }
+  var ai=document.querySelector('.yt-item[data-idx="'+idx+'"]');
+  if(ai){ai.querySelectorAll('.yt-en .w').forEach(function(w,i){w.classList.remove('read');if(i<=aw)w.classList.add('read');});}
+}
+
+function ytJumpTo(idx){
+  if(!ytSubs[idx]||!ytPlayer)return;
+  try{ytPlayer.seekTo(ytSubs[idx].start+0.05,true);ytPlayer.playVideo();}catch(e){}
+}
+
+function ytTogglePlay(){
+  if(!ytPlayer||!ytPlayerReady)return;
+  try{
+    var s=ytPlayer.getPlayerState();
+    if(s===1)ytPlayer.pauseVideo();else ytPlayer.playVideo();
+  }catch(e){}
+}
+
+function ytToggleMute(){
+  if(!ytPlayer||!ytPlayerReady)return;
+  try{
+    ytMuted=!ytMuted;
+    if(ytMuted)ytPlayer.mute();else ytPlayer.unMute();
+    var b=document.getElementById('ytMuteBtn');
+    if(b){b.querySelector('.e').textContent=ytMuted?'🔇':'🔊';b.querySelector('span:last-child').textContent=ytMuted?'Bật tiếng':'Tắt tiếng';}
+    ytShowToast(ytMuted?'🔇 Đã tắt tiếng':'🔊 Đã bật tiếng');
+  }catch(e){}
+}
+
+function ytCycleSpeed(){
+  var opt=[0.7,0.85,1.0,1.15,1.3,1.5];
+  var i=opt.indexOf(YT_MANUAL_SPEED);i=(i+1)%opt.length;
+  YT_MANUAL_SPEED=opt[i];
+  var b=document.getElementById('ytSpeedBtn');if(b)b.querySelector('span:last-child').textContent=YT_MANUAL_SPEED.toFixed(2)+'x';
+  ytShowToast('⚡ Tốc độ: '+YT_MANUAL_SPEED.toFixed(2)+'x');
+  for(var si=0;si<ytSubs.length;si++){
+    var s=ytSubs[si];
+    var adjusted=s.start+(s.end-s.start)/YT_MANUAL_SPEED;
+    s._wordTimings=ytCalculateWordTimings(s.en,s.start,adjusted);
+  }
+}
+
+function ytSwitchMode(m){
+  ytMode=m;
+  var tv=document.getElementById('ytTabView'),tf=document.getElementById('ytTabFill'),td=document.getElementById('ytTabDict');
+  var mv=document.getElementById('ytViewMode'),mf=document.getElementById('ytFillMode'),md=document.getElementById('ytDictMode');
+  tv.classList.toggle('active',m==='view');
+  tf.classList.toggle('active',m==='fill');
+  td.classList.toggle('active',m==='dict');
+  mv.style.display=m==='view'?'block':'none';
+  mf.style.display=m==='fill'?'block':'none';
+  md.style.display=m==='dict'?'block':'none';
+  if(m!=='view'&&ytInterval){clearInterval(ytInterval);ytInterval=null;}
+  if(m==='view'){if(ytPlayer&&ytPlayerReady){try{ytPlayer.playVideo();}catch(e){}}ytStartSync();}
+  if(m==='fill')fillInit();
+  if(m==='dict')dictInit();
+}
+
+/* FILL */
+function fillBuildBlanks(text){
+  var tokens=text.split(/(\s+)/);
+  var candidates=[];
+  for(var i=0;i<tokens.length;i++){
+    if(tokens[i].trim()==='')continue;
+    var clean=tokens[i].replace(/[^a-zA-Z0-9']/g,'').toLowerCase();
+    if(clean.length>=3&&!YT_FUNCTION_WORDS[clean])candidates.push(i);
+  }
+  if(candidates.length<2){
+    candidates=[];
+    for(var j=0;j<tokens.length;j++){
+      if(tokens[j].trim()==='')continue;
+      var c=tokens[j].replace(/[^a-zA-Z0-9']/g,'');
+      if(c.length>=3)candidates.push(j);
+    }
+  }
+  for(var k=candidates.length-1;k>0;k--){var r=Math.floor(Math.random()*(k+1));var tmp=candidates[k];candidates[k]=candidates[r];candidates[r]=tmp;}
+  var count=Math.max(1,Math.round(candidates.length*fillLevel));
+  if(count>candidates.length)count=candidates.length;
+  if(count<1&&candidates.length>0)count=1;
+  var chosen=candidates.slice(0,count).sort(function(a,b){return a-b;});
+  return {tokens:tokens,blankIdx:chosen};
+}
+
+function fillInit(){
+  if(!ytSubs.length)return;
+  document.getElementById('fillTotal').textContent=ytSubs.length;
+  fillCurrent=0;fillResults={};fillBlanks={};
+  fillRenderCurrent();fillRenderList();
+}
+
+function fillRenderCurrent(){
+  if(!ytSubs[fillCurrent])return;
+  var idx=fillCurrent;
+  document.getElementById('fillIdx').textContent=idx+1;
+  document.getElementById('fillTotal').textContent=ytSubs.length;
+  document.getElementById('fillProgBar').style.width=((idx/ytSubs.length)*100)+'%';
+  var s=ytSubs[idx];
+  var data=fillBlanks[idx];
+  if(!data||fillLevel!==data.level){data=fillBuildBlanks(s.en);data.level=fillLevel;fillBlanks[idx]=data;}
+  var html='';
+  var blankIdxSet={};data.blankIdx.forEach(function(bi){blankIdxSet[bi]=true;});
+  var blankCounter=0;
+  for(var i=0;i<data.tokens.length;i++){
+    var tok=data.tokens[i];
+    if(tok.trim()===''){html+=tok;continue;}
+    if(blankIdxSet[i]){
+      var clean=tok.replace(/[.,!?;:'"“”‘’()\-–—]/g,'').trim();
+      html+='<input class="fill-input" type="text" data-bi="'+blankCounter+'" data-answer="'+clean.replace(/"/g,'&quot;')+'" spellcheck="false" autocomplete="off" autocorrect="off" autocapitalize="off" onkeydown="fillOnKey(event,this)">';
+      var punct=tok.match(/[.,!?;:'"“”‘’()\-–—]+$/);
+      if(punct)html+='<span class="punct">'+punct[0]+'</span>';
+      blankCounter++;
+    }else{
+      var m=tok.match(/^([a-zA-Z0-9']+)([.,!?;:'"“”‘’()\-–—]*)$/);
+      if(m)html+='<span class="txt">'+m[1].replace(/</g,'&lt;')+'</span><span class="punct">'+m[2]+'</span>';
+      else html+='<span class="txt">'+tok.replace(/</g,'&lt;')+'</span>';
+    }
+  }
+  document.getElementById('fillSentence').innerHTML=html;
+  document.getElementById('fillFeedback').className='fill-feedback';
+  document.getElementById('fillFeedback').innerHTML='';
+  var pb=document.getElementById('fillPlayBtn');pb.className='mode-play';pb.textContent='▶';fillPlaying=false;
+  document.querySelectorAll('#fillList .seg').forEach(function(el,k){el.classList.toggle('active',k===idx);});
+  var activeSeg=document.querySelector('#fillList .seg[data-idx="'+idx+'"]');
+  if(activeSeg){
+    var box=document.getElementById('fillList');
+    var lt=activeSeg.offsetTop-box.offsetTop;
+    box.scrollTo({top:lt-box.clientHeight/2+activeSeg.offsetHeight/2,behavior:'smooth'});
+  }
+  setTimeout(function(){var f=document.querySelector('#fillSentence .fill-input');if(f)f.focus();},300);
+  setTimeout(function(){fillPlay();},400);
+}
+
+function fillOnKey(e,el){
+  if(e.key==='Enter'){
+    e.preventDefault();
+    var inputs=Array.from(document.querySelectorAll('#fillSentence .fill-input'));
+    var i=inputs.indexOf(el);
+    if(i<inputs.length-1)inputs[i+1].focus();
+    else fillCheck();
+  }
+}
+
+function fillPlay(){
+  if(!ytPlayer||!ytPlayerReady)return;
+  var s=ytSubs[fillCurrent];if(!s)return;
+  if(fillPlaying){
+    try{ytPlayer.pauseVideo();}catch(e){}
+    fillPlaying=false;
+    document.getElementById('fillPlayBtn').classList.remove('playing');
+    document.getElementById('fillPlayBtn').textContent='▶';
+    if(fillStopTimer){clearTimeout(fillStopTimer);fillStopTimer=null;}
+    return;
+  }
+  try{ytPlayer.unMute();ytPlayer.setPlaybackRate(fillSpeed);ytPlayer.seekTo(s.start+0.02,true);ytPlayer.playVideo();}catch(e){return;}
+  fillPlaying=true;
+  document.getElementById('fillPlayBtn').classList.add('playing');
+  document.getElementById('fillPlayBtn').textContent='⏸';
+  var dur=(s.end-s.start)/fillSpeed;
+  if(fillStopTimer)clearTimeout(fillStopTimer);
+  function scheduleStop(){
+    fillStopTimer=setTimeout(function(){
+      if(!fillPlaying)return;
+      if(fillLoop){try{ytPlayer.seekTo(s.start+0.02,true);ytPlayer.playVideo();}catch(e){}scheduleStop();}
+      else{
+        try{ytPlayer.pauseVideo();}catch(e){}
+        fillPlaying=false;
+        document.getElementById('fillPlayBtn').classList.remove('playing');
+        document.getElementById('fillPlayBtn').textContent='▶';
+        fillStopTimer=null;
+      }
+    },dur*1000);
+  }
+  scheduleStop();
+}
+
+function fillToggleLoop(){fillLoop=!fillLoop;document.getElementById('fillLoopBtn').classList.toggle('on',fillLoop);ytShowToast(fillLoop?'🔁 Bật lặp lại':'➡️ Tắt lặp lại');}
+function fillCycleSpeed(){var opt=[0.5,0.75,1.0,1.25,1.5];var i=opt.indexOf(fillSpeed);i=(i+1)%opt.length;fillSpeed=opt[i];document.getElementById('fillSpeedBtn').textContent=fillSpeed.toFixed(2)+'x';if(ytPlayer&&ytPlayerReady)try{ytPlayer.setPlaybackRate(fillSpeed);}catch(e){}}
+function fillChangeLevel(){fillLevel=parseFloat(document.getElementById('fillLevel').value);fillBlanks={};fillRenderCurrent();ytShowToast('🔄 Đã đổi mức độ');}
+function fillNormalize(s){return s.toLowerCase().replace(/[.,!?;:'"“”‘’\-–—()]/g,'').replace(/\s+/g,' ').trim();}
+
+function fillCheck(){
+  var inputs=Array.from(document.querySelectorAll('#fillSentence .fill-input'));
+  if(!inputs.length)return;
+  var allOk=true;var wrongList=[];
+  inputs.forEach(function(inp){
+    var user=inp.value.trim();
+    var answer=inp.getAttribute('data-answer');
+    var isOk=fillNormalize(user)===fillNormalize(answer);
+    inp.classList.remove('correct','wrong','revealed');
+    inp.classList.add(isOk?'correct':'wrong');
+    inp.disabled=true;
+    if(!isOk){allOk=false;wrongList.push({user:user||'(trống)',answer:answer});}
+  });
+  fillResults[fillCurrent]=allOk?'ok':'no';
+  var fb=document.getElementById('fillFeedback');
+  if(allOk){
+    fb.className='fill-feedback ok show';
+    fb.innerHTML='<div class="title">✅ Chính xác!</div>';
+  }else{
+    fb.className='fill-feedback no show';
+    var html='<div class="title">❌ Có '+wrongList.length+'/'+inputs.length+' chỗ sai</div>';
+    wrongList.forEach(function(w,i){
+      html+='<div class="row"><div class="lbl">Chỗ '+(i+1)+'</div><div class="your">Bạn: '+w.user+'</div><div class="answer">Đáp án: '+w.answer+'</div></div>';
+    });
+    fb.innerHTML=html;
+  }
+  fillRenderList();
+  if(fillPlaying){
+    try{ytPlayer.pauseVideo();}catch(e){}
+    fillPlaying=false;
+    document.getElementById('fillPlayBtn').classList.remove('playing');
+    document.getElementById('fillPlayBtn').textContent='▶';
+    if(fillStopTimer){clearTimeout(fillStopTimer);fillStopTimer=null;}
+  }
+  if(allOk)setTimeout(function(){if(fillResults[fillCurrent]==='ok')fillNext();},1800);
+}
+
+function fillReveal(){
+  var inputs=Array.from(document.querySelectorAll('#fillSentence .fill-input'));
+  inputs.forEach(function(inp){
+    var ans=inp.getAttribute('data-answer');
+    if(!inp.classList.contains('correct')){
+      inp.value=ans;inp.classList.remove('wrong','revealed');inp.classList.add('revealed');inp.disabled=true;
+    }
+  });
+  fillResults[fillCurrent]='skipped';fillRenderList();
+  ytShowToast('👁 Đã hiện đáp án');
+}
+
+function fillNext(){if(fillCurrent<ytSubs.length-1){fillCurrent++;fillRenderCurrent();}else ytShowToast('🎉 Đã hết câu!');}
+function fillPrev(){if(fillCurrent>0){fillCurrent--;fillRenderCurrent();}}
+function fillFirstUnfinished(){for(var i=0;i<ytSubs.length;i++){if(!fillResults[i]){fillCurrent=i;fillRenderCurrent();return;}}ytShowToast('✅ Đã làm hết!');}
+function fillReset(){if(!confirm('Xóa tất cả và làm lại?'))return;fillResults={};fillBlanks={};fillCurrent=0;fillRenderCurrent();fillRenderList();}
+
+function fillRenderList(){
+  var el=document.getElementById('fillList');if(!el)return;
+  el.innerHTML='';
+  ytSubs.forEach(function(s,idx){
+    var status=fillResults[idx];
+    var cls='seg';
+    if(idx===fillCurrent)cls+=' active';
+    if(status==='ok')cls+=' done-ok';
+    else if(status==='no'||status==='skipped')cls+=' done-no';
+    var icon=status==='ok'?'✅':(status==='no'?'❌':(status==='skipped'?'👁':'⚪'));
+    var seg=document.createElement('div');
+    seg.className=cls;
+    seg.setAttribute('data-idx',idx);
+    seg.innerHTML='<div class="idx">'+(idx+1)+'</div><div class="content'+(status?'':' blur')+'">'+s.en+'</div><div class="status">'+icon+'</div>';
+    seg.onclick=function(){fillCurrent=idx;fillRenderCurrent();};
+    el.appendChild(seg);
   });
 }
 
-function ytHighlight(idx, aw) {
-  var enEl = document.getElementById('ytSubEn');
-  if (enEl) {
-    enEl.querySelectorAll('.w').forEach(function(w, i){
-      w.classList.remove('read','current');
-      if (i < aw) w.classList.add('read');
-      else if (i === aw) w.classList.add('read','current');
-    });
+/* DICT */
+function dictInit(){
+  if(!ytSubs.length)return;
+  document.getElementById('dictTotal').textContent=ytSubs.length;
+  dictCurrent=0;dictResults={};
+  dictRenderCurrent();dictRenderList();
+}
+
+function dictRenderCurrent(){
+  if(!ytSubs[dictCurrent])return;
+  var idx=dictCurrent;
+  document.getElementById('dictIdx').textContent=idx+1;
+  document.getElementById('dictProgBar').style.width=((idx/ytSubs.length)*100)+'%';
+  var input=document.getElementById('dictInput');
+  input.value='';input.className='dict-input';
+  document.getElementById('dictFeedback').className='dict-feedback';
+  document.getElementById('dictFeedback').innerHTML='';
+  document.getElementById('dictAccuracy').textContent='';
+  var pb=document.getElementById('dictPlayBtn');pb.className='mode-play';pb.textContent='▶';dictPlaying=false;
+  dictUpdateCount();
+  document.querySelectorAll('#dictList .seg').forEach(function(el,k){el.classList.toggle('active',k===idx);});
+  var activeSeg=document.querySelector('#dictList .seg[data-idx="'+idx+'"]');
+  if(activeSeg){
+    var box=document.getElementById('dictList');
+    var lt=activeSeg.offsetTop-box.offsetTop;
+    box.scrollTo({top:lt-box.clientHeight/2+activeSeg.offsetHeight/2,behavior:'smooth'});
   }
-  var ai = document.querySelector('.yt-item[data-idx="'+idx+'"]');
-  if (ai) {
-    ai.querySelectorAll('.yt-en .w').forEach(function(w, i){
-      w.classList.remove('read');
-      if (i <= aw) w.classList.add('read');
-    });
+  setTimeout(function(){dictPlay();},400);
+}
+
+function dictPlay(){
+  if(!ytPlayer||!ytPlayerReady)return;
+  var s=ytSubs[dictCurrent];if(!s)return;
+  if(dictPlaying){
+    try{ytPlayer.pauseVideo();}catch(e){}
+    dictPlaying=false;
+    document.getElementById('dictPlayBtn').classList.remove('playing');
+    document.getElementById('dictPlayBtn').textContent='▶';
+    if(dictStopTimer){clearTimeout(dictStopTimer);dictStopTimer=null;}
+    return;
   }
-}
-
-function ytJumpTo(idx) {
-  if (!ytSubs[idx] || !ytPlayer) return;
-  try { ytPlayer.seekTo(ytSubs[idx].start + 0.05, true); ytPlayer.playVideo(); } catch(e){}
-}
-
-function ytTogglePlay() {
-  if (!ytPlayer || !ytPlayerReady) return;
-  try {
-    var s = ytPlayer.getPlayerState();
-    if (s === 1) ytPlayer.pauseVideo();
-    else ytPlayer.playVideo();
-  } catch(e){}
-}
-
-function ytToggleMute() {
-  if (!ytPlayer || !ytPlayerReady) return;
-  try {
-    ytMuted = !ytMuted;
-    if (ytMuted) ytPlayer.mute();
-    else ytPlayer.unMute();
-    var b = document.getElementById('ytMuteBtn');
-    if (b) {
-      b.querySelector('.e').textContent = ytMuted ? '🔇' : '🔊';
-      b.querySelector('span:last-child').textContent = ytMuted ? 'Bật tiếng' : 'Tắt tiếng';
-    }
-    ytShowToast(ytMuted ? '🔇 Đã tắt tiếng' : '🔊 Đã bật tiếng');
-  } catch(e){}
-}
-
-function ytCycleSpeed() {
-  var opt = [0.7, 0.85, 1.0, 1.15, 1.3, 1.5];
-  var i = opt.indexOf(YT_MANUAL_SPEED);
-  i = (i+1) % opt.length;
-  YT_MANUAL_SPEED = opt[i];
-  var b = document.getElementById('ytSpeedBtn');
-  if (b) b.querySelector('span:last-child').textContent = YT_MANUAL_SPEED.toFixed(2) + 'x';
-  ytShowToast('⚡ Tốc độ: ' + YT_MANUAL_SPEED.toFixed(2) + 'x');
-
-  for (var si = 0; si < ytSubs.length; si++) {
-    var s = ytSubs[si];
-    var adjusted = s.start + (s.end - s.start) / YT_MANUAL_SPEED;
-    s._wordTimings = ytCalculateWordTimings(s.en, s.start, adjusted);
+  try{ytPlayer.unMute();ytPlayer.setPlaybackRate(dictSpeed);ytPlayer.seekTo(s.start+0.02,true);ytPlayer.playVideo();}catch(e){return;}
+  dictPlaying=true;
+  document.getElementById('dictPlayBtn').classList.add('playing');
+  document.getElementById('dictPlayBtn').textContent='⏸';
+  var dur=(s.end-s.start)/dictSpeed;
+  if(dictStopTimer)clearTimeout(dictStopTimer);
+  function scheduleStop(){
+    dictStopTimer=setTimeout(function(){
+      if(!dictPlaying)return;
+      if(dictLoop){try{ytPlayer.seekTo(s.start+0.02,true);ytPlayer.playVideo();}catch(e){}scheduleStop();}
+      else{
+        try{ytPlayer.pauseVideo();}catch(e){}
+        dictPlaying=false;
+        document.getElementById('dictPlayBtn').classList.remove('playing');
+        document.getElementById('dictPlayBtn').textContent='▶';
+        dictStopTimer=null;
+        setTimeout(function(){document.getElementById('dictInput').focus();},200);
+      }
+    },dur*1000);
   }
+  scheduleStop();
 }
 
-function ytToggleSub() {
-  ytSubVisible = !ytSubVisible;
-  var box = document.getElementById('ytSubOutside');
-  if (box) box.style.display = ytSubVisible ? 'flex' : 'none';
-  var b = document.getElementById('ytToggleBtn');
-  if (b) {
-    b.classList.toggle('off', !ytSubVisible);
-    b.querySelector('span:last-child').textContent = ytSubVisible ? 'Ẩn phụ đề' : 'Hiện phụ đề';
+function dictToggleLoop(){dictLoop=!dictLoop;document.getElementById('dictLoopBtn').classList.toggle('on',dictLoop);ytShowToast(dictLoop?'🔁 Bật lặp lại':'➡️ Tắt lặp lại');}
+function dictCycleSpeed(){var opt=[0.5,0.75,1.0,1.25,1.5];var i=opt.indexOf(dictSpeed);i=(i+1)%opt.length;dictSpeed=opt[i];document.getElementById('dictSpeedBtn').textContent=dictSpeed.toFixed(2)+'x';if(ytPlayer&&ytPlayerReady)try{ytPlayer.setPlaybackRate(dictSpeed);}catch(e){}}
+
+function dictUpdateCount(){
+  var val=document.getElementById('dictInput').value;
+  var s=ytSubs[dictCurrent];
+  document.getElementById('dictCharCount').textContent=val.length+' / '+(s?s.en.length:0)+' ký tự';
+}
+
+function dictSimilarity(a,b){a=fillNormalize(a);b=fillNormalize(b);if(a===b)return 1;if(!a||!b)return 0;var aw=a.split(' '),bw=b.split(' ');var m=0;aw.forEach(function(w){if(bw.indexOf(w)>=0)m++;});return m/Math.max(aw.length,bw.length);}
+
+function dictCheck(){
+  var input=document.getElementById('dictInput');
+  var user=input.value.trim();
+  if(!user){ytShowToast('⚠️ Chưa gõ gì');return;}
+  var s=ytSubs[dictCurrent];
+  var correct=s.en;
+  var sim=dictSimilarity(user,correct);
+  var isOk=sim>=0.95;
+  input.classList.remove('correct','wrong');
+  input.classList.add(isOk?'correct':'wrong');
+  dictResults[dictCurrent]=isOk?'ok':'no';
+  var fb=document.getElementById('dictFeedback');
+  var pct=Math.round(sim*100);
+  var acc=document.getElementById('dictAccuracy');
+  acc.textContent=pct+'%';acc.className=isOk?'ok':'no';
+  if(isOk){
+    fb.className='dict-feedback ok show';
+    fb.innerHTML='<div class="title">✅ Chính xác!</div>';
+  }else{
+    fb.className='dict-feedback no show';
+    fb.innerHTML='<div class="title">❌ Chưa đúng ('+pct+'%)</div><div class="row"><div class="lbl">Bạn viết</div><div class="your">'+user+'</div></div><div class="row"><div class="lbl">Đáp án</div><div class="answer">'+correct+'</div></div>';
   }
-  ytShowToast(ytSubVisible ? '💬 Hiện phụ đề' : '🚫 Ẩn phụ đề');
+  dictRenderList();
+  if(dictPlaying){
+    try{ytPlayer.pauseVideo();}catch(e){}
+    dictPlaying=false;
+    document.getElementById('dictPlayBtn').classList.remove('playing');
+    document.getElementById('dictPlayBtn').textContent='▶';
+    if(dictStopTimer){clearTimeout(dictStopTimer);dictStopTimer=null;}
+  }
+  if(isOk)setTimeout(function(){if(dictResults[dictCurrent]==='ok')dictNext();},1800);
 }
 
-document.addEventListener('DOMContentLoaded', function(){
-  var g = document.getElementById('ytClickGuard');
-  if (g) g.onclick = function(){ ytTogglePlay(); };
+function dictRevealDict(){
+  var s=ytSubs[dictCurrent];
+  var input=document.getElementById('dictInput');
+  input.value=s.en;input.classList.add('correct');
+  dictResults[dictCurrent]='skipped';
+  dictRenderList();
+  ytShowToast('👁 Đã hiện đáp án');
+}
+
+function dictNext(){if(dictCurrent<ytSubs.length-1){dictCurrent++;dictRenderCurrent();}else ytShowToast('🎉 Đã hết câu!');}
+function dictPrev(){if(dictCurrent>0){dictCurrent--;dictRenderCurrent();}}
+function dictFirstUnfinished(){for(var i=0;i<ytSubs.length;i++){if(!dictResults[i]){dictCurrent=i;dictRenderCurrent();return;}}ytShowToast('✅ Đã làm hết!');}
+function dictReset(){if(!confirm('Xóa tất cả?'))return;dictResults={};dictCurrent=0;dictRenderCurrent();dictRenderList();}
+
+function dictRenderList(){
+  var el=document.getElementById('dictList');if(!el)return;
+  el.innerHTML='';
+  ytSubs.forEach(function(s,idx){
+    var status=dictResults[idx];
+    var cls='seg';
+    if(idx===dictCurrent)cls+=' active';
+    if(status==='ok')cls+=' done-ok';
+    else if(status==='no'||status==='skipped')cls+=' done-no';
+    var icon=status==='ok'?'✅':(status==='no'?'❌':(status==='skipped'?'👁':'⚪'));
+    var seg=document.createElement('div');
+    seg.className=cls;
+    seg.setAttribute('data-idx',idx);
+    seg.innerHTML='<div class="idx">'+(idx+1)+'</div><div class="content'+(status?'':' blur')+'">'+s.en+'</div><div class="status">'+icon+'</div>';
+    seg.onclick=function(){dictCurrent=idx;dictRenderCurrent();};
+    el.appendChild(seg);
+  });
+}
+
+document.addEventListener('DOMContentLoaded',function(){
+  var g=document.getElementById('ytClickGuard');
+  if(g)g.onclick=function(){ytTogglePlay();};
 });
 
-/* ========== DARK MODE ========== */
-function applyDarkMode(isDark){
-  var btn = document.getElementById('darkBtn');
-  if(isDark){
-    document.body.classList.add('dark');
-    if(btn){ btn.textContent = '☀️'; btn.style.background = 'linear-gradient(135deg,#fbbf24,#f59e0b)'; }
-  } else {
-    document.body.classList.remove('dark');
-    if(btn){ btn.textContent = '🌙'; btn.style.background = 'linear-gradient(135deg,#4f46e5,#7c3aed)'; }
-  }
-}
-function toggleDarkMode(){
-  var isDark = !document.body.classList.contains('dark');
-  localStorage.setItem('darkMode', isDark ? '1' : '0');
-  applyDarkMode(isDark);
-}
-(function(){ var saved = localStorage.getItem('darkMode'); if(saved === '1') applyDarkMode(true); })();
-
-/* ========== QUIZ TRẮC NGHIỆM ========== */
-var quizMode = 'en';
-var quizQuestions = [];
-var quizCurrent = 0;
-var quizScore = 0;
-var quizAnswered = false;
+/* ═══════════════════════════════════════════════════════════
+   QUIZ
+   ═══════════════════════════════════════════════════════════ */
+var quizMode='en',quizQuestions=[],quizCurrent=0,quizScore=0,quizAnswered=false;
 
 function openQuiz(){
-  document.getElementById('quiz-home').style.display = 'block';
-  document.getElementById('quiz-play').style.display = 'none';
-  document.getElementById('quiz-final').style.display = 'none';
+  document.getElementById('quiz-home').style.display='block';
+  document.getElementById('quiz-play').style.display='none';
+  document.getElementById('quiz-final').style.display='none';
   document.getElementById('quizmodal').classList.add('show');
 }
-function closeQuiz(){ document.getElementById('quizmodal').classList.remove('show'); }
+function closeQuiz(){document.getElementById('quizmodal').classList.remove('show');}
 function setQuizMode(mode){
-  quizMode = mode;
-  document.getElementById('qmode-en').classList.toggle('active', mode === 'en');
-  document.getElementById('qmode-vi').classList.toggle('active', mode === 'vi');
-  document.getElementById('qmode-mix').classList.toggle('active', mode === 'mix');
+  quizMode=mode;
+  document.getElementById('qmode-en').classList.toggle('active',mode==='en');
+  document.getElementById('qmode-vi').classList.toggle('active',mode==='vi');
+  document.getElementById('qmode-mix').classList.toggle('active',mode==='mix');
 }
-function shuffleArray(arr){
-  var a = arr.slice();
-  for(var i = a.length - 1; i > 0; i--){ var j = Math.floor(Math.random() * (i + 1)); var t = a[i]; a[i] = a[j]; a[j] = t; }
-  return a;
-}
+function shuffleArray(arr){var a=arr.slice();for(var i=a.length-1;i>0;i--){var j=Math.floor(Math.random()*(i+1));var t=a[i];a[i]=a[j];a[j]=t;}return a;}
+
 function startQuiz(count){
-  var pool = d.slice();
-  if(pool.length < 4){ alert('⚠️ Cần ít nhất 4 thẻ để làm quiz!'); return; }
-  var shuffledPool = shuffleArray(pool);
-  var questions = [];
-  for(var i = 0; i < Math.min(count, shuffledPool.length); i++){
-    var card = shuffledPool[i];
-    var type = quizMode === 'mix' ? (Math.random() < 0.5 ? 'en' : 'vi') : quizMode;
-    var correct, questionText;
-    if(type === 'en'){ questionText = card[0]; correct = card[3]; }
-    else { questionText = card[3]; correct = card[0]; }
-    var others = pool.filter(function(c){ return c[0] !== card[0]; });
-    var shuffledOthers = shuffleArray(others);
-    var wrongs = [];
-    for(var k = 0; k < shuffledOthers.length && wrongs.length < 3; k++){
-      var wrongAns = type === 'en' ? shuffledOthers[k][3] : shuffledOthers[k][0];
-      if(wrongAns !== correct && wrongs.indexOf(wrongAns) < 0){ wrongs.push(wrongAns); }
+  var pool=d.slice();
+  if(pool.length<4){alert('⚠️ Cần ít nhất 4 thẻ!');return;}
+  var shuffledPool=shuffleArray(pool);
+  var questions=[];
+  for(var i=0;i<Math.min(count,shuffledPool.length);i++){
+    var card=shuffledPool[i];
+    var type=quizMode==='mix'?(Math.random()<0.5?'en':'vi'):quizMode;
+    var correct,questionText;
+    if(type==='en'){questionText=card[0];correct=card[3];}
+    else{questionText=card[3];correct=card[0];}
+    var others=pool.filter(function(c){return c[0]!==card[0];});
+    var shuffledOthers=shuffleArray(others);
+    var wrongs=[];
+    for(var k=0;k<shuffledOthers.length&&wrongs.length<3;k++){
+      var wrongAns=type==='en'?shuffledOthers[k][3]:shuffledOthers[k][0];
+      if(wrongAns!==correct&&wrongs.indexOf(wrongAns)<0){wrongs.push(wrongAns);}
     }
-    var options = shuffleArray([correct].concat(wrongs));
-    questions.push({ type: type, question: questionText, correct: correct, options: options });
+    var options=shuffleArray([correct].concat(wrongs));
+    questions.push({type:type,question:questionText,correct:correct,options:options});
   }
-  quizQuestions = questions;
-  quizCurrent = 0; quizScore = 0;
-  document.getElementById('quiz-home').style.display = 'none';
-  document.getElementById('quiz-play').style.display = 'block';
-  document.getElementById('quiz-final').style.display = 'none';
+  quizQuestions=questions;quizCurrent=0;quizScore=0;
+  document.getElementById('quiz-home').style.display='none';
+  document.getElementById('quiz-play').style.display='block';
+  document.getElementById('quiz-final').style.display='none';
   renderQuizQuestion();
 }
+
 function renderQuizQuestion(){
-  var q = quizQuestions[quizCurrent];
-  quizAnswered = false;
-  document.getElementById('quiz-progress').textContent = 'Câu ' + (quizCurrent + 1) + '/' + quizQuestions.length;
-  var label = q.type === 'en' ? 'Từ: ' : 'Nghĩa: ';
-  document.getElementById('quiz-question').textContent = label + q.question;
-  var optsEl = document.getElementById('quiz-options');
-  optsEl.innerHTML = '';
+  var q=quizQuestions[quizCurrent];
+  quizAnswered=false;
+  document.getElementById('quiz-progress').textContent='Câu '+(quizCurrent+1)+'/'+quizQuestions.length;
+  var label=q.type==='en'?'Từ: ':'Nghĩa: ';
+  document.getElementById('quiz-question').textContent=label+q.question;
+  var optsEl=document.getElementById('quiz-options');optsEl.innerHTML='';
   q.options.forEach(function(opt){
-    var btn = document.createElement('button');
-    btn.className = 'quiz-option';
-    btn.textContent = opt;
-    btn.onclick = function(){ answerQuiz(opt, btn); };
+    var btn=document.createElement('button');
+    btn.className='quiz-option';btn.textContent=opt;
+    btn.onclick=function(){answerQuiz(opt,btn);};
     optsEl.appendChild(btn);
   });
-  var resEl = document.getElementById('quiz-result');
-  resEl.className = 'quiz-result';
-  resEl.textContent = '';
-}
-function answerQuiz(opt, btn){
-  if(quizAnswered) return;
-  quizAnswered = true;
-  var q = quizQuestions[quizCurrent];
-  var buttons = document.querySelectorAll('.quiz-option');
-  buttons.forEach(function(b){
-    b.disabled = true;
-    if(b.textContent === q.correct) b.classList.add('correct');
-  });
-  var resEl = document.getElementById('quiz-result');
-  if(opt === q.correct){
-    quizScore++;
-    resEl.className = 'quiz-result show ok';
-    resEl.textContent = '✅ Chính xác!';
-  } else {
-    btn.classList.add('wrong');
-    resEl.className = 'quiz-result show no';
-    resEl.textContent = '❌ Sai. Đáp án đúng: ' + q.correct;
-  }
-  setTimeout(function(){
-    quizCurrent++;
-    if(quizCurrent >= quizQuestions.length){ finishQuiz(); }
-    else { renderQuizQuestion(); }
-  }, 1500);
-}
-function finishQuiz(){
-  document.getElementById('quiz-play').style.display = 'none';
-  document.getElementById('quiz-final').style.display = 'block';
-  var pct = Math.round(quizScore / quizQuestions.length * 100);
-  document.getElementById('quiz-score').textContent = quizScore + '/' + quizQuestions.length;
-  var msg = '';
-  if(pct === 100) msg = '🏆 Hoàn hảo! Bạn thật tuyệt vời!';
-  else if(pct >= 80) msg = '🌟 Xuất sắc! Tiếp tục phát huy!';
-  else if(pct >= 60) msg = '👍 Khá tốt! Cố gắng thêm nhé!';
-  else if(pct >= 40) msg = '💪 Cần ôn thêm. Đừng bỏ cuộc!';
-  else msg = '📚 Hãy ôn lại từ vựng rồi thử lại nhé!';
-  document.getElementById('quiz-msg').textContent = msg;
+  var resEl=document.getElementById('quiz-result');resEl.className='quiz-result';resEl.textContent='';
 }
 
-const globalFns = {
-  flip, say, next, prev, toggle, toggleBlur, checkEx,
-  shuffleCards, resetOrder, openImport, doImport, closeModal,
-  openList, closeList, toggleSelectMode, deleteSelected,
-  openNewWords, closeNewWords, openListen, closeListen,
-  backToListenHome, loadListenMode, regenListen, speakWordModal,
-  toggleSaveWord, closeWordModal, pickPhoto, uploadFromList,
-  removePhoto, pasteImage, searchGoogleImage, autoFindImage,
-  compressAllOldImages, addKey, clearAllKeys, showWordInfo, changeVoice,
-  openYT, closeYT, startYT, backToYTHome, ytToggleSub, ytJumpTo,
-  ytTogglePlay, ytToggleMute, ytCycleSpeed,
-  openQuiz, closeQuiz, setQuizMode, startQuiz, answerQuiz,
-  toggleDarkMode, applyDarkMode
+function answerQuiz(opt,btn){
+  if(quizAnswered)return;
+  quizAnswered=true;
+  var q=quizQuestions[quizCurrent];
+  var buttons=document.querySelectorAll('.quiz-option');
+  buttons.forEach(function(b){b.disabled=true;if(b.textContent===q.correct)b.classList.add('correct');});
+  var resEl=document.getElementById('quiz-result');
+  if(opt===q.correct){quizScore++;resEl.className='quiz-result show ok';resEl.textContent='✅ Chính xác!';}
+  else{btn.classList.add('wrong');resEl.className='quiz-result show no';resEl.textContent='❌ Sai. Đáp án đúng: '+q.correct;}
+  setTimeout(function(){
+    quizCurrent++;
+    if(quizCurrent>=quizQuestions.length)finishQuiz();
+    else renderQuizQuestion();
+  },1500);
+}
+
+function finishQuiz(){
+  document.getElementById('quiz-play').style.display='none';
+  document.getElementById('quiz-final').style.display='block';
+  var pct=Math.round(quizScore/quizQuestions.length*100);
+  document.getElementById('quiz-score').textContent=quizScore+'/'+quizQuestions.length;
+  var msg='';
+  if(pct===100)msg='🏆 Hoàn hảo!';
+  else if(pct>=80)msg='🌟 Xuất sắc!';
+  else if(pct>=60)msg='👍 Khá tốt!';
+  else if(pct>=40)msg='💪 Cần ôn thêm.';
+  else msg='📚 Ôn lại rồi thử lại nhé!';
+  document.getElementById('quiz-msg').textContent=msg;
+}
+
+/* DARK MODE */
+function applyDarkMode(isDark){
+  var btn=document.getElementById('darkBtn');
+  if(isDark){document.body.classList.add('dark');if(btn){btn.textContent='☀️';btn.style.background='linear-gradient(135deg,#fbbf24,#f59e0b)';}}
+  else{document.body.classList.remove('dark');if(btn){btn.textContent='🌙';btn.style.background='linear-gradient(135deg,#4f46e5,#7c3aed)';}}
+}
+function toggleDarkMode(){var isDark=!document.body.classList.contains('dark');localStorage.setItem('darkMode',isDark?'1':'0');applyDarkMode(isDark);}
+(function(){var saved=localStorage.getItem('darkMode');if(saved==='1')applyDarkMode(true);})();
+
+/* GLOBAL FNS */
+const globalFns={
+  flip,say,next,prev,toggle,toggleBlur,checkEx,
+  shuffleCards,resetOrder,openImport,doImport,closeModal,
+  openList,closeList,toggleSelectMode,deleteSelected,
+  openNewWords,closeNewWords,openListen,closeListen,
+  backToListenHome,loadListenMode,regenListen,speakWordModal,
+  toggleSaveWord,closeWordModal,pickPhoto,uploadFromList,
+  removePhoto,pasteImage,searchGoogleImage,autoFindImage,
+  compressAllOldImages,addKey,clearAllKeys,showWordInfo,changeVoice,
+  openYT,closeYT,startYT,backToYTHome,ytJumpTo,
+  ytTogglePlay,ytToggleMute,ytCycleSpeed,ytSwitchMode,
+  fillPlay,fillCheck,fillNext,fillPrev,fillReveal,fillToggleLoop,
+  fillCycleSpeed,fillReset,fillFirstUnfinished,fillChangeLevel,fillOnKey,
+  dictPlay,dictCheck,dictNext,dictPrev,dictRevealDict,dictToggleLoop,
+  dictCycleSpeed,dictReset,dictFirstUnfinished,dictUpdateCount,
+  openQuiz,closeQuiz,setQuizMode,startQuiz,answerQuiz,
+  toggleDarkMode,applyDarkMode
 };
-Object.keys(globalFns).forEach(function(name){ window[name] = globalFns[name]; });
+Object.keys(globalFns).forEach(function(name){window[name]=globalFns[name];});
 
 r();
 </script>
