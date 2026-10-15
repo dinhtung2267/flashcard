@@ -2,9 +2,9 @@
 <html><head><meta charset="utf-8"><meta name="viewport" content="width=device-width,initial-scale=1,maximum-scale=1"><title>Flashcard Nghề Nghiệp</title><style>
 @import url('https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700;800;900&display=swap');
 *{box-sizing:border-box}
-body{font-family:'Inter',Arial,sans-serif;background:linear-gradient(180deg,#ff6e7f 0%,#ff9a8b 30%,#ffb88c 60%,#bfe9ff 100%);background-attachment:fixed;min-height:100vh;margin:0;padding:12px;display:flex;flex-direction:column;align-items:center;transition:background .3s}
+body{font-family:'Inter',Arial,sans-serif;background:linear-gradient(180deg,#ff6e7f 0%,#ff9a8b 30%,#ffb88c 60%,#bfe9ff 100%);background-attachment:fixed;min-height:100vh;margin:0;padding:12px;display:flex;flex-direction:column;align-items:center}
 h1{color:#fff;font-size:1.3rem;margin:0 0 8px;font-weight:900;text-shadow:0 2px 8px rgba(0,0,0,.3)}
-.authbox{width:100%;max-width:420px;background:rgba(255,255,255,.25);backdrop-filter:blur(10px);-webkit-backdrop-filter:blur(10px);border-radius:14px;padding:10px 12px;margin-bottom:8px;border:1px solid rgba(255,255,255,.3);box-shadow:0 8px 20px rgba(0,0,0,.1)}
+.authbox{width:100%;max-width:420px;background:rgba(255,255,255,.25);backdrop-filter:blur(10px);border-radius:14px;padding:10px 12px;margin-bottom:8px;border:1px solid rgba(255,255,255,.3)}
 .authrow{display:flex;align-items:center;gap:10px}
 .authavatar{width:40px;height:40px;border-radius:50%;border:2px solid #fff;display:none}
 .authavatar.show{display:block}
@@ -19,11 +19,11 @@ h1{color:#fff;font-size:1.3rem;margin:0 0 8px;font-weight:900;text-shadow:0 2px 
 .authbtn.login{background:#4285f4;color:#fff}
 .authbtn.logout{background:#ef4444;color:#fff;display:none}
 .authbtn.logout.show{display:inline-block}
-.keybox{width:100%;max-width:420px;background:rgba(255,255,255,.25);backdrop-filter:blur(10px);-webkit-backdrop-filter:blur(10px);border-radius:16px;padding:12px;margin-bottom:10px;border:1px solid rgba(255,255,255,.3);box-shadow:0 8px 20px rgba(0,0,0,.1)}
+.keybox{width:100%;max-width:420px;background:rgba(255,255,255,.25);backdrop-filter:blur(10px);border-radius:16px;padding:12px;margin-bottom:10px;border:1px solid rgba(255,255,255,.3)}
 .keyrow{display:flex;gap:4px;align-items:center;margin-bottom:6px}
 .keyrow label{color:#fff;font-size:.7rem;min-width:55px;font-weight:600}
-.keyrow input{flex:1;padding:10px 14px;border-radius:12px;border:2px solid transparent;font-size:.8rem;background:rgba(255,255,255,.95);min-width:0;font-family:'Inter',Arial,sans-serif}
-.keyrow button{padding:10px 14px;border-radius:12px;border:none;color:#fff;font-weight:700;font-size:.75rem;cursor:pointer;font-family:'Inter',Arial,sans-serif}
+.keyrow input{flex:1;padding:10px 14px;border-radius:12px;border:2px solid transparent;font-size:.8rem;background:rgba(255,255,255,.95);min-width:0}
+.keyrow button{padding:10px 14px;border-radius:12px;border:none;color:#fff;font-weight:700;font-size:.75rem;cursor:pointer}
 .btn-add{background:#a78bfa}
 .btn-clear{background:#ef4444}
 .keystat{color:#fff;font-size:.7rem;text-align:center;margin-bottom:6px;padding:4px;background:rgba(0,0,0,.2);border-radius:6px}
@@ -38,7 +38,7 @@ h1{color:#fff;font-size:1.3rem;margin:0 0 8px;font-weight:900;text-shadow:0 2px 
 .keyitem .del{background:#dc2626;color:#fff;border:none;width:24px;height:24px;border-radius:4px;cursor:pointer;font-size:.7rem}
 .tools{width:100%;max-width:420px;display:flex;flex-direction:column;gap:6px;margin-bottom:6px}
 .tool-group{display:grid;grid-template-columns:1fr 1fr 1fr;gap:6px}
-.tools button{padding:8px 6px;border-radius:12px;border:1px solid rgba(255,255,255,.5);background:linear-gradient(135deg,#ffffff,#f0f4ff);color:#4338ca;font-weight:700;font-size:.68rem;cursor:pointer;font-family:'Inter',Arial,sans-serif;min-height:50px;display:flex;flex-direction:column;align-items:center;justify-content:center;gap:1px}
+.tools button{padding:8px 6px;border-radius:12px;border:1px solid rgba(255,255,255,.5);background:linear-gradient(135deg,#ffffff,#f0f4ff);color:#4338ca;font-weight:700;font-size:.68rem;cursor:pointer;min-height:50px;display:flex;flex-direction:column;align-items:center;justify-content:center;gap:1px}
 .card{width:100%;max-width:420px;min-height:400px;background:#fff;border-radius:22px;padding:20px;box-shadow:0 20px 50px rgba(0,0,0,.25);text-align:left;display:flex;flex-direction:column;justify-content:center;cursor:pointer;position:relative}
 .photo{width:100%;max-height:200px;object-fit:cover;border-radius:12px;margin-bottom:12px;display:none}
 .photo.show{display:block}
@@ -65,10 +65,10 @@ h1{color:#fff;font-size:1.3rem;margin:0 0 8px;font-weight:900;text-shadow:0 2px 
 .result.ok{color:#166534;background:#dcfce7}
 .result.no{color:#991b1b;background:#fee2e2}
 .result.load{color:#1e40af;background:#dbeafe}
-.note{width:100%;margin-top:8px;padding:10px;border:2px dashed #c7d2fe;border-radius:10px;font-size:.9rem;font-family:Arial;resize:none;background:#f9fafb;min-height:55px}
+.note{width:100%;margin-top:8px;padding:10px;border:2px dashed #c7d2fe;border-radius:10px;font-size:.9rem;resize:none;background:#f9fafb;min-height:55px}
 .notelabel{font-size:.7rem;font-weight:700;color:#9ca3af;margin-top:10px;text-transform:uppercase}
 .ctrl{display:flex;gap:6px;margin-top:6px;flex-wrap:wrap;justify-content:center;align-items:center}
-.btn{padding:11px 22px;border:none;border-radius:12px;font-weight:700;cursor:pointer;font-size:.9rem;font-family:'Inter',Arial,sans-serif}
+.btn{padding:11px 22px;border:none;border-radius:12px;font-weight:700;cursor:pointer;font-size:.9rem}
 .nav{background:linear-gradient(135deg,#ffffff,#eef2ff);color:#4338ca}
 .learn{background:linear-gradient(135deg,#4ade80,#22c55e);color:#fff}
 .learn.on{background:linear-gradient(135deg,#16a34a,#15803d)}
@@ -83,7 +83,7 @@ h1{color:#fff;font-size:1.3rem;margin:0 0 8px;font-weight:900;text-shadow:0 2px 
 .modal-box h2{font-size:1.1rem;margin:0 0 12px;color:#4338ca}
 .modal-box p{font-size:.85rem;color:#6b7280;margin:0 0 12px;line-height:1.5}
 .modal-box input[type=file]{width:100%;padding:10px;border:2px dashed #c7d2fe;border-radius:10px;font-size:.85rem;background:#f9fafb;margin-bottom:10px}
-.modal-box button{width:100%;padding:12px;border-radius:14px;border:none;font-weight:700;cursor:pointer;margin-bottom:8px;font-size:.9rem;font-family:'Inter',Arial,sans-serif}
+.modal-box button{width:100%;padding:12px;border-radius:14px;border:none;font-weight:700;cursor:pointer;margin-bottom:8px;font-size:.9rem}
 .mb-primary{background:linear-gradient(135deg,#4ade80,#22c55e);color:#fff}
 .mb-close{background:linear-gradient(135deg,#e5e7eb,#d1d5db);color:#374151}
 .status{font-size:.85rem;color:#4338ca;text-align:center;padding:8px;background:#eef2ff;border-radius:8px;margin-top:8px}
@@ -113,7 +113,7 @@ h1{color:#fff;font-size:1.3rem;margin:0 0 8px;font-weight:900;text-shadow:0 2px 
 .listen-item{background:#f9fafb;border:1px solid #e5e7eb;border-radius:12px;padding:12px;margin-bottom:12px}
 .listen-num{font-size:.75rem;color:#6b7280;font-weight:700;margin-bottom:6px}
 .listen-speak{background:#eef2ff;border:none;color:#4338ca;padding:10px 16px;border-radius:10px;font-weight:700;font-size:.85rem;cursor:pointer;width:100%;margin-bottom:8px}
-.listen-input{width:100%;padding:10px;border:2px solid #c7d2fe;border-radius:10px;font-size:.9rem;font-family:Arial;resize:none;min-height:50px}
+.listen-input{width:100%;padding:10px;border:2px solid #c7d2fe;border-radius:10px;font-size:.9rem;resize:none;min-height:50px}
 .listen-actions{display:flex;gap:6px;margin-top:8px;flex-wrap:wrap}
 .listen-actions button{flex:1;padding:8px;border-radius:8px;border:none;font-weight:700;font-size:.8rem;cursor:pointer;min-width:70px}
 .listen-check{background:#4ade80;color:#fff}
@@ -170,15 +170,15 @@ body.dark .mb-close{background:linear-gradient(135deg,#4b5563,#374151);color:#e5
 
 /* ═══════════════ YOUTUBE PLAYER ═══════════════ */
 .yt-modal-box{max-width:100%;width:100%;max-height:100vh;overflow-y:auto;padding:0;border-radius:0;background:linear-gradient(180deg,#0f172a 0%,#1e293b 100%);color:#e2e8f0}
-.yt-input{width:100%;padding:14px 16px;background:rgba(255,255,255,.06);border:1.5px solid rgba(255,255,255,.12);border-radius:12px;color:#e2e8f0;font-size:.9rem;font-family:'Inter',sans-serif;margin-bottom:12px;box-sizing:border-box}
-.yt-input:focus{outline:none;border-color:#fbbf24;background:rgba(251,191,36,.06);box-shadow:0 0 0 4px rgba(251,191,36,.15)}
+.yt-input{width:100%;padding:14px 16px;background:rgba(255,255,255,.06);border:1.5px solid rgba(255,255,255,.12);border-radius:12px;color:#e2e8f0;font-size:.9rem;margin-bottom:12px;box-sizing:border-box}
+.yt-input:focus{outline:none;border-color:#fbbf24;background:rgba(251,191,36,.06)}
 .yt-input.srt{min-height:160px;font-family:monospace;font-size:.8rem;resize:vertical;line-height:1.6}
 .yt-label{font-size:.72rem;font-weight:700;color:#94a3b8;letter-spacing:.8px;text-transform:uppercase;margin-bottom:6px;display:flex;align-items:center;gap:6px}
 .yt-wrapper{position:relative;width:100%;aspect-ratio:16/9;background:#000;overflow:hidden}
 .yt-wrapper iframe,#ytPlayerBox,#ytPlayerBox iframe{position:absolute;top:0;left:0;width:100%!important;height:100%!important;border:0;pointer-events:none!important}
 #ytClickGuard{position:absolute;inset:0;z-index:5;background:transparent;cursor:pointer}
 .yt-controls{display:flex;gap:6px;padding:10px 12px;background:#0f172a;border-bottom:1px solid rgba(255,255,255,.06);flex-wrap:wrap;position:sticky;top:0;z-index:20}
-.yt-controls button{flex:1;padding:10px 6px;border:none;border-radius:11px;font-weight:700;font-size:.72rem;cursor:pointer;min-width:62px;font-family:inherit;display:flex;flex-direction:column;align-items:center;justify-content:center;gap:4px;line-height:1.2;transition:all .15s;color:#e2e8f0}
+.yt-controls button{flex:1;padding:10px 6px;border:none;border-radius:11px;font-weight:700;font-size:.72rem;cursor:pointer;min-width:62px;display:flex;flex-direction:column;align-items:center;justify-content:center;gap:4px;line-height:1.2;color:#e2e8f0}
 .yt-controls button .e{font-size:1.1rem}
 .yt-back{background:linear-gradient(135deg,rgba(251,191,36,.15),rgba(245,158,11,.2));color:#fbbf24;border:1px solid rgba(251,191,36,.3)!important}
 .yt-hide{background:linear-gradient(135deg,rgba(99,102,241,.15),rgba(79,70,229,.2));color:#a5b4fc;border:1px solid rgba(99,102,241,.3)!important}
@@ -189,15 +189,15 @@ body.dark .mb-close{background:linear-gradient(135deg,#4b5563,#374151);color:#e5
 .yt-seek-track{flex:1;height:20px;display:flex;align-items:center;cursor:pointer;position:relative}
 .yt-seek-bg{width:100%;height:5px;background:rgba(255,255,255,.08);border-radius:3px;position:relative;overflow:hidden}
 .yt-seek-fill{position:absolute;top:0;left:0;height:100%;width:0%;background:linear-gradient(90deg,#fbbf24,#ef4444);border-radius:3px}
-.yt-seek-thumb{position:absolute;top:50%;left:0%;width:14px;height:14px;background:#fbbf24;border-radius:50%;border:2px solid #0f172a;transform:translate(-50%,-50%);box-shadow:0 2px 8px rgba(251,191,36,.5);pointer-events:none}
+.yt-seek-thumb{position:absolute;top:50%;left:0%;width:14px;height:14px;background:#fbbf24;border-radius:50%;border:2px solid #0f172a;transform:translate(-50%,-50%);pointer-events:none}
 .yt-tabs{display:flex;padding:0 14px;background:#0f172a;border-bottom:1px solid rgba(255,255,255,.08)}
-.yt-tab{flex:1;padding:14px 6px;background:transparent;border:none;color:#94a3b8;font-weight:700;font-size:.78rem;cursor:pointer;border-bottom:3px solid transparent;font-family:inherit;display:flex;align-items:center;justify-content:center;gap:5px;white-space:nowrap}
+.yt-tab{flex:1;padding:14px 6px;background:transparent;border:none;color:#94a3b8;font-weight:700;font-size:.78rem;cursor:pointer;border-bottom:3px solid transparent;display:flex;align-items:center;justify-content:center;gap:5px;white-space:nowrap}
 .yt-tab.active{color:#fbbf24;border-bottom-color:#fbbf24;background:rgba(251,191,36,.06)}
 #ytSubOutside{background:linear-gradient(180deg,#0f172a 0%,#020617 100%);padding:22px 20px;border-top:1px solid rgba(251,191,36,.25);min-height:140px;position:relative;display:flex;flex-direction:column;justify-content:center}
 #ytSubEn{font-size:clamp(1.4rem,5.5vw,1.9rem);font-weight:800;color:#f8fafc;line-height:1.5;margin-bottom:14px;text-align:center;text-shadow:0 2px 8px rgba(0,0,0,.5)}
-#ytSubEn .w{padding:3px 6px;margin:0 2px;border-radius:6px;cursor:pointer;display:inline-block;transition:all .12s}
+#ytSubEn .w{padding:3px 6px;margin:0 2px;border-radius:6px;cursor:pointer;display:inline-block}
 #ytSubEn .w.read{background:rgba(251,191,36,.3);color:#fbbf24}
-#ytSubEn .w.current{background:linear-gradient(135deg,#ef4444,#dc2626);color:#fff;font-weight:900;box-shadow:0 6px 20px rgba(239,68,68,.6);transform:scale(1.1)}
+#ytSubEn .w.current{background:linear-gradient(135deg,#ef4444,#dc2626);color:#fff;font-weight:900;transform:scale(1.1)}
 #ytSubVi{font-size:clamp(1.05rem,4vw,1.35rem);color:#fbbf24;line-height:1.5;text-align:center;font-weight:600;padding-top:12px;border-top:1px dashed rgba(251,191,36,.2)}
 .yt-list{max-height:42vh;overflow-y:auto;background:linear-gradient(180deg,#0f172a 0%,#020617 100%);padding:12px 10px 24px}
 .yt-item{padding:12px 14px;border-radius:12px;margin-bottom:8px;cursor:pointer;border:1px solid rgba(255,255,255,.06);background:rgba(255,255,255,.03)}
@@ -212,9 +212,9 @@ body.dark .mb-close{background:linear-gradient(135deg,#4b5563,#374151);color:#e5
 .yt-item.active .yt-vi{color:#fbbf24;font-style:normal;font-weight:600}
 .mode-card{margin:14px;padding:20px;background:linear-gradient(135deg,rgba(255,255,255,.05),rgba(255,255,255,.02));border:1px solid rgba(255,255,255,.08);border-radius:18px}
 .mode-top{display:flex;align-items:center;gap:10px;margin-bottom:16px;flex-wrap:wrap}
-.mode-play{width:56px;height:56px;border-radius:50%;background:linear-gradient(135deg,#4ade80,#22c55e);color:#fff;border:none;font-size:1.5rem;cursor:pointer;box-shadow:0 6px 18px rgba(74,222,128,.4);display:flex;align-items:center;justify-content:center}
-.mode-play.playing{background:linear-gradient(135deg,#ef4444,#dc2626);box-shadow:0 6px 18px rgba(239,68,68,.5)}
-.mode-btn{padding:11px 14px;border-radius:12px;background:rgba(255,255,255,.06);border:1px solid rgba(255,255,255,.1);color:#e2e8f0;font-weight:700;font-size:.82rem;cursor:pointer;font-family:inherit}
+.mode-play{width:56px;height:56px;border-radius:50%;background:linear-gradient(135deg,#4ade80,#22c55e);color:#fff;border:none;font-size:1.5rem;cursor:pointer;display:flex;align-items:center;justify-content:center}
+.mode-play.playing{background:linear-gradient(135deg,#ef4444,#dc2626)}
+.mode-btn{padding:11px 14px;border-radius:12px;background:rgba(255,255,255,.06);border:1px solid rgba(255,255,255,.1);color:#e2e8f0;font-weight:700;font-size:.82rem;cursor:pointer}
 .mode-btn.on{background:rgba(251,191,36,.15);border-color:rgba(251,191,36,.3);color:#fbbf24}
 .mode-counter{margin-left:auto;font-family:monospace;font-size:1.05rem;color:#fbbf24;font-weight:700;padding:8px 14px;background:rgba(251,191,36,.08);border-radius:12px;border:1px solid rgba(251,191,36,.2)}
 .mode-counter span{color:#64748b;font-size:.85rem;font-weight:400;margin:0 2px}
@@ -223,15 +223,15 @@ body.dark .mb-close{background:linear-gradient(135deg,#4b5563,#374151);color:#e5
 .fill-sentence{font-size:1.15rem;line-height:2.2;color:#e2e8f0;padding:18px;background:rgba(0,0,0,.25);border:1px solid rgba(255,255,255,.08);border-radius:14px;margin-bottom:14px}
 .fill-sentence .txt{color:#e2e8f0;font-weight:500}
 .fill-sentence .punct{color:#94a3b8}
-.fill-input{display:inline-block;min-width:80px;max-width:140px;padding:6px 10px;background:rgba(96,165,250,.12);border:2px solid rgba(96,165,250,.4);border-radius:10px;color:#fbbf24;font-family:inherit;font-weight:700;font-size:1.05rem;text-align:center;vertical-align:middle;margin:2px 3px;outline:none}
-.fill-input:focus{border-color:#fbbf24;background:rgba(251,191,36,.1);box-shadow:0 0 0 4px rgba(251,191,36,.15)}
+.fill-input{display:inline-block;min-width:80px;max-width:140px;padding:6px 10px;background:rgba(96,165,250,.12);border:2px solid rgba(96,165,250,.4);border-radius:10px;color:#fbbf24;font-weight:700;font-size:1.05rem;text-align:center;vertical-align:middle;margin:2px 3px;outline:none}
+.fill-input:focus{border-color:#fbbf24;background:rgba(251,191,36,.1)}
 .fill-input.correct{background:rgba(74,222,128,.15);border-color:#4ade80;color:#4ade80}
 .fill-input.wrong{background:rgba(239,68,68,.15);border-color:#ef4444;color:#fca5a5}
 .fill-input.revealed{background:rgba(251,191,36,.15);border-color:#fbbf24;color:#fbbf24}
 .fill-actions{display:flex;gap:8px;margin-top:14px}
-.fill-check{flex:2;padding:15px;background:linear-gradient(135deg,#4ade80,#22c55e);color:#fff;border:none;border-radius:12px;font-weight:700;font-size:.95rem;font-family:inherit;cursor:pointer}
-.fill-eye{width:56px;padding:15px 0;background:rgba(96,165,250,.15);border:1px solid rgba(96,165,250,.3);color:#60a5fa;border-radius:12px;font-weight:700;font-size:1.1rem;font-family:inherit;cursor:pointer;display:flex;align-items:center;justify-content:center}
-.fill-next{flex:1;padding:15px;background:rgba(255,255,255,.06);border:1px solid rgba(255,255,255,.1);color:#e2e8f0;border-radius:12px;font-weight:700;font-size:.9rem;font-family:inherit;cursor:pointer;display:flex;align-items:center;justify-content:center;gap:6px}
+.fill-check{flex:2;padding:15px;background:linear-gradient(135deg,#4ade80,#22c55e);color:#fff;border:none;border-radius:12px;font-weight:700;font-size:.95rem;cursor:pointer}
+.fill-eye{width:56px;padding:15px 0;background:rgba(96,165,250,.15);border:1px solid rgba(96,165,250,.3);color:#60a5fa;border-radius:12px;font-weight:700;font-size:1.1rem;cursor:pointer;display:flex;align-items:center;justify-content:center}
+.fill-next{flex:1;padding:15px;background:rgba(255,255,255,.06);border:1px solid rgba(255,255,255,.1);color:#e2e8f0;border-radius:12px;font-weight:700;font-size:.9rem;cursor:pointer;display:flex;align-items:center;justify-content:center;gap:6px}
 .fill-feedback{margin-top:14px;padding:16px;border-radius:14px;font-size:.9rem;line-height:1.6;display:none}
 .fill-feedback.show{display:block}
 .fill-feedback.ok{background:rgba(74,222,128,.1);border:1px solid rgba(74,222,128,.3);color:#86efac}
@@ -243,18 +243,18 @@ body.dark .mb-close{background:linear-gradient(135deg,#4b5563,#374151);color:#e5
 .fill-feedback .your{color:#e2e8f0}
 .fill-config{display:flex;gap:8px;margin-bottom:14px;align-items:center;flex-wrap:wrap}
 .fill-config label{font-size:.75rem;color:#94a3b8;font-weight:600}
-.fill-config select{background:rgba(255,255,255,.06);border:1px solid rgba(255,255,255,.1);color:#e2e8f0;padding:8px 12px;border-radius:8px;font-size:.8rem;font-family:inherit;cursor:pointer}
-.dict-input{width:100%;padding:16px;background:rgba(0,0,0,.3);border:2px solid rgba(255,255,255,.1);border-radius:14px;color:#e2e8f0;font-size:1.05rem;font-family:inherit;resize:vertical;min-height:100px;line-height:1.5}
-.dict-input:focus{outline:none;border-color:#fbbf24;box-shadow:0 0 0 4px rgba(251,191,36,.12)}
+.fill-config select{background:rgba(255,255,255,.06);border:1px solid rgba(255,255,255,.1);color:#e2e8f0;padding:8px 12px;border-radius:8px;font-size:.8rem;cursor:pointer}
+.dict-input{width:100%;padding:16px;background:rgba(0,0,0,.3);border:2px solid rgba(255,255,255,.1);border-radius:14px;color:#e2e8f0;font-size:1.05rem;resize:vertical;min-height:100px;line-height:1.5}
+.dict-input:focus{outline:none;border-color:#fbbf24}
 .dict-input.correct{border-color:#4ade80;background:rgba(74,222,128,.08)}
 .dict-input.wrong{border-color:#ef4444;background:rgba(239,68,68,.08)}
 .dict-meta{display:flex;justify-content:space-between;margin:8px 4px 14px;font-size:.75rem;color:#64748b;font-family:monospace}
 .dict-meta .ok{color:#4ade80;font-weight:700}
 .dict-meta .no{color:#ef4444;font-weight:700}
 .dict-actions{display:flex;gap:8px}
-.dict-check{flex:2;padding:15px;background:linear-gradient(135deg,#4ade80,#22c55e);color:#fff;border:none;border-radius:12px;font-weight:700;font-size:.95rem;font-family:inherit;cursor:pointer}
-.dict-eye{width:56px;padding:15px 0;background:rgba(96,165,250,.15);border:1px solid rgba(96,165,250,.3);color:#60a5fa;border-radius:12px;font-weight:700;font-size:1.1rem;font-family:inherit;cursor:pointer;display:flex;align-items:center;justify-content:center}
-.dict-next{flex:1;padding:15px;background:rgba(255,255,255,.06);border:1px solid rgba(255,255,255,.1);color:#e2e8f0;border-radius:12px;font-weight:700;font-size:.9rem;font-family:inherit;cursor:pointer;display:flex;align-items:center;justify-content:center;gap:6px}
+.dict-check{flex:2;padding:15px;background:linear-gradient(135deg,#4ade80,#22c55e);color:#fff;border:none;border-radius:12px;font-weight:700;font-size:.95rem;cursor:pointer}
+.dict-eye{width:56px;padding:15px 0;background:rgba(96,165,250,.15);border:1px solid rgba(96,165,250,.3);color:#60a5fa;border-radius:12px;font-weight:700;font-size:1.1rem;cursor:pointer;display:flex;align-items:center;justify-content:center}
+.dict-next{flex:1;padding:15px;background:rgba(255,255,255,.06);border:1px solid rgba(255,255,255,.1);color:#e2e8f0;border-radius:12px;font-weight:700;font-size:.9rem;cursor:pointer;display:flex;align-items:center;justify-content:center;gap:6px}
 .dict-feedback{margin-top:14px;padding:16px;border-radius:14px;font-size:.9rem;line-height:1.6;display:none}
 .dict-feedback.show{display:block}
 .dict-feedback.ok{background:rgba(74,222,128,.1);border:1px solid rgba(74,222,128,.3);color:#86efac}
@@ -265,7 +265,7 @@ body.dark .mb-close{background:linear-gradient(135deg,#4b5563,#374151);color:#e5
 .dict-feedback .answer{color:#fbbf24;font-weight:700;font-size:1rem}
 .dict-feedback .your{color:#e2e8f0}
 .nav-row{display:flex;gap:8px;padding:14px;background:#0f172a;border-top:1px solid rgba(255,255,255,.06);margin-top:14px}
-.nav-row button{flex:1;padding:12px;border-radius:12px;font-weight:700;font-size:.8rem;cursor:pointer;font-family:inherit;background:rgba(255,255,255,.05);border:1px solid rgba(255,255,255,.08);color:#e2e8f0}
+.nav-row button{flex:1;padding:12px;border-radius:12px;font-weight:700;font-size:.8rem;cursor:pointer;background:rgba(255,255,255,.05);border:1px solid rgba(255,255,255,.08);color:#e2e8f0}
 .seg-list{max-height:45vh;overflow-y:auto;padding:0 14px 24px}
 .seg{padding:12px 14px;margin-bottom:8px;background:rgba(255,255,255,.03);border:1px solid rgba(255,255,255,.06);border-left:3px solid transparent;border-radius:12px;display:flex;gap:12px;align-items:center;cursor:pointer}
 .seg.active{background:linear-gradient(135deg,rgba(30,64,175,.4),rgba(30,58,138,.5));border-color:rgba(96,165,250,.4);border-left-color:#60a5fa}
@@ -278,19 +278,19 @@ body.dark .mb-close{background:linear-gradient(135deg,#4b5563,#374151);color:#e5
 .seg .content{flex:1;font-size:.85rem;color:#cbd5e1;line-height:1.45}
 .seg .content.blur{filter:blur(6px);user-select:none;pointer-events:none}
 .seg .status{font-size:1.1rem;min-width:24px;text-align:center}
-.yt-toast{position:fixed;bottom:24px;left:50%;transform:translateX(-50%) translateY(100px);background:rgba(30,30,40,.95);backdrop-filter:blur(20px);color:#fff;padding:12px 20px;border-radius:12px;font-size:.85rem;font-weight:600;box-shadow:0 12px 40px rgba(0,0,0,.5);opacity:0;transition:all .3s;z-index:99999;border:1px solid rgba(255,255,255,.1);pointer-events:none}
+.yt-toast{position:fixed;bottom:24px;left:50%;transform:translateX(-50%) translateY(100px);background:rgba(30,30,40,.95);color:#fff;padding:12px 20px;border-radius:12px;font-size:.85rem;font-weight:600;opacity:0;transition:all .3s;z-index:99999;pointer-events:none}
 .yt-toast.show{transform:translateX(-50%) translateY(0);opacity:1}
 @keyframes lockPulse{0%,100%{transform:scale(1)}50%{transform:scale(1.1)}}
 @keyframes lockShake{0%,100%{transform:translateX(0)}10%,30%,50%,70%,90%{transform:translateX(-8px)}20%,40%,60%,80%{transform:translateX(8px)}}
 
-/* ═══════════ LANDSCAPE — VIDEO FULL MÀN + PHỤ ĐỀ OVERLAY ═══════════ */
+/* ═══════════ LANDSCAPE ═══════════ */
 @media (orientation: landscape) {
   .yt-wrapper{position:fixed!important;top:0!important;left:0!important;width:100vw!important;height:100vh!important;max-height:100vh!important;min-height:100vh!important;aspect-ratio:unset!important;z-index:1;background:#000}
   .yt-wrapper iframe,#ytPlayerBox,#ytPlayerBox iframe{position:absolute!important;top:0!important;left:0!important;width:100vw!important;height:100vh!important;max-width:none!important;max-height:none!important;border:0!important;pointer-events:none!important}
   .yt-controls{position:fixed!important;top:0;left:0;right:0;z-index:30;background:linear-gradient(180deg,rgba(0,0,0,.75),transparent)!important;border-bottom:none!important;padding:6px 8px!important;gap:4px!important;opacity:.5;transition:opacity .2s;flex-wrap:nowrap!important;overflow-x:auto!important;scrollbar-width:none}
   .yt-controls::-webkit-scrollbar{display:none!important}
   .yt-controls:hover,.yt-controls:active{opacity:1}
-  .yt-controls button{padding:5px 6px!important;min-width:50px!important;font-size:.6rem!important;background:rgba(0,0,0,.55)!important;backdrop-filter:blur(8px);flex:0 0 auto!important;border-radius:8px!important}
+  .yt-controls button{padding:5px 6px!important;min-width:50px!important;font-size:.6rem!important;background:rgba(0,0,0,.55)!important;flex:0 0 auto!important;border-radius:8px!important}
   .yt-controls button .e{font-size:.9rem!important}
   .yt-tabs{display:none!important}
   .yt-progress-bar{position:fixed!important;bottom:0;left:0;right:0;z-index:30;background:linear-gradient(0deg,rgba(0,0,0,.75),transparent)!important;border:none!important;padding:8px 14px 6px!important;opacity:.5;transition:opacity .2s}
@@ -298,15 +298,15 @@ body.dark .mb-close{background:linear-gradient(135deg,#4b5563,#374151);color:#e5
   .yt-time-current,.yt-time-total{font-size:.65rem!important;min-width:38px!important;color:#fff!important}
   .yt-time-current{color:#fbbf24!important}
   .yt-list{display:none!important}
-  #ytSubOutside{position:fixed!important;top:auto!important;bottom:8%!important;left:50%!important;transform:translateX(-50%)!important;z-index:20!important;background:rgba(8,8,8,.75)!important;padding:4px 12px!important;border-radius:2px!important;border:none!important;min-height:auto!important;max-height:25vh!important;max-width:80vw!important;width:auto!important;overflow:visible!important;backdrop-filter:none!important;box-shadow:none!important;display:flex!important;flex-direction:column!important;align-items:center!important;justify-content:center!important;gap:0!important;text-align:center!important;pointer-events:auto!important;margin:0!important;line-height:normal!important}
+  #ytSubOutside{position:fixed!important;top:auto!important;bottom:8%!important;left:50%!important;transform:translateX(-50%)!important;z-index:20!important;background:rgba(8,8,8,.75)!important;padding:4px 12px!important;border-radius:2px!important;border:none!important;min-height:auto!important;max-height:25vh!important;max-width:80vw!important;width:auto!important;backdrop-filter:none!important;box-shadow:none!important;display:flex!important;flex-direction:column!important;align-items:center!important;justify-content:center!important;gap:0!important;text-align:center!important;pointer-events:auto!important;margin:0!important;line-height:normal!important}
   #ytSubOutside::before{display:none!important}
-  #ytSubEn{display:block!important;background:transparent!important;padding:0!important;border-radius:0!important;font-size:clamp(.7rem,1.45vw,.9rem)!important;line-height:1.25!important;margin:0!important;text-align:center!important;color:#fff!important;font-weight:500!important;letter-spacing:0!important;text-shadow:0 1px 2px rgba(0,0,0,.7);max-width:76vw!important}
-  #ytSubEn .w{padding:0!important;margin:0!important;font-weight:500!important;background:transparent!important;color:#fff!important;border-radius:0!important;transform:none!important;display:inline!important;box-shadow:none!important}
+  #ytSubEn{display:block!important;background:transparent!important;padding:0!important;font-size:clamp(.7rem,1.45vw,.9rem)!important;line-height:1.25!important;margin:0!important;color:#fff!important;font-weight:500!important;text-shadow:0 1px 2px rgba(0,0,0,.7);max-width:76vw!important}
+  #ytSubEn .w{padding:0!important;margin:0!important;font-weight:500!important;background:transparent!important;color:#fff!important;transform:none!important;display:inline!important}
   #ytSubEn .w.read{color:#fff!important;background:transparent!important}
-  #ytSubEn .w.current{color:#fbbf24!important;background:transparent!important;font-weight:700!important;box-shadow:none!important;transform:none!important;padding:0!important}
-  #ytSubVi{display:block!important;background:transparent!important;padding:0!important;border-radius:0!important;font-size:clamp(.62rem,1.3vw,.8rem)!important;border-top:none!important;text-align:center!important;color:#d1d5db!important;font-weight:400!important;line-height:1.25!important;text-shadow:0 1px 2px rgba(0,0,0,.7);margin:0!important;max-width:76vw!important}
-  #ytFillMode,#ytDictMode{position:fixed!important;bottom:8%;left:6%;right:6%;top:auto;max-height:65vh;overflow-y:auto;z-index:20;background:rgba(15,23,42,.92)!important;border-radius:14px;padding:10px!important;backdrop-filter:blur(12px);box-shadow:0 6px 30px rgba(0,0,0,.75);border:1px solid rgba(255,255,255,.1)}
-  #ytFillMode .mode-card,#ytDictMode .mode-card{margin:0!important;padding:8px!important;background:transparent!important;border:none!important;box-shadow:none!important}
+  #ytSubEn .w.current{color:#fbbf24!important;background:transparent!important;font-weight:700!important;transform:none!important;padding:0!important}
+  #ytSubVi{display:block!important;background:transparent!important;padding:0!important;font-size:clamp(.62rem,1.3vw,.8rem)!important;border-top:none!important;color:#d1d5db!important;font-weight:400!important;line-height:1.25!important;text-shadow:0 1px 2px rgba(0,0,0,.7);margin:0!important;max-width:76vw!important}
+  #ytFillMode,#ytDictMode{position:fixed!important;bottom:8%;left:6%;right:6%;top:auto;max-height:65vh;overflow-y:auto;z-index:20;background:rgba(15,23,42,.92)!important;border-radius:14px;padding:10px!important;border:1px solid rgba(255,255,255,.1)}
+  #ytFillMode .mode-card,#ytDictMode .mode-card{margin:0!important;padding:8px!important;background:transparent!important;border:none!important}
   #ytFillMode .nav-row,#ytDictMode .nav-row{padding:6px!important;margin-top:6px!important;background:transparent!important;border-top:1px solid rgba(255,255,255,.08)!important}
   #ytFillMode .seg-list,#ytDictMode .seg-list{display:none!important}
   .mode-top{gap:6px!important;margin-bottom:8px!important}
@@ -322,12 +322,12 @@ body.dark .mb-close{background:linear-gradient(135deg,#4b5563,#374151);color:#e5
 }
 </style></head><body>
 
-<div id="appLockScreen" style="position:fixed;inset:0;background:linear-gradient(135deg,#667eea 0%,#764ba2 100%);z-index:9999999;display:flex;align-items:center;justify-content:center;padding:20px;font-family:'Inter',Arial,sans-serif">
-  <div style="background:#fff;border-radius:24px;padding:36px 28px;max-width:420px;width:100%;box-shadow:0 30px 80px rgba(0,0,0,.4);text-align:center">
-    <div style="font-size:5rem;margin-bottom:12px;line-height:1;animation:lockPulse 2s infinite">🔐</div>
+<div id="appLockScreen" style="position:fixed;inset:0;background:linear-gradient(135deg,#667eea 0%,#764ba2 100%);z-index:9999999;display:flex;align-items:center;justify-content:center;padding:20px">
+  <div style="background:#fff;border-radius:24px;padding:36px 28px;max-width:420px;width:100%;text-align:center">
+    <div style="font-size:5rem;margin-bottom:12px;animation:lockPulse 2s infinite">🔐</div>
     <h2 style="margin:0 0 8px;color:#4338ca;font-size:1.5rem;font-weight:900">Nhập mã để sử dụng app</h2>
-    <p style="color:#6b7280;font-size:.9rem;margin:0 0 24px;line-height:1.5">Liên hệ admin để nhận mã truy cập<br><span style="font-size:.8rem;color:#9ca3af">💬 Zalo: <b style="color:#4338ca">0912 345 678</b></span></p>
-    <input type="text" id="appLockInput" placeholder="Nhập mã tại đây..." autocomplete="off" autocapitalize="characters" style="width:100%;padding:16px;border:2px solid #c7d2fe;border-radius:14px;font-size:1.1rem;text-align:center;letter-spacing:2px;margin-bottom:14px;box-sizing:border-box;font-family:monospace;font-weight:700;outline:none">
+    <p style="color:#6b7280;font-size:.9rem;margin:0 0 24px">Liên hệ admin để nhận mã truy cập<br><span style="font-size:.8rem">💬 Zalo: <b style="color:#4338ca">0912 345 678</b></span></p>
+    <input type="text" id="appLockInput" placeholder="Nhập mã tại đây..." autocomplete="off" autocapitalize="characters" style="width:100%;padding:16px;border:2px solid #c7d2fe;border-radius:14px;font-size:1.1rem;text-align:center;letter-spacing:2px;margin-bottom:14px;font-family:monospace;font-weight:700;outline:none">
     <button id="appLockBtn" onclick="checkAppLock()" style="width:100%;padding:16px;background:linear-gradient(135deg,#4ade80,#22c55e);color:#fff;border:none;border-radius:14px;font-weight:900;font-size:1rem;cursor:pointer">🚀 Vào app</button>
     <div id="appLockError" style="color:#ef4444;font-size:.85rem;margin-top:14px;min-height:20px;font-weight:600"></div>
   </div>
@@ -424,47 +424,34 @@ body.dark .mb-close{background:linear-gradient(135deg,#4b5563,#374151);color:#e5
 
 <input type="file" id="hiddenfile" accept="image/*" style="display:none" />
 
-<div class="modal" id="modal">
-<div class="modal-box">
+<div class="modal" id="modal"><div class="modal-box">
 <h2 id="modal-title">Tạo thẻ mới</h2>
 <p id="modal-desc"></p>
 <input type="file" id="fileinput" />
 <button class="mb-primary" onclick="doImport()">🚀 Bắt đầu tạo</button>
 <button class="mb-close" onclick="closeModal()">Hủy</button>
 <div class="status" id="modal-status" style="display:none"></div>
-</div>
-</div>
+</div></div>
 
-<div class="modal" id="wordmodal">
-<div class="modal-box">
+<div class="modal" id="wordmodal"><div class="modal-box">
 <h2>🔍 <span id="wordmodal-word"></span></h2>
 <div id="wordinfo" class="word-info"></div>
 <button class="save-word-btn" id="savewordbtn" onclick="toggleSaveWord()">⭐ Lưu vào kho từ</button>
 <button class="mb-close" onclick="closeWordModal()" style="margin-top:12px">Đóng</button>
-</div>
-</div>
+</div></div>
 
-<div class="modal" id="newwordmodal">
-<div class="modal-box">
+<div class="modal" id="newwordmodal"><div class="modal-box">
 <h2>📌 Kho từ mới (<span id="nw-total">0</span>)</h2>
 <div id="newwordlist"></div>
 <button class="mb-close" style="margin-top:12px" onclick="closeNewWords()">Đóng</button>
-</div>
-</div>
+</div></div>
 
-<div class="modal" id="listenmodal">
-<div class="modal-box">
+<div class="modal" id="listenmodal"><div class="modal-box">
 <h2>🎧 Luyện nghe</h2>
 <div id="listen-home">
 <p style="font-size:.85rem;color:#6b7280">Chọn chế độ. Mỗi chế độ có 10 câu do AI tạo.</p>
-<div class="voice-selector">
-<label>🗣️ Chọn giọng đọc:</label>
-<select id="voiceSelect" onchange="changeVoice(this.value)"><option value="">Đang tải giọng...</option></select>
-</div>
-<div class="listen-speed">
-<label>⚡ Tốc độ đọc: <span id="speedLabel">Bình thường (0.80x)</span></label>
-<input type="range" id="speedSlider" min="0.3" max="1.0" step="0.05" value="0.8" />
-</div>
+<div class="voice-selector"><label>🗣️ Chọn giọng đọc:</label><select id="voiceSelect" onchange="changeVoice(this.value)"><option value="">Đang tải giọng...</option></select></div>
+<div class="listen-speed"><label>⚡ Tốc độ đọc: <span id="speedLabel">Bình thường (0.80x)</span></label><input type="range" id="speedSlider" min="0.3" max="1.0" step="0.05" value="0.8" /></div>
 <button class="mb-primary" onclick="loadListenMode('easy')" style="background:#4ade80">😊 DỄ</button>
 <button class="mb-primary" onclick="loadListenMode('medium')" style="background:#fbbf24;color:#78350f">😐 TRUNG BÌNH</button>
 <button class="mb-primary" onclick="loadListenMode('hard')" style="background:#ef4444">😰 KHÓ</button>
@@ -475,18 +462,17 @@ body.dark .mb-close{background:linear-gradient(135deg,#4b5563,#374151);color:#e5
 <button class="listen-regen" onclick="regenListen()" style="margin-bottom:10px">🔄 Tạo lại 10 câu mới</button>
 <div id="listen-list"></div>
 </div>
-</div>
-</div>
+</div></div>
 
 <div class="modal" id="ytmodal">
 <div class="modal-box yt-modal-box">
 <div id="yt-home" style="padding:18px">
 <h2 style="color:#fbbf24;font-size:1.3rem;margin-bottom:8px">🎬 Học qua YouTube</h2>
-<p style="font-size:.82rem;color:#94a3b8;margin-bottom:18px">Dán link YouTube và phụ đề SRT song ngữ</p>
+<p style="font-size:.82rem;color:#94a3b8;margin-bottom:18px">Dán link YouTube và phụ đề SRT song ngữ (hỗ trợ word-tag)</p>
 <label class="yt-label">🔗 Link YouTube</label>
 <input type="text" class="yt-input" id="ytUrl" placeholder="https://www.youtube.com/watch?v=...">
 <label class="yt-label">💬 Phụ đề SRT (Anh - Việt)</label>
-<textarea class="yt-input srt" id="ytSrt" placeholder="1&#10;00:00:00,000 --> 00:00:03,000&#10;Hello everyone.&#10;Xin chào mọi người."></textarea>
+<textarea class="yt-input srt" id="ytSrt" placeholder="1&#10;00:00:00,000 --> 00:00:03,000&#10;<00:00:00.000>Hello <00:00:00.500>everyone.&#10;Xin chào mọi người."></textarea>
 <button class="mb-primary" onclick="startYT()" style="background:linear-gradient(135deg,#ef4444,#dc2626);color:#fff;font-size:1rem;padding:16px;border-radius:14px;margin-top:6px">🚀 Bắt đầu học</button>
 <button class="mb-close" onclick="closeYT()" style="margin-top:8px">Hủy</button>
 <div id="ytStatus" style="display:none" class="status"></div>
@@ -523,10 +509,7 @@ body.dark .mb-close{background:linear-gradient(135deg,#4b5563,#374151);color:#e5
 </div>
 
 <div id="ytViewMode">
-  <div id="ytSubOutside">
-    <div id="ytSubEn"></div>
-    <div id="ytSubVi"></div>
-  </div>
+  <div id="ytSubOutside"><div id="ytSubEn"></div><div id="ytSubVi"></div></div>
   <div class="yt-list" id="ytList"></div>
 </div>
 
@@ -574,10 +557,7 @@ body.dark .mb-close{background:linear-gradient(135deg,#4b5563,#374151);color:#e5
       <div class="mode-counter"><span id="dictIdx">1</span><span>/</span><span id="dictTotal">0</span></div>
     </div>
     <textarea class="dict-input" id="dictInput" placeholder="Gõ những gì bạn nghe được..." oninput="dictUpdateCount()" spellcheck="false" autocomplete="off" autocorrect="off" autocapitalize="off"></textarea>
-    <div class="dict-meta">
-      <span id="dictCharCount">0 ký tự</span>
-      <span id="dictAccuracy"></span>
-    </div>
+    <div class="dict-meta"><span id="dictCharCount">0 ký tự</span><span id="dictAccuracy"></span></div>
     <div class="dict-actions">
       <button class="dict-check" onclick="dictCheck()">✓ Kiểm tra</button>
       <button class="dict-eye" onclick="dictRevealDict()">👁</button>
@@ -628,8 +608,7 @@ body.dark .mb-close{background:linear-gradient(135deg,#4b5563,#374151);color:#e5
 </div>
 </div>
 
-<div class="modal" id="listmodal">
-<div class="modal-box">
+<div class="modal" id="listmodal"><div class="modal-box">
 <h2>📋 Toàn bộ thẻ (<span id="totalcount">0</span>)</h2>
 <div style="display:flex;gap:8px;margin-bottom:10px">
 <button id="selectmode" onclick="toggleSelectMode()" style="flex:1;padding:8px;border-radius:8px;border:none;background:#a78bfa;color:#fff;font-weight:600;font-size:.85rem;cursor:pointer">☑️ Chọn nhiều</button>
@@ -637,8 +616,7 @@ body.dark .mb-close{background:linear-gradient(135deg,#4b5563,#374151);color:#e5
 </div>
 <div id="cardlist"></div>
 <button class="mb-close" style="margin-top:12px" onclick="closeList()">Đóng</button>
-</div>
-</div>
+</div></div>
 
 </div>
 
@@ -661,8 +639,8 @@ const fbApp = initializeApp(firebaseConfig);
 const fbAuth = getAuth(fbApp);
 const fbDb = getFirestore(fbApp);
 
-const APP_CODE_STORAGE_KEY = 'appAccessCode';
-const APP_CODE_VERIFY = 'ACCESS_OK';
+const APP_CODE_STORAGE_KEY='appAccessCode';
+const APP_CODE_VERIFY='ACCESS_OK';
 
 function getAppDeviceId(){let id=localStorage.getItem('appDeviceId');if(!id){id='dev_'+Math.random().toString(36).substr(2,16)+Date.now().toString(36);localStorage.setItem('appDeviceId',id);}return id;}
 function shakeLockScreen(){const box=document.querySelector('#appLockScreen > div');if(box){box.style.animation='lockShake .4s';setTimeout(()=>box.style.animation='',400);}}
@@ -842,7 +820,7 @@ window.logoutGoogle=async function(){
   if(!confirm('Đăng xuất?'))return;
   try{await signOut(fbAuth);alert('✅ Đã đăng xuất');}catch(err){alert('❌ Lỗi: '+err.message);}
 };
-getRedirectResult(fbAuth).then(function(result){if(result&&result.user){console.log('✅ Đăng nhập qua redirect:',result.user.email);}}).catch(function(err){console.error('Lỗi redirect:',err.message);});
+getRedirectResult(fbAuth).then(function(result){if(result&&result.user){console.log('✅ Đăng nhập:',result.user.email);}}).catch(function(err){console.error('Lỗi redirect:',err.message);});
 
 onAuthStateChanged(fbAuth,async function(user){
   currentUser=user;
@@ -1227,8 +1205,8 @@ function moveToNextMissing(){
     for(var k=0;k<d.length;k++){if(!photos[d[k][0]])missing.push(k);}
     if(missing.length===0){alert('🎉 Đã có đủ ảnh!');return;}
     i=missing[0];r();f=1;document.getElementById('c').classList.add('f');
-    localStorage.setItem('lastCardIndex',i);localStorage.setItem('lastFlipState','1');
-    alert('✅ Đã lưu ảnh!\n\n👉 Bấm "⚡ Tự động" để đi tiếp');
+    localStorage.setItem('lastCardIndex',i);
+    alert('✅ Đã lưu ảnh!');
   },500);
 }
 
@@ -1249,7 +1227,6 @@ function autoFindImage(e){
   for(var k=0;k<d.length;k++){if(!photos[d[k][0]])missing.push(k);}
   if(missing.length===0){alert('✅ Tất cả thẻ đã có ảnh!');return;}
   i=missing[0];r();f=1;document.getElementById('c').classList.add('f');
-  localStorage.setItem('lastCardIndex',i);localStorage.setItem('lastFlipState','1');
   var word=d[i][0];var meaning=d[i][3];
   var query=encodeURIComponent(meaning||word);
   var url='https://www.google.com/search?tbm=isch&q='+query;
@@ -1562,6 +1539,51 @@ var YT_STRESSED_WORDS={very:1.25,really:1.35,actually:1.4,absolutely:1.5,definit
 var YT_MANUAL_SPEED=1.0;
 var MAX_CHARS_EN=70;
 
+/* ─── PARSE WORD-TAG ─── */
+function ytParseWordTags(enLine, cueStart, cueEnd){
+  var tagRe = /<(\d{1,2}):(\d{2}):(\d{2})[.,](\d{1,3})>/g;
+  if(!/<(\d{1,2}):(\d{2}):(\d{2})[.,](\d{1,3})>/.test(enLine)) return null;
+
+  var words = [];
+  var lastIndex = 0;
+  var currentTime = cueStart;
+  var match;
+
+  tagRe.lastIndex = 0;
+  while((match = tagRe.exec(enLine)) !== null){
+    var tagTime = (+match[1])*3600 + (+match[2])*60 + (+match[3]) + (+match[4])/1000;
+    var textBetween = enLine.substring(lastIndex, match.index).trim();
+    if(textBetween){
+      var parts = textBetween.split(/\s+/).filter(function(p){ return p; });
+      if(parts.length > 0){
+        var dur = tagTime - currentTime;
+        if(dur < 0.05) dur = 0.05;
+        var perWord = dur / parts.length;
+        for(var p = 0; p < parts.length; p++){
+          words.push({ text: parts[p], start: currentTime + p * perWord, end: currentTime + (p + 1) * perWord });
+        }
+      }
+    }
+    currentTime = tagTime;
+    lastIndex = tagRe.lastIndex;
+  }
+
+  var tail = enLine.substring(lastIndex).trim();
+  if(tail){
+    var parts2 = tail.split(/\s+/).filter(function(p){ return p; });
+    if(parts2.length > 0){
+      var dur2 = cueEnd - currentTime;
+      if(dur2 < 0.05) dur2 = 0.05;
+      var perWord2 = dur2 / parts2.length;
+      for(var p2 = 0; p2 < parts2.length; p2++){
+        words.push({ text: parts2[p2], start: currentTime + p2 * perWord2, end: currentTime + (p2 + 1) * perWord2 });
+      }
+    }
+  }
+  return words.length > 0 ? words : null;
+}
+
+/* ─── FALLBACK: TÍNH TIMING THEO ÂM TIẾT ─── */
 function ytCalcTimings(text,startTime,endTime){
   var tokens=text.split(/(\s+)/);
   var words=[];
@@ -1611,9 +1633,7 @@ function ytCalcTimings(text,startTime,endTime){
   return timings;
 }
 
-/* ═══════════════════════════════════════════════════════════
-   CHIA NHỎ PHỤ ĐỀ DÀI
-   ═══════════════════════════════════════════════════════════ */
+/* ─── CHIA NHỎ PHỤ ĐỀ DÀI (chỉ cho SRT không có tag) ─── */
 function ytSplitEnText(text,maxChars){
   var sentences=text.split(/(?<=[.!?])\s+/).filter(function(s){return s;});
   if(sentences.length>1)return ytMergeChunks(sentences,maxChars);
@@ -1662,6 +1682,11 @@ function ytSplitViProportional(text,n){
 function ytSplitLongSubs(subs,maxChars){
   var result=[];
   subs.forEach(function(sub){
+    // Nếu có word-tag → KHÔNG chia
+    if(sub._wordTimings && sub._wordTimings.length > 0){
+      result.push(sub);
+      return;
+    }
     if(!sub.en||sub.en.length<=maxChars){result.push(sub);return;}
     var enChunks=ytSplitEnText(sub.en,maxChars);
     var n=enChunks.length;
@@ -1680,6 +1705,7 @@ function ytSplitLongSubs(subs,maxChars){
   return result;
 }
 
+/* ─── PARSE SRT CHÍNH ─── */
 function ytParseSRT(text){
   text=text.replace(/\r\n/g,'\n').replace(/\r/g,'\n').trim();
   var blocks=text.split(/\n\n+/);
@@ -1702,7 +1728,17 @@ function ytParseSRT(text){
       en=ea.join(' ').trim()||tl[0];
       vi=va.join(' ').trim()||tl[tl.length-1];
     }else en=tl[0]||'';
-    result.push({start:start,end:end,en:en,vi:vi});
+
+    var wordTimings = ytParseWordTags(en, start, end);
+    var cleanEn = en.replace(/<(\d{1,2}):(\d{2}):(\d{2})[.,](\d{1,3})>/g, '').replace(/\s+/g, ' ').trim();
+
+    result.push({
+      start: start,
+      end: end,
+      en: cleanEn,
+      vi: vi,
+      _wordTimings: wordTimings
+    });
   });
   result.sort(function(a,b){return a.start-b.start;});
   return result;
@@ -1763,10 +1799,22 @@ function startYT(){
   if(!vid){status.className='status no';status.textContent='❌ Link không hợp lệ!';return;}
   ytSubs=ytParseSRT(srt);
   if(!ytSubs.length){status.className='status no';status.textContent='❌ Không parse được SRT!';return;}
-  var beforeCount=ytSubs.length;
-  ytSubs=ytSplitLongSubs(ytSubs,MAX_CHARS_EN);
-  console.log('✂️ Đã chia SRT: '+beforeCount+' → '+ytSubs.length+' đoạn');
-  for(var si=0;si<ytSubs.length;si++){ytSubs[si]._wordTimings=ytCalcTimings(ytSubs[si].en,ytSubs[si].start,ytSubs[si].end);}
+
+  // Đếm cue có word-tag + tính timing cho cue không có tag
+  var taggedCount = 0;
+  for(var si=0;si<ytSubs.length;si++){
+    if(ytSubs[si]._wordTimings && ytSubs[si]._wordTimings.length > 0){
+      taggedCount++;
+    } else {
+      ytSubs[si]._wordTimings = ytCalcTimings(ytSubs[si].en, ytSubs[si].start, ytSubs[si].end);
+    }
+  }
+  console.log('📝 SRT: ' + taggedCount + '/' + ytSubs.length + ' cue có word-tag');
+
+  var beforeCount = ytSubs.length;
+  ytSubs = ytSplitLongSubs(ytSubs, MAX_CHARS_EN);
+  if(beforeCount !== ytSubs.length) console.log('✂️ Đã chia: ' + beforeCount + ' → ' + ytSubs.length);
+
   renderYTViewList();
   document.getElementById('yt-home').style.display='none';
   document.getElementById('yt-player').style.display='block';
@@ -1898,6 +1946,8 @@ function ytCycleSpeed(){
   ytShowToast('⚡ Tốc độ: '+YT_MANUAL_SPEED.toFixed(2)+'x');
   for(var si=0;si<ytSubs.length;si++){
     var s=ytSubs[si];
+    // Nếu có word-tag → không đổi timing (giữ nguyên)
+    if(s._wordTimings && s._wordTimings._isWordTag) continue;
     var adjusted=s.start+(s.end-s.start)/YT_MANUAL_SPEED;
     s._wordTimings=ytCalcTimings(s.en,s.start,adjusted);
   }
@@ -1988,17 +2038,17 @@ function fillRenderCurrent(){
   var data=fillBlanks[idx];
   if(!data||fillLevel!==data.level){data=fillBuildBlanks(s.en);data.level=fillLevel;fillBlanks[idx]=data;}
   var html='';
-  var blankIdxSet={};data.blankIdx.forEach(function(bi){blankIdxSet[bi]=true;});
-  var blankCounter=0;
+  var bset={};data.blankIdx.forEach(function(bi){bset[bi]=true;});
+  var bc=0;
   for(var i=0;i<data.tokens.length;i++){
     var tok=data.tokens[i];
     if(tok.trim()===''){html+=tok;continue;}
-    if(blankIdxSet[i]){
+    if(bset[i]){
       var clean=tok.replace(/[.,!?;:'"“”‘’()\-–—]/g,'').trim();
       html+='<input class="fill-input" type="text" data-answer="'+clean.replace(/"/g,'&quot;')+'" spellcheck="false" autocomplete="off" autocorrect="off" autocapitalize="off" onkeydown="fillOnKey(event,this)">';
       var punct=tok.match(/[.,!?;:'"“”‘’()\-–—]+$/);
       if(punct)html+='<span class="punct">'+punct[0]+'</span>';
-      blankCounter++;
+      bc++;
     }else{
       var m=tok.match(/^([a-zA-Z0-9']+)([.,!?;:'"“”‘’()\-–—]*)$/);
       if(m)html+='<span class="txt">'+m[1].replace(/</g,'&lt;')+'</span><span class="punct">'+m[2]+'</span>';
