@@ -1,6 +1,6 @@
 <!DOCTYPE html>
-<html><head><meta charset="utf-8"><meta name="viewport" content="width=device-width,initial-scale=1"><title>Flashcard Nghề Nghiệp</title><style>
-@import url('https://fonts.googleapis.com/css2?family=Inter:wght@400;600;700;900&display=swap');
+<html><head><meta charset="utf-8"><meta name="viewport" content="width=device-width,initial-scale=1,maximum-scale=1"><title>Flashcard Nghề Nghiệp</title><style>
+@import url('https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700;800;900&display=swap');
 *{box-sizing:border-box}
 body{font-family:'Inter',Arial,sans-serif;background:linear-gradient(180deg,#ff6e7f 0%,#ff9a8b 30%,#ffb88c 60%,#bfe9ff 100%);background-attachment:fixed;min-height:100vh;margin:0;padding:12px;display:flex;flex-direction:column;align-items:center;transition:background .3s}
 h1{color:#fff;font-size:1.3rem;margin:0 0 8px;font-weight:900;text-shadow:0 2px 8px rgba(0,0,0,.3);letter-spacing:.5px}
@@ -195,14 +195,6 @@ body.dark .notelabel{color:#9ca3af}
 body.dark .modal-box{background:#1f2937;color:#e5e7eb}
 body.dark .modal-box h2{color:#a5b4fc}
 body.dark .modal-box p{color:#9ca3af}
-body.dark .sub-list{background:#111827;border-color:#374151}
-body.dark .sub-item{background:#1f2937;color:#e5e7eb}
-body.dark .sub-item:hover{background:#374151}
-body.dark .sub-item.active{background:#1e3a8a;border-left-color:#60a5fa}
-body.dark .sub-item .sub-en{color:#e5e7eb}
-body.dark .sub-item .sub-vi{color:#9ca3af}
-body.dark .sub-item.active .sub-en{color:#93c5fd}
-body.dark .sub-item.active .sub-vi{color:#fbbf24}
 body.dark .card-item{background:#1f2937;border-color:#374151}
 body.dark .card-item .word{color:#a5b4fc}
 body.dark .card-item .meaning{color:#9ca3af}
@@ -236,118 +228,72 @@ body.dark .word-info .val{color:#e5e7eb}
 body.dark .word-info .val.word{color:#a5b4fc}
 body.dark .word-info .val.meaning{color:#4ade80}
 body.dark .mb-close{background:linear-gradient(135deg,#4b5563,#374151);color:#e5e7eb}
-body.dark .sub-overlay .en{background:rgba(0,0,0,.85)}
-body.dark .sub-overlay .vi{background:rgba(0,0,0,.85)}
 
-/* ========== YOUTUBE PLAYER ========== */
-.yt-modal-box{max-width:100%;width:100%;max-height:100vh;overflow-y:auto;padding:0;border-radius:0}
-.yt-input{width:100%;padding:12px;border:2px solid #c7d2fe;border-radius:10px;font-size:.9rem;font-family:'Inter',Arial,sans-serif;margin-bottom:10px;box-sizing:border-box}
-.yt-input.srt{min-height:150px;font-family:monospace;font-size:.8rem;resize:vertical}
-.yt-label{font-size:.75rem;font-weight:700;color:#9ca3af;letter-spacing:.5px;text-transform:uppercase;margin-bottom:4px;display:block}
+/* ═══════════════════════════════════════════════════════
+   YOUTUBE PLAYER — GIAO DIỆN MỚI
+   ═══════════════════════════════════════════════════════ */
+.yt-modal-box{max-width:100%;width:100%;max-height:100vh;overflow-y:auto;padding:0;border-radius:0;background:linear-gradient(180deg,#0f172a 0%,#1e293b 100%);color:#e2e8f0}
+.yt-modal-box h2{color:#fbbf24}
+.yt-input{width:100%;padding:14px 16px;background:rgba(255,255,255,.06);border:1.5px solid rgba(255,255,255,.12);border-radius:12px;color:#e2e8f0;font-size:.9rem;font-family:'Inter',Arial,sans-serif;margin-bottom:12px;box-sizing:border-box;transition:all .2s}
+.yt-input:focus{outline:none;border-color:#fbbf24;background:rgba(251,191,36,.06);box-shadow:0 0 0 4px rgba(251,191,36,.15)}
+.yt-input::placeholder{color:#64748b}
+.yt-input.srt{min-height:160px;font-family:monospace;font-size:.8rem;resize:vertical;line-height:1.6}
+.yt-label{font-size:.72rem;font-weight:700;color:#94a3b8;letter-spacing:.8px;text-transform:uppercase;margin-bottom:6px;display:flex;align-items:center;gap:6px}
 
-/* === KHUNG VIDEO === */
-.yt-wrapper{
-  position:relative;
-  width:100%;
-  height:50vh;
-  min-height:280px;
-  background:#000;
-  overflow:hidden;
-}
-.yt-wrapper iframe,
-#ytPlayerBox,
-#ytPlayerBox iframe{
-  position:absolute;
-  top:0;left:0;
-  width:100% !important;
-  height:100% !important;
-  border:0;
-  pointer-events:none !important;
-}
-#ytClickGuard{
-  position:absolute;
-  inset:0;
-  z-index:5;
-  background:transparent;
-  -webkit-tap-highlight-color:transparent;
-}
-/* ================== */
+.yt-wrapper{position:relative;width:100%;aspect-ratio:16/9;min-height:220px;background:#000;overflow:hidden}
+.yt-wrapper iframe,#ytPlayerBox,#ytPlayerBox iframe{position:absolute;top:0;left:0;width:100%!important;height:100%!important;border:0;pointer-events:none!important}
+#ytClickGuard{position:absolute;inset:0;z-index:5;background:transparent;cursor:pointer;-webkit-tap-highlight-color:transparent}
 
-/* === PHỤ ĐỀ BÊN NGOÀI VIDEO (vì Koder chiếm fullscreen) === */
-#ytSubOutside{
-  background:#111;
-  color:#fff;
-  padding:12px;
-  border-top:2px solid #f59e0b;
-  min-height:80px;
-  text-align:center;
-}
-#ytSubEn{
-  font-size:1.05rem;
-  font-weight:700;
-  color:#fff;
-  line-height:1.4;
-  margin-bottom:6px;
-}
-#ytSubEn .w{
-  cursor:pointer;
-  transition:all .15s;
-  border-bottom:2px solid transparent;
-  padding:0 1px;
-  border-radius:3px;
-}
-#ytSubEn .w.read{
-  color:#fbbf24;
-  border-bottom-color:#f59e0b;
-  background:rgba(255,255,255,.2);
-}
-#ytSubVi{
-  font-size:.9rem;
-  color:#fbbf24;
-  line-height:1.4;
-}
-/* ======================================================= */
+.yt-controls{display:flex;gap:8px;padding:12px 14px;background:rgba(15,23,42,.95);backdrop-filter:blur(12px);-webkit-backdrop-filter:blur(12px);border-bottom:1px solid rgba(255,255,255,.06);flex-wrap:wrap;position:sticky;top:0;z-index:20}
+.yt-controls button{flex:1;padding:11px 14px;border:none;border-radius:11px;font-weight:700;font-size:.78rem;cursor:pointer;min-width:80px;font-family:'Inter',Arial,sans-serif;transition:all .2s ease;display:flex;align-items:center;justify-content:center;gap:5px;white-space:nowrap;flex-direction:column;line-height:1.2}
+.yt-controls button .e{font-size:1.1rem}
+.yt-controls button:hover{transform:translateY(-2px)}
+.yt-controls button:active{transform:translateY(0) scale(.97)}
+.yt-back{background:linear-gradient(135deg,rgba(251,191,36,.15),rgba(245,158,11,.2));color:#fbbf24;border:1px solid rgba(251,191,36,.3)}
+.yt-hide{background:linear-gradient(135deg,rgba(99,102,241,.15),rgba(79,70,229,.2));color:#a5b4fc;border:1px solid rgba(99,102,241,.3)}
+.yt-hide.off{background:linear-gradient(135deg,rgba(239,68,68,.15),rgba(220,38,38,.2));color:#fca5a5;border-color:rgba(239,68,68,.3)}
+.yt-hide.highlight{background:linear-gradient(135deg,rgba(251,191,36,.15),rgba(245,158,11,.2));color:#fbbf24;border-color:rgba(251,191,36,.3)}
 
-.yt-controls{display:flex;gap:6px;margin-bottom:8px;flex-wrap:wrap;padding:0 8px}
-.yt-controls button{flex:1;padding:10px;border-radius:10px;border:none;font-weight:700;font-size:.8rem;cursor:pointer;min-width:80px;font-family:'Inter',Arial,sans-serif}
-.yt-back{background:#fef3c7;color:#92400e}
-.yt-hide{background:#e0e7ff;color:#3730a3}
-.yt-hide.off{background:#fee2e2;color:#991b1b}
-.yt-list{max-height:35vh;overflow-y:auto;background:#f9fafb;border-radius:0;padding:8px;border-top:1px solid #e5e7eb}
-.yt-item{padding:10px 12px;border-radius:8px;margin-bottom:6px;cursor:pointer;transition:all .2s;border-left:4px solid transparent;background:#fff}
-.yt-item:hover{background:#eef2ff}
-.yt-item.active{background:linear-gradient(135deg,#dbeafe,#bfdbfe);border-left-color:#3b82f6;box-shadow:0 4px 12px rgba(59,130,246,.4);transform:scale(1.02);transition:all .2s}
-.yt-item .yt-time{font-size:.7rem;color:#9ca3af;font-weight:700;font-family:monospace;margin-bottom:2px}
-.yt-item .yt-vi{font-size:.8rem;color:#6b7280;font-style:italic;line-height:1.3}
-.yt-item.active .yt-en{color:#1e40af}
-.yt-item .yt-en .w{transition:all .12s;border-bottom:2px solid transparent;padding:0 1px;border-radius:2px}
-.yt-item .yt-en .w.read{background:linear-gradient(180deg,transparent 60%,#fbbf24 60%);border-bottom-color:#f59e0b;font-weight:700;color:#92400e}
-body.dark .yt-item .yt-en .w.read{background:linear-gradient(180deg,transparent 60%,#78350f 60%);border-bottom-color:#f59e0b;color:#fbbf24}
-.yt-item.active .yt-vi{color:#92400e;font-style:normal;font-weight:600}
-body.dark .yt-wrapper{background:#000}
-body.dark .yt-list{background:#111827;border-top-color:#374151}
-body.dark .yt-item{background:#1f2937;color:#e5e7eb}
-body.dark .yt-item:hover{background:#374151}
-body.dark .yt-item.active{background:#1e3a8a;border-left-color:#60a5fa}
-body.dark .yt-item .yt-en{color:#e5e7eb}
-body.dark .yt-item .yt-vi{color:#9ca3af}
-body.dark .yt-item.active .yt-en{color:#93c5fd}
-body.dark .yt-item.active .yt-vi{color:#fbbf24}
-body.dark .yt-input{background:#111827;color:#e5e7eb;border-color:#4b5563}
-body.dark .yt-label{color:#9ca3af}
-body.dark #ytSubOutside{background:#000;border-top-color:#f59e0b}
+#ytSubOutside{background:linear-gradient(180deg,#0f172a 0%,#020617 100%);padding:22px 20px;border-top:1px solid rgba(251,191,36,.25);min-height:140px;position:relative;overflow:hidden;display:flex;flex-direction:column;justify-content:center}
+#ytSubOutside::before{content:'';position:absolute;top:0;left:0;right:0;height:2px;background:linear-gradient(90deg,transparent,#fbbf24,#ef4444,#fbbf24,transparent);background-size:200% 100%;animation:subGlow 3s linear infinite}
+@keyframes subGlow{0%{background-position:200% 0}100%{background-position:-200% 0}}
+#ytSubEn{font-size:clamp(1.4rem,5.5vw,1.9rem);font-weight:800;color:#f8fafc;line-height:1.5;margin-bottom:14px;text-align:center;letter-spacing:-.01em;text-shadow:0 2px 8px rgba(0,0,0,.5)}
+#ytSubEn .w{padding:3px 6px;margin:0 2px;border-radius:6px;transition:all .12s ease;cursor:pointer;display:inline-block}
+#ytSubEn .w:hover{background:rgba(251,191,36,.15)}
+#ytSubEn .w.read{background:linear-gradient(135deg,rgba(251,191,36,.3),rgba(245,158,11,.25));color:#fbbf24}
+#ytSubEn .w.current{background:linear-gradient(135deg,#ef4444,#dc2626);color:#fff;font-weight:900;box-shadow:0 6px 20px rgba(239,68,68,.6),0 0 0 2px rgba(255,255,255,.15);transform:scale(1.1)}
+#ytSubVi{font-size:clamp(1.05rem,4vw,1.35rem);color:#fbbf24;line-height:1.5;text-align:center;font-weight:600;padding-top:12px;border-top:1px dashed rgba(251,191,36,.2);text-shadow:0 1px 4px rgba(0,0,0,.3)}
+@media(min-width:600px){#ytSubOutside{padding:26px 24px;min-height:160px}#ytSubEn{font-size:2rem}#ytSubVi{font-size:1.5rem}}
+
+.yt-list{max-height:42vh;overflow-y:auto;background:linear-gradient(180deg,#0f172a 0%,#020617 100%);padding:12px 10px 24px;scroll-behavior:smooth}
+.yt-list::-webkit-scrollbar{width:6px}
+.yt-list::-webkit-scrollbar-track{background:transparent}
+.yt-list::-webkit-scrollbar-thumb{background:rgba(251,191,36,.3);border-radius:3px}
+.yt-item{padding:12px 14px;border-radius:12px;margin-bottom:8px;cursor:pointer;transition:all .25s cubic-bezier(.4,0,.2,1);border:1px solid rgba(255,255,255,.06);background:rgba(255,255,255,.03);position:relative;overflow:hidden}
+.yt-item::before{content:'';position:absolute;left:0;top:0;bottom:0;width:3px;background:transparent;transition:all .25s}
+.yt-item:hover{background:rgba(255,255,255,.06);border-color:rgba(251,191,36,.2);transform:translateX(2px)}
+.yt-item.active{background:linear-gradient(135deg,rgba(30,64,175,.4),rgba(30,58,138,.5));border-color:rgba(96,165,250,.4);box-shadow:0 6px 20px rgba(30,64,175,.35);transform:scale(1.01)}
+.yt-item.active::before{background:linear-gradient(180deg,#60a5fa,#3b82f6);box-shadow:0 0 12px rgba(96,165,250,.7)}
+.yt-item .yt-time{font-size:.68rem;color:#64748b;font-weight:700;font-family:monospace;margin-bottom:6px;letter-spacing:.3px;display:flex;align-items:center;gap:6px}
+.yt-item .yt-time::before{content:'⏱';opacity:.5}
+.yt-item .yt-en{font-size:.88rem;color:#cbd5e1;line-height:1.5;margin-bottom:4px}
+.yt-item .yt-en .w{padding:0 1px;border-radius:2px;transition:all .12s}
+.yt-item .yt-en .w.read{background:linear-gradient(180deg,transparent 65%,rgba(251,191,36,.5) 65%);color:#fbbf24}
+.yt-item.active .yt-en{color:#e0e7ff}
+.yt-item .yt-vi{font-size:.8rem;color:#94a3b8;line-height:1.4;font-style:italic}
+.yt-item.active .yt-vi{color:#fbbf24;font-style:normal;font-weight:600}
+
+.yt-debug{margin:0 14px 14px;padding:12px 14px;background:rgba(0,0,0,.3);border:1px solid rgba(255,255,255,.08);border-radius:12px;font-family:monospace;font-size:.72rem;color:#94a3b8;display:grid;gap:6px}
+.yt-debug-row{display:flex;justify-content:space-between;align-items:center;gap:8px}
+.yt-debug-row b{color:#fbbf24;font-weight:700}
+
+.yt-toast{position:fixed;bottom:24px;left:50%;transform:translateX(-50%) translateY(100px);background:rgba(30,30,40,.95);backdrop-filter:blur(20px);color:#fff;padding:12px 20px;border-radius:12px;font-size:.85rem;font-weight:600;box-shadow:0 12px 40px rgba(0,0,0,.5);opacity:0;transition:all .3s cubic-bezier(.4,0,.2,1);z-index:99999;border:1px solid rgba(255,255,255,.1);pointer-events:none}
+.yt-toast.show{transform:translateX(-50%) translateY(0);opacity:1}
 
 #videomodal .modal-box{overflow-y:auto;-webkit-overflow-scrolling:touch}
 
-@keyframes lockPulse {
-  0%, 100% { transform: scale(1); }
-  50% { transform: scale(1.1); }
-}
-@keyframes lockShake {
-  0%, 100% { transform: translateX(0); }
-  10%, 30%, 50%, 70%, 90% { transform: translateX(-8px); }
-  20%, 40%, 60%, 80% { transform: translateX(8px); }
-}
+@keyframes lockPulse{0%,100%{transform:scale(1)}50%{transform:scale(1.1)}}
+@keyframes lockShake{0%,100%{transform:translateX(0)}10%,30%,50%,70%,90%{transform:translateX(-8px)}20%,40%,60%,80%{transform:translateX(8px)}}
 </style></head><body>
 
 <div id="appLockScreen" style="position:fixed;inset:0;background:linear-gradient(135deg,#667eea 0%,#764ba2 100%);z-index:9999999;display:flex;align-items:center;justify-content:center;padding:20px;font-family:'Inter',Arial,sans-serif">
@@ -532,30 +478,52 @@ body.dark #ytSubOutside{background:#000;border-top-color:#f59e0b}
 
 <div class="modal" id="ytmodal">
 <div class="modal-box yt-modal-box">
-<h2 style="padding:12px 12px 0">📺 Học qua YouTube</h2>
-<div id="yt-home" style="padding:0 12px 12px">
-<p style="font-size:.85rem;color:#6b7280">Dán link YouTube và phụ đề SRT song ngữ (Anh - Việt).</p>
+<div id="yt-home" style="padding:18px">
+<h2 style="color:#fbbf24;font-size:1.3rem;margin-bottom:8px;display:flex;align-items:center;gap:8px">
+  <span style="font-size:1.6rem">🎬</span> Học qua YouTube
+</h2>
+<p style="font-size:.82rem;color:#94a3b8;margin-bottom:18px">Dán link YouTube và phụ đề SRT song ngữ để bắt đầu học</p>
+
 <label class="yt-label">🔗 Link YouTube</label>
-<input type="text" class="yt-input" id="ytUrl" placeholder="https://www.youtube.com/watch?v=..." />
-<label class="yt-label">💬 Phụ đề SRT (Anh + Việt)</label>
-<textarea class="yt-input srt" id="ytSrt" placeholder="1&#10;00:00:00,000 --> 00:00:03,000&#10;Hello everyone.&#10;Xin chào mọi người."></textarea>
-<button class="mb-primary" onclick="startYT()" style="background:linear-gradient(135deg,#ef4444,#dc2626);color:#fff">🚀 Bắt đầu học</button>
-<button class="mb-close" onclick="closeYT()">Hủy</button>
-<div class="status" id="ytStatus" style="display:none"></div>
+<input type="text" class="yt-input" id="ytUrl" placeholder="https://www.youtube.com/watch?v=...">
+
+<label class="yt-label">💬 Phụ đề SRT (Anh - Việt)</label>
+<textarea class="yt-input srt" id="ytSrt" placeholder="1
+00:00:00,000 --> 00:00:03,000
+Hello everyone, welcome to my channel.
+Xin chào mọi người, chào mừng đến kênh của tôi.
+
+2
+00:00:03,200 --> 00:00:06,000
+Today we're going to learn about English.
+Hôm nay chúng ta sẽ học về tiếng Anh."></textarea>
+
+<button class="mb-primary" onclick="startYT()" style="background:linear-gradient(135deg,#ef4444,#dc2626);color:#fff;font-size:1rem;padding:16px;border-radius:14px;margin-top:6px">🚀 Bắt đầu học</button>
+<button class="mb-close" onclick="closeYT()" style="margin-top:8px">Hủy</button>
+<div id="ytStatus" style="display:none" class="status"></div>
 </div>
+
 <div id="yt-player" style="display:none">
 <div class="yt-controls">
-<button class="yt-back" onclick="backToYTHome()">◀ Link khác</button>
-<button class="yt-hide" id="ytPlayBtn" onclick="ytTogglePlay()">⏸ Tạm dừng</button>
-<button class="yt-hide" id="ytMuteBtn" onclick="ytToggleMute()">🔇 Bật tiếng</button>
-<button class="yt-hide" id="ytToggleBtn" onclick="ytToggleSub()">💬 Ẩn phụ đề</button>
+<button class="yt-back" onclick="backToYTHome()"><span class="e">◀</span><span>Link khác</span></button>
+<button class="yt-hide highlight" id="ytPlayBtn" onclick="ytTogglePlay()"><span class="e">⏸</span><span>Tạm dừng</span></button>
+<button class="yt-hide" id="ytMuteBtn" onclick="ytToggleMute()"><span class="e">🔇</span><span>Bật tiếng</span></button>
+<button class="yt-hide" id="ytSpeedBtn" onclick="ytCycleSpeed()"><span class="e">⚡</span><span>1.0x</span></button>
+<button class="yt-hide" id="ytToggleBtn" onclick="ytToggleSub()"><span class="e">💬</span><span>Ẩn phụ đề</span></button>
 </div>
 <div class="yt-wrapper">
     <div id="ytPlayerBox"></div>
+    <div id="ytClickGuard"></div>
 </div>
 <div id="ytSubOutside">
   <div id="ytSubEn"></div>
   <div id="ytSubVi"></div>
+</div>
+<div class="yt-debug">
+  <div class="yt-debug-row"><span>⏱️ Time</span><b id="ytDbgTime">0.00s</b></div>
+  <div class="yt-debug-row"><span>📄 Câu</span><b id="ytDbgSeg">-/-</b></div>
+  <div class="yt-debug-row"><span>📊 Tốc độ</span><b id="ytDbgSpeed">-</b></div>
+  <div class="yt-debug-row"><span>🎯 Từ</span><b id="ytDbgWord">-/-</b></div>
 </div>
 <div class="yt-list" id="ytList"></div>
 </div>
@@ -608,6 +576,8 @@ body.dark #ytSubOutside{background:#000;border-top-color:#f59e0b}
 </div>
 
 </div>
+
+<div class="yt-toast" id="ytToast"></div>
 
 <script type="module">
 import { initializeApp } from 'https://www.gstatic.com/firebasejs/10.7.0/firebase-app.js';
@@ -1616,369 +1586,434 @@ updateAutoCount();
 var savedCardIdx = localStorage.getItem('lastCardIndex');
 if(savedCardIdx !== null){ var parsed = parseInt(savedCardIdx); if(!isNaN(parsed) && d[parsed]){ i = parsed; } localStorage.removeItem('lastCardIndex'); }
 
-/* ========== HỌC QUA YOUTUBE ========== */
-var ytPlayer = null;
-var ytPlayerReady = false;
-var ytSubs = [];
-var ytCurrentIdx = -1;
-var ytSubVisible = true;
-var ytInterval = null;
-var ytApiLoaded = false;
+/* ═══════════════════════════════════════════════════════════
+   HỌC QUA YOUTUBE — PHIÊN BẢN MỚI
+   ═══════════════════════════════════════════════════════════ */
 
-function loadYTApi(callback){
-  if(ytApiLoaded){ callback(); return; }
-  var tag = document.createElement('script');
-  tag.src = 'https://www.youtube.com/iframe_api';
-  var firstScript = document.getElementsByTagName('script')[0];
-  firstScript.parentNode.insertBefore(tag, firstScript);
-  window.onYouTubeIframeAPIReady = function(){ ytApiLoaded = true; callback(); };
-}
-
-function openYT(){ document.getElementById('ytmodal').classList.add('show'); backToYTHome(); }
-function closeYT(){
-  if(ytPlayer){ try{ ytPlayer.pauseVideo(); }catch(e){} try{ ytPlayer.destroy(); }catch(e){} ytPlayer = null; }
-  if(ytInterval){ clearInterval(ytInterval); ytInterval = null; }
-  document.getElementById('ytmodal').classList.remove('show');
-}
-function backToYTHome(){
-  if(ytPlayer){ try{ ytPlayer.pauseVideo(); }catch(e){} }
-  if(ytInterval){ clearInterval(ytInterval); ytInterval = null; }
-  document.getElementById('yt-home').style.display = 'block';
-  document.getElementById('yt-player').style.display = 'none';
+// ─── ĐẾM ÂM TIẾT TIẾNG ANH ───
+function ytCountSyllables(word) {
+  word = word.toLowerCase().replace(/[^a-z]/g, '');
+  if (!word) return 1;
+  if (word.length <= 3) return 1;
+  var ex = {
+    'business':2,'every':2,'different':3,'chocolate':3,'interesting':4,
+    'vegetable':4,'comfortable':4,'temperature':4,'queue':1,'people':2,
+    'beautiful':3,'favorite':3,'area':3,'idea':3,'science':2,'quiet':2,
+    'hour':1,'our':1,'fire':1,'hire':1,'wire':1,'being':2,'doing':2,
+    'going':2,'seeing':2,'created':3,'wanted':2,'needed':2,'started':2,
+    'worked':1,'looked':1,'helped':1,'washed':1
+  };
+  if (ex[word] !== undefined) return ex[word];
+  word = word.replace(/(?:[^laeiouy]es|ed|[^laeiouy]e)$/, '');
+  word = word.replace(/^y/, '');
+  var m = word.match(/[aeiouy]{1,2}/g);
+  var c = m ? m.length : 1;
+  if (/[^aeiou]le$/.test(word)) c++;
+  return Math.max(c, 1);
 }
 
-function extractYTVideoId(url){
-  url = url.trim();
-  var patterns = [
-    /(?:youtube\.com\/watch\?v=|youtu\.be\/|youtube\.com\/embed\/|youtube\.com\/v\/|youtube\.com\/shorts\/)([a-zA-Z0-9_-]{11})/,
-    /^([a-zA-Z0-9_-]{11})$/
-  ];
-  for(var i = 0; i < patterns.length; i++){ var m = url.match(patterns[i]); if(m) return m[1]; }
-  return null;
-}
+var YT_FUNCTION_WORDS = {
+  'a':.35,'an':.35,'the':.4,'of':.4,'to':.45,'in':.45,'on':.5,'at':.45,
+  'by':.5,'for':.5,'with':.6,'from':.6,'up':.6,'off':.6,'out':.6,'into':.7,
+  'and':.5,'or':.5,'but':.6,'so':.6,'as':.6,'if':.6,'than':.6,'that':.55,
+  'which':.7,'is':.55,'are':.55,'was':.55,'were':.6,'am':.5,'be':.55,
+  'been':.6,'being':.7,'do':.55,'does':.6,'did':.6,'done':.65,'have':.65,
+  'has':.6,'had':.6,'having':.8,'will':.65,'would':.7,'can':.6,'could':.7,
+  'should':.75,'may':.6,'might':.7,'must':.65,'it':.5,'he':.5,'she':.5,
+  'we':.5,'you':.55,'i':.5,'me':.5,'him':.55,'her':.55,'us':.55,'them':.65,
+  'they':.6,'my':.5,'your':.6,'his':.55,'its':.5,'our':.55,'their':.65,
+  'not':.6,'no':.55,'yes':.6,'there':.65,'here':.65
+};
 
-function parseSRTyt(text){
-  text = text.replace(/\r\n/g, '\n').replace(/\r/g, '\n').trim();
-  var blocks = text.split(/\n\n+/);
-  var result = [];
-  var timeRe = /(\d{1,2}):(\d{2}):(\d{2})[,.](\d{1,3})\s*-->\s*(\d{1,2}):(\d{2}):(\d{2})[,.](\d{1,3})/;
-  blocks.forEach(function(block){
-    var lines = block.split('\n').map(function(s){return s.trim();}).filter(function(s){return s!=='';});
-    if(lines.length < 3) return;
-    var idx = 0;
-    if(/^\d+$/.test(lines[0])) idx = 1;
-    var m = lines[idx].match(timeRe);
-    if(!m) return;
-    var start = (+m[1])*3600 + (+m[2])*60 + (+m[3]) + (+m[4])/1000;
-    var end   = (+m[5])*3600 + (+m[6])*60 + (+m[7]) + (+m[8])/1000;
-    var textLines = lines.slice(idx+1);
-    var en = '', vi = '';
-    if(textLines.length >= 2){
-      if(textLines.length === 2){ en = textLines[0]; vi = textLines[1]; }
-      else {
-        var enArr = [], viArr = [];
-        var viRegex = /[àáảãạăâầấẩẫậằắẳẵặèéẻẽẹêềếểễệìíỉĩịòóỏõọôồốổỗộơờớởỡợùúủũụưừứửữựỳýỷỹỵđ]/i;
-        textLines.forEach(function(l){ if(viRegex.test(l)) viArr.push(l); else enArr.push(l); });
-        en = enArr.join(' ').trim() || textLines[0];
-        vi = viArr.join(' ').trim() || textLines[textLines.length-1];
-      }
-    } else { en = textLines[0] || ''; }
-    result.push({start:start, end:end, en:en, vi:vi});
-  });
-  result.sort(function(a,b){return a.start - b.start;});
-  return splitLongMergeShort(result);
-}
-function splitLongMergeShort(result){
-  var processed = [];
-  for(var i = 0; i < result.length; i++){
-    var s = result[i];
-    var dur = s.end - s.start;
-    if(!s.en || s.en.trim() === '') continue;
-    if(dur > 4){
-      var parts = Math.ceil(dur / 3);
-      var partDur = dur / parts;
-      var enWords = s.en.split(/\s+/).filter(function(w){return w;});
-      var viWords = s.vi ? s.vi.split(/\s+/).filter(function(w){return w;}) : [];
-      var enPerPart = Math.ceil(enWords.length / parts);
-      var viPerPart = viWords.length > 0 ? Math.ceil(viWords.length / parts) : 0;
-      for(var p = 0; p < parts; p++){
-        var enChunk = enWords.slice(p * enPerPart, (p + 1) * enPerPart).join(' ');
-        var viChunk = viWords.length > 0 ? viWords.slice(p * viPerPart, (p + 1) * viPerPart).join(' ') : '';
-        if(enChunk.trim()){
-          processed.push({start: s.start + p * partDur, end: s.start + (p + 1) * partDur, en: enChunk, vi: viChunk});
-        }
-      }
-    } else if(dur < 2 && processed.length > 0){
-      var prev = processed[processed.length - 1];
-      var gap = s.start - prev.end;
-      if(gap < 1){
-        prev.end = s.end;
-        prev.en = prev.en + ' ' + s.en;
-        if(s.vi) prev.vi = prev.vi ? (prev.vi + ' ' + s.vi) : s.vi;
-      } else { processed.push(s); }
-    } else { processed.push(s); }
-  }
-  return processed;
-}
+var YT_STRESSED_WORDS = {
+  'very':1.25,'really':1.35,'actually':1.4,'absolutely':1.5,'definitely':1.4,
+  'completely':1.4,'totally':1.35,'important':1.3,'beautiful':1.25,
+  'wonderful':1.25,'amazing':1.25,'awesome':1.25,'excellent':1.3,
+  'terrible':1.25,'horrible':1.3,'incredible':1.3,'never':1.2,'always':1.2,
+  'forever':1.25,'love':1.2,'hate':1.2,'like':1.15,'now':1.15,'today':1.15,
+  'tomorrow':1.15,'please':1.2,'sorry':1.2,'thank':1.2
+};
 
-function calculateWordTimings(text, startTime, endTime) {
+var YT_MANUAL_SPEED = 1.0;
+
+function ytCalculateWordTimings(text, startTime, endTime) {
   var tokens = text.split(/(\s+)/);
   var words = [];
   for (var i = 0; i < tokens.length; i++) {
     if (tokens[i].trim() !== '') words.push({ text: tokens[i], tokenIdx: i });
   }
-  if (words.length === 0) return [];
+  if (!words.length) return [];
+
   var totalDuration = endTime - startTime;
   if (totalDuration <= 0) totalDuration = 0.1;
-  var weights = [];
-  var totalWeight = 0;
+
+  var totalSyllables = 0;
+  for (var s = 0; s < words.length; s++) {
+    totalSyllables += ytCountSyllables(words[s].text.replace(/[^a-zA-Z0-9']/g, ''));
+  }
+  var actualSpeed = totalSyllables / totalDuration;
+  var NORMAL_SPEED = 4.2;
+  var speedFactor = actualSpeed / NORMAL_SPEED;
+  if (speedFactor < 0.6) speedFactor = 0.6;
+  if (speedFactor > 1.8) speedFactor = 1.8;
+
+  var weights = [], totalWeight = 0;
   for (var w = 0; w < words.length; w++) {
-    var clean = words[w].text.replace(/[^a-zA-Z0-9']/g, '');
-    var weight = Math.max(clean.length, 2);
+    var raw = words[w].text;
+    var clean = raw.replace(/[^a-zA-Z0-9']/g, '').toLowerCase();
+    var weight = ytCountSyllables(clean);
+    if (YT_FUNCTION_WORDS[clean]) weight *= YT_FUNCTION_WORDS[clean];
+    if (YT_STRESSED_WORDS[clean]) weight *= YT_STRESSED_WORDS[clean];
+    if (clean.length >= 10) weight *= 1.15;
+    if (/[A-Z]/.test(raw.substring(1))) weight *= 1.1;
+
     var after = '';
     for (var j = words[w].tokenIdx + 1; j < tokens.length; j++) {
       after += tokens[j];
       if (tokens[j].trim() !== '') break;
     }
-    if (/[.!?]/.test(after)) weight += 4;
-    else if (/[,;:]/.test(after)) weight += 1.5;
-    else if (/['"]/.test(after)) weight += 0.5;
+    if (/[.!?]/.test(after)) weight += 3.0;
+    else if (/[,;:]/.test(after)) weight += 1.0;
+    else if (/[-—]/.test(after)) weight += 0.8;
+
     weights.push(weight);
     totalWeight += weight;
   }
-  var timings = [];
-  var acc = startTime;
+
+  var scale = totalDuration / totalWeight / speedFactor;
+  var timings = [], acc = startTime;
   for (var t = 0; t < words.length; t++) {
-    var dur = (weights[t] / totalWeight) * totalDuration;
-    timings.push({ start: acc, end: acc + dur });
+    var dur = weights[t] * scale;
+    if (dur < 0.08) dur = 0.08;
+    timings.push({ start: acc, end: acc + dur, weight: weights[t] });
     acc += dur;
   }
+  var actualEnd = timings[timings.length - 1].end;
+  if (Math.abs(actualEnd - endTime) > 0.05) {
+    var ratio = totalDuration / (actualEnd - startTime);
+    for (var r = 0; r < timings.length; r++) {
+      timings[r].start = startTime + (timings[r].start - startTime) * ratio;
+      timings[r].end = startTime + (timings[r].end - startTime) * ratio;
+    }
+  }
+  timings._speedFactor = speedFactor;
+  timings._actualSpeed = actualSpeed;
   return timings;
 }
 
-function fmtTimeYT(sec){
-  var m = Math.floor(sec/60);
-  var s = Math.floor(sec%60);
-  return (m<10?'0':'')+m + ':' + (s<10?'0':'')+s;
+function ytParseSRT(text) {
+  text = text.replace(/\r\n/g, '\n').replace(/\r/g, '\n').trim();
+  var blocks = text.split(/\n\n+/);
+  var result = [];
+  var timeRe = /(\d{1,2}):(\d{2}):(\d{2})[,.](\d{1,3})\s*-->\s*(\d{1,2}):(\d{2}):(\d{2})[,.](\d{1,3})/;
+  var viRe = /[àáảãạăâầấẩẫậằắẳẵặèéẻẽẹêềếểễệìíỉĩịòóỏõọôồốổỗộơờớởỡợùúủũụưừứửữựỳýỷỹỵđ]/i;
+  blocks.forEach(function(block) {
+    var lines = block.split('\n').map(function(s){return s.trim();}).filter(function(s){return s;});
+    if (lines.length < 3) return;
+    var idx = /^\d+$/.test(lines[0]) ? 1 : 0;
+    var m = lines[idx].match(timeRe);
+    if (!m) return;
+    var start = (+m[1])*3600 + (+m[2])*60 + (+m[3]) + (+m[4])/1000;
+    var end = (+m[5])*3600 + (+m[6])*60 + (+m[7]) + (+m[8])/1000;
+    var tl = lines.slice(idx+1);
+    var en = '', vi = '';
+    if (tl.length === 2) { en = tl[0]; vi = tl[1]; }
+    else if (tl.length > 2) {
+      var ea = [], va = [];
+      tl.forEach(function(l){ if (viRe.test(l)) va.push(l); else ea.push(l); });
+      en = ea.join(' ').trim() || tl[0];
+      vi = va.join(' ').trim() || tl[tl.length-1];
+    } else en = tl[0] || '';
+    result.push({ start: start, end: end, en: en, vi: vi });
+  });
+  result.sort(function(a,b){return a.start-b.start;});
+  return result;
 }
 
-function startYT(){
+var ytPlayer = null, ytPlayerReady = false, ytSubs = [], ytCurrentIdx = -1;
+var ytInterval = null, ytApiLoaded = false, ytSubVisible = true, ytMuted = true;
+
+function ytLoadApi(cb) {
+  if (ytApiLoaded) { cb(); return; }
+  var t = document.createElement('script');
+  t.src = 'https://www.youtube.com/iframe_api';
+  document.head.appendChild(t);
+  window.onYouTubeIframeAPIReady = function(){ ytApiLoaded = true; cb(); };
+}
+
+function ytExtractVideoId(url) {
+  url = url.trim();
+  var ps = [
+    /(?:youtube\.com\/watch\?v=|youtu\.be\/|youtube\.com\/embed\/|youtube\.com\/v\/|youtube\.com\/shorts\/)([a-zA-Z0-9_-]{11})/,
+    /^([a-zA-Z0-9_-]{11})$/
+  ];
+  for (var i=0;i<ps.length;i++){var m=url.match(ps[i]);if(m)return m[1];}
+  return null;
+}
+
+function ytFmtTime(sec) {
+  var m = Math.floor(sec/60), s = Math.floor(sec%60);
+  return (m<10?'0':'')+m+':'+(s<10?'0':'')+s;
+}
+
+function ytShowToast(msg, ms) {
+  var t = document.getElementById('ytToast');
+  if (!t) return;
+  t.textContent = msg;
+  t.classList.add('show');
+  clearTimeout(t._timer);
+  t._timer = setTimeout(function() { t.classList.remove('show'); }, ms || 1800);
+}
+
+function openYT() {
+  document.getElementById('yt-home').style.display = 'block';
+  document.getElementById('yt-player').style.display = 'none';
+  document.getElementById('ytmodal').classList.add('show');
+}
+function closeYT() {
+  if (ytPlayer) { try { ytPlayer.pauseVideo(); } catch(e){} }
+  if (ytInterval) { clearInterval(ytInterval); ytInterval = null; }
+  document.getElementById('ytmodal').classList.remove('show');
+}
+function backToYTHome() {
+  if (ytPlayer) { try { ytPlayer.pauseVideo(); } catch(e){} }
+  if (ytInterval) { clearInterval(ytInterval); ytInterval = null; }
+  document.getElementById('yt-home').style.display = 'block';
+  document.getElementById('yt-player').style.display = 'none';
+}
+
+function startYT() {
   var url = document.getElementById('ytUrl').value.trim();
   var srt = document.getElementById('ytSrt').value.trim();
   var status = document.getElementById('ytStatus');
-  status.style.display = 'block';
-  status.className = 'status';
-  if(!url){ status.className='status no'; status.textContent='⚠️ Chưa nhập link YouTube!'; return; }
-  if(!srt){ status.className='status no'; status.textContent='⚠️ Chưa nhập phụ đề SRT!'; return; }
-  var videoId = extractYTVideoId(url);
-  if(!videoId){ status.className='status no'; status.textContent='❌ Link YouTube không hợp lệ!'; return; }
-  var subs = parseSRTyt(srt);
-  if(!subs.length){ status.className='status no'; status.textContent='❌ Không parse được SRT!'; return; }
-  ytSubs = subs;
-  ytCurrentIdx = -1;
+  status.style.display = 'block'; status.className = 'status';
+  if (!url) { status.className='status no'; status.textContent='⚠️ Chưa nhập link YouTube!'; return; }
+  if (!srt) { status.className='status no'; status.textContent='⚠️ Chưa nhập phụ đề SRT!'; return; }
+  var vid = ytExtractVideoId(url);
+  if (!vid) { status.className='status no'; status.textContent='❌ Link YouTube không hợp lệ!'; return; }
+
+  ytSubs = ytParseSRT(srt);
+  if (!ytSubs.length) { status.className='status no'; status.textContent='❌ Không parse được SRT!'; return; }
 
   for (var si = 0; si < ytSubs.length; si++) {
-    ytSubs[si]._wordTimings = calculateWordTimings(ytSubs[si].en, ytSubs[si].start, ytSubs[si].end);
+    ytSubs[si]._wordTimings = ytCalculateWordTimings(ytSubs[si].en, ytSubs[si].start, ytSubs[si].end);
   }
 
   var listEl = document.getElementById('ytList');
   listEl.innerHTML = '';
-  subs.forEach(function(s, idx){
-    var div = document.createElement('div');
-    div.className = 'yt-item';
-    div.setAttribute('data-ytidx', idx);
+  ytSubs.forEach(function(s, idx) {
+    var d = document.createElement('div');
+    d.className = 'yt-item';
+    d.setAttribute('data-idx', idx);
     var words = s.en.split(/(\s+)/).map(function(w){
-      if(w.trim() === '') return w;
-      return '<span class="w">' + w + '</span>';
+      return w.trim()==='' ? w : '<span class="w">'+w.replace(/</g,'&lt;')+'</span>';
     }).join('');
-    div.innerHTML = '<div class="yt-time">' + fmtTimeYT(s.start) + ' → ' + fmtTimeYT(s.end) + '</div>' +
-                    '<div class="yt-en">' + words + '</div>' +
-                    (s.vi ? '<div class="yt-vi">' + s.vi + '</div>' : '');
-    div.onclick = function(){ ytJump(idx); };
-    listEl.appendChild(div);
+    d.innerHTML = '<div class="yt-time">'+ytFmtTime(s.start)+' → '+ytFmtTime(s.end)+'</div>' +
+                  '<div class="yt-en">'+words+'</div>' +
+                  (s.vi ? '<div class="yt-vi">'+s.vi+'</div>' : '');
+    d.onclick = function() { ytJumpTo(idx); };
+    listEl.appendChild(d);
   });
 
   document.getElementById('yt-home').style.display = 'none';
   document.getElementById('yt-player').style.display = 'block';
   status.style.display = 'none';
-
-  document.getElementById('ytToggleBtn').textContent = '💬 Ẩn phụ đề';
-  document.getElementById('ytToggleBtn').classList.remove('off');
   ytSubVisible = true;
-  document.getElementById('ytSubOutside').style.display = 'block';
+  document.getElementById('ytToggleBtn').classList.remove('off');
+  document.getElementById('ytToggleBtn').querySelector('span:last-child').textContent = 'Ẩn phụ đề';
 
-  loadYTApi(function(){
-    if(ytPlayer){ try{ ytPlayer.destroy(); }catch(e){} }
+  ytLoadApi(function() {
+    if (ytPlayer) { try { ytPlayer.destroy(); } catch(e){} }
     ytPlayer = new YT.Player('ytPlayerBox', {
-      height: window.innerHeight * 0.45,
-      width: window.innerWidth,
-      videoId: videoId,
+      height: '100%',
+      width: '100%',
+      videoId: vid,
       playerVars: {
         'playsinline': 1,
         'rel': 0,
         'modestbranding': 1,
         'controls': 0,
         'fs': 0,
-        'disablekb': 1
+        'disablekb': 1,
+        'iv_load_policy': 3
       },
       events: {
-        'onReady': function(e){
+        'onReady': function(e) {
           ytPlayerReady = true;
+          ytMuted = true;
           e.target.mute();
           e.target.playVideo();
+          var b = document.getElementById('ytMuteBtn');
+          if (b) { b.querySelector('.e').textContent = '🔇'; b.querySelector('span:last-child').textContent = 'Bật tiếng'; }
         },
-        'onStateChange': function(e){
+        'onStateChange': function(e) {
           var btn = document.getElementById('ytPlayBtn');
-          if(e.data === YT.PlayerState.PLAYING){
-            startYTSync();
-            if(btn) btn.textContent = '⏸ Tạm dừng';
+          if (e.data === YT.PlayerState.PLAYING) {
+            ytStartSync();
+            if (btn) { btn.querySelector('.e').textContent = '⏸'; btn.querySelector('span:last-child').textContent = 'Tạm dừng'; }
           } else {
-            if(ytInterval){ clearInterval(ytInterval); ytInterval = null; }
-            if(e.data === YT.PlayerState.PAUSED && btn) btn.textContent = '▶️ Phát';
+            if (ytInterval) { clearInterval(ytInterval); ytInterval = null; }
+            if (e.data === YT.PlayerState.PAUSED && btn) {
+              btn.querySelector('.e').textContent = '▶';
+              btn.querySelector('span:last-child').textContent = 'Phát';
+            }
           }
         }
       }
     });
-
-    // Lớp chặn cứng trên iframe
-    setTimeout(function(){
-      var wrap = document.querySelector('.yt-wrapper');
-      if (!wrap || document.getElementById('ytClickGuard')) return;
-      var guard = document.createElement('div');
-      guard.id = 'ytClickGuard';
-      wrap.insertBefore(guard, wrap.firstChild);
-      guard.addEventListener('click', function(){
-        if (ytPlayer && ytPlayerReady) {
-          try {
-            var s = ytPlayer.getPlayerState();
-            if (s === 1) { ytPlayer.pauseVideo(); var b = document.getElementById('ytPlayBtn'); if(b) b.textContent = '▶️ Phát'; }
-            else { ytPlayer.playVideo(); var b2 = document.getElementById('ytPlayBtn'); if(b2) b2.textContent = '⏸ Tạm dừng'; }
-          } catch(e){}
-        }
-      });
-    }, 800);
   });
 }
 
-function ytSyncSub(){
-  if(!ytPlayer || !ytPlayerReady) return;
+function ytStartSync() {
+  if (ytInterval) clearInterval(ytInterval);
+  ytInterval = setInterval(ytSyncTick, 60);
+}
+
+function ytSyncTick() {
+  if (!ytPlayer || !ytPlayerReady) return;
   var t;
-  try{ t = ytPlayer.getCurrentTime(); }catch(e){ return; }
+  try { t = ytPlayer.getCurrentTime(); } catch(e) { return; }
+  var dbgTime = document.getElementById('ytDbgTime');
+  if (dbgTime) dbgTime.textContent = t.toFixed(2) + 's';
+
   var idx = -1;
-  for(var k=0;k<ytSubs.length;k++){
-    if(t >= ytSubs[k].start && t < ytSubs[k].end){ idx = k; break; }
+  for (var k=0; k<ytSubs.length; k++) {
+    if (t >= ytSubs[k].start && t < ytSubs[k].end) { idx = k; break; }
   }
-  if(idx !== ytCurrentIdx){
+
+  if (idx !== ytCurrentIdx) {
     ytCurrentIdx = idx;
-    var items = document.querySelectorAll('.yt-item');
-    items.forEach(function(it, k){
-      if(k === idx){ it.classList.add('active'); } else { it.classList.remove('active'); }
+    document.querySelectorAll('.yt-item').forEach(function(el, k){
+      el.classList.toggle('active', k === idx);
     });
-    if(idx >= 0){
+    if (idx >= 0) {
       var active = document.querySelector('.yt-item.active');
-      if(active){
-        var listBox = document.getElementById('ytList');
-        var listHeight = listBox.clientHeight;
-        var itemTop = active.offsetTop - listBox.offsetTop;
-        var itemHeight = active.offsetHeight;
-        listBox.scrollTo({ top: itemTop - (listHeight / 2) + (itemHeight / 2), behavior: 'smooth' });
+      if (active) {
+        var box = document.querySelector('.yt-list');
+        var lt = active.offsetTop - box.offsetTop;
+        box.scrollTo({ top: lt - box.clientHeight/2 + active.offsetHeight/2, behavior: 'smooth' });
       }
+      ytRenderSub(idx);
     }
-    updateYTOverlay(idx);
+    var dbgSeg = document.getElementById('ytDbgSeg');
+    if (dbgSeg) dbgSeg.textContent = idx>=0 ? (idx+1)+'/'+ytSubs.length : '-/-';
   }
-  if(idx >= 0){
+
+  if (idx >= 0) {
     var s = ytSubs[idx];
-    var timings = s._wordTimings;
-    var activeIdx = -1;
-    for (var wi = 0; wi < timings.length; wi++) {
-      if (t >= timings[wi].start) activeIdx = wi;
-      if (t < timings[wi].end && t >= timings[wi].start) { activeIdx = wi; break; }
+    var tim = s._wordTimings;
+    var aw = -1;
+    for (var wi=0; wi<tim.length; wi++) {
+      if (t >= tim[wi].start) aw = wi;
+      if (t < tim[wi].end && t >= tim[wi].start) { aw = wi; break; }
     }
-    var activeItem = document.querySelector('.yt-item[data-ytidx="' + idx + '"]');
-    if(activeItem){
-      var wordEls = activeItem.querySelectorAll('.yt-en .w');
-      wordEls.forEach(function(w, i){
-        if(i <= activeIdx) w.classList.add('read');
-        else w.classList.remove('read');
-      });
-    }
-    updateYTOverlayHighlight(activeIdx);
+    ytHighlight(idx, aw);
+
+    var dbgSpeed = document.getElementById('ytDbgSpeed');
+    if (dbgSpeed) dbgSpeed.textContent = (tim._actualSpeed||0).toFixed(2) + ' âm/s';
+    var dbgWord = document.getElementById('ytDbgWord');
+    if (dbgWord) dbgWord.textContent = (aw+1)+'/'+tim.length;
   }
 }
 
-function updateYTOverlay(idx){
+function ytRenderSub(idx) {
+  if (!ytSubVisible) return;
+  var s = ytSubs[idx];
   var enEl = document.getElementById('ytSubEn');
   var viEl = document.getElementById('ytSubVi');
-  if(!enEl || !viEl) return;
-  if(idx < 0){ enEl.innerHTML = ''; viEl.innerHTML = ''; return; }
-  var s = ytSubs[idx];
+  if (!enEl || !viEl) return;
   var words = s.en.split(/(\s+)/).map(function(w){
-    if(w.trim() === '') return w;
-    return '<span class="w">' + w + '</span>';
+    return w.trim()==='' ? w : '<span class="w">'+w.replace(/</g,'&lt;')+'</span>';
   }).join('');
   enEl.innerHTML = words;
   viEl.textContent = s.vi || '';
   enEl.querySelectorAll('.w').forEach(function(wEl){
-    wEl.onclick = function(e){ e.stopPropagation(); showWordInfo(wEl.textContent, e); };
+    wEl.onclick = function(e){
+      e.stopPropagation();
+      showWordInfo(wEl.textContent, e);
+    };
   });
 }
 
-function updateYTOverlayHighlight(activeIdx){
+function ytHighlight(idx, aw) {
   var enEl = document.getElementById('ytSubEn');
-  if(!enEl) return;
-  var wordEls = enEl.querySelectorAll('.w');
-  wordEls.forEach(function(w, i){
-    if(i <= activeIdx) w.classList.add('read');
-    else w.classList.remove('read');
-  });
+  if (enEl) {
+    enEl.querySelectorAll('.w').forEach(function(w, i){
+      w.classList.remove('read','current');
+      if (i < aw) w.classList.add('read');
+      else if (i === aw) w.classList.add('read','current');
+    });
+  }
+  var ai = document.querySelector('.yt-item[data-idx="'+idx+'"]');
+  if (ai) {
+    ai.querySelectorAll('.yt-en .w').forEach(function(w, i){
+      w.classList.remove('read');
+      if (i <= aw) w.classList.add('read');
+    });
+  }
 }
 
-function startYTSync(){
-  if(ytInterval) clearInterval(ytInterval);
-  ytInterval = setInterval(ytSyncSub, 80);
-}
-function ytJump(idx){
-  if(!ytSubs[idx] || !ytPlayer) return;
-  try{ ytPlayer.seekTo(ytSubs[idx].start + 0.05, true); ytPlayer.playVideo(); }catch(e){}
+function ytJumpTo(idx) {
+  if (!ytSubs[idx] || !ytPlayer) return;
+  try { ytPlayer.seekTo(ytSubs[idx].start + 0.05, true); ytPlayer.playVideo(); } catch(e){}
 }
 
-function ytToggleMute(){
-  if(!ytPlayer || !ytPlayerReady) return;
+function ytTogglePlay() {
+  if (!ytPlayer || !ytPlayerReady) return;
   try {
-    var muted = ytPlayer.isMuted();
-    var btn = document.getElementById('ytMuteBtn');
-    if(muted){ ytPlayer.unMute(); if(btn) btn.textContent = '🔊 Tắt tiếng'; }
-    else { ytPlayer.mute(); if(btn) btn.textContent = '🔇 Bật tiếng'; }
+    var s = ytPlayer.getPlayerState();
+    if (s === 1) ytPlayer.pauseVideo();
+    else ytPlayer.playVideo();
   } catch(e){}
 }
 
-function ytTogglePlay(){
-  if(!ytPlayer || !ytPlayerReady) return;
+function ytToggleMute() {
+  if (!ytPlayer || !ytPlayerReady) return;
   try {
-    var s = ytPlayer.getPlayerState();
-    var btn = document.getElementById('ytPlayBtn');
-    if(s === 1){ ytPlayer.pauseVideo(); if(btn) btn.textContent = '▶️ Phát'; }
-    else { ytPlayer.playVideo(); if(btn) btn.textContent = '⏸ Tạm dừng'; }
-  } catch(e){ console.warn(e); }
+    ytMuted = !ytMuted;
+    if (ytMuted) ytPlayer.mute();
+    else ytPlayer.unMute();
+    var b = document.getElementById('ytMuteBtn');
+    if (b) {
+      b.querySelector('.e').textContent = ytMuted ? '🔇' : '🔊';
+      b.querySelector('span:last-child').textContent = ytMuted ? 'Bật tiếng' : 'Tắt tiếng';
+    }
+    ytShowToast(ytMuted ? '🔇 Đã tắt tiếng' : '🔊 Đã bật tiếng');
+  } catch(e){}
 }
 
-function ytToggleSub(){
-  ytSubVisible = !ytSubVisible;
-  var btn = document.getElementById('ytToggleBtn');
-  var list = document.getElementById('ytList');
-  var subOutside = document.getElementById('ytSubOutside');
-  if(ytSubVisible){
-    list.style.display = 'block';
-    if(subOutside) subOutside.style.display = 'block';
-    btn.textContent = '💬 Ẩn phụ đề';
-    btn.classList.remove('off');
-  } else {
-    list.style.display = 'none';
-    if(subOutside) subOutside.style.display = 'none';
-    btn.textContent = '💬 Hiện phụ đề';
-    btn.classList.add('off');
+function ytCycleSpeed() {
+  var opt = [0.7, 0.85, 1.0, 1.15, 1.3, 1.5];
+  var i = opt.indexOf(YT_MANUAL_SPEED);
+  i = (i+1) % opt.length;
+  YT_MANUAL_SPEED = opt[i];
+  var b = document.getElementById('ytSpeedBtn');
+  if (b) b.querySelector('span:last-child').textContent = YT_MANUAL_SPEED.toFixed(2) + 'x';
+  ytShowToast('⚡ Tốc độ: ' + YT_MANUAL_SPEED.toFixed(2) + 'x');
+
+  for (var si = 0; si < ytSubs.length; si++) {
+    var s = ytSubs[si];
+    var adjusted = s.start + (s.end - s.start) / YT_MANUAL_SPEED;
+    s._wordTimings = ytCalculateWordTimings(s.en, s.start, adjusted);
   }
 }
+
+function ytToggleSub() {
+  ytSubVisible = !ytSubVisible;
+  var box = document.getElementById('ytSubOutside');
+  if (box) box.style.display = ytSubVisible ? 'flex' : 'none';
+  var b = document.getElementById('ytToggleBtn');
+  if (b) {
+    b.classList.toggle('off', !ytSubVisible);
+    b.querySelector('span:last-child').textContent = ytSubVisible ? 'Ẩn phụ đề' : 'Hiện phụ đề';
+  }
+  ytShowToast(ytSubVisible ? '💬 Hiện phụ đề' : '🚫 Ẩn phụ đề');
+}
+
+document.addEventListener('DOMContentLoaded', function(){
+  var g = document.getElementById('ytClickGuard');
+  if (g) g.onclick = function(){ ytTogglePlay(); };
+});
 
 /* ========== DARK MODE ========== */
 function applyDarkMode(isDark){
@@ -2118,8 +2153,8 @@ const globalFns = {
   toggleSaveWord, closeWordModal, pickPhoto, uploadFromList,
   removePhoto, pasteImage, searchGoogleImage, autoFindImage,
   compressAllOldImages, addKey, clearAllKeys, showWordInfo, changeVoice,
-  openYT, closeYT, startYT, backToYTHome, ytToggleSub, ytJump,
-  ytTogglePlay, ytToggleMute,
+  openYT, closeYT, startYT, backToYTHome, ytToggleSub, ytJumpTo,
+  ytTogglePlay, ytToggleMute, ytCycleSpeed,
   openQuiz, closeQuiz, setQuizMode, startQuiz, answerQuiz,
   toggleDarkMode, applyDarkMode
 };
