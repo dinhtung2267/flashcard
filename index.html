@@ -472,7 +472,7 @@ body.dark .mb-close{background:linear-gradient(135deg,#4b5563,#374151);color:#e5
 <label class="yt-label">🔗 Link YouTube</label>
 <input type="text" class="yt-input" id="ytUrl" placeholder="https://www.youtube.com/watch?v=...">
 <label class="yt-label">💬 Phụ đề SRT (Anh - Việt)</label>
-<textarea class="yt-input srt" id="ytSrt" placeholder="1&#10;00:00:00,000 --> 00:00:03,000&#10;<00:00:00.000>Hello <00:00:00.500>everyone.&#10;Xin chào mọi người."></textarea>
+<textarea class="yt-input srt" id="ytSrt" placeholder="1&#10;00:00:00,000 --> 00:00:03,000&#10;Hello everyone.&#10;Xin chào mọi người."></textarea>
 <button class="mb-primary" onclick="startYT()" style="background:linear-gradient(135deg,#ef4444,#dc2626);color:#fff;font-size:1rem;padding:16px;border-radius:14px;margin-top:6px">🚀 Bắt đầu học</button>
 <button class="mb-close" onclick="closeYT()" style="margin-top:8px">Hủy</button>
 <div id="ytStatus" style="display:none" class="status"></div>
@@ -1517,29 +1517,13 @@ var savedCardIdx=localStorage.getItem('lastCardIndex');
 if(savedCardIdx!==null){var parsed=parseInt(savedCardIdx);if(!isNaN(parsed)&&d[parsed]){i=parsed;}localStorage.removeItem('lastCardIndex');}
 
 /* ═══════════════════════════════════════════════════════════
-   YOUTUBE PLAYER
+   YOUTUBE PLAYER  —  SEGMENT-LEVEL HIGHLIGHT VERSION
    ═══════════════════════════════════════════════════════════ */
 
-function ytCountSyllables(word){
-  word=word.toLowerCase().replace(/[^a-z]/g,'');
-  if(!word)return 1;
-  if(word.length<=3)return 1;
-  var ex={business:2,every:2,different:3,chocolate:3,interesting:4,vegetable:4,comfortable:4,temperature:4,queue:1,people:2,beautiful:3,favorite:3,area:3,idea:3,science:2,quiet:2,hour:1,our:1,fire:1,hire:1,wire:1,being:2,doing:2,going:2,seeing:2,created:3,wanted:2,needed:2,started:2,worked:1,looked:1,helped:1,washed:1};
-  if(ex[word]!==undefined)return ex[word];
-  word=word.replace(/(?:[^laeiouy]es|ed|[^laeiouy]e)$/,'');
-  word=word.replace(/^y/,'');
-  var m=word.match(/[aeiouy]{1,2}/g);
-  var c=m?m.length:1;
-  if(/[^aeiou]le$/.test(word))c++;
-  return Math.max(c,1);
-}
-
-var YT_FUNCTION_WORDS={a:.35,an:.35,the:.4,of:.4,to:.45,in:.45,on:.5,at:.45,by:.5,for:.5,with:.6,from:.6,up:.6,off:.6,out:.6,into:.7,and:.5,or:.5,but:.6,so:.6,as:.6,if:.6,than:.6,that:.55,which:.7,is:.55,are:.55,was:.55,were:.6,am:.5,be:.55,been:.6,being:.7,do:.55,does:.6,did:.6,done:.65,have:.65,has:.6,had:.6,having:.8,will:.65,would:.7,can:.6,could:.7,should:.75,may:.6,might:.7,must:.65,it:.5,he:.5,she:.5,we:.5,you:.55,i:.5,me:.5,him:.55,her:.55,us:.55,them:.65,they:.6,my:.5,your:.6,his:.55,its:.5,our:.55,their:.65,not:.6,no:.55,yes:.6,there:.65,here:.65};
-var YT_STRESSED_WORDS={very:1.25,really:1.35,actually:1.4,absolutely:1.5,definitely:1.4,completely:1.4,totally:1.35,important:1.3,beautiful:1.25,wonderful:1.25,amazing:1.25,awesome:1.25,excellent:1.3,terrible:1.25,horrible:1.3,incredible:1.3,never:1.2,always:1.2,forever:1.25,love:1.2,hate:1.2,like:1.15,now:1.15,today:1.15,tomorrow:1.15,please:1.2,sorry:1.2,thank:1.2};
 var YT_MANUAL_SPEED=1.0;
 var MAX_CHARS_EN=70;
 
-/* ─── PARSE WORD-TAG ─── */
+/* ─── PARSE WORD-TAG (chỉ dùng nếu SRT có tag) ─── */
 function ytParseWordTags(enLine, cueStart, cueEnd){
   var tagRe = /<(\d{1,2}):(\d{2}):(\d{2})[.,](\d{1,3})>/g;
   if(!/<(\d{1,2}):(\d{2}):(\d{2})[.,](\d{1,3})>/.test(enLine)) return null;
@@ -1583,57 +1567,7 @@ function ytParseWordTags(enLine, cueStart, cueEnd){
   return words.length > 0 ? words : null;
 }
 
-/* ─── FALLBACK: TÍNH TIMING THEO ÂM TIẾT ─── */
-function ytCalcTimings(text,startTime,endTime){
-  var tokens=text.split(/(\s+)/);
-  var words=[];
-  for(var i=0;i<tokens.length;i++){if(tokens[i].trim()!=='')words.push({text:tokens[i],tokenIdx:i});}
-  if(!words.length)return [];
-  var totalDur=endTime-startTime;
-  if(totalDur<=0)totalDur=0.1;
-  var totalSyl=0;
-  for(var s=0;s<words.length;s++){totalSyl+=ytCountSyllables(words[s].text.replace(/[^a-zA-Z0-9']/g,''));}
-  var actualSpeed=totalSyl/totalDur;
-  var factor=actualSpeed/4.2;
-  if(factor<0.6)factor=0.6;
-  if(factor>1.8)factor=1.8;
-  var weights=[],totalWeight=0;
-  for(var w=0;w<words.length;w++){
-    var raw=words[w].text;
-    var clean=raw.replace(/[^a-zA-Z0-9']/g,'').toLowerCase();
-    var weight=ytCountSyllables(clean);
-    if(YT_FUNCTION_WORDS[clean])weight*=YT_FUNCTION_WORDS[clean];
-    if(YT_STRESSED_WORDS[clean])weight*=YT_STRESSED_WORDS[clean];
-    if(clean.length>=10)weight*=1.15;
-    if(/[A-Z]/.test(raw.substring(1)))weight*=1.1;
-    var after='';
-    for(var j=words[w].tokenIdx+1;j<tokens.length;j++){after+=tokens[j];if(tokens[j].trim()!=='')break;}
-    if(/[.!?]/.test(after))weight+=3.0;
-    else if(/[,;:]/.test(after))weight+=1.0;
-    else if(/[-—]/.test(after))weight+=0.8;
-    weights.push(weight);totalWeight+=weight;
-  }
-  var scale=totalDur/totalWeight/factor;
-  var timings=[],acc=startTime;
-  for(var t=0;t<words.length;t++){
-    var dur=weights[t]*scale;
-    if(dur<0.08)dur=0.08;
-    timings.push({start:acc,end:acc+dur});
-    acc+=dur;
-  }
-  var actualEnd=timings[timings.length-1].end;
-  if(Math.abs(actualEnd-endTime)>0.05){
-    var ratio=totalDur/(actualEnd-startTime);
-    for(var r=0;r<timings.length;r++){
-      timings[r].start=startTime+(timings[r].start-startTime)*ratio;
-      timings[r].end=startTime+(timings[r].end-startTime)*ratio;
-    }
-  }
-  timings._actualSpeed=actualSpeed;
-  return timings;
-}
-
-/* ─── CHIA NHỎ PHỤ ĐỀ DÀI (chỉ cho SRT không có tag) ─── */
+/* ─── CHIA NHỎ PHỤ ĐỀ DÀI ─── */
 function ytSplitEnText(text,maxChars){
   var sentences=text.split(/(?<=[.!?])\s+/).filter(function(s){return s;});
   if(sentences.length>1)return ytMergeChunks(sentences,maxChars);
@@ -1682,7 +1616,6 @@ function ytSplitViProportional(text,n){
 function ytSplitLongSubs(subs,maxChars){
   var result=[];
   subs.forEach(function(sub){
-    // Nếu có word-tag → KHÔNG chia
     if(sub._wordTimings && sub._wordTimings.length > 0){
       result.push(sub);
       return;
@@ -1800,16 +1733,18 @@ function startYT(){
   ytSubs=ytParseSRT(srt);
   if(!ytSubs.length){status.className='status no';status.textContent='❌ Không parse được SRT!';return;}
 
-  // Đếm cue có word-tag + tính timing cho cue không có tag
+  // ✅ SỬA #1: đánh dấu cue nào có word-tag, cue nào không
   var taggedCount = 0;
   for(var si=0;si<ytSubs.length;si++){
     if(ytSubs[si]._wordTimings && ytSubs[si]._wordTimings.length > 0){
+      ytSubs[si]._hasWordTags = true;
       taggedCount++;
     } else {
-      ytSubs[si]._wordTimings = ytCalcTimings(ytSubs[si].en, ytSubs[si].start, ytSubs[si].end);
+      ytSubs[si]._hasWordTags = false;
+      ytSubs[si]._wordTimings = null;
     }
   }
-  console.log('📝 SRT: ' + taggedCount + '/' + ytSubs.length + ' cue có word-tag');
+  console.log('📝 SRT: ' + taggedCount + '/' + ytSubs.length + ' cue có word-tag (còn lại dùng segment-level)');
 
   var beforeCount = ytSubs.length;
   ytSubs = ytSplitLongSubs(ytSubs, MAX_CHARS_EN);
@@ -1882,13 +1817,19 @@ function ytSyncTick(){
       ytRenderSub(idx);
     }
   }
+  // ✅ SỬA #2: nếu có word-tag → highlight từng từ, nếu không → highlight cả câu
   if(idx>=0){
-    var s=ytSubs[idx];var tim=s._wordTimings;var aw=-1;
-    for(var wi=0;wi<tim.length;wi++){
-      if(t>=tim[wi].start)aw=wi;
-      if(t<tim[wi].end&&t>=tim[wi].start){aw=wi;break;}
+    var s=ytSubs[idx];
+    if(s._hasWordTags && s._wordTimings && s._wordTimings.length > 0){
+      var tim=s._wordTimings;var aw=-1;
+      for(var wi=0;wi<tim.length;wi++){
+        if(t>=tim[wi].start)aw=wi;
+        if(t<tim[wi].end&&t>=tim[wi].start){aw=wi;break;}
+      }
+      ytHighlight(idx,aw);
+    } else {
+      ytHighlightAll(idx);
     }
-    ytHighlight(idx,aw);
   }
 }
 
@@ -1917,6 +1858,19 @@ function ytHighlight(idx,aw){
   if(ai){ai.querySelectorAll('.yt-en .w').forEach(function(w,i){w.classList.remove('read');if(i<=aw)w.classList.add('read');});}
 }
 
+// ✅ SỬA #3: hàm mới highlight CẢ CÂU (dùng khi SRT không có word-tag)
+function ytHighlightAll(idx){
+  var enEl=document.getElementById('ytSubEn');
+  if(enEl){
+    enEl.querySelectorAll('.w').forEach(function(w){
+      w.classList.remove('read','current');
+      w.classList.add('read');
+    });
+  }
+  var ai=document.querySelector('.yt-item[data-idx="'+idx+'"]');
+  if(ai){ai.querySelectorAll('.yt-en .w').forEach(function(w){w.classList.add('read');});}
+}
+
 function ytJumpTo(idx){
   if(!ytSubs[idx]||!ytPlayer)return;
   try{ytPlayer.seekTo(ytSubs[idx].start+0.05,true);ytPlayer.playVideo();}catch(e){}
@@ -1938,19 +1892,14 @@ function ytToggleMute(){
   }catch(e){}
 }
 
+// ✅ SỬA #4: chỉ đổi playback rate, không phá timing của cue
 function ytCycleSpeed(){
   var opt=[0.7,0.85,1.0,1.15,1.3,1.5];
   var i=opt.indexOf(YT_MANUAL_SPEED);i=(i+1)%opt.length;
   YT_MANUAL_SPEED=opt[i];
   var b=document.getElementById('ytSpeedBtn');if(b)b.querySelector('span:last-child').textContent=YT_MANUAL_SPEED.toFixed(2)+'x';
   ytShowToast('⚡ Tốc độ: '+YT_MANUAL_SPEED.toFixed(2)+'x');
-  for(var si=0;si<ytSubs.length;si++){
-    var s=ytSubs[si];
-    // Nếu có word-tag → không đổi timing (giữ nguyên)
-    if(s._wordTimings && s._wordTimings._isWordTag) continue;
-    var adjusted=s.start+(s.end-s.start)/YT_MANUAL_SPEED;
-    s._wordTimings=ytCalcTimings(s.en,s.start,adjusted);
-  }
+  try{if(ytPlayer&&ytPlayerReady)ytPlayer.setPlaybackRate(YT_MANUAL_SPEED);}catch(e){}
 }
 
 function ytSeek(sec){
@@ -2003,7 +1952,7 @@ function fillBuildBlanks(text){
   for(var i=0;i<tokens.length;i++){
     if(tokens[i].trim()==='')continue;
     var clean=tokens[i].replace(/[^a-zA-Z0-9']/g,'').toLowerCase();
-    if(clean.length>=3&&!YT_FUNCTION_WORDS[clean])candidates.push(i);
+    if(clean.length>=3)candidates.push(i);
   }
   if(candidates.length<2){
     candidates=[];
