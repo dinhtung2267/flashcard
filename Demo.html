@@ -3,7 +3,7 @@
 <head>
 <meta charset="utf-8">
 <meta name="viewport" content="width=device-width,initial-scale=1,maximum-scale=1">
-<title>Demo Học Tiếng Anh - Auto Sync</title>
+<title>Demo Học Tiếng Anh - Smart Split</title>
 <style>
   *{box-sizing:border-box}
   body{font-family:Arial,sans-serif;background:#0f172a;color:#fff;margin:0;padding:15px;display:flex;flex-direction:column;align-items:center}
@@ -39,7 +39,12 @@ Okay. So, the 10 words I want you to listen throughout the whole video to
 2
 00:00:06,000 --> 00:00:12,000
 learn is fridge, sofa, tree, grass,
-tủ lạnh, ghế sofa, cây, cỏ,</textarea>
+tủ lạnh, ghế sofa, cây, cỏ,
+
+3
+00:11:03,000 --> 00:11:12,000
+So that's a bull. How many bulls do they have? One, two, three. There's two bulls right there. Yeah.
+Vậy đó là một con bò đực. Họ có bao nhiêu con bò đực? Một, hai, ba. Có hai con bò đực ngay đó. Ừ.</textarea>
     <button onclick="startApp()">🚀 Bắt đầu Test Tự Động</button>
   </div>
 
@@ -56,7 +61,60 @@ tủ lạnh, ghế sofa, cây, cỏ,</textarea>
 <script>
 let player, playerReady = false, subs = [], currentIdx = -1, syncInterval;
 
-// 1. Parse SRT & Thuật toán tối ưu 3.0
+// Hàm tách cục SRT dài thành các câu ngắn dựa vào dấu câu
+function splitSrtCues(cues) {
+  let newCues = [];
+  cues.forEach(cue => {
+    // Tách câu tiếng Anh dựa vào dấu . ? !
+    let sentences = cue.en.match(/[^.?!]+[.?!]*/g) || [cue.en];
+    sentences = sentences.map(s => s.trim()).filter(s => s.length > 0);
+
+    if (sentences.length <= 1) {
+      newCues.push(cue);
+      return;
+    }
+
+    let totalChars = sentences.reduce((sum, s) => sum + s.length, 0);
+    let dur = cue.end - cue.start;
+    let currentStart = cue.start;
+
+    // Tách luôn câu tiếng Việt nếu có
+    let viSentences = cue.vi ? (cue.vi.match(/[^.?!]+[.?!]*/g) || [cue.vi]).map(s=>s.trim()).filter(s=>s) : [];
+    let viTotalChars = viSentences.reduce((sum, s) => sum + s.length, 0);
+    let viCurrentIdx = 0;
+
+    sentences.forEach((sentence, i) => {
+      let ratio = sentence.length / totalChars;
+      let thisDur = dur * ratio;
+      
+      // Chia đều câu tiếng Việt tương ứng
+      let viText = "";
+      if (viSentences.length > 0) {
+        if (i === sentences.length - 1) {
+           viText = viSentences.slice(viCurrentIdx).join(" ");
+        } else {
+           let targetViChars = viTotalChars * ratio;
+           let acc = 0; let j = viCurrentIdx;
+           while(j < viSentences.length && acc < targetViChars) {
+             viText += viSentences[j] + " "; acc += viSentences[j].length; j++;
+           }
+           viCurrentIdx = j;
+           viText = viText.trim();
+        }
+      }
+
+      newCues.push({
+        start: currentStart,
+        end: currentStart + thisDur,
+        en: sentence,
+        vi: viText
+      });
+      currentStart += thisDur;
+    });
+  });
+  return newCues;
+}
+
 function parseSRT(text) {
   let result = [];
   let blocks = text.replace(/\r\n/g, '\n').trim().split(/\n\n+/);
@@ -80,43 +138,26 @@ function parseSRT(text) {
     result.push({ start, end, en: en.trim(), vi: vi.trim() });
   });
   
-  // THUẬT TOÁN AUTO-SYNC 3.0
-  const LEAD_TIME = 0.4; // Tự động hiện sớm 0.4s để bắt kịp hơi thở
-  const WPS = 2.5; // Ước lượng tốc độ nói trung bình (từ/giây)
+  // Băm nhỏ SRT
+  result = splitSrtCues(result);
 
+  // Tự động hiện sớm
+  const LEAD_TIME = 0.3;
   result.forEach(sub => {
-    let words = sub.en.split(/\s+/).filter(Boolean);
-    if (words.length > 0) {
-      // 1. Tự động lùi thời gian bắt đầu (không lùi quá 0s)
-      sub.start = Math.max(0, sub.start - LEAD_TIME);
-      
-      // 2. Ước lượng thời lượng thực sự của câu nói
-      let estimatedDur = (words.length / WPS) + 0.5; // Cộng 0.5s lấy hơi
-      let originalDur = sub.end - sub.start;
-      
-      // Nếu thời gian gốc của SRT quá dài (dư thừa), cắt bớt.
-      // Nếu thời gian gốc quá ngắn (nói nhanh), giãn ra một chút.
-      if (originalDur > estimatedDur * 1.5) {
-        sub.end = sub.start + estimatedDur; 
-      } else if (originalDur < words.length * 0.25) {
-        sub.end = sub.start + (words.length * 0.25);
-      }
-    }
+    sub.start = Math.max(0, sub.start - LEAD_TIME);
   });
 
   return result;
 }
 
-// Chia thời gian từ thông minh (Dàn đều theo độ dài từ)
 function getSmartTimings(sub) {
   let words = sub.en.split(/\s+/).filter(Boolean);
   if (!words.length) return null;
   let dur = sub.end - sub.start;
-  
   let totalWeight = 0;
   let wordWeights = words.map(w => {
      let weight = Math.max(2, w.replace(/[^a-zA-Z]/g, '').length);
-     if (/[,.]$/.test(w)) weight += 2; // Ngắt giọng ở dấu phẩy/chấm
+     if (/[,.]$/.test(w)) weight += 2;
      totalWeight += weight;
      return weight;
   });
@@ -126,7 +167,6 @@ function getSmartTimings(sub) {
     let w = words[i];
     let wordDur = (wordWeights[i] / totalWeight) * dur;
     let isPause = /[,.]$/.test(w);
-    
     let readDur = isPause ? wordDur * 0.6 : wordDur;
     timings.push({ text: w, start: currentTime, end: currentTime + readDur, isPause: isPause });
     currentTime += wordDur; 
@@ -144,13 +184,12 @@ function renderSub(idx) {
 function syncTick() {
   if (!playerReady) return;
   let t = player.getCurrentTime();
-  
   let idx = -1;
+  
   for (let i = 0; i < subs.length; i++) {
     if (t >= subs[i].start && t < subs[i].end) { idx = i; break; }
   }
 
-  // TỰ ĐỘNG ẨN PHỤ ĐỀ KHI IM LẶNG
   if (idx === -1) {
     if (currentIdx !== -1) {
       currentIdx = -1;
@@ -172,9 +211,8 @@ function syncTick() {
 
   for (let i = 0; i < timings.length; i++) {
     let tm = timings[i];
-    if (t >= tm.start && t <= tm.end) {
-      activeIndex = i; break;
-    } else if (t > tm.end && tm.isPause) {
+    if (t >= tm.start && t <= tm.end) { activeIndex = i; break; }
+    else if (t > tm.end && tm.isPause) {
       if (i === timings.length - 1 || t < timings[i+1].start) { isPausing = true; break; }
     }
   }
