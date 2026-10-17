@@ -19,7 +19,7 @@ h1{color:#fff;font-size:1.3rem;margin:0 0 8px;font-weight:900;text-shadow:0 2px 
 .authbtn.login{background:#4285f4;color:#fff}
 .authbtn.logout{background:#ef4444;color:#fff;display:none}
 .authbtn.logout.show{display:inline-block}
-.keybox{width:100%;max-width:420px;background:rgba(255,255,255,.25);backdrop-filter:blur(10px);border-radius:16px;padding:12px;margin-bottom:10px;border:1px solid rgba(255,255,255,.3)}
+.keybox{width:100%;max-width:420px;background:rgba(255,255,255,.25);backdrop-filter:blur(10px);border-radius:16px;padding:12px;margin-bottom:10px;border:1px solid rgba(255,255,255,.3); position: relative; z-index: 10;}
 .keyrow{display:flex;gap:4px;align-items:center;margin-bottom:6px}
 .keyrow label{color:#fff;font-size:.7rem;min-width:55px;font-weight:600}
 .keyrow input{flex:1;padding:10px 14px;border-radius:12px;border:2px solid transparent;font-size:.8rem;background:rgba(255,255,255,.95);min-width:0}
@@ -474,9 +474,10 @@ body.dark .mb-close{background:linear-gradient(135deg,#4b5563,#374151);color:#e5
 <label class="yt-label">💬 Phụ đề SRT (Anh - Việt)</label>
 <textarea class="yt-input srt" id="ytSrt" placeholder="1&#10;00:00:00,000 --> 00:00:03,000&#10;Hello everyone.&#10;Xin chào mọi người."></textarea>
 
-<!-- Ô NHẬP JSON MỚI -->
-<label class="yt-label" style="margin-top:12px;color:#4ade80">📄 Hoặc file JSON (Từ AI - Chuẩn 100%)</label>
-<textarea class="yt-input srt" id="ytJson" placeholder="Dán nội dung file transcript.json vào đây..." style="border:1.5px solid #4ade80; min-height:80px;"></textarea>
+<!-- NÚT CHỌN FILE JSON MỚI -->
+<label class="yt-label" style="margin-top:12px;color:#4ade80">📄 Hoặc chọn file JSON (Từ AI - Chuẩn 100%)</label>
+<input type="file" id="ytJsonFile" accept=".json" class="yt-input" style="border:1.5px solid #4ade80; background: rgba(74,222,128,.1); color:#4ade80; padding:10px;">
+<div id="ytJsonStatus" style="font-size:.8rem; color:#4ade80; margin-bottom:12px; font-weight:bold;"></div>
 
 <button class="mb-primary" onclick="startYT()" style="background:linear-gradient(135deg,#ef4444,#dc2626);color:#fff;font-size:1rem;padding:16px;border-radius:14px;margin-top:6px">🚀 Bắt đầu học</button>
 <button class="mb-close" onclick="closeYT()" style="margin-top:8px">Hủy</button>
@@ -1527,6 +1528,37 @@ if(savedCardIdx!==null){var parsed=parseInt(savedCardIdx);if(!isNaN(parsed)&&d[p
 
 var YT_MANUAL_SPEED=1.0;
 var MAX_CHARS_EN=70;
+var jsonDataCache = null; // Biến lưu dữ liệu file JSON sau khi đọc
+
+// Lắng nghe sự kiện khi bạn chọn file
+document.addEventListener('change', function(e) {
+  if (e.target && e.target.id === 'ytJsonFile') {
+    var file = e.target.files[0];
+    if (!file) return;
+    
+    document.getElementById('ytJsonStatus').textContent = '⏳ Đang đọc file...';
+    var reader = new FileReader();
+    
+    reader.onload = function(event) {
+      try {
+        var parsed = ytParseWhisperJSON(event.target.result);
+        if (parsed && parsed.length > 0) {
+          jsonDataCache = parsed;
+          document.getElementById('ytJsonStatus').textContent = '✅ Đã tải thành công ' + parsed.length + ' câu từ JSON!';
+          document.getElementById('ytJsonStatus').style.color = '#4ade80';
+        } else {
+          document.getElementById('ytJsonStatus').textContent = '❌ File JSON trống hoặc sai định dạng!';
+          document.getElementById('ytJsonStatus').style.color = '#ef4444';
+          jsonDataCache = null;
+        }
+      } catch (err) {
+        document.getElementById('ytJsonStatus').textContent = '❌ Lỗi đọc file!';
+        document.getElementById('ytJsonStatus').style.color = '#ef4444';
+      }
+    };
+    reader.readAsText(file);
+  }
+});
 
 /* ─── HÀM ĐỌC JSON TỪ AI (WHISPER) ─── */
 function ytParseWhisperJSON(jsonText){
@@ -1769,79 +1801,92 @@ function backToYTHome(){
 }
 
 function startYT(){
-  var url=document.getElementById('ytUrl').value.trim();
-  var srt=document.getElementById('ytSrt').value.trim();
-  var jsonRaw=document.getElementById('ytJson').value.trim();
-  var status=document.getElementById('ytStatus');
-  status.style.display='block';status.className='status';
-  
-  if(!url){status.className='status no';status.textContent='⚠️ Chưa nhập link!';return;}
-  if(!srt && !jsonRaw){status.className='status no';status.textContent='⚠️ Chưa nhập SRT hoặc JSON!';return;}
-  
-  var vid=ytExtractVideoId(url);
-  if(!vid){status.className='status no';status.textContent='❌ Link không hợp lệ!';return;}
-
-  // Ưu tiên đọc JSON nếu có dữ liệu
-  if(jsonRaw) {
-    ytSubs = ytParseWhisperJSON(jsonRaw);
-  } else {
-    ytSubs = ytParseSRT(srt);
-  }
-  if(!ytSubs.length){status.className='status no';status.textContent='❌ Lỗi định dạng phụ đề!';return;}
-
-  var taggedCount = 0;
-  for(var si=0;si<ytSubs.length;si++){
-    if(ytSubs[si]._wordTimings && ytSubs[si]._wordTimings.length > 0){
-      ytSubs[si]._hasWordTags = true;
-      taggedCount++;
-    } else {
-      ytSubs[si]._hasWordTags = false;
-      ytSubs[si]._wordTimings = null;
+  try {
+    var url=document.getElementById('ytUrl').value.trim();
+    var srt=document.getElementById('ytSrt').value.trim();
+    var status=document.getElementById('ytStatus');
+    status.style.display='block';status.className='status';
+    
+    if(!url){status.className='status no';status.textContent='⚠️ Chưa nhập link!';return;}
+    
+    // Kiểm tra xem đã chọn file JSON chưa
+    if(!jsonDataCache && !srt){
+      status.className='status no';status.textContent='⚠️ Vui lòng chọn file JSON hoặc nhập SRT!';return;
     }
-  }
+    
+    var vid=ytExtractVideoId(url);
+    if(!vid){status.className='status no';status.textContent='❌ Link không hợp lệ!';return;}
 
-  var beforeCount = ytSubs.length;
-  ytSubs = ytSplitLongSubs(ytSubs, MAX_CHARS_EN);
+    // Ưu tiên dùng dữ liệu từ file JSON
+    if(jsonDataCache && jsonDataCache.length > 0) {
+      ytSubs = jsonDataCache;
+    } else {
+      ytSubs = ytParseSRT(srt);
+    }
+    
+    if(!ytSubs || !ytSubs.length){status.className='status no';status.textContent='❌ Lỗi định dạng phụ đề!';return;}
 
-  ytSubs.forEach(function(sub){
-    if(sub._hasWordTags && sub._wordTimings && sub._wordTimings.length > 0) return;
-    sub._hasWordTags   = false;
-    sub._wordTimings   = null;
-    sub._approxTimings = ytApproximateWordTimings(sub);
-  });
+    var taggedCount = 0;
+    for(var si=0;si<ytSubs.length;si++){
+      if(ytSubs[si]._wordTimings && ytSubs[si]._wordTimings.length > 0){
+        ytSubs[si]._hasWordTags = true;
+        taggedCount++;
+      } else {
+        ytSubs[si]._hasWordTags = false;
+        ytSubs[si]._wordTimings = null;
+      }
+    }
 
-  renderYTViewList();
-  document.getElementById('yt-home').style.display='none';
-  document.getElementById('yt-player').style.display='block';
-  status.style.display='none';
-  ytSubVisible=true;
-  ytMode='view';
-  ytSwitchMode('view');
-  ytLoadApi(function(){
-    if(ytPlayer){try{ytPlayer.destroy();}catch(e){}}
-    ytPlayer=new YT.Player('ytPlayerBox',{
-      height:'100%',width:'100%',videoId:vid,
-      playerVars:{playsinline:1,rel:0,modestbranding:1,controls:0,fs:0,disablekb:1,iv_load_policy:3},
-      events:{
-        onReady:function(e){
-          ytPlayerReady=true;ytMuted=true;
-          e.target.mute();e.target.playVideo();
-          var b=document.getElementById('ytMuteBtn');
-          if(b){b.querySelector('.e').textContent='🔇';b.querySelector('span:last-child').textContent='Bật tiếng';}
-        },
-        onStateChange:function(e){
-          var btn=document.getElementById('ytPlayBtn');
-          if(e.data===YT.PlayerState.PLAYING){
-            if(ytMode==='view')ytStartSync();
-            if(btn){btn.querySelector('.e').textContent='⏸';btn.querySelector('span:last-child').textContent='Tạm dừng';}
-          }else{
-            if(ytInterval){clearInterval(ytInterval);ytInterval=null;}
-            if(e.data===YT.PlayerState.PAUSED&&btn){btn.querySelector('.e').textContent='▶';btn.querySelector('span:last-child').textContent='Phát';}
+    var beforeCount = ytSubs.length;
+    ytSubs = ytSplitLongSubs(ytSubs, MAX_CHARS_EN);
+
+    ytSubs.forEach(function(sub){
+      if(sub._hasWordTags && sub._wordTimings && sub._wordTimings.length > 0) return;
+      sub._hasWordTags   = false;
+      sub._wordTimings   = null;
+      sub._approxTimings = ytApproximateWordTimings(sub);
+    });
+
+    renderYTViewList();
+    document.getElementById('yt-home').style.display='none';
+    document.getElementById('yt-player').style.display='block';
+    status.style.display='none';
+    ytSubVisible=true;
+    ytMode='view';
+    ytSwitchMode('view');
+    
+    ytLoadApi(function(){
+      if(ytPlayer){try{ytPlayer.destroy();}catch(e){}}
+      ytPlayer=new YT.Player('ytPlayerBox',{
+        height:'100%',width:'100%',videoId:vid,
+        playerVars:{playsinline:1,rel:0,modestbranding:1,controls:0,fs:0,disablekb:1,iv_load_policy:3},
+        events:{
+          onReady:function(e){
+            ytPlayerReady=true;ytMuted=true;
+            e.target.mute();e.target.playVideo();
+            var b=document.getElementById('ytMuteBtn');
+            if(b){b.querySelector('.e').textContent='🔇';b.querySelector('span:last-child').textContent='Bật tiếng';}
+          },
+          onStateChange:function(e){
+            var btn=document.getElementById('ytPlayBtn');
+            if(e.data===YT.PlayerState.PLAYING){
+              if(ytMode==='view')ytStartSync();
+              if(btn){btn.querySelector('.e').textContent='⏸';btn.querySelector('span:last-child').textContent='Tạm dừng';}
+            }else{
+              if(ytInterval){clearInterval(ytInterval);ytInterval=null;}
+              if(e.data===YT.PlayerState.PAUSED&&btn){btn.querySelector('.e').textContent='▶';btn.querySelector('span:last-child').textContent='Phát';}
+            }
           }
         }
-      }
+      });
     });
-  });
+  } catch (err) {
+    var status=document.getElementById('ytStatus');
+    status.style.display='block';
+    status.className='status no';
+    status.textContent='❌ Lỗi: ' + err.message;
+    console.error(err);
+  }
 }
 
 function renderYTViewList(){
