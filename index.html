@@ -198,7 +198,6 @@ body.dark .mb-close{background:linear-gradient(135deg,#4b5563,#374151);color:#e5
 #ytSubEn .w{padding:3px 6px;margin:0 2px;border-radius:6px;cursor:pointer;display:inline-block}
 #ytSubEn .w.read{background:transparent;color:#94a3b8;opacity:.55}
 #ytSubEn .w.current{background:linear-gradient(135deg,#ef4444,#dc2626);color:#fff;font-weight:900;transform:scale(1.1)}
-#ytSubEn .w.current{background:linear-gradient(135deg,#ef4444,#dc2626);color:#fff;font-weight:900;transform:scale(1.1)}
 #ytSubVi{font-size:clamp(1.05rem,4vw,1.35rem);color:#fbbf24;line-height:1.5;text-align:center;font-weight:600;padding-top:12px;border-top:1px dashed rgba(251,191,36,.2)}
 .yt-list{max-height:42vh;overflow-y:auto;background:linear-gradient(180deg,#0f172a 0%,#020617 100%);padding:12px 10px 24px}
 .yt-item{padding:12px 14px;border-radius:12px;margin-bottom:8px;cursor:pointer;border:1px solid rgba(255,255,255,.06);background:rgba(255,255,255,.03)}
@@ -474,6 +473,11 @@ body.dark .mb-close{background:linear-gradient(135deg,#4b5563,#374151);color:#e5
 <input type="text" class="yt-input" id="ytUrl" placeholder="https://www.youtube.com/watch?v=...">
 <label class="yt-label">💬 Phụ đề SRT (Anh - Việt)</label>
 <textarea class="yt-input srt" id="ytSrt" placeholder="1&#10;00:00:00,000 --> 00:00:03,000&#10;Hello everyone.&#10;Xin chào mọi người."></textarea>
+
+<!-- Ô NHẬP JSON MỚI -->
+<label class="yt-label" style="margin-top:12px;color:#4ade80">📄 Hoặc file JSON (Từ AI - Chuẩn 100%)</label>
+<textarea class="yt-input srt" id="ytJson" placeholder="Dán nội dung file transcript.json vào đây..." style="border:1.5px solid #4ade80; min-height:80px;"></textarea>
+
 <button class="mb-primary" onclick="startYT()" style="background:linear-gradient(135deg,#ef4444,#dc2626);color:#fff;font-size:1rem;padding:16px;border-radius:14px;margin-top:6px">🚀 Bắt đầu học</button>
 <button class="mb-close" onclick="closeYT()" style="margin-top:8px">Hủy</button>
 <div id="ytStatus" style="display:none" class="status"></div>
@@ -1518,11 +1522,40 @@ var savedCardIdx=localStorage.getItem('lastCardIndex');
 if(savedCardIdx!==null){var parsed=parseInt(savedCardIdx);if(!isNaN(parsed)&&d[parsed]){i=parsed;}localStorage.removeItem('lastCardIndex');}
 
 /* ═══════════════════════════════════════════════════════════
-   YOUTUBE PLAYER  —  SEGMENT-LEVEL HIGHLIGHT VERSION
+   YOUTUBE PLAYER  —  TÍCH HỢP AI JSON & SRT THÔNG MINH
    ═══════════════════════════════════════════════════════════ */
 
 var YT_MANUAL_SPEED=1.0;
 var MAX_CHARS_EN=70;
+
+/* ─── HÀM ĐỌC JSON TỪ AI (WHISPER) ─── */
+function ytParseWhisperJSON(jsonText){
+  try {
+    var data = JSON.parse(jsonText);
+    var segs = data.segments || [];
+    var result = [];
+    segs.forEach(function(seg) {
+      var timings = null;
+      if (seg.words && seg.words.length > 0) {
+        timings = seg.words.map(function(w) {
+          return { text: w.word, start: w.start, end: w.end };
+        });
+      }
+      result.push({
+        start: seg.start,
+        end: seg.end,
+        en: seg.text.trim(),
+        vi: '', 
+        _wordTimings: timings,
+        _hasWordTags: timings ? true : false
+      });
+    });
+    return result;
+  } catch (e) {
+    console.error('Lỗi parse JSON:', e);
+    return [];
+  }
+}
 
 /* ─── PARSE WORD-TAG (chỉ dùng nếu SRT có tag) ─── */
 function ytParseWordTags(enLine, cueStart, cueEnd){
@@ -1592,7 +1625,6 @@ function ytMergeChunks(parts,maxChars){
   if(current)merged.push(current);
   return merged;
 }
-
 
 function ytApproximateWordTimings(sub){
   if(!sub.en) return null;
@@ -1739,16 +1771,24 @@ function backToYTHome(){
 function startYT(){
   var url=document.getElementById('ytUrl').value.trim();
   var srt=document.getElementById('ytSrt').value.trim();
+  var jsonRaw=document.getElementById('ytJson').value.trim();
   var status=document.getElementById('ytStatus');
   status.style.display='block';status.className='status';
+  
   if(!url){status.className='status no';status.textContent='⚠️ Chưa nhập link!';return;}
-  if(!srt){status.className='status no';status.textContent='⚠️ Chưa nhập SRT!';return;}
+  if(!srt && !jsonRaw){status.className='status no';status.textContent='⚠️ Chưa nhập SRT hoặc JSON!';return;}
+  
   var vid=ytExtractVideoId(url);
   if(!vid){status.className='status no';status.textContent='❌ Link không hợp lệ!';return;}
-  ytSubs=ytParseSRT(srt);
-  if(!ytSubs.length){status.className='status no';status.textContent='❌ Không parse được SRT!';return;}
 
-  // ✅ SỬA #1: đánh dấu cue nào có word-tag, cue nào không
+  // Ưu tiên đọc JSON nếu có dữ liệu
+  if(jsonRaw) {
+    ytSubs = ytParseWhisperJSON(jsonRaw);
+  } else {
+    ytSubs = ytParseSRT(srt);
+  }
+  if(!ytSubs.length){status.className='status no';status.textContent='❌ Lỗi định dạng phụ đề!';return;}
+
   var taggedCount = 0;
   for(var si=0;si<ytSubs.length;si++){
     if(ytSubs[si]._wordTimings && ytSubs[si]._wordTimings.length > 0){
@@ -1759,11 +1799,9 @@ function startYT(){
       ytSubs[si]._wordTimings = null;
     }
   }
-  console.log('📝 SRT: ' + taggedCount + '/' + ytSubs.length + ' cue có word-tag (còn lại dùng segment-level)');
 
   var beforeCount = ytSubs.length;
   ytSubs = ytSplitLongSubs(ytSubs, MAX_CHARS_EN);
-  if(beforeCount !== ytSubs.length) console.log('✂️ Đã chia: ' + beforeCount + ' → ' + ytSubs.length);
 
   ytSubs.forEach(function(sub){
     if(sub._hasWordTags && sub._wordTimings && sub._wordTimings.length > 0) return;
