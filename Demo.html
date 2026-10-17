@@ -3,7 +3,7 @@
 <head>
 <meta charset="utf-8">
 <meta name="viewport" content="width=device-width,initial-scale=1,maximum-scale=1">
-<title>Demo Học Tiếng Anh Qua Video</title>
+<title>Demo Học Tiếng Anh - Auto Sync</title>
 <style>
   *{box-sizing:border-box}
   body{font-family:Arial,sans-serif;background:#0f172a;color:#fff;margin:0;padding:15px;display:flex;flex-direction:column;align-items:center}
@@ -11,7 +11,7 @@
   
   .input-area{padding:15px;background:#0f172a;border-bottom:1px solid #334155;display:flex;flex-direction:column;gap:10px}
   .input-area input, .input-area textarea {width:100%;padding:10px;border-radius:8px;border:1px solid #334155;background:#1e293b;color:#fff;outline:none;font-family:monospace}
-  .input-area textarea{height:120px;resize:vertical;font-size:.85rem}
+  .input-area textarea{height:100px;resize:vertical;font-size:.85rem}
   .input-area button{padding:12px;border-radius:8px;border:none;background:#ef4444;color:#fff;font-weight:bold;font-size:1rem;cursor:pointer}
   
   .video-wrapper{position:relative;width:100%;aspect-ratio:16/9;background:#000;display:none}
@@ -21,10 +21,9 @@
   #subEn{font-size:clamp(1.2rem,4vw,1.8rem);font-weight:700;line-height:1.8;margin-bottom:10px;color:#f8fafc}
   #subVi{font-size:clamp(1rem,3vw,1.3rem);color:#94a3b8;font-weight:500}
   
-  /* HIỆU ỨNG HIGHLIGHT GIỐNG APP TRONG ẢNH */
   .w{padding:0 2px; margin:0; display:inline-block; transition: color 0.1s ease}
-  .w.read{color:#f8fafc} /* Đã đọc: Trắng sáng */
-  .w.current{color:#f59e0b; font-weight:900; text-shadow:0 0 10px rgba(245,158,11,0.3)} /* Đang đọc: Cam nổi bật */
+  .w.read{color:#f8fafc}
+  .w.current{color:#f59e0b; font-weight:900; text-shadow:0 0 10px rgba(245,158,11,0.3)}
 </style>
 </head>
 <body>
@@ -40,13 +39,8 @@ Okay. So, the 10 words I want you to listen throughout the whole video to
 2
 00:00:06,000 --> 00:00:12,000
 learn is fridge, sofa, tree, grass,
-tủ lạnh, ghế sofa, cây, cỏ,
-
-3
-00:00:12,000 --> 00:00:22,000
-window, clouds, sky, leaf, lemon, and machete. And as I say these words and as
-cửa sổ, mây, bầu trời, chiếc lá, quả chanh và dao rựa. Và khi tôi nói những từ này,</textarea>
-    <button onclick="startApp()">🚀 Bắt đầu Test</button>
+tủ lạnh, ghế sofa, cây, cỏ,</textarea>
+    <button onclick="startApp()">🚀 Bắt đầu Test Tự Động</button>
   </div>
 
   <div class="video-wrapper" id="videoWrapper">
@@ -62,6 +56,7 @@ cửa sổ, mây, bầu trời, chiếc lá, quả chanh và dao rựa. Và khi 
 <script>
 let player, playerReady = false, subs = [], currentIdx = -1, syncInterval;
 
+// 1. Parse SRT
 function parseSRT(text) {
   let result = [];
   let blocks = text.replace(/\r\n/g, '\n').trim().split(/\n\n+/);
@@ -82,22 +77,36 @@ function parseSRT(text) {
     if (textLines.length === 2) { en = textLines[0]; vi = textLines[1]; }
     else if (textLines.length > 2) { textLines.forEach(l => { if (viRe.test(l)) vi += l + ' '; else en += l + ' '; }); }
     else if (textLines.length === 1) { en = textLines[0]; }
-    result.push({ start, end, en: en.trim(), vi: vi.trim() });
+    result.push({ start, end, en: en.trim(), vi: vi.trim(), originalEnd: end });
   });
+  
+  // THUẬT TOÁN TỰ ĐỘNG: Cắt bỏ khoảng lặng dư thừa của YouTube
+  const WPS = 2.3; // Tốc độ nói trung bình: 2.3 từ / giây
+  result.forEach(sub => {
+    let words = sub.en.split(/\s+/).filter(Boolean);
+    if (words.length > 0) {
+      // Ước lượng thời gian thực sự nói
+      let estimatedDur = words.length / WPS;
+      // Cộng thêm 0.5s để lấy hơi, nhưng không vượt quá thời gian gốc của SRT
+      let newDur = Math.min(sub.end - sub.start, Math.max(1.2, estimatedDur + 0.5));
+      // Tự động rút ngắn thời gian kết thúc
+      sub.end = sub.start + newDur;
+    }
+  });
+
   return result;
 }
 
-// TỐI ƯU CỰC ĐỈNH: Chia thời gian và TẠO KHOẢNG LẶNG ảo dựa vào dấu phẩy
+// Chia thời gian từ thông minh
 function getSmartTimings(sub) {
   let words = sub.en.split(/\s+/).filter(Boolean);
   if (!words.length) return null;
   let dur = sub.end - sub.start;
   
-  // Tính trọng số: Từ dài + dấu phẩy/chấm sẽ chiếm nhiều thời gian hơn
   let totalWeight = 0;
   let wordWeights = words.map(w => {
      let weight = Math.max(2, w.replace(/[^a-zA-Z]/g, '').length);
-     if (/[,.]$/.test(w)) weight += 3; // Cộng thời gian cho khoảng lặng (dấu phẩy/chấm)
+     if (/[,.]$/.test(w)) weight += 3; // Cộng thời gian cho khoảng lặng
      totalWeight += weight;
      return weight;
   });
@@ -108,10 +117,7 @@ function getSmartTimings(sub) {
     let wordDur = (wordWeights[i] / totalWeight) * dur;
     let isPause = /[,.]$/.test(w);
     
-    // Nếu có dấu phẩy/chấm, thời gian đọc từ đó ngắn lại, nhường thời gian cho việc "im lặng"
-    let readDur = isPause ? wordDur * 0.5 : wordDur;
-    let pauseDur = isPause ? wordDur * 0.5 : 0;
-
+    let readDur = isPause ? wordDur * 0.6 : wordDur;
     timings.push({ text: w, start: currentTime, end: currentTime + readDur, isPause: isPause });
     currentTime += wordDur; 
   }
@@ -128,13 +134,14 @@ function renderSub(idx) {
 function syncTick() {
   if (!playerReady) return;
   let t = player.getCurrentTime();
-  let idx = -1;
   
+  let idx = -1;
   for (let i = 0; i < subs.length; i++) {
+    // Vì đã cắt bớt end, nên khoảng lặng sẽ tự động bị nhảy qua
     if (t >= subs[i].start && t < subs[i].end) { idx = i; break; }
   }
 
-  // Ẩn hoàn toàn phụ đề khi hết câu SRT (Im lặng thực sự)
+  // TỰ ĐỘNG ẨN PHỤ ĐỀ KHI IM LẶNG
   if (idx === -1) {
     if (currentIdx !== -1) {
       currentIdx = -1;
@@ -149,7 +156,6 @@ function syncTick() {
     renderSub(idx);
   }
 
-  // LOGIC MỚI: Highlight từng từ, tự động tắt khi gặp dấu phẩy (khoảng lặng)
   let s = subs[idx];
   let timings = getSmartTimings(s);
   let activeIndex = -1;
@@ -157,28 +163,20 @@ function syncTick() {
 
   for (let i = 0; i < timings.length; i++) {
     let tm = timings[i];
-    
     if (t >= tm.start && t <= tm.end) {
-      activeIndex = i; // Đang đọc từ này
-      break;
+      activeIndex = i; break;
     } else if (t > tm.end && tm.isPause) {
-      // Đang trong khoảng thời gian nghỉ sau dấu phẩy/chấm
-      if (i === timings.length - 1 || t < timings[i+1].start) {
-        isPausing = true;
-        break;
-      }
+      if (i === timings.length - 1 || t < timings[i+1].start) { isPausing = true; break; }
     }
   }
 
   document.querySelectorAll('#subEn .w').forEach((w, i) => {
     w.classList.remove('read', 'current');
-    
     if (isPausing) {
-      // Đang im lặng (ngắt giọng) -> Từ vừa đọc xong chuyển sang trắng, không từ nào màu cam
       if (i <= activeIndex || (activeIndex === -1 && i === 0)) w.classList.add('read'); 
     } else {
-      if (i < activeIndex) w.classList.add('read'); // Đã đọc
-      else if (i === activeIndex) w.classList.add('read', 'current'); // Đang đọc (màu cam)
+      if (i < activeIndex) w.classList.add('read');
+      else if (i === activeIndex) w.classList.add('read', 'current');
     }
   });
 }
