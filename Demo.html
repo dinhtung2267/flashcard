@@ -56,7 +56,7 @@ tủ lạnh, ghế sofa, cây, cỏ,</textarea>
 <script>
 let player, playerReady = false, subs = [], currentIdx = -1, syncInterval;
 
-// 1. Parse SRT
+// 1. Parse SRT & Thuật toán tối ưu 3.0
 function parseSRT(text) {
   let result = [];
   let blocks = text.replace(/\r\n/g, '\n').trim().split(/\n\n+/);
@@ -77,27 +77,37 @@ function parseSRT(text) {
     if (textLines.length === 2) { en = textLines[0]; vi = textLines[1]; }
     else if (textLines.length > 2) { textLines.forEach(l => { if (viRe.test(l)) vi += l + ' '; else en += l + ' '; }); }
     else if (textLines.length === 1) { en = textLines[0]; }
-    result.push({ start, end, en: en.trim(), vi: vi.trim(), originalEnd: end });
+    result.push({ start, end, en: en.trim(), vi: vi.trim() });
   });
   
-  // THUẬT TOÁN TỰ ĐỘNG: Cắt bỏ khoảng lặng dư thừa của YouTube
-  const WPS = 2.3; // Tốc độ nói trung bình: 2.3 từ / giây
+  // THUẬT TOÁN AUTO-SYNC 3.0
+  const LEAD_TIME = 0.4; // Tự động hiện sớm 0.4s để bắt kịp hơi thở
+  const WPS = 2.5; // Ước lượng tốc độ nói trung bình (từ/giây)
+
   result.forEach(sub => {
     let words = sub.en.split(/\s+/).filter(Boolean);
     if (words.length > 0) {
-      // Ước lượng thời gian thực sự nói
-      let estimatedDur = words.length / WPS;
-      // Cộng thêm 0.5s để lấy hơi, nhưng không vượt quá thời gian gốc của SRT
-      let newDur = Math.min(sub.end - sub.start, Math.max(1.2, estimatedDur + 0.5));
-      // Tự động rút ngắn thời gian kết thúc
-      sub.end = sub.start + newDur;
+      // 1. Tự động lùi thời gian bắt đầu (không lùi quá 0s)
+      sub.start = Math.max(0, sub.start - LEAD_TIME);
+      
+      // 2. Ước lượng thời lượng thực sự của câu nói
+      let estimatedDur = (words.length / WPS) + 0.5; // Cộng 0.5s lấy hơi
+      let originalDur = sub.end - sub.start;
+      
+      // Nếu thời gian gốc của SRT quá dài (dư thừa), cắt bớt.
+      // Nếu thời gian gốc quá ngắn (nói nhanh), giãn ra một chút.
+      if (originalDur > estimatedDur * 1.5) {
+        sub.end = sub.start + estimatedDur; 
+      } else if (originalDur < words.length * 0.25) {
+        sub.end = sub.start + (words.length * 0.25);
+      }
     }
   });
 
   return result;
 }
 
-// Chia thời gian từ thông minh
+// Chia thời gian từ thông minh (Dàn đều theo độ dài từ)
 function getSmartTimings(sub) {
   let words = sub.en.split(/\s+/).filter(Boolean);
   if (!words.length) return null;
@@ -106,7 +116,7 @@ function getSmartTimings(sub) {
   let totalWeight = 0;
   let wordWeights = words.map(w => {
      let weight = Math.max(2, w.replace(/[^a-zA-Z]/g, '').length);
-     if (/[,.]$/.test(w)) weight += 3; // Cộng thời gian cho khoảng lặng
+     if (/[,.]$/.test(w)) weight += 2; // Ngắt giọng ở dấu phẩy/chấm
      totalWeight += weight;
      return weight;
   });
@@ -137,7 +147,6 @@ function syncTick() {
   
   let idx = -1;
   for (let i = 0; i < subs.length; i++) {
-    // Vì đã cắt bớt end, nên khoảng lặng sẽ tự động bị nhảy qua
     if (t >= subs[i].start && t < subs[i].end) { idx = i; break; }
   }
 
