@@ -714,6 +714,7 @@ document.addEventListener('DOMContentLoaded',function(){
 })();
 
 let currentUser=null,syncTimeout=null;
+// GIỮ NGUYÊN MODELS THEO YÊU CẦU
 const MODELS=['gemini-2.5-flash','gemini-3.5-flash','gemini-3.5-flash-lite','gemini-flash-latest','gemini-2.5-flash-lite'];
 
 const original=[
@@ -793,7 +794,10 @@ async function pushToCloud(){
     for(var k=chunks.length;k<oldChunkCount;k++){try{await deleteDoc(doc(fbDb,'users',currentUser.uid,'photos','chunk_'+k));}catch(e){}}
     await setDoc(doc(fbDb,'users',currentUser.uid),{photoChunks:chunks.length,photoCount:photoKeys.length},{merge:true});
     setSyncStatus('✅ Đã đồng bộ '+photoKeys.length+' ảnh','ok');
-  }catch(err){setSyncStatus('❌ Lỗi sync: '+err.message,'err');}
+  }catch(err){
+    setSyncStatus('❌ Lỗi sync: '+err.message,'err');
+    throw err; // Bắt buộc throw lỗi để hàm gọi bên ngoài biết
+  }
 }
 
 async function pullFromCloud(){
@@ -1290,7 +1294,6 @@ async function processImage(file){
     var b64=await fileToBase64(file);
     status.innerHTML='<span class="spinner"></span>Đang gửi AI phân tích...';
     
-    // Cải thiện câu lệnh (prompt) để AI trích xuất chuẩn hơn
     var prompt = 'Trích xuất TẤT CẢ từ vựng tiếng Anh có trong hình ảnh này.\nTrả về định dạng JSON (chỉ JSON, không kèm văn bản khác):\n[{"word":"từ tiếng Anh","ipa":"phiên âm","type":"loại từ","meaning":"nghĩa tiếng Việt","example":"câu ví dụ tiếng Anh","exampleVi":"nghĩa câu"}]\n\nNếu không có từ nào, trả về [].';
     
     var text=await callWithRetry(prompt,{type:file.type,b64:b64},status);
@@ -1352,6 +1355,7 @@ async function callWithRetry(prompt,imageData,statusEl){
   }
   throw new Error('Lỗi: '+lastErr);
 }
+
 async function parseAndAddCards(text,status){
   try{
     var m=text.match(/\[[\s\S]*\]/);if(!m)throw new Error('Không tìm thấy danh sách JSON');
@@ -1368,14 +1372,33 @@ async function parseAndAddCards(text,status){
     updateAutoCount(); 
     updateNewWordCount();
 
-    // BẮT BUỘC: Đợi đồng bộ lên Firebase xong mới được reload
+    // Đồng bộ Firebase
     if(currentUser) {
         status.innerHTML='<span class="spinner"></span>Đang đồng bộ lên Cloud...';
-        await pushToCloud();
+        try {
+            await pushToCloud();
+        } catch (syncErr) {
+            status.className='status no';
+            status.textContent='⚠️ Đã lưu offline (Lỗi đồng bộ Cloud: ' + syncErr.message + ')';
+            setTimeout(() => {
+                closeModal();
+                i = d.length - newCards.length;
+                r();
+            }, 2500);
+            return;
+        }
     }
     
-    status.className='status ok';status.textContent='✅ Đã tạo '+newCards.length+' thẻ! Đang tải lại...';
-    setTimeout(function(){location.reload();},1500);
+    status.className='status ok';
+    status.textContent='✅ Đã tạo '+newCards.length+' thẻ thành công! Đang đóng...';
+    
+    // Không dùng location.reload() nữa để tránh mất dữ liệu và nhảy trang
+    setTimeout(function(){
+        closeModal();
+        i = d.length - newCards.length; // Nhảy đến thẻ mới đầu tiên
+        r(); // Render lại giao diện
+    }, 1000);
+    
   }catch(err){
     status.className='status no';status.textContent='❌ Lỗi: '+err.message;
   }
