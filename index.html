@@ -276,6 +276,8 @@ body.dark .mb-close{background:linear-gradient(135deg,#4b5563,#374151);color:#e5
   .yt-wrapper iframe,#ytPlayerBox,#ytPlayerBox iframe{position:absolute!important;top:0!important;left:0!important;width:100vw!important;height:100vh!important;max-width:none!important;max-height:none!important;border:0!important;pointer-events:auto!important}
   .yt-tabs{display:none!important}
   .yt-list{display:none!important}
+  #yt-player > div:first-child { position: fixed; top: 10px; left: 10px; z-index: 9999; background: transparent !important; padding: 0 !important; }
+  #yt-player > div:first-child button { background: rgba(0,0,0,0.6) !important; color: #fff !important; border: 1px solid rgba(255,255,255,0.3) !important; }
   #ytSubOutside{position:fixed!important;top:auto!important;bottom:8%!important;left:50%!important;transform:translateX(-50%)!important;z-index:20!important;background:rgba(8,8,8,.75)!important;padding:4px 12px!important;border-radius:2px!important;border:none!important;min-height:auto!important;max-height:25vh!important;max-width:80vw!important;width:auto!important;backdrop-filter:none!important;box-shadow:none!important;display:flex!important;flex-direction:column!important;align-items:center!important;justify-content:center!important;gap:0!important;text-align:center!important;pointer-events:none!important;margin:0!important;line-height:normal!important}
   #ytSubOutside::before{display:none!important}
   #ytSubEn{display:block!important;background:transparent!important;padding:0!important;font-size:clamp(.7rem,1.45vw,.9rem)!important;line-height:1.25!important;margin:0!important;color:#fff!important;font-weight:500!important;text-shadow:0 1px 2px rgba(0,0,0,.7);max-width:76vw!important;pointer-events:auto!important}
@@ -463,7 +465,11 @@ body.dark .mb-close{background:linear-gradient(135deg,#4b5563,#374151);color:#e5
 </div>
 
 <div id="yt-player" style="display:none">
-<!-- Đã xóa thanh custom controls và thanh tiến trình để nhường chỗ cho YouTube mặc định -->
+<!-- NÚT QUAY LẠI NHẬP LINK -->
+<div style="padding: 10px 14px; background: #0f172a; display: flex; justify-content: flex-start; border-bottom: 1px solid rgba(255,255,255,.06);">
+    <button onclick="backToYTHome()" style="background:linear-gradient(135deg,#fbbf24,#f59e0b); color:#000; border:none; padding:8px 16px; border-radius:20px; font-weight:700; font-size:0.8rem; cursor:pointer;">◀ Nhập Link Khác</button>
+</div>
+
 <div class="yt-wrapper">
     <div id="ytPlayerBox"></div>
 </div>
@@ -1737,11 +1743,6 @@ function ytShowToast(msg,ms){
   t.textContent=msg;t.classList.add('show');
   clearTimeout(t._timer);t._timer=setTimeout(function(){t.classList.remove('show');},ms||1800);
 }
-// Các hàm custom controls giữ lại để tránh lỗi undefined, nhưng không dùng đến nút
-function ytSeek(sec){ if(ytPlayer&&ytPlayerReady) ytPlayer.seekTo(ytPlayer.getCurrentTime()+sec,true); }
-function ytTogglePlay(){ if(ytPlayer&&ytPlayerReady){ var s=ytPlayer.getPlayerState(); if(s===1) ytPlayer.pauseVideo(); else ytPlayer.playVideo(); } }
-function ytToggleMute(){ if(ytPlayer&&ytPlayerReady){ if(ytPlayer.isMuted()) ytPlayer.unMute(); else ytPlayer.mute(); } }
-function ytCycleSpeed(){ /* Native controls handles speed */ }
 
 function openYT(){
   document.getElementById('yt-home').style.display='block';
