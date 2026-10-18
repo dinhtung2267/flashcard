@@ -1712,7 +1712,7 @@ function ytParseSRT(text){
 }
 
 var ytPlayer=null,ytPlayerReady=false,ytSubs=[],ytCurrentIdx=-1;
-var ytInterval=null,ytApiLoaded=false,ytSubVisible=true,ytMuted=true;
+var ytInterval=null,ytApiLoaded=false,ytSubVisible=true,ytMuted=false; // ytMuted mặc định false
 var ytMode='view';
 var fillCurrent=0,fillLoop=false,fillSpeed=1.0,fillResults={},fillPlaying=false,fillStopTimer=null,fillLevel=0.3,fillBlanks={};
 var dictCurrent=0,dictLoop=false,dictSpeed=1.0,dictResults={},dictPlaying=false,dictStopTimer=null;
@@ -1731,6 +1731,17 @@ function ytExtractVideoId(url){
   return null;
 }
 function ytFmtTime(sec){var m=Math.floor(sec/60),s=Math.floor(sec%60);return (m<10?'0':'')+m+':'+(s<10?'0':'')+s;}
+
+function ytShowToast(msg,ms){
+  var t=document.getElementById('ytToast');if(!t)return;
+  t.textContent=msg;t.classList.add('show');
+  clearTimeout(t._timer);t._timer=setTimeout(function(){t.classList.remove('show');},ms||1800);
+}
+// Các hàm custom controls giữ lại để tránh lỗi undefined, nhưng không dùng đến nút
+function ytSeek(sec){ if(ytPlayer&&ytPlayerReady) ytPlayer.seekTo(ytPlayer.getCurrentTime()+sec,true); }
+function ytTogglePlay(){ if(ytPlayer&&ytPlayerReady){ var s=ytPlayer.getPlayerState(); if(s===1) ytPlayer.pauseVideo(); else ytPlayer.playVideo(); } }
+function ytToggleMute(){ if(ytPlayer&&ytPlayerReady){ if(ytPlayer.isMuted()) ytPlayer.unMute(); else ytPlayer.mute(); } }
+function ytCycleSpeed(){ /* Native controls handles speed */ }
 
 function openYT(){
   document.getElementById('yt-home').style.display='block';
@@ -2389,8 +2400,8 @@ const globalFns={
   toggleSaveWord,closeWordModal,pickPhoto,uploadFromList,
   removePhoto,pasteImage,searchGoogleImage,autoFindImage,
   compressAllOldImages,addKey,clearAllKeys,showWordInfo,changeVoice,
-  openYT,closeYT,startYT,backToYTHome,ytJumpTo,ytSeek,
-  ytTogglePlay,ytToggleMute,ytCycleSpeed,ytSwitchMode,
+  openYT,closeYT,startYT,backToYTHome,ytJumpTo,
+  ytSwitchMode,
   fillPlay,fillCheck,fillNext,fillPrev,fillReveal,fillToggleLoop,
   fillCycleSpeed,fillReset,fillFirstUnfinished,fillChangeLevel,fillOnKey,
   dictPlay,dictCheck,dictNext,dictPrev,dictRevealDict,dictToggleLoop,
