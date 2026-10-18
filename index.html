@@ -177,8 +177,8 @@ body.dark .mb-close{background:linear-gradient(135deg,#4b5563,#374151);color:#e5
 .yt-wrapper{position:relative;width:100%;aspect-ratio:16/9;background:#000;overflow:hidden}
 .yt-wrapper iframe,#ytPlayerBox,#ytPlayerBox iframe{position:absolute;top:0;left:0;width:100%!important;height:100%!important;border:0;pointer-events:auto!important}
 #ytClickGuard{display:none!important}
-.yt-tabs{display:flex;padding:0 14px;background:#0f172a;border-bottom:1px solid rgba(255,255,255,.08)}
-.yt-tab{flex:1;padding:14px 6px;background:transparent;border:none;color:#94a3b8;font-weight:700;font-size:.78rem;cursor:pointer;border-bottom:3px solid transparent;display:flex;align-items:center;justify-content:center;gap:5px;white-space:nowrap}
+.yt-tabs{display:flex;padding:0 4px;background:#0f172a;border-bottom:1px solid rgba(255,255,255,.08);justify-content:space-between;}
+.yt-tab{flex:1;padding:14px 2px;background:transparent;border:none;color:#94a3b8;font-weight:700;font-size:.68rem;cursor:pointer;border-bottom:3px solid transparent;display:flex;align-items:center;justify-content:center;gap:3px;white-space:nowrap;}
 .yt-tab.active{color:#fbbf24;border-bottom-color:#fbbf24;background:rgba(251,191,36,.06)}
 #ytSubOutside{background:linear-gradient(180deg,#0f172a 0%,#020617 100%);padding:22px 20px;border-top:1px solid rgba(251,191,36,.25);min-height:140px;position:relative;display:flex;flex-direction:column;justify-content:center}
 #ytSubEn{font-size:clamp(1.4rem,5.5vw,1.9rem);font-weight:800;color:#f8fafc;line-height:1.5;margin-bottom:14px;text-align:center;text-shadow:0 2px 8px rgba(0,0,0,.5)}
@@ -270,6 +270,15 @@ body.dark .mb-close{background:linear-gradient(135deg,#4b5563,#374151);color:#e5
 @keyframes lockPulse{0%,100%{transform:scale(1)}50%{transform:scale(1.1)}}
 @keyframes lockShake{0%,100%{transform:translateX(0)}10%,30%,50%,70%,90%{transform:translateX(-8px)}20%,40%,60%,80%{transform:translateX(8px)}}
 
+/* SHADOWING CSS */
+.shadow-score-row { display: flex; align-items: center; margin-bottom: 8px; font-size: 0.85rem; color: #cbd5e1; }
+.shadow-score-label { width: 70px; }
+.shadow-score-bar-bg { flex: 1; height: 6px; background: rgba(255,255,255,0.1); border-radius: 3px; overflow: hidden; margin: 0 10px; }
+.shadow-score-bar-fill { height: 100%; background: #38bdf8; border-radius: 3px; transition: width 0.5s ease-out; }
+.shadow-score-val { width: 30px; text-align: right; font-weight: bold; color: #38bdf8; }
+.recording { animation: pulse-red 1.5s infinite; background: #ef4444 !important; box-shadow: 0 0 0 0 rgba(239, 68, 68, 0.7) !important; }
+@keyframes pulse-red { 0% { transform: scale(0.95); box-shadow: 0 0 0 0 rgba(239, 68, 68, 0.7); } 70% { transform: scale(1); box-shadow: 0 0 0 15px rgba(239, 68, 68, 0); } 100% { transform: scale(0.95); box-shadow: 0 0 0 0 rgba(239, 68, 68, 0); } }
+
 /* ═══════════ LANDSCAPE ═══════════ */
 @media (orientation: landscape) {
   .yt-wrapper{position:fixed!important;top:0!important;left:0!important;width:100vw!important;height:100vh!important;max-height:100vh!important;min-height:100vh!important;aspect-ratio:unset!important;z-index:1;background:#000}
@@ -285,8 +294,8 @@ body.dark .mb-close{background:linear-gradient(135deg,#4b5563,#374151);color:#e5
   #ytSubEn .w.read{color:#fff!important;background:transparent!important}
   #ytSubEn .w.current{color:#fbbf24!important;background:transparent!important;font-weight:700!important;transform:none!important;padding:0!important}
   #ytSubVi{display:block!important;background:transparent!important;padding:0!important;font-size:clamp(.62rem,1.3vw,.8rem)!important;border-top:none!important;color:#d1d5db!important;font-weight:400!important;line-height:1.25!important;text-shadow:0 1px 2px rgba(0,0,0,.7);margin:0!important;max-width:76vw!important}
-  #ytFillMode,#ytDictMode{position:fixed!important;bottom:8%;left:6%;right:6%;top:auto;max-height:65vh;overflow-y:auto;z-index:20;background:rgba(15,23,42,.92)!important;border-radius:14px;padding:10px!important;border:1px solid rgba(255,255,255,.1)}
-  #ytFillMode .mode-card,#ytDictMode .mode-card{margin:0!important;padding:8px!important;background:transparent!important;border:none!important}
+  #ytFillMode,#ytDictMode,#ytShadowMode{position:fixed!important;bottom:8%;left:6%;right:6%;top:auto;max-height:65vh;overflow-y:auto;z-index:20;background:rgba(15,23,42,.92)!important;border-radius:14px;padding:10px!important;border:1px solid rgba(255,255,255,.1)}
+  #ytFillMode .mode-card,#ytDictMode .mode-card,#ytShadowMode .mode-card{margin:0!important;padding:8px!important;background:transparent!important;border:none!important}
   #ytFillMode .nav-row,#ytDictMode .nav-row{padding:6px!important;margin-top:6px!important;background:transparent!important;border-top:1px solid rgba(255,255,255,.08)!important}
   #ytFillMode .seg-list,#ytDictMode .seg-list{display:none!important}
   .mode-top{gap:6px!important;margin-bottom:8px!important}
@@ -300,14 +309,7 @@ body.dark .mb-close{background:linear-gradient(135deg,#4b5563,#374151);color:#e5
   .fill-next,.dict-next{padding:10px!important;font-size:.78rem!important}
   .dict-input{min-height:60px!important;font-size:.85rem!important;padding:8px!important}
 }
-/* SHADOWING */
-.shadow-score-row { display: flex; align-items: center; margin-bottom: 8px; font-size: 0.85rem; color: #cbd5e1; }
-.shadow-score-label { width: 70px; }
-.shadow-score-bar-bg { flex: 1; height: 6px; background: rgba(255,255,255,0.1); border-radius: 3px; overflow: hidden; margin: 0 10px; }
-.shadow-score-bar-fill { height: 100%; background: #38bdf8; border-radius: 3px; transition: width 0.5s ease-out; }
-.shadow-score-val { width: 30px; text-align: right; font-weight: bold; color: #38bdf8; }
-.recording { animation: pulse-red 1.5s infinite; background: #ef4444 !important; box-shadow: 0 0 0 0 rgba(239, 68, 68, 0.7) !important; }
-@keyframes pulse-red { 0% { transform: scale(0.95); box-shadow: 0 0 0 0 rgba(239, 68, 68, 0.7); } 70% { transform: scale(1); box-shadow: 0 0 0 15px rgba(239, 68, 68, 0); } 100% { transform: scale(0.95); box-shadow: 0 0 0 0 rgba(239, 68, 68, 0); } }</style></head><body>
+</style></head><body>
 
 <div id="appLockScreen" style="position:fixed;inset:0;background:linear-gradient(135deg,#667eea 0%,#764ba2 100%);z-index:9999999;display:flex;align-items:center;justify-content:center;padding:20px">
   <div style="background:#fff;border-radius:24px;padding:36px 28px;max-width:420px;width:100%;text-align:center">
@@ -552,9 +554,7 @@ body.dark .mb-close{background:linear-gradient(135deg,#4b5563,#374151);color:#e5
   </div>
   <div class="seg-list" id="dictList"></div>
 </div>
-</div>
-</div>
-</div>
+
 <div id="ytShadowMode" style="display:none; padding: 14px;">
   <div class="mode-card" style="margin: 0; padding: 16px;">
     <div class="mode-top">
@@ -588,6 +588,11 @@ body.dark .mb-close{background:linear-gradient(135deg,#4b5563,#374151);color:#e5
     </div>
   </div>
 </div>
+
+</div> <!-- KẾT THÚC YT-PLAYER -->
+</div> <!-- KẾT THÚC YT-MODAL -->
+</div> <!-- KẾT THÚC MODAL-BOX -->
+
 <div class="modal" id="quizmodal">
 <div class="modal-box" style="max-width:420px;padding:0">
 <div id="quiz-home" style="padding:20px">
@@ -630,7 +635,7 @@ body.dark .mb-close{background:linear-gradient(135deg,#4b5563,#374151);color:#e5
 <button class="mb-close" style="margin-top:12px" onclick="closeList()">Đóng</button>
 </div></div>
 
-</div>
+</div> <!-- KẾT THÚC APPCONTENT -->
 
 <div class="yt-toast" id="ytToast"></div>
 
@@ -1758,7 +1763,7 @@ function ytParseSRT(text){
 }
 
 var ytPlayer=null,ytPlayerReady=false,ytSubs=[],ytCurrentIdx=-1;
-var ytInterval=null,ytApiLoaded=false,ytSubVisible=true,ytMuted=false; // ytMuted mặc định false
+var ytInterval=null,ytApiLoaded=false,ytSubVisible=true,ytMuted=false;
 var ytMode='view';
 var fillCurrent=0,fillLoop=false,fillSpeed=1.0,fillResults={},fillPlaying=false,fillStopTimer=null,fillLevel=0.3,fillBlanks={};
 var dictCurrent=0,dictLoop=false,dictSpeed=1.0,dictResults={},dictPlaying=false,dictStopTimer=null;
@@ -1890,13 +1895,13 @@ function startYT(){
     
     ytLoadApi(function(){
       if(ytPlayer){try{ytPlayer.destroy();}catch(e){}}
-document.querySelector('.yt-wrapper').innerHTML = '<div id="ytPlayerBox"></div>';
+      document.querySelector('.yt-wrapper').innerHTML = '<div id="ytPlayerBox"></div>';
       ytPlayer=new YT.Player('ytPlayerBox',{
         height:'100%',width:'100%',videoId:vid,
-        playerVars:{playsinline:1,rel:0,modestbranding:1,controls:1,fs:1}, // BẬT NATIVE CONTROLS
+        playerVars:{playsinline:1,rel:0,modestbranding:1,controls:1,fs:1}, 
         events:{
           onReady:function(e){
-            ytPlayerReady=true;ytMuted=false; // Mặc định bật tiếng
+            ytPlayerReady=true;ytMuted=false; 
             e.target.unMute();
             e.target.playVideo();
           },
@@ -2335,112 +2340,7 @@ function dictRenderList(){
   });
 }
 
-setInterval(function(){
-  if(ytPlayer&&ytPlayerReady&&ytMode!=='view'){ /* Update progress if needed, but native controls handle it */ }
-},300);
-
-/* QUIZ */
-var quizMode='en',quizQuestions=[],quizCurrent=0,quizScore=0,quizAnswered=false;
-
-function openQuiz(){
-  document.getElementById('quiz-home').style.display='block';
-  document.getElementById('quiz-play').style.display='none';
-  document.getElementById('quiz-final').style.display='none';
-  document.getElementById('quizmodal').classList.add('show');
-}
-function closeQuiz(){document.getElementById('quizmodal').classList.remove('show');}
-function setQuizMode(mode){
-  quizMode=mode;
-  document.getElementById('qmode-en').classList.toggle('active',mode==='en');
-  document.getElementById('qmode-vi').classList.toggle('active',mode==='vi');
-  document.getElementById('qmode-mix').classList.toggle('active',mode==='mix');
-}
-function shuffleArray(arr){var a=arr.slice();for(var i=a.length-1;i>0;i--){var j=Math.floor(Math.random()*(i+1));var t=a[i];a[i]=a[j];a[j]=t;}return a;}
-
-function startQuiz(count){
-  var pool=d.slice();
-  if(pool.length<4){alert('⚠️ Cần ít nhất 4 thẻ!');return;}
-  var shuffledPool=shuffleArray(pool);
-  var questions=[];
-  for(var i=0;i<Math.min(count,shuffledPool.length);i++){
-    var card=shuffledPool[i];
-    var type=quizMode==='mix'?(Math.random()<0.5?'en':'vi'):quizMode;
-    var correct,questionText;
-    if(type==='en'){questionText=card[0];correct=card[3];}
-    else{questionText=card[3];correct=card[0];}
-    var others=pool.filter(function(c){return c[0]!==card[0];});
-    var shuffledOthers=shuffleArray(others);
-    var wrongs=[];
-    for(var k=0;k<shuffledOthers.length&&wrongs.length<3;k++){
-      var wrongAns=type==='en'?shuffledOthers[k][3]:shuffledOthers[k][0];
-      if(wrongAns!==correct&&wrongs.indexOf(wrongAns)<0){wrongs.push(wrongAns);}
-    }
-    var options=shuffleArray([correct].concat(wrongs));
-    questions.push({type:type,question:questionText,correct:correct,options:options});
-  }
-  quizQuestions=questions;quizCurrent=0;quizScore=0;
-  document.getElementById('quiz-home').style.display='none';
-  document.getElementById('quiz-play').style.display='block';
-  document.getElementById('quiz-final').style.display='none';
-  renderQuizQuestion();
-}
-
-function renderQuizQuestion(){
-  var q=quizQuestions[quizCurrent];
-  quizAnswered=false;
-  document.getElementById('quiz-progress').textContent='Câu '+(quizCurrent+1)+'/'+quizQuestions.length;
-  var label=q.type==='en'?'Từ: ':'Nghĩa: ';
-  document.getElementById('quiz-question').textContent=label+q.question;
-  var optsEl=document.getElementById('quiz-options');optsEl.innerHTML='';
-  q.options.forEach(function(opt){
-    var btn=document.createElement('button');
-    btn.className='quiz-option';btn.textContent=opt;
-    btn.onclick=function(){answerQuiz(opt,btn);};
-    optsEl.appendChild(btn);
-  });
-  var resEl=document.getElementById('quiz-result');resEl.className='quiz-result';resEl.textContent='';
-}
-
-function answerQuiz(opt,btn){
-  if(quizAnswered)return;
-  quizAnswered=true;
-  var q=quizQuestions[quizCurrent];
-  var buttons=document.querySelectorAll('.quiz-option');
-  buttons.forEach(function(b){b.disabled=true;if(b.textContent===q.correct)b.classList.add('correct');});
-  var resEl=document.getElementById('quiz-result');
-  if(opt===q.correct){quizScore++;resEl.className='quiz-result show ok';resEl.textContent='✅ Chính xác!';}
-  else{btn.classList.add('wrong');resEl.className='quiz-result show no';resEl.textContent='❌ Sai. Đáp án đúng: '+q.correct;}
-  setTimeout(function(){
-    quizCurrent++;
-    if(quizCurrent>=quizQuestions.length)finishQuiz();
-    else renderQuizQuestion();
-  },1500);
-}
-
-function finishQuiz(){
-  document.getElementById('quiz-play').style.display='none';
-  document.getElementById('quiz-final').style.display='block';
-  var pct=Math.round(quizScore/quizQuestions.length*100);
-  document.getElementById('quiz-score').textContent=quizScore+'/'+quizQuestions.length;
-  var msg='';
-  if(pct===100)msg='🏆 Hoàn hảo!';
-  else if(pct>=80)msg='🌟 Xuất sắc!';
-  else if(pct>=60)msg='👍 Khá tốt!';
-  else if(pct>=40)msg='💪 Cần ôn thêm.';
-  else msg='📚 Ôn lại rồi thử lại nhé!';
-  document.getElementById('quiz-msg').textContent=msg;
-}
-
-function applyDarkMode(isDark){
-  var btn=document.getElementById('darkBtn');
-  if(isDark){document.body.classList.add('dark');if(btn){btn.textContent='☀️';btn.style.background='linear-gradient(135deg,#fbbf24,#f59e0b)';}}
-  else{document.body.classList.remove('dark');if(btn){btn.textContent='🌙';btn.style.background='linear-gradient(135deg,#4f46e5,#7c3aed)';}}
-}
-function toggleDarkMode(){var isDark=!document.body.classList.contains('dark');localStorage.setItem('darkMode',isDark?'1':'0');applyDarkMode(isDark);}
-(function(){var saved=localStorage.getItem('darkMode');if(saved==='1')applyDarkMode(true);})();
-/* =========================================
-   SHADOWING MODE (LUYỆN NÓI)
-   ========================================= */
+/* SHADOWING MODE */
 var shadowCurrent = 0, shadowSpeed = 1.0;
 var recognition = null, isRecording = false;
 var SpeechRecognition = window.SpeechRecognition || window.webkitSpeechRecognition;
@@ -2632,6 +2532,111 @@ function shadowNext() {
     ytShowToast('🎉 Đã hết câu!');
   }
 }
+
+setInterval(function(){
+  if(ytPlayer&&ytPlayerReady&&ytMode!=='view'){ /* Update progress if needed, but native controls handle it */ }
+},300);
+
+/* QUIZ */
+var quizMode='en',quizQuestions=[],quizCurrent=0,quizScore=0,quizAnswered=false;
+
+function openQuiz(){
+  document.getElementById('quiz-home').style.display='block';
+  document.getElementById('quiz-play').style.display='none';
+  document.getElementById('quiz-final').style.display='none';
+  document.getElementById('quizmodal').classList.add('show');
+}
+function closeQuiz(){document.getElementById('quizmodal').classList.remove('show');}
+function setQuizMode(mode){
+  quizMode=mode;
+  document.getElementById('qmode-en').classList.toggle('active',mode==='en');
+  document.getElementById('qmode-vi').classList.toggle('active',mode==='vi');
+  document.getElementById('qmode-mix').classList.toggle('active',mode==='mix');
+}
+function shuffleArray(arr){var a=arr.slice();for(var i=a.length-1;i>0;i--){var j=Math.floor(Math.random()*(i+1));var t=a[i];a[i]=a[j];a[j]=t;}return a;}
+
+function startQuiz(count){
+  var pool=d.slice();
+  if(pool.length<4){alert('⚠️ Cần ít nhất 4 thẻ!');return;}
+  var shuffledPool=shuffleArray(pool);
+  var questions=[];
+  for(var i=0;i<Math.min(count,shuffledPool.length);i++){
+    var card=shuffledPool[i];
+    var type=quizMode==='mix'?(Math.random()<0.5?'en':'vi'):quizMode;
+    var correct,questionText;
+    if(type==='en'){questionText=card[0];correct=card[3];}
+    else{questionText=card[3];correct=card[0];}
+    var others=pool.filter(function(c){return c[0]!==card[0];});
+    var shuffledOthers=shuffleArray(others);
+    var wrongs=[];
+    for(var k=0;k<shuffledOthers.length&&wrongs.length<3;k++){
+      var wrongAns=type==='en'?shuffledOthers[k][3]:shuffledOthers[k][0];
+      if(wrongAns!==correct&&wrongs.indexOf(wrongAns)<0){wrongs.push(wrongAns);}
+    }
+    var options=shuffleArray([correct].concat(wrongs));
+    questions.push({type:type,question:questionText,correct:correct,options:options});
+  }
+  quizQuestions=questions;quizCurrent=0;quizScore=0;
+  document.getElementById('quiz-home').style.display='none';
+  document.getElementById('quiz-play').style.display='block';
+  document.getElementById('quiz-final').style.display='none';
+  renderQuizQuestion();
+}
+
+function renderQuizQuestion(){
+  var q=quizQuestions[quizCurrent];
+  quizAnswered=false;
+  document.getElementById('quiz-progress').textContent='Câu '+(quizCurrent+1)+'/'+quizQuestions.length;
+  var label=q.type==='en'?'Từ: ':'Nghĩa: ';
+  document.getElementById('quiz-question').textContent=label+q.question;
+  var optsEl=document.getElementById('quiz-options');optsEl.innerHTML='';
+  q.options.forEach(function(opt){
+    var btn=document.createElement('button');
+    btn.className='quiz-option';btn.textContent=opt;
+    btn.onclick=function(){answerQuiz(opt,btn);};
+    optsEl.appendChild(btn);
+  });
+  var resEl=document.getElementById('quiz-result');resEl.className='quiz-result';resEl.textContent='';
+}
+
+function answerQuiz(opt,btn){
+  if(quizAnswered)return;
+  quizAnswered=true;
+  var q=quizQuestions[quizCurrent];
+  var buttons=document.querySelectorAll('.quiz-option');
+  buttons.forEach(function(b){b.disabled=true;if(b.textContent===q.correct)b.classList.add('correct');});
+  var resEl=document.getElementById('quiz-result');
+  if(opt===q.correct){quizScore++;resEl.className='quiz-result show ok';resEl.textContent='✅ Chính xác!';}
+  else{btn.classList.add('wrong');resEl.className='quiz-result show no';resEl.textContent='❌ Sai. Đáp án đúng: '+q.correct;}
+  setTimeout(function(){
+    quizCurrent++;
+    if(quizCurrent>=quizQuestions.length)finishQuiz();
+    else renderQuizQuestion();
+  },1500);
+}
+
+function finishQuiz(){
+  document.getElementById('quiz-play').style.display='none';
+  document.getElementById('quiz-final').style.display='block';
+  var pct=Math.round(quizScore/quizQuestions.length*100);
+  document.getElementById('quiz-score').textContent=quizScore+'/'+quizQuestions.length;
+  var msg='';
+  if(pct===100)msg='🏆 Hoàn hảo!';
+  else if(pct>=80)msg='🌟 Xuất sắc!';
+  else if(pct>=60)msg='👍 Khá tốt!';
+  else if(pct>=40)msg='💪 Cần ôn thêm.';
+  else msg='📚 Ôn lại rồi thử lại nhé!';
+  document.getElementById('quiz-msg').textContent=msg;
+}
+
+function applyDarkMode(isDark){
+  var btn=document.getElementById('darkBtn');
+  if(isDark){document.body.classList.add('dark');if(btn){btn.textContent='☀️';btn.style.background='linear-gradient(135deg,#fbbf24,#f59e0b)';}}
+  else{document.body.classList.remove('dark');if(btn){btn.textContent='🌙';btn.style.background='linear-gradient(135deg,#4f46e5,#7c3aed)';}}
+}
+function toggleDarkMode(){var isDark=!document.body.classList.contains('dark');localStorage.setItem('darkMode',isDark?'1':'0');applyDarkMode(isDark);}
+(function(){var saved=localStorage.getItem('darkMode');if(saved==='1')applyDarkMode(true);})();
+
 const globalFns={
   flip,say,next,prev,toggle,toggleBlur,checkEx,
   shuffleCards,resetOrder,openImport,doImport,closeModal,
@@ -2647,9 +2652,9 @@ const globalFns={
   fillCycleSpeed,fillReset,fillFirstUnfinished,fillChangeLevel,fillOnKey,
   dictPlay,dictCheck,dictNext,dictPrev,dictRevealDict,dictToggleLoop,
   dictCycleSpeed,dictReset,dictFirstUnfinished,dictUpdateCount,
+  shadowPlayAudio,shadowToggleRecord,shadowCycleSpeed,shadowRenderCurrent,shadowNext,
   openQuiz,closeQuiz,setQuizMode,startQuiz,answerQuiz,
-  toggleDarkMode,applyDarkMode,
-  shadowPlayAudio,shadowToggleRecord,shadowCycleSpeed,shadowRenderCurrent,shadowNext
+  toggleDarkMode,applyDarkMode
 };
 Object.keys(globalFns).forEach(function(name){window[name]=globalFns[name];});
 
