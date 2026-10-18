@@ -2345,27 +2345,30 @@ var shadowCurrent = 0, shadowSpeed = 1.0;
 var recognition = null, isRecording = false;
 var SpeechRecognition = window.SpeechRecognition || window.webkitSpeechRecognition;
 
-if (SpeechRecognition) {
-  recognition = new SpeechRecognition();
-  recognition.lang = 'en-US';
-  recognition.interimResults = false;
-  recognition.maxAlternatives = 1;
+var SpeechRecognition = window.SpeechRecognition || window.webkitSpeechRecognition;
 
-  recognition.onresult = function(event) {
+// Hàm tạo mới Micro mỗi lần bấm để tránh bị kẹt
+function createRecognition() {
+  if (!SpeechRecognition) return null;
+  var rec = new SpeechRecognition();
+  rec.lang = 'en-US';
+  rec.interimResults = false;
+  rec.maxAlternatives = 1;
+
+  rec.onresult = function(event) {
     var transcript = event.results[0][0].transcript;
     shadowEvaluate(transcript);
   };
 
-  recognition.onerror = function(event) {
+  rec.onerror = function(event) {
     ytShowToast('⚠️ Lỗi micro: ' + event.error);
     stopRecordingUI();
   };
 
-  recognition.onend = function() {
+  rec.onend = function() {
     stopRecordingUI();
   };
-} else {
-  console.warn("Trình duyệt không hỗ trợ Web Speech API");
+  return rec;
 }
 
 function shadowInit() {
@@ -2420,7 +2423,7 @@ function shadowCycleSpeed() {
 }
 
 function shadowToggleRecord() {
-  if (!recognition) {
+  if (!SpeechRecognition) {
     alert('Trình duyệt của bạn không hỗ trợ nhận diện giọng nói. Hãy dùng Chrome hoặc Safari!');
     return;
   }
@@ -2429,12 +2432,15 @@ function shadowToggleRecord() {
   var lbl = document.getElementById('shadowMicLabel');
   
   if (isRecording) {
-    recognition.stop();
+    try { recognition.stop(); } catch(e) {}
     return;
   }
   
   if (ytPlayer && ytPlayerReady) ytPlayer.pauseVideo();
   
+  // TẠO MỚI MICRO MỖI LẦN BẤM
+  recognition = createRecognition();
+
   isRecording = true;
   btn.classList.add('recording');
   btn.style.background = '#ef4444';
@@ -2444,6 +2450,7 @@ function shadowToggleRecord() {
     recognition.start();
   } catch(e) {
     stopRecordingUI();
+    ytShowToast('⚠️ Lỗi khởi động micro, vui lòng thử lại!');
   }
 }
 
