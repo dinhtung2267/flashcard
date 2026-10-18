@@ -175,21 +175,8 @@ body.dark .mb-close{background:linear-gradient(135deg,#4b5563,#374151);color:#e5
 .yt-input.srt{min-height:160px;font-family:monospace;font-size:.8rem;resize:vertical;line-height:1.6}
 .yt-label{font-size:.72rem;font-weight:700;color:#94a3b8;letter-spacing:.8px;text-transform:uppercase;margin-bottom:6px;display:flex;align-items:center;gap:6px}
 .yt-wrapper{position:relative;width:100%;aspect-ratio:16/9;background:#000;overflow:hidden}
-.yt-wrapper iframe,#ytPlayerBox,#ytPlayerBox iframe{position:absolute;top:0;left:0;width:100%!important;height:100%!important;border:0;pointer-events:none!important}
-#ytClickGuard{position:absolute;inset:0;z-index:5;background:transparent;cursor:pointer}
-.yt-controls{display:flex;gap:6px;padding:10px 12px;background:#0f172a;border-bottom:1px solid rgba(255,255,255,.06);flex-wrap:wrap;position:sticky;top:0;z-index:20}
-.yt-controls button{flex:1;padding:10px 6px;border:none;border-radius:11px;font-weight:700;font-size:.72rem;cursor:pointer;min-width:62px;display:flex;flex-direction:column;align-items:center;justify-content:center;gap:4px;line-height:1.2;color:#e2e8f0}
-.yt-controls button .e{font-size:1.1rem}
-.yt-back{background:linear-gradient(135deg,rgba(251,191,36,.15),rgba(245,158,11,.2));color:#fbbf24;border:1px solid rgba(251,191,36,.3)!important}
-.yt-hide{background:linear-gradient(135deg,rgba(99,102,241,.15),rgba(79,70,229,.2));color:#a5b4fc;border:1px solid rgba(99,102,241,.3)!important}
-.yt-hide.highlight{background:linear-gradient(135deg,rgba(251,191,36,.15),rgba(245,158,11,.2));color:#fbbf24;border-color:rgba(251,191,36,.3)!important}
-.yt-progress-bar{padding:10px 14px 6px;background:#0f172a;border-bottom:1px solid rgba(255,255,255,.06);display:flex;align-items:center;gap:10px}
-.yt-time-current,.yt-time-total{font-family:monospace;font-size:.72rem;font-weight:700;color:#94a3b8;min-width:42px;text-align:center;flex-shrink:0}
-.yt-time-current{color:#fbbf24}
-.yt-seek-track{flex:1;height:20px;display:flex;align-items:center;cursor:pointer;position:relative}
-.yt-seek-bg{width:100%;height:5px;background:rgba(255,255,255,.08);border-radius:3px;position:relative;overflow:hidden}
-.yt-seek-fill{position:absolute;top:0;left:0;height:100%;width:0%;background:linear-gradient(90deg,#fbbf24,#ef4444);border-radius:3px}
-.yt-seek-thumb{position:absolute;top:50%;left:0%;width:14px;height:14px;background:#fbbf24;border-radius:50%;border:2px solid #0f172a;transform:translate(-50%,-50%);pointer-events:none}
+.yt-wrapper iframe,#ytPlayerBox,#ytPlayerBox iframe{position:absolute;top:0;left:0;width:100%!important;height:100%!important;border:0;pointer-events:auto!important}
+#ytClickGuard{display:none!important}
 .yt-tabs{display:flex;padding:0 14px;background:#0f172a;border-bottom:1px solid rgba(255,255,255,.08)}
 .yt-tab{flex:1;padding:14px 6px;background:transparent;border:none;color:#94a3b8;font-weight:700;font-size:.78rem;cursor:pointer;border-bottom:3px solid transparent;display:flex;align-items:center;justify-content:center;gap:5px;white-space:nowrap}
 .yt-tab.active{color:#fbbf24;border-bottom-color:#fbbf24;background:rgba(251,191,36,.06)}
@@ -286,21 +273,12 @@ body.dark .mb-close{background:linear-gradient(135deg,#4b5563,#374151);color:#e5
 /* ═══════════ LANDSCAPE ═══════════ */
 @media (orientation: landscape) {
   .yt-wrapper{position:fixed!important;top:0!important;left:0!important;width:100vw!important;height:100vh!important;max-height:100vh!important;min-height:100vh!important;aspect-ratio:unset!important;z-index:1;background:#000}
-  .yt-wrapper iframe,#ytPlayerBox,#ytPlayerBox iframe{position:absolute!important;top:0!important;left:0!important;width:100vw!important;height:100vh!important;max-width:none!important;max-height:none!important;border:0!important;pointer-events:none!important}
-  .yt-controls{position:fixed!important;top:0;left:0;right:0;z-index:30;background:linear-gradient(180deg,rgba(0,0,0,.75),transparent)!important;border-bottom:none!important;padding:6px 8px!important;gap:4px!important;opacity:.5;transition:opacity .2s;flex-wrap:nowrap!important;overflow-x:auto!important;scrollbar-width:none}
-  .yt-controls::-webkit-scrollbar{display:none!important}
-  .yt-controls:hover,.yt-controls:active{opacity:1}
-  .yt-controls button{padding:5px 6px!important;min-width:50px!important;font-size:.6rem!important;background:rgba(0,0,0,.55)!important;flex:0 0 auto!important;border-radius:8px!important}
-  .yt-controls button .e{font-size:.9rem!important}
+  .yt-wrapper iframe,#ytPlayerBox,#ytPlayerBox iframe{position:absolute!important;top:0!important;left:0!important;width:100vw!important;height:100vh!important;max-width:none!important;max-height:none!important;border:0!important;pointer-events:auto!important}
   .yt-tabs{display:none!important}
-  .yt-progress-bar{position:fixed!important;bottom:0;left:0;right:0;z-index:30;background:linear-gradient(0deg,rgba(0,0,0,.75),transparent)!important;border:none!important;padding:8px 14px 6px!important;opacity:.5;transition:opacity .2s}
-  .yt-progress-bar:hover,.yt-progress-bar:active{opacity:1}
-  .yt-time-current,.yt-time-total{font-size:.65rem!important;min-width:38px!important;color:#fff!important}
-  .yt-time-current{color:#fbbf24!important}
   .yt-list{display:none!important}
-  #ytSubOutside{position:fixed!important;top:auto!important;bottom:8%!important;left:50%!important;transform:translateX(-50%)!important;z-index:20!important;background:rgba(8,8,8,.75)!important;padding:4px 12px!important;border-radius:2px!important;border:none!important;min-height:auto!important;max-height:25vh!important;max-width:80vw!important;width:auto!important;backdrop-filter:none!important;box-shadow:none!important;display:flex!important;flex-direction:column!important;align-items:center!important;justify-content:center!important;gap:0!important;text-align:center!important;pointer-events:auto!important;margin:0!important;line-height:normal!important}
+  #ytSubOutside{position:fixed!important;top:auto!important;bottom:8%!important;left:50%!important;transform:translateX(-50%)!important;z-index:20!important;background:rgba(8,8,8,.75)!important;padding:4px 12px!important;border-radius:2px!important;border:none!important;min-height:auto!important;max-height:25vh!important;max-width:80vw!important;width:auto!important;backdrop-filter:none!important;box-shadow:none!important;display:flex!important;flex-direction:column!important;align-items:center!important;justify-content:center!important;gap:0!important;text-align:center!important;pointer-events:none!important;margin:0!important;line-height:normal!important}
   #ytSubOutside::before{display:none!important}
-  #ytSubEn{display:block!important;background:transparent!important;padding:0!important;font-size:clamp(.7rem,1.45vw,.9rem)!important;line-height:1.25!important;margin:0!important;color:#fff!important;font-weight:500!important;text-shadow:0 1px 2px rgba(0,0,0,.7);max-width:76vw!important}
+  #ytSubEn{display:block!important;background:transparent!important;padding:0!important;font-size:clamp(.7rem,1.45vw,.9rem)!important;line-height:1.25!important;margin:0!important;color:#fff!important;font-weight:500!important;text-shadow:0 1px 2px rgba(0,0,0,.7);max-width:76vw!important;pointer-events:auto!important}
   #ytSubEn .w{padding:0!important;margin:0!important;font-weight:500!important;background:transparent!important;color:#fff!important;transform:none!important;display:inline!important}
   #ytSubEn .w.read{color:#fff!important;background:transparent!important}
   #ytSubEn .w.current{color:#fbbf24!important;background:transparent!important;font-weight:700!important;transform:none!important;padding:0!important}
@@ -485,27 +463,9 @@ body.dark .mb-close{background:linear-gradient(135deg,#4b5563,#374151);color:#e5
 </div>
 
 <div id="yt-player" style="display:none">
-<div class="yt-controls">
-<button class="yt-back" onclick="backToYTHome()"><span class="e">◀</span><span>Link khác</span></button>
-<button class="yt-hide" onclick="ytSeek(-10)"><span class="e">⏪</span><span>-10s</span></button>
-<button class="yt-hide highlight" id="ytPlayBtn" onclick="ytTogglePlay()"><span class="e">⏸</span><span>Tạm dừng</span></button>
-<button class="yt-hide" onclick="ytSeek(10)"><span class="e">⏩</span><span>+10s</span></button>
-<button class="yt-hide" id="ytMuteBtn" onclick="ytToggleMute()"><span class="e">🔇</span><span>Bật tiếng</span></button>
-<button class="yt-hide" id="ytSpeedBtn" onclick="ytCycleSpeed()"><span class="e">⚡</span><span>1.0x</span></button>
-</div>
-
+<!-- Đã xóa thanh custom controls và thanh tiến trình để nhường chỗ cho YouTube mặc định -->
 <div class="yt-wrapper">
     <div id="ytPlayerBox"></div>
-    <div id="ytClickGuard"></div>
-</div>
-
-<div class="yt-progress-bar">
-  <span class="yt-time-current" id="ytTimeCur">0:00</span>
-  <div class="yt-seek-track" id="ytSeekTrack">
-    <div class="yt-seek-bg"><div class="yt-seek-fill" id="ytSeekFill"></div></div>
-    <div class="yt-seek-thumb" id="ytSeekThumb"></div>
-  </div>
-  <span class="yt-time-total" id="ytTimeTotal">0:00</span>
 </div>
 
 <div class="yt-tabs">
@@ -1528,9 +1488,8 @@ if(savedCardIdx!==null){var parsed=parseInt(savedCardIdx);if(!isNaN(parsed)&&d[p
 
 var YT_MANUAL_SPEED=1.0;
 var MAX_CHARS_EN=70;
-var jsonDataCache = null; // Biến lưu dữ liệu file JSON sau khi đọc
+var jsonDataCache = null; 
 
-// Lắng nghe sự kiện khi bạn chọn file
 document.addEventListener('change', function(e) {
   if (e.target && e.target.id === 'ytJsonFile') {
     var file = e.target.files[0];
@@ -1560,7 +1519,6 @@ document.addEventListener('change', function(e) {
   }
 });
 
-/* ─── HÀM ĐỌC JSON TỪ AI (WHISPER) ─── */
 function ytParseWhisperJSON(jsonText){
   try {
     var data = JSON.parse(jsonText);
@@ -1589,7 +1547,6 @@ function ytParseWhisperJSON(jsonText){
   }
 }
 
-/* ─── PARSE WORD-TAG (chỉ dùng nếu SRT có tag) ─── */
 function ytParseWordTags(enLine, cueStart, cueEnd){
   var tagRe = /<(\d{1,2}):(\d{2}):(\d{2})[.,](\d{1,3})>/g;
   if(!/<(\d{1,2}):(\d{2}):(\d{2})[.,](\d{1,3})>/.test(enLine)) return null;
@@ -1633,7 +1590,6 @@ function ytParseWordTags(enLine, cueStart, cueEnd){
   return words.length > 0 ? words : null;
 }
 
-/* ─── CHIA NHỎ PHỤ ĐỀ DÀI ─── */
 function ytSplitEnText(text,maxChars){
   var sentences=text.split(/(?<=[.!?])\s+/).filter(function(s){return s;});
   if(sentences.length>1)return ytMergeChunks(sentences,maxChars);
@@ -1717,7 +1673,6 @@ function ytSplitLongSubs(subs,maxChars){
   return result;
 }
 
-/* ─── PARSE SRT CHÍNH ─── */
 function ytParseSRT(text){
   text=text.replace(/\r\n/g,'\n').replace(/\r/g,'\n').trim();
   var blocks=text.split(/\n\n+/);
@@ -1759,7 +1714,6 @@ function ytParseSRT(text){
 var ytPlayer=null,ytPlayerReady=false,ytSubs=[],ytCurrentIdx=-1;
 var ytInterval=null,ytApiLoaded=false,ytSubVisible=true,ytMuted=true;
 var ytMode='view';
-var ytTotalDuration=0,ytSeekDragging=false,ytSeekWasPlaying=false;
 var fillCurrent=0,fillLoop=false,fillSpeed=1.0,fillResults={},fillPlaying=false,fillStopTimer=null,fillLevel=0.3,fillBlanks={};
 var dictCurrent=0,dictLoop=false,dictSpeed=1.0,dictResults={},dictPlaying=false,dictStopTimer=null;
 
@@ -1777,11 +1731,6 @@ function ytExtractVideoId(url){
   return null;
 }
 function ytFmtTime(sec){var m=Math.floor(sec/60),s=Math.floor(sec%60);return (m<10?'0':'')+m+':'+(s<10?'0':'')+s;}
-function ytShowToast(msg,ms){
-  var t=document.getElementById('ytToast');if(!t)return;
-  t.textContent=msg;t.classList.add('show');
-  clearTimeout(t._timer);t._timer=setTimeout(function(){t.classList.remove('show');},ms||1800);
-}
 
 function openYT(){
   document.getElementById('yt-home').style.display='block';
@@ -1799,37 +1748,26 @@ function backToYTHome(){
   document.getElementById('yt-home').style.display='block';
   document.getElementById('yt-player').style.display='none';
 }
+
 async function autoTranslateJSON(subs, statusEl) {
-  var chunkSize = 15; // Dịch 15 câu mỗi lần
+  var chunkSize = 15;
   var total = subs.length;
-  
   for (var i = 0; i < total; i += chunkSize) {
     var chunk = subs.slice(i, i + chunkSize);
     var textToTranslate = chunk.map(function(c){ return c.en; }).join('\n');
-    
     try {
       var transRes = await fetch(`https://translate.googleapis.com/translate_a/single?client=gtx&sl=en&tl=vi&dt=t&q=${encodeURIComponent(textToTranslate)}`);
       var transData = await transRes.json();
       var viTexts = transData[0].map(item => item[0]).join('').split('\n');
-      
       for (var j = 0; j < chunk.length; j++) {
-        if (viTexts[j]) {
-          subs[i + j].vi = viTexts[j].replace(/\[.*?\]/g, '').trim();
-        }
+        if (viTexts[j]) { subs[i + j].vi = viTexts[j].replace(/\[.*?\]/g, '').trim(); }
       }
-    } catch(e) {
-      console.log('Lỗi dịch đoạn', i, e);
-    }
-    
-    if(statusEl) {
-      statusEl.innerHTML = `<span class="spinner"></span> Đang tự động dịch... (${Math.min(i + chunkSize, total)}/${total})`;
-    }
+    } catch(e) { console.log('Lỗi dịch đoạn', i, e); }
+    if(statusEl) { statusEl.innerHTML = `<span class="spinner"></span> Đang tự động dịch... (${Math.min(i + chunkSize, total)}/${total})`; }
   }
-  if(statusEl) {
-    statusEl.className = 'status ok';
-    statusEl.innerHTML = '✅ Đã dịch xong!';
-  }
+  if(statusEl) { statusEl.className = 'status ok'; statusEl.innerHTML = '✅ Đã dịch xong!'; }
 }
+
 function startYT(){
   try {
     var url=document.getElementById('ytUrl').value.trim();
@@ -1839,7 +1777,6 @@ function startYT(){
     
     if(!url){status.className='status no';status.textContent='⚠️ Chưa nhập link!';return;}
     
-    // Kiểm tra xem đã chọn file JSON chưa
     if(!jsonDataCache && !srt){
       status.className='status no';status.textContent='⚠️ Vui lòng chọn file JSON hoặc nhập SRT!';return;
     }
@@ -1847,11 +1784,8 @@ function startYT(){
     var vid=ytExtractVideoId(url);
     if(!vid){status.className='status no';status.textContent='❌ Link không hợp lệ!';return;}
 
-    // Ưu tiên dùng dữ liệu từ file JSON
     if(jsonDataCache && jsonDataCache.length > 0) {
       ytSubs = jsonDataCache;
-      
-      // Nếu bạn có dán SRT thì ghép theo SRT
       if(srt) {
         var srtData = ytParseSRT(srt);
         ytSubs.forEach(function(jsonSeg) {
@@ -1863,13 +1797,10 @@ function startYT(){
             }
           }
         });
-      } 
-      // NẾU KHÔNG CÓ SRT -> TỰ ĐỘNG DỊCH SANG TIẾNG VIỆT
-      else {
+      } else {
         status.innerHTML = '<span class="spinner"></span> Đang tự động dịch sang tiếng Việt (Vui lòng đợi)...';
-        autoTranslateJSON(ytSubs, status); // Chạy ngầm, không cần await
+        autoTranslateJSON(ytSubs, status);
       }
-      
     } else {
       ytSubs = ytParseSRT(srt);
     }
@@ -1909,22 +1840,18 @@ function startYT(){
       if(ytPlayer){try{ytPlayer.destroy();}catch(e){}}
       ytPlayer=new YT.Player('ytPlayerBox',{
         height:'100%',width:'100%',videoId:vid,
-        playerVars:{playsinline:1,rel:0,modestbranding:1,controls:0,fs:0,disablekb:1,iv_load_policy:3},
+        playerVars:{playsinline:1,rel:0,modestbranding:1,controls:1,fs:1}, // BẬT NATIVE CONTROLS
         events:{
           onReady:function(e){
-            ytPlayerReady=true;ytMuted=true;
-            e.target.mute();e.target.playVideo();
-            var b=document.getElementById('ytMuteBtn');
-            if(b){b.querySelector('.e').textContent='🔇';b.querySelector('span:last-child').textContent='Bật tiếng';}
+            ytPlayerReady=true;ytMuted=false; // Mặc định bật tiếng
+            e.target.unMute();
+            e.target.playVideo();
           },
           onStateChange:function(e){
-            var btn=document.getElementById('ytPlayBtn');
             if(e.data===YT.PlayerState.PLAYING){
               if(ytMode==='view')ytStartSync();
-              if(btn){btn.querySelector('.e').textContent='⏸';btn.querySelector('span:last-child').textContent='Tạm dừng';}
             }else{
               if(ytInterval){clearInterval(ytInterval);ytInterval=null;}
-              if(e.data===YT.PlayerState.PAUSED&&btn){btn.querySelector('.e').textContent='▶';btn.querySelector('span:last-child').textContent='Phát';}
             }
           }
         }
@@ -1955,7 +1882,6 @@ function ytStartSync(){if(ytInterval)clearInterval(ytInterval);ytInterval=setInt
 
 function ytSyncTick(){
   if(!ytPlayer||!ytPlayerReady)return;
-  ytUpdateProgress();
   if(ytMode!=='view')return;
   var t;try{t=ytPlayer.getCurrentTime();}catch(e){return;}
   var idx=-1;
@@ -1972,7 +1898,6 @@ function ytSyncTick(){
       ytRenderSub(idx);
     }
   }
-  // ✅ Highlight: ưu tiên word-tag thật, fallback ước lượng đều theo cue
   if(idx>=0){
     var s=ytSubs[idx];
     var timings = (s._hasWordTags && s._wordTimings) ? s._wordTimings : s._approxTimings;
@@ -2014,7 +1939,6 @@ function ytHighlight(idx,aw){
   if(ai){ai.querySelectorAll('.yt-en .w').forEach(function(w,i){w.classList.remove('read');if(i<=aw)w.classList.add('read');});}
 }
 
-// ✅ SỬA #3: hàm mới highlight CẢ CÂU (dùng khi SRT không có word-tag)
 function ytHighlightAll(idx){
   var enEl=document.getElementById('ytSubEn');
   if(enEl){
@@ -2030,59 +1954,6 @@ function ytHighlightAll(idx){
 function ytJumpTo(idx){
   if(!ytSubs[idx]||!ytPlayer)return;
   try{ytPlayer.seekTo(ytSubs[idx].start+0.05,true);ytPlayer.playVideo();}catch(e){}
-}
-
-function ytTogglePlay(){
-  if(!ytPlayer||!ytPlayerReady)return;
-  try{var s=ytPlayer.getPlayerState();if(s===1)ytPlayer.pauseVideo();else ytPlayer.playVideo();}catch(e){}
-}
-
-function ytToggleMute(){
-  if(!ytPlayer||!ytPlayerReady)return;
-  try{
-    ytMuted=!ytMuted;
-    if(ytMuted)ytPlayer.mute();else ytPlayer.unMute();
-    var b=document.getElementById('ytMuteBtn');
-    if(b){b.querySelector('.e').textContent=ytMuted?'🔇':'🔊';b.querySelector('span:last-child').textContent=ytMuted?'Bật tiếng':'Tắt tiếng';}
-    ytShowToast(ytMuted?'🔇 Đã tắt tiếng':'🔊 Đã bật tiếng');
-  }catch(e){}
-}
-
-// ✅ SỬA #4: chỉ đổi playback rate, không phá timing của cue
-function ytCycleSpeed(){
-  var opt=[0.7,0.85,1.0,1.15,1.3,1.5];
-  var i=opt.indexOf(YT_MANUAL_SPEED);i=(i+1)%opt.length;
-  YT_MANUAL_SPEED=opt[i];
-  var b=document.getElementById('ytSpeedBtn');if(b)b.querySelector('span:last-child').textContent=YT_MANUAL_SPEED.toFixed(2)+'x';
-  ytShowToast('⚡ Tốc độ: '+YT_MANUAL_SPEED.toFixed(2)+'x');
-  try{if(ytPlayer&&ytPlayerReady)ytPlayer.setPlaybackRate(YT_MANUAL_SPEED);}catch(e){}
-}
-
-function ytSeek(sec){
-  if(!ytPlayer||!ytPlayerReady)return;
-  try{
-    var t=ytPlayer.getCurrentTime()||0;
-    var dur=ytPlayer.getDuration()||0;
-    var newT=t+sec;
-    if(newT<0)newT=0;
-    if(newT>dur-0.1)newT=dur-0.1;
-    ytPlayer.seekTo(newT,true);
-    ytShowToast(sec>0?'⏩ +'+sec+'s':'⏪ '+sec+'s');
-  }catch(e){}
-}
-
-function ytUpdateProgress(){
-  if(!ytPlayer||!ytPlayerReady)return;
-  if(ytSeekDragging)return;
-  try{
-    var t=ytPlayer.getCurrentTime()||0;
-    var dur=ytPlayer.getDuration()||0;
-    if(dur>0&&dur!==ytTotalDuration){ytTotalDuration=dur;var totEl=document.getElementById('ytTimeTotal');if(totEl)totEl.textContent=ytFmtTime(dur);}
-    var curEl=document.getElementById('ytTimeCur');if(curEl)curEl.textContent=ytFmtTime(t);
-    var pct=dur>0?(t/dur)*100:0;if(pct>100)pct=100;
-    var fill=document.getElementById('ytSeekFill');var thumb=document.getElementById('ytSeekThumb');
-    if(fill)fill.style.width=pct+'%';if(thumb)thumb.style.left=pct+'%';
-  }catch(e){}
 }
 
 function ytSwitchMode(m){
@@ -2405,50 +2276,8 @@ function dictRenderList(){
   });
 }
 
-document.addEventListener('DOMContentLoaded',function(){
-  var g=document.getElementById('ytClickGuard');
-  if(g)g.onclick=function(){ytTogglePlay();};
-  var track=document.getElementById('ytSeekTrack');
-  if(track){
-    function calcPctFromX(clientX){var rect=track.getBoundingClientRect();var x=clientX-rect.left;var pct=x/rect.width;if(pct<0)pct=0;if(pct>1)pct=1;return pct;}
-    function seekToPct(pct){
-      if(!ytPlayer||!ytPlayerReady)return;
-      try{var dur=ytPlayer.getDuration()||0;if(dur<=0)return;var target=pct*dur;ytPlayer.seekTo(target,true);
-        var curEl=document.getElementById('ytTimeCur');if(curEl)curEl.textContent=ytFmtTime(target);
-        var fill=document.getElementById('ytSeekFill');var thumb=document.getElementById('ytSeekThumb');
-        if(fill)fill.style.width=(pct*100)+'%';if(thumb)thumb.style.left=(pct*100)+'%';
-      }catch(e){}
-    }
-    track.addEventListener('click',function(e){seekToPct(calcPctFromX(e.clientX));});
-    track.addEventListener('touchstart',function(e){
-      ytSeekDragging=true;
-      try{var st=ytPlayer.getPlayerState();if(st===1){ytSeekWasPlaying=true;ytPlayer.pauseVideo();}else ytSeekWasPlaying=false;}catch(err){}
-      var pct=calcPctFromX(e.touches[0].clientX);
-      var fill=document.getElementById('ytSeekFill');var thumb=document.getElementById('ytSeekThumb');
-      if(fill)fill.style.width=(pct*100)+'%';if(thumb)thumb.style.left=(pct*100)+'%';
-      var dur=0;try{dur=ytPlayer.getDuration()||0;}catch(err){}
-      var curEl=document.getElementById('ytTimeCur');if(curEl)curEl.textContent=ytFmtTime(pct*dur);
-    },{passive:true});
-    track.addEventListener('touchmove',function(e){
-      if(!ytSeekDragging)return;
-      var pct=calcPctFromX(e.touches[0].clientX);
-      var fill=document.getElementById('ytSeekFill');var thumb=document.getElementById('ytSeekThumb');
-      if(fill)fill.style.width=(pct*100)+'%';if(thumb)thumb.style.left=(pct*100)+'%';
-      var dur=0;try{dur=ytPlayer.getDuration()||0;}catch(err){}
-      var curEl=document.getElementById('ytTimeCur');if(curEl)curEl.textContent=ytFmtTime(pct*dur);
-    },{passive:true});
-    track.addEventListener('touchend',function(e){
-      if(!ytSeekDragging)return;
-      ytSeekDragging=false;
-      var pct=calcPctFromX(e.changedTouches[0].clientX);
-      seekToPct(pct);
-      try{if(ytSeekWasPlaying)ytPlayer.playVideo();}catch(err){}
-    });
-  }
-});
-
 setInterval(function(){
-  if(ytPlayer&&ytPlayerReady&&ytMode!=='view')ytUpdateProgress();
+  if(ytPlayer&&ytPlayerReady&&ytMode!=='view'){ /* Update progress if needed, but native controls handle it */ }
 },300);
 
 /* QUIZ */
