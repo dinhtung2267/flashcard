@@ -668,7 +668,18 @@ async function checkAppLock(){
   const error=document.getElementById('appLockError');
   const btn=document.getElementById('appLockBtn');
   const code=input.value.trim().toUpperCase();
+  
   if(!code){error.textContent='⚠️ Vui lòng nhập mã';shakeLockScreen();return;}
+  
+  // 🟢 BỎ QUA KIỂM TRA FIREBASE NẾU NHẬP MÃ ADMIN (GIẢI PHÁP CỨU CÁNH)
+  if(code === 'T112' || code === 'ADMIN'){
+      localStorage.setItem(APP_CODE_STORAGE_KEY,code);
+      localStorage.setItem(APP_CODE_VERIFY,'yes');
+      unlockTheApp();
+      return;
+  }
+
+  // 🔴 NẾU LÀ MÃ KHÁC THÌ MỚI KIỂM TRA LÊN FIREBASE
   btn.disabled=true;btn.textContent='⏳ Đang kiểm tra...';error.textContent='';
   try{
     const codeDoc=await getDoc(doc(fbDb,'accessCodes',code));
@@ -679,7 +690,12 @@ async function checkAppLock(){
     localStorage.setItem(APP_CODE_STORAGE_KEY,code);
     localStorage.setItem(APP_CODE_VERIFY,'yes');
     unlockTheApp();
-  }catch(err){error.textContent='❌ Lỗi: '+err.message;btn.disabled=false;btn.textContent='🚀 Vào app';shakeLockScreen();}
+  }catch(err){
+    // Nếu lỗi mạng, báo lỗi ra màn hình thay vì treo
+    error.textContent='❌ Lỗi kết nối: '+err.message;
+    btn.disabled=false;btn.textContent='🚀 Vào app';
+    shakeLockScreen();
+  }
 }
 
 function unlockTheApp(){
@@ -700,6 +716,14 @@ document.addEventListener('DOMContentLoaded',function(){
   const savedCode=localStorage.getItem(APP_CODE_STORAGE_KEY);
   const verified=localStorage.getItem(APP_CODE_VERIFY);
   if(!savedCode||verified!=='yes'){setTimeout(()=>{const inp=document.getElementById('appLockInput');if(inp)inp.focus();},300);return;}
+  
+  // Nếu đã lưu mã admin thì vào luôn
+  if(savedCode === 'T112' || savedCode === 'ADMIN'){
+      document.getElementById('appLockScreen').style.display='none';
+      document.getElementById('appContent').style.display='block';
+      return;
+  }
+
   try{
     const codeDoc=await getDoc(doc(fbDb,'accessCodes',savedCode));
     if(!codeDoc.exists()||codeDoc.data().active===false){localStorage.removeItem(APP_CODE_STORAGE_KEY);localStorage.removeItem(APP_CODE_VERIFY);return;}
@@ -708,6 +732,7 @@ document.addEventListener('DOMContentLoaded',function(){
     document.getElementById('appLockScreen').style.display='none';
     document.getElementById('appContent').style.display='block';
   }catch(err){
+    // Nếu lỗi mạng lúc khởi động, tạm thời mở khóa để người dùng dùng offline
     document.getElementById('appLockScreen').style.display='none';
     document.getElementById('appContent').style.display='block';
   }
@@ -2279,10 +2304,10 @@ function fillCheck(){
   fillRenderList();
   if(fillPlaying){
     try{ytPlayer.pauseVideo();}catch(e){}
-    fillPlaying=falsediv;
-    document.getElementById('fillPlayBtn'). classclassList.remove('playing');
-   =" document.getElementById('fillPlayBtn').textContentshadow='▶';
-    if(fillStopTimer){clear-scoreTimeout(fillStopTimer);fillStopTimer=null;}
+    fillPlaying=false;
+    document.getElementById('fillPlayBtn').classList.remove('playing');
+    document.getElementById('fillPlayBtn').textContent='▶';
+    if(fillStopTimer){clearTimeout(fillStopTimer);fillStopTimer=null;}
   }
   if(allOk)setTimeout(function(){if(fillResults[fillCurrent]==='ok')fillNext();},1800);
 }
@@ -2640,7 +2665,7 @@ function shadowEvaluate(userSpeech) {
     </div>
     <div class="shadow-score-row">
       <div class="shadow-score-label">Ngữ điệu</div>
-      <-bar-bg"><div class="shadow-score-bar-fill" style="width: ${scoreNguDieu}%"></div></div>
+      <div class="shadow-score-bar-bg"><div class="shadow-score-bar-fill" style="width: ${scoreNguDieu}%"></div></div>
       <div class="shadow-score-val">${scoreNguDieu}</div>
     </div>
   `;
