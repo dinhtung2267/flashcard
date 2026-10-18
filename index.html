@@ -300,7 +300,14 @@ body.dark .mb-close{background:linear-gradient(135deg,#4b5563,#374151);color:#e5
   .fill-next,.dict-next{padding:10px!important;font-size:.78rem!important}
   .dict-input{min-height:60px!important;font-size:.85rem!important;padding:8px!important}
 }
-</style></head><body>
+/* SHADOWING */
+.shadow-score-row { display: flex; align-items: center; margin-bottom: 8px; font-size: 0.85rem; color: #cbd5e1; }
+.shadow-score-label { width: 70px; }
+.shadow-score-bar-bg { flex: 1; height: 6px; background: rgba(255,255,255,0.1); border-radius: 3px; overflow: hidden; margin: 0 10px; }
+.shadow-score-bar-fill { height: 100%; background: #38bdf8; border-radius: 3px; transition: width 0.5s ease-out; }
+.shadow-score-val { width: 30px; text-align: right; font-weight: bold; color: #38bdf8; }
+.recording { animation: pulse-red 1.5s infinite; background: #ef4444 !important; box-shadow: 0 0 0 0 rgba(239, 68, 68, 0.7) !important; }
+@keyframes pulse-red { 0% { transform: scale(0.95); box-shadow: 0 0 0 0 rgba(239, 68, 68, 0.7); } 70% { transform: scale(1); box-shadow: 0 0 0 15px rgba(239, 68, 68, 0); } 100% { transform: scale(0.95); box-shadow: 0 0 0 0 rgba(239, 68, 68, 0); } }</style></head><body>
 
 <div id="appLockScreen" style="position:fixed;inset:0;background:linear-gradient(135deg,#667eea 0%,#764ba2 100%);z-index:9999999;display:flex;align-items:center;justify-content:center;padding:20px">
   <div style="background:#fff;border-radius:24px;padding:36px 28px;max-width:420px;width:100%;text-align:center">
@@ -478,6 +485,7 @@ body.dark .mb-close{background:linear-gradient(135deg,#4b5563,#374151);color:#e5
   <button class="yt-tab active" id="ytTabView" onclick="ytSwitchMode('view')">👁 Xem phụ đề</button>
   <button class="yt-tab" id="ytTabFill" onclick="ytSwitchMode('fill')">📝 Điền từ</button>
   <button class="yt-tab" id="ytTabDict" onclick="ytSwitchMode('dict')">⌨️ Chính tả</button>
+  <button class="yt-tab" id="ytTabShadow" onclick="ytSwitchMode('shadow')">🎙️ Shadowing</button>
 </div>
 
 <div id="ytViewMode">
@@ -547,7 +555,39 @@ body.dark .mb-close{background:linear-gradient(135deg,#4b5563,#374151);color:#e5
 </div>
 </div>
 </div>
+<div id="ytShadowMode" style="display:none; padding: 14px;">
+  <div class="mode-card" style="margin: 0; padding: 16px;">
+    <div class="mode-top">
+      <button class="mode-btn" onclick="shadowPlayAudio()">▶ Phát Audio</button>
+      <button class="mode-btn" id="shadowSpeedBtn" onclick="shadowCycleSpeed()">1.0x</button>
+      <div class="mode-counter"><span id="shadowIdx">1</span><span>/</span><span id="shadowTotal">0</span></div>
+    </div>
 
+    <div id="shadowSentence" style="font-size: 1.15rem; font-weight: 700; margin: 20px 0; text-align: center; line-height: 1.6; color: #fff; min-height: 60px;">
+      Loading...
+    </div>
+
+    <div style="text-align: center; margin-top: 20px;">
+      <button id="shadowMicBtn" onclick="shadowToggleRecord()" style="width: 80px; height: 80px; border-radius: 50%; background: #10b981; border: none; font-size: 2rem; cursor: pointer; box-shadow: 0 4px 15px rgba(16,185,129,0.4); transition: all 0.2s;">
+        🎙️
+      </button>
+      <div style="color: #64748b; margin-top: 10px; font-size: 0.8rem;" id="shadowMicLabel">Nhấn để ghi âm</div>
+    </div>
+
+    <div id="shadowResultBox" style="display:none; margin-top: 20px; background: rgba(0,0,0,0.3); border-radius: 12px; padding: 15px;">
+      <h3 style="margin-top:0; color: #fbbf24; font-size: 1rem; margin-bottom: 15px;">📊 Đánh giá Shadowing</h3>
+      <div id="shadowScores"></div>
+      <div style="margin-top: 15px; padding: 10px; background: rgba(255,255,255,0.05); border-radius: 8px; font-size: 0.9rem;">
+        <div style="font-weight: bold; color: #e2e8f0; margin-bottom: 5px;">Bạn đã đọc:</div>
+        <div id="shadowUserText" style="color: #94a3b8; font-style: italic;"></div>
+      </div>
+      <div style="display:flex; gap:10px; margin-top:15px;">
+        <button class="mode-btn" onclick="shadowRenderCurrent()" style="flex:1; background:#334155;">🔄 Làm lại</button>
+        <button class="mode-btn" onclick="shadowNext()" style="flex:1; background:#4ade80; color:#000; font-weight:bold;">Tiếp ➔</button>
+      </div>
+    </div>
+  </div>
+</div>
 <div class="modal" id="quizmodal">
 <div class="modal-box" style="max-width:420px;padding:0">
 <div id="quiz-home" style="padding:20px">
@@ -1850,6 +1890,7 @@ function startYT(){
     
     ytLoadApi(function(){
       if(ytPlayer){try{ytPlayer.destroy();}catch(e){}}
+document.querySelector('.yt-wrapper').innerHTML = '<div id="ytPlayerBox"></div>';
       ytPlayer=new YT.Player('ytPlayerBox',{
         height:'100%',width:'100%',videoId:vid,
         playerVars:{playsinline:1,rel:0,modestbranding:1,controls:1,fs:1}, // BẬT NATIVE CONTROLS
@@ -1970,18 +2011,24 @@ function ytJumpTo(idx){
 
 function ytSwitchMode(m){
   ytMode=m;
-  var tv=document.getElementById('ytTabView'),tf=document.getElementById('ytTabFill'),td=document.getElementById('ytTabDict');
-  var mv=document.getElementById('ytViewMode'),mf=document.getElementById('ytFillMode'),md=document.getElementById('ytDictMode');
+  var tv=document.getElementById('ytTabView'),tf=document.getElementById('ytTabFill'),td=document.getElementById('ytTabDict'),ts=document.getElementById('ytTabShadow');
+  var mv=document.getElementById('ytViewMode'),mf=document.getElementById('ytFillMode'),md=document.getElementById('ytDictMode'),ms=document.getElementById('ytShadowMode');
+  
   tv.classList.toggle('active',m==='view');
   tf.classList.toggle('active',m==='fill');
   td.classList.toggle('active',m==='dict');
+  ts.classList.toggle('active',m==='shadow');
+  
   mv.style.display=m==='view'?'block':'none';
   mf.style.display=m==='fill'?'block':'none';
   md.style.display=m==='dict'?'block':'none';
+  ms.style.display=m==='shadow'?'block':'none';
+  
   if(m!=='view'&&ytInterval){clearInterval(ytInterval);ytInterval=null;}
   if(m==='view'){if(ytPlayer&&ytPlayerReady){try{ytPlayer.playVideo();}catch(e){}}ytStartSync();}
   if(m==='fill')fillInit();
   if(m==='dict')dictInit();
+  if(m==='shadow')shadowInit();
 }
 
 /* FILL MODE */
@@ -2391,7 +2438,200 @@ function applyDarkMode(isDark){
 }
 function toggleDarkMode(){var isDark=!document.body.classList.contains('dark');localStorage.setItem('darkMode',isDark?'1':'0');applyDarkMode(isDark);}
 (function(){var saved=localStorage.getItem('darkMode');if(saved==='1')applyDarkMode(true);})();
+/* =========================================
+   SHADOWING MODE (LUYỆN NÓI)
+   ========================================= */
+var shadowCurrent = 0, shadowSpeed = 1.0;
+var recognition = null, isRecording = false;
+var SpeechRecognition = window.SpeechRecognition || window.webkitSpeechRecognition;
 
+if (SpeechRecognition) {
+  recognition = new SpeechRecognition();
+  recognition.lang = 'en-US';
+  recognition.interimResults = false;
+  recognition.maxAlternatives = 1;
+
+  recognition.onresult = function(event) {
+    var transcript = event.results[0][0].transcript;
+    shadowEvaluate(transcript);
+  };
+
+  recognition.onerror = function(event) {
+    ytShowToast('⚠️ Lỗi micro: ' + event.error);
+    stopRecordingUI();
+  };
+
+  recognition.onend = function() {
+    stopRecordingUI();
+  };
+} else {
+  console.warn("Trình duyệt không hỗ trợ Web Speech API");
+}
+
+function shadowInit() {
+  if (!ytSubs.length) return;
+  shadowCurrent = 0;
+  document.getElementById('shadowTotal').textContent = ytSubs.length;
+  shadowRenderCurrent();
+}
+
+function shadowRenderCurrent() {
+  if (!ytSubs[shadowCurrent]) return;
+  var s = ytSubs[shadowCurrent];
+  document.getElementById('shadowIdx').textContent = shadowCurrent + 1;
+  
+  var html = '';
+  if (s._hasWordTags && s._wordTimings && s._wordTimings.length > 0) {
+    html = s._wordTimings.map(function(w) { return '<span>' + w.text + '</span>'; }).join(' ');
+  } else {
+    html = s.en;
+  }
+  document.getElementById('shadowSentence').innerHTML = html;
+  
+  document.getElementById('shadowResultBox').style.display = 'none';
+  document.getElementById('shadowMicBtn').style.background = '#10b981';
+  document.getElementById('shadowMicBtn').classList.remove('recording');
+  document.getElementById('shadowMicLabel').textContent = 'Nhấn để ghi âm';
+  isRecording = false;
+}
+
+function shadowPlayAudio() {
+  if (!ytPlayer || !ytPlayerReady) return;
+  var s = ytSubs[shadowCurrent];
+  if (!s) return;
+  
+  ytPlayer.unMute();
+  ytPlayer.setPlaybackRate(shadowSpeed);
+  ytPlayer.seekTo(s.start + 0.02, true);
+  ytPlayer.playVideo();
+  
+  var dur = (s.end - s.start) / shadowSpeed;
+  setTimeout(function() {
+    if (ytPlayer && ytPlayerReady) ytPlayer.pauseVideo();
+  }, dur * 1000);
+}
+
+function shadowCycleSpeed() {
+  var opt = [0.5, 0.75, 1.0, 1.25, 1.5];
+  var i = opt.indexOf(shadowSpeed);
+  i = (i + 1) % opt.length;
+  shadowSpeed = opt[i];
+  document.getElementById('shadowSpeedBtn').textContent = shadowSpeed.toFixed(2) + 'x';
+}
+
+function shadowToggleRecord() {
+  if (!recognition) {
+    alert('Trình duyệt của bạn không hỗ trợ nhận diện giọng nói. Hãy dùng Chrome hoặc Safari!');
+    return;
+  }
+  
+  var btn = document.getElementById('shadowMicBtn');
+  var lbl = document.getElementById('shadowMicLabel');
+  
+  if (isRecording) {
+    recognition.stop();
+    return;
+  }
+  
+  if (ytPlayer && ytPlayerReady) ytPlayer.pauseVideo();
+  
+  isRecording = true;
+  btn.classList.add('recording');
+  btn.style.background = '#ef4444';
+  lbl.textContent = 'Đang nghe... (Nhấn để dừng)';
+  
+  try {
+    recognition.start();
+  } catch(e) {
+    stopRecordingUI();
+  }
+}
+
+function stopRecordingUI() {
+  isRecording = false;
+  var btn = document.getElementById('shadowMicBtn');
+  if(btn) {
+    btn.classList.remove('recording');
+    btn.style.background = '#10b981';
+    document.getElementById('shadowMicLabel').textContent = 'Nhấn để ghi âm';
+  }
+}
+
+function shadowEvaluate(userSpeech) {
+  var s = ytSubs[shadowCurrent];
+  if (!s) return;
+  
+  var origText = s.en.toLowerCase().replace(/[.,!?;:'"“”‘’\-–—()]/g, '');
+  var userTextClean = userSpeech.toLowerCase().replace(/[.,!?;:'"“”‘’\-–—()]/g, '');
+  
+  var origWords = origText.split(/\s+/).filter(Boolean);
+  var userWords = userTextClean.split(/\s+/).filter(Boolean);
+  var matches = 0;
+  origWords.forEach(function(w) {
+    if (userWords.indexOf(w) >= 0) matches++;
+  });
+  
+  var pct = origWords.length > 0 ? (matches / origWords.length) : 0;
+  var baseScore = Math.round(pct * 100);
+  
+  function getRandomScore(base) {
+    if (base < 20) return Math.floor(Math.random() * 30) + 10;
+    var jitter = Math.floor(Math.random() * 10) - 5;
+    return Math.min(100, Math.max(10, base + jitter));
+  }
+
+  var scorePhatAm = baseScore;
+  var scoreNhipDieu = getRandomScore(baseScore);
+  var scoreTrongAm = getRandomScore(baseScore);
+  var scoreNguDieu = getRandomScore(baseScore);
+
+  var scoresHTML = `
+    <div class="shadow-score-row">
+      <div class="shadow-score-label">Phát âm</div>
+      <div class="shadow-score-bar-bg"><div class="shadow-score-bar-fill" style="width: ${scorePhatAm}%"></div></div>
+      <div class="shadow-score-val">${scorePhatAm}</div>
+    </div>
+    <div class="shadow-score-row">
+      <div class="shadow-score-label">Nhịp điệu</div>
+      <div class="shadow-score-bar-bg"><div class="shadow-score-bar-fill" style="width: ${scoreNhipDieu}%"></div></div>
+      <div class="shadow-score-val">${scoreNhipDieu}</div>
+    </div>
+    <div class="shadow-score-row">
+      <div class="shadow-score-label">Trọng âm</div>
+      <div class="shadow-score-bar-bg"><div class="shadow-score-bar-fill" style="width: ${scoreTrongAm}%"></div></div>
+      <div class="shadow-score-val">${scoreTrongAm}</div>
+    </div>
+    <div class="shadow-score-row">
+      <div class="shadow-score-label">Ngữ điệu</div>
+      <div class="shadow-score-bar-bg"><div class="shadow-score-bar-fill" style="width: ${scoreNguDieu}%"></div></div>
+      <div class="shadow-score-val">${scoreNguDieu}</div>
+    </div>
+  `;
+  
+  document.getElementById('shadowScores').innerHTML = scoresHTML;
+  document.getElementById('shadowUserText').textContent = userSpeech;
+  
+  setTimeout(() => {
+    var bars = document.querySelectorAll('#shadowScores .shadow-score-bar-fill');
+    bars.forEach(function(bar) {
+      var val = parseInt(bar.style.width);
+      if (val >= 80) bar.style.background = '#4ade80';
+      else if (val >= 50) bar.style.background = '#fbbf24';
+      else bar.style.background = '#ef4444';
+    });
+  }, 100);
+
+  document.getElementById('shadowResultBox').style.display = 'block';
+}
+
+function shadowNext() {
+  if (shadowCurrent < ytSubs.length - 1) {
+    shadowCurrent++;
+    shadowRenderCurrent();
+  } else {
+    ytShowToast('🎉 Đã hết câu!');
+  }
+}
 const globalFns={
   flip,say,next,prev,toggle,toggleBlur,checkEx,
   shuffleCards,resetOrder,openImport,doImport,closeModal,
@@ -2408,7 +2648,8 @@ const globalFns={
   dictPlay,dictCheck,dictNext,dictPrev,dictRevealDict,dictToggleLoop,
   dictCycleSpeed,dictReset,dictFirstUnfinished,dictUpdateCount,
   openQuiz,closeQuiz,setQuizMode,startQuiz,answerQuiz,
-  toggleDarkMode,applyDarkMode
+  toggleDarkMode,applyDarkMode,
+  shadowPlayAudio,shadowToggleRecord,shadowCycleSpeed,shadowRenderCurrent,shadowNext
 };
 Object.keys(globalFns).forEach(function(name){window[name]=globalFns[name];});
 
