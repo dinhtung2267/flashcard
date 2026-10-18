@@ -1289,7 +1289,11 @@ async function processImage(file){
     if(!keyList.length){status.className='status no';status.textContent='⚠️ Chưa có key Gemini.';return;}
     var b64=await fileToBase64(file);
     status.innerHTML='<span class="spinner"></span>Đang gửi AI phân tích...';
-    var text=await callWithRetry(buildExtractPrompt('nội dung trong ảnh này'),{type:file.type,b64:b64},status);
+    
+    // Cải thiện câu lệnh (prompt) để AI trích xuất chuẩn hơn
+    var prompt = 'Trích xuất TẤT CẢ từ vựng tiếng Anh có trong hình ảnh này.\nTrả về định dạng JSON (chỉ JSON, không kèm văn bản khác):\n[{"word":"từ tiếng Anh","ipa":"phiên âm","type":"loại từ","meaning":"nghĩa tiếng Việt","example":"câu ví dụ tiếng Anh","exampleVi":"nghĩa câu"}]\n\nNếu không có từ nào, trả về [].';
+    
+    var text=await callWithRetry(prompt,{type:file.type,b64:b64},status);
     parseAndAddCards(text,status);
   }catch(err){status.className='status no';status.textContent='❌ Lỗi: '+err.message;}
 }
@@ -1348,17 +1352,33 @@ async function callWithRetry(prompt,imageData,statusEl){
   }
   throw new Error('Lỗi: '+lastErr);
 }
-function parseAndAddCards(text,status){
+async function parseAndAddCards(text,status){
   try{
-    var m=text.match(/\[[\s\S]*\]/);if(!m)throw new Error('Không tìm thấy danh sách');
+    var m=text.match(/\[[\s\S]*\]/);if(!m)throw new Error('Không tìm thấy danh sách JSON');
     var arr=JSON.parse(m[0]);
-    if(!arr.length){status.className='status no';status.textContent='⚠️ Không có từ.';return;}
+    if(!arr.length){status.className='status no';status.textContent='⚠️ Không tìm thấy từ vựng nào.';return;}
     var newCards=[];
     arr.forEach(function(item){newCards.push([item.word||'?',item.ipa||'',item.type||'(n)',item.meaning||'',item.example||'',item.exampleVi||'']);});
-    savedCards=savedCards.concat(newCards);saveSavedCards();
-    status.className='status ok';status.textContent='✅ Đã tạo '+newCards.length+' thẻ!';
+    
+    savedCards=savedCards.concat(newCards);
+    saveSavedCards();
+    
+    // Cập nhật giao diện ngay lập tức
+    rebuildD(); 
+    updateAutoCount(); 
+    updateNewWordCount();
+
+    // BẮT BUỘC: Đợi đồng bộ lên Firebase xong mới được reload
+    if(currentUser) {
+        status.innerHTML='<span class="spinner"></span>Đang đồng bộ lên Cloud...';
+        await pushToCloud();
+    }
+    
+    status.className='status ok';status.textContent='✅ Đã tạo '+newCards.length+' thẻ! Đang tải lại...';
     setTimeout(function(){location.reload();},1500);
-  }catch(err){status.className='status no';status.textContent='❌ Lỗi: '+err.message;}
+  }catch(err){
+    status.className='status no';status.textContent='❌ Lỗi: '+err.message;
+  }
 }
 
 function openList(){
@@ -2343,8 +2363,6 @@ function dictRenderList(){
 /* SHADOWING MODE */
 var shadowCurrent = 0, shadowSpeed = 1.0;
 var recognition = null, isRecording = false;
-var SpeechRecognition = window.SpeechRecognition || window.webkitSpeechRecognition;
-
 var SpeechRecognition = window.SpeechRecognition || window.webkitSpeechRecognition;
 
 // Hàm tạo mới Micro mỗi lần bấm để tránh bị kẹt
