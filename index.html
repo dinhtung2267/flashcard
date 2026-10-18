@@ -774,17 +774,27 @@ function saveKeyList(){localStorage.setItem('keyList',JSON.stringify(keyList));s
 function rebuildD(){d=original.concat(savedCards);}
 function updateNewWordCount(){var el=document.getElementById('newword-count');if(el)el.textContent=newWords.length;}
 
-function getSyncData(){
-  return {savedCards:savedCards,learned:learned,newWords:newWords,listenData:listenData,
-    keyList:keyList.map(function(k){return {key:k.key,status:k.status,coolUntil:k.coolUntil};}),
-    listenSpeed:listenSpeed,selectedVoice:selectedVoice,lastSync:new Date().toISOString()};
-}
-
 async function pushToCloud(){
   if(!currentUser)return;
   try{
     setSyncStatus('⏳ Đang đồng bộ...','load');
-    await setDoc(doc(fbDb,'users',currentUser.uid),getSyncData(),{merge:true});
+    
+    // Chuyển đổi mảng thẻ thành dạng object để tránh lỗi "Nested arrays"
+    var safeSavedCards = savedCards.map(function(card) {
+      return { w: card[0], ipa: card[1], t: card[2], m: card[3], e: card[4], ev: card[5] };
+    });
+
+    await setDoc(doc(fbDb,'users',currentUser.uid),{
+      savedCards: safeSavedCards,
+      learned: learned,
+      newWords: newWords,
+      listenData: listenData,
+      keyList: keyList.map(function(k){return {key:k.key,status:k.status,coolUntil:k.coolUntil};}),
+      listenSpeed: listenSpeed,
+      selectedVoice: selectedVoice,
+      lastSync: new Date().toISOString()
+    },{merge:true});
+
     var photoKeys=Object.keys(photos);
     var chunks=[];
     for(var k=0;k<photoKeys.length;k+=20){var chunk={};for(var j=k;j<k+20&&j<photoKeys.length;j++){chunk[photoKeys[j]]=photos[photoKeys[j]];}chunks.push(chunk);}
@@ -812,16 +822,27 @@ async function pullFromCloud(){
     }
     var data=snap.data();
 
-    // 1. Gộp thẻ (savedCards)
+    // 1. Khôi phục thẻ (chuyển từ Object về lại Mảng)
     var localSaved = JSON.parse(localStorage.getItem('customCards')||'[]');
-    var cloudSaved = data.savedCards || [];
+    var cloudSaved = [];
+    
+    if (data.savedCards && data.savedCards.length > 0 && data.savedCards[0].w !== undefined) {
+        // Nếu là dữ liệu dạng Object mới
+        cloudSaved = data.savedCards.map(function(c) {
+            return [c.w, c.ipa, c.t, c.m, c.e, c.ev];
+        });
+    } else if (data.savedCards) {
+        // Nếu là dữ liệu dạng mảng cũ
+        cloudSaved = data.savedCards;
+    }
+
     var mergedMap = new Map();
     cloudSaved.forEach(c => mergedMap.set(c[0].toLowerCase(), c));
-    localSaved.forEach(c => mergedMap.set(c[0].toLowerCase(), c)); // Ưu tiên dữ liệu mới nhất trên máy
+    localSaved.forEach(c => mergedMap.set(c[0].toLowerCase(), c));
     savedCards = Array.from(mergedMap.values());
     localStorage.setItem('customCards',JSON.stringify(savedCards));
 
-    // 2. Gộp kho từ mới (newWords)
+    // 2. Gộp kho từ mới (newWords) - Giữ nguyên
     var localNewWords = JSON.parse(localStorage.getItem('newWords')||'[]');
     var cloudNewWords = data.newWords || [];
     var mergedWordsMap = new Map();
@@ -830,7 +851,7 @@ async function pullFromCloud(){
     newWords = Array.from(mergedWordsMap.values());
     localStorage.setItem('newWords',JSON.stringify(newWords));
 
-    // 3. Gộp API Key (keyList) - Tránh bị mất key khi đăng nhập
+    // 3. Gộp API Key - Giữ nguyên
     var localKeys = JSON.parse(localStorage.getItem('keyList')||'[]');
     var cloudKeys = data.keyList || [];
     var mergedKeysMap = new Map();
@@ -839,7 +860,7 @@ async function pullFromCloud(){
     keyList = Array.from(mergedKeysMap.values());
     localStorage.setItem('keyList',JSON.stringify(keyList));
 
-    // 4. Gộp trạng thái Đã học (learned)
+    // 4. Gộp trạng thái Đã học - Giữ nguyên
     var localLearned = JSON.parse(localStorage.getItem('lw')||'[]');
     var cloudLearned = data.learned || [];
     learned = [...new Set([...localLearned, ...cloudLearned])];
@@ -1110,7 +1131,7 @@ function renderKeyList(){
 function addKey(){
   var v=document.getElementById('geminikey').value.trim();
   if(!v){alert('Chưa nhập key!');return;}
-  if(v.indexOf('\n')>=0||v.indexOf(' ')>=0){alert('⚠️ Key có dấu cách!');return;}
+  if(v.indexOf('\n')>=0||v.indexOf(' ')>0){alert('⚠️ Key có dấu cách!');return;}
   for(var k=0;k<keyList.length;k++){if(keyList[k].key===v){alert('⚠️ Key đã có!');return;}}
   keyList.push({key:v,status:'active',coolUntil:0});
   saveKeyList();document.getElementById('geminikey').value='';renderKeyList();
@@ -2258,10 +2279,10 @@ function fillCheck(){
   fillRenderList();
   if(fillPlaying){
     try{ytPlayer.pauseVideo();}catch(e){}
-    fillPlaying=false;
-    document.getElementById('fillPlayBtn').classList.remove('playing');
-    document.getElementById('fillPlayBtn').textContent='▶';
-    if(fillStopTimer){clearTimeout(fillStopTimer);fillStopTimer=null;}
+    fillPlaying=falsediv;
+    document.getElementById('fillPlayBtn'). classclassList.remove('playing');
+   =" document.getElementById('fillPlayBtn').textContentshadow='▶';
+    if(fillStopTimer){clear-scoreTimeout(fillStopTimer);fillStopTimer=null;}
   }
   if(allOk)setTimeout(function(){if(fillResults[fillCurrent]==='ok')fillNext();},1800);
 }
@@ -2619,7 +2640,7 @@ function shadowEvaluate(userSpeech) {
     </div>
     <div class="shadow-score-row">
       <div class="shadow-score-label">Ngữ điệu</div>
-      <div class="shadow-score-bar-bg"><div class="shadow-score-bar-fill" style="width: ${scoreNguDieu}%"></div></div>
+      <-bar-bg"><div class="shadow-score-bar-fill" style="width: ${scoreNguDieu}%"></div></div>
       <div class="shadow-score-val">${scoreNguDieu}</div>
     </div>
   `;
