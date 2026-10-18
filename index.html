@@ -796,7 +796,7 @@ async function pushToCloud(){
     setSyncStatus('✅ Đã đồng bộ '+photoKeys.length+' ảnh','ok');
   }catch(err){
     setSyncStatus('❌ Lỗi sync: '+err.message,'err');
-    throw err; // Bắt buộc throw lỗi để hàm gọi bên ngoài biết
+    throw err;
   }
 }
 
@@ -805,24 +805,63 @@ async function pullFromCloud(){
   try{
     setSyncStatus('⏳ Đang tải dữ liệu...','load');
     var snap=await getDoc(doc(fbDb,'users',currentUser.uid));
-    if(!snap.exists()){setSyncStatus('📤 Lần đầu - Đang upload...','load');await pushToCloud();return;}
+    if(!snap.exists()){
+        setSyncStatus('📤 Lần đầu - Đang upload...','load');
+        await pushToCloud();
+        return;
+    }
     var data=snap.data();
-    if(data.savedCards){savedCards=data.savedCards;localStorage.setItem('customCards',JSON.stringify(savedCards));}
-    if(data.learned){learned=data.learned;localStorage.setItem('lw',JSON.stringify(learned));}
-    if(data.newWords){newWords=data.newWords;localStorage.setItem('newWords',JSON.stringify(newWords));}
+
+    // 1. Gộp thẻ (savedCards)
+    var localSaved = JSON.parse(localStorage.getItem('customCards')||'[]');
+    var cloudSaved = data.savedCards || [];
+    var mergedMap = new Map();
+    cloudSaved.forEach(c => mergedMap.set(c[0].toLowerCase(), c));
+    localSaved.forEach(c => mergedMap.set(c[0].toLowerCase(), c)); // Ưu tiên dữ liệu mới nhất trên máy
+    savedCards = Array.from(mergedMap.values());
+    localStorage.setItem('customCards',JSON.stringify(savedCards));
+
+    // 2. Gộp kho từ mới (newWords)
+    var localNewWords = JSON.parse(localStorage.getItem('newWords')||'[]');
+    var cloudNewWords = data.newWords || [];
+    var mergedWordsMap = new Map();
+    cloudNewWords.forEach(w => mergedWordsMap.set(w.word.toLowerCase(), w));
+    localNewWords.forEach(w => mergedWordsMap.set(w.word.toLowerCase(), w));
+    newWords = Array.from(mergedWordsMap.values());
+    localStorage.setItem('newWords',JSON.stringify(newWords));
+
+    // 3. Gộp API Key (keyList) - Tránh bị mất key khi đăng nhập
+    var localKeys = JSON.parse(localStorage.getItem('keyList')||'[]');
+    var cloudKeys = data.keyList || [];
+    var mergedKeysMap = new Map();
+    cloudKeys.forEach(k => mergedKeysMap.set(k.key, k));
+    localKeys.forEach(k => mergedKeysMap.set(k.key, k));
+    keyList = Array.from(mergedKeysMap.values());
+    localStorage.setItem('keyList',JSON.stringify(keyList));
+
+    // 4. Gộp trạng thái Đã học (learned)
+    var localLearned = JSON.parse(localStorage.getItem('lw')||'[]');
+    var cloudLearned = data.learned || [];
+    learned = [...new Set([...localLearned, ...cloudLearned])];
+    localStorage.setItem('lw',JSON.stringify(learned));
+
     if(data.listenData){listenData=data.listenData;localStorage.setItem('listenData',JSON.stringify(listenData));}
-    if(data.keyList){keyList=data.keyList;localStorage.setItem('keyList',JSON.stringify(keyList));}
     if(data.listenSpeed){listenSpeed=data.listenSpeed;localStorage.setItem('listenSpeed',listenSpeed);}
     if(data.selectedVoice){selectedVoice=data.selectedVoice;localStorage.setItem('selectedVoice',selectedVoice);}
+
     var totalChunks=data.photoChunks||0;
     if(totalChunks>0){
       var allPhotos={};
       for(var k=0;k<totalChunks;k++){try{var cd=await getDoc(doc(fbDb,'users',currentUser.uid,'photos','chunk_'+k));if(cd.exists()){var cdata=JSON.parse(cd.data().data);Object.assign(allPhotos,cdata);}}catch(e){}}
-      photos=allPhotos;
+      var localPhotos = JSON.parse(localStorage.getItem('photosByWord')||'{}');
+      for (var key in allPhotos) { if (!localPhotos[key]) localPhotos[key] = allPhotos[key]; }
+      photos = localPhotos;
       localStorage.setItem('photosByWord',JSON.stringify(photos));
     }
+
     rebuildD();updateNewWordCount();renderKeyList();r();
-    setSyncStatus('✅ Đã tải xong','ok');
+    await pushToCloud(); // Đẩy lại dữ liệu đã gộp lên Cloud
+    setSyncStatus('✅ Đã đồng bộ dữ liệu','ok');
   }catch(err){setSyncStatus('❌ Lỗi tải: '+err.message,'err');}
 }
 
@@ -918,10 +957,10 @@ async function loadListenMode(mode){
   list.innerHTML='<div style="text-align:center;padding:20px"><span class="spinner"></span>AI đang tạo 10 câu...</div>';
   var topic=listenTopic[mode];
   var levelDesc=mode==='easy'?'ngắn (3-5 từ)':mode==='medium'?'trung bình (6-10 từ)':'dài (11-15 từ)';
-  var prompt='Tạo 10 câu tiếng Anh theo chủ đề: "'+topic+'".\n\nYêu cầu: mỗi câu có độ dài '+levelDesc+'. Trả về JSON (chỉ JSON):\n[\n  {"en":"câu tiếng Anh","vi":"nghĩa tiếng Việt"}\n]';
+  var prompt='Tạo 10 câu tiếng Anh theo chủ đề: "'+topic+'".\n\nYêu cầu: mỗi câu có độ dài '+levelDesc+'. Trả về ĐÚNG định dạng JSON (không kèm văn bản khác):\n[\n  {"en":"câu tiếng Anh","vi":"nghĩa tiếng Việt"}\n]';
   try{
     var text=await callWithRetry(prompt,null,null);
-    var m=text.match(/\[[\s\S]*\]/);if(!m)throw new Error('Không parse được');
+    var m=text.match(/\[[\s\S]*\]/);if(!m)throw new Error('AI không trả về JSON hợp lệ');
     var arr=JSON.parse(m[0]);
     listenData[mode]=arr.map(function(x){return {en:x.en,vi:x.vi,answered:false,userAnswer:'',correct:false};});
     saveListenData();renderListenList(mode);
@@ -1128,10 +1167,10 @@ async function showWordInfo(word,ev){
   if(wordCache[clean]){currentWordInfo=wordCache[clean];renderWordInfo(wordCache[clean]);updateSaveBtn();return;}
   info.innerHTML='<div style="text-align:center;padding:20px"><span class="spinner"></span>Đang tra từ...</div>';
   if(!keyList.length){info.innerHTML='<div style="color:#991b1b">⚠️ Cần key Gemini.</div>';return;}
-  var prompt='Tra từ tiếng Anh "'+clean+'". Trả lời ĐÚNG định dạng JSON:\n{"word":"'+clean+'","ipa":"phiên âm","type":"loại từ","meaning":"nghĩa tiếng Việt","example":"câu ví dụ","exampleVi":"nghĩa câu","synonyms":"từ đồng nghĩa"}';
+  var prompt='Tra từ tiếng Anh "'+clean+'". Trả lời ĐÚNG định dạng JSON (không kèm văn bản khác):\n{"word":"'+clean+'","ipa":"phiên âm","type":"loại từ","meaning":"nghĩa tiếng Việt","example":"câu ví dụ","exampleVi":"nghĩa câu","synonyms":"từ đồng nghĩa"}';
   try{
     var text=await callWithRetry(prompt,null,null);
-    var m=text.match(/\{[\s\S]*\}/);if(!m)throw new Error('Không parse được');
+    var m=text.match(/\{[\s\S]*\}/);if(!m)throw new Error('AI không trả về JSON hợp lệ');
     var obj=JSON.parse(m[0]);
     wordCache[clean]=obj;saveWordCache();
     currentWordInfo=obj;renderWordInfo(obj);updateSaveBtn();
@@ -1283,7 +1322,7 @@ function closeModal(){document.getElementById('modal').classList.remove('show');
 function doImport(){}
 function fileToBase64(file){return new Promise(function(res,rej){var r=new FileReader();r.onload=function(){res(r.result.split(',')[1]);};r.onerror=rej;r.readAsDataURL(file);});}
 function fileToText(file){return new Promise(function(res,rej){var r=new FileReader();r.onload=function(){res(r.result);};r.onerror=rej;r.readAsText(file);});}
-function buildExtractPrompt(text){return 'Đọc nội dung sau và trích xuất TẤT CẢ từ vựng:\n\n'+text+'\n\nTrả về JSON (chỉ JSON):\n[{"word":"từ tiếng Anh","ipa":"phiên âm","type":"loại từ","meaning":"nghĩa","example":"câu ví dụ tiếng Anh","exampleVi":"nghĩa câu"}]\n\nNếu không có từ nào, trả về [].';}
+function buildExtractPrompt(text){return 'Đọc nội dung sau và trích xuất TẤT CẢ từ vựng:\n\n'+text+'\n\nTrả về ĐÚNG định dạng JSON (không kèm văn bản khác):\n[{"word":"từ tiếng Anh","ipa":"phiên âm","type":"loại từ","meaning":"nghĩa","example":"câu ví dụ tiếng Anh","exampleVi":"nghĩa câu"}]\n\nNếu không có từ nào, trả về [].';}
 async function processImage(file){
   document.getElementById('modal').classList.add('show');
   var status=document.getElementById('modal-status');
@@ -1294,7 +1333,7 @@ async function processImage(file){
     var b64=await fileToBase64(file);
     status.innerHTML='<span class="spinner"></span>Đang gửi AI phân tích...';
     
-    var prompt = 'Trích xuất TẤT CẢ từ vựng tiếng Anh có trong hình ảnh này.\nTrả về định dạng JSON (chỉ JSON, không kèm văn bản khác):\n[{"word":"từ tiếng Anh","ipa":"phiên âm","type":"loại từ","meaning":"nghĩa tiếng Việt","example":"câu ví dụ tiếng Anh","exampleVi":"nghĩa câu"}]\n\nNếu không có từ nào, trả về [].';
+    var prompt = 'Trích xuất TẤT CẢ từ vựng tiếng Anh có trong hình ảnh này.\nCHỈ TRẢ VỀ ĐỊNH DẠNG JSON (Không có bất kỳ văn bản nào khác, không có markdown ```json):\n[{"word":"từ tiếng Anh","ipa":"phiên âm","type":"loại từ","meaning":"nghĩa tiếng Việt","example":"câu ví dụ tiếng Anh","exampleVi":"nghĩa câu"}]\n\nNếu không có từ nào, trả về [].';
     
     var text=await callWithRetry(prompt,{type:file.type,b64:b64},status);
     parseAndAddCards(text,status);
@@ -1345,9 +1384,11 @@ async function callWithRetry(prompt,imageData,statusEl){
           lastErr=msg;continue;
         }
         if(data.candidates&&data.candidates[0]&&data.candidates[0].content){
+          var txt = data.candidates[0].content.parts[0].text;
+          if(!txt) throw new Error("AI trả về kết quả rỗng");
           WORKING_MODEL=model;localStorage.setItem('wm',model);
           keyList[keyIdx].status='active';saveKeyList();renderKeyList();
-          return data.candidates[0].content.parts[0].text;
+          return txt;
         }
         lastErr='Không có phản hồi';
       }catch(err){lastErr=err.message;}
@@ -1358,7 +1399,9 @@ async function callWithRetry(prompt,imageData,statusEl){
 
 async function parseAndAddCards(text,status){
   try{
-    var m=text.match(/\[[\s\S]*\]/);if(!m)throw new Error('Không tìm thấy danh sách JSON');
+    var m=text.match(/\[[\s\S]*\]/);
+    if(!m) throw new Error('AI không trả về đúng định dạng JSON. Phản hồi: ' + text.substring(0, 50) + '...');
+    
     var arr=JSON.parse(m[0]);
     if(!arr.length){status.className='status no';status.textContent='⚠️ Không tìm thấy từ vựng nào.';return;}
     var newCards=[];
@@ -1392,7 +1435,6 @@ async function parseAndAddCards(text,status){
     status.className='status ok';
     status.textContent='✅ Đã tạo '+newCards.length+' thẻ thành công! Đang đóng...';
     
-    // Không dùng location.reload() nữa để tránh mất dữ liệu và nhảy trang
     setTimeout(function(){
         closeModal();
         i = d.length - newCards.length; // Nhảy đến thẻ mới đầu tiên
