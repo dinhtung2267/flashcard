@@ -1820,6 +1820,22 @@ function startYT(){
     // Ưu tiên dùng dữ liệu từ file JSON
     if(jsonDataCache && jsonDataCache.length > 0) {
       ytSubs = jsonDataCache;
+      
+      // NẾU CÓ DÁN SRT, TỰ ĐỘNG GHÉP TIẾNG VIỆT VÀO JSON
+      if(srt) {
+        var srtData = ytParseSRT(srt);
+        ytSubs.forEach(function(jsonSeg) {
+          var midTime = (jsonSeg.start + jsonSeg.end) / 2; // Tìm điểm giữa của câu JSON
+          for (var i = 0; i < srtData.length; i++) {
+            // Nếu điểm giữa nằm trong câu SRT -> Lấy tiếng Việt
+            if (midTime >= srtData[i].start && midTime <= srtData[i].end) {
+              if(srtData[i].vi) jsonSeg.vi = srtData[i].vi;
+              break;
+            }
+          }
+        });
+      }
+      
     } else {
       ytSubs = ytParseSRT(srt);
     }
