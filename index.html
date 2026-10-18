@@ -480,7 +480,6 @@ body.dark .mb-close{background:linear-gradient(135deg,#4b5563,#374151);color:#e5
 <div id="ytJsonStatus" style="font-size:.8rem; color:#4ade80; margin-bottom:12px; font-weight:bold;"></div>
 
 <button class="mb-primary" onclick="startYT()" style="background:linear-gradient(135deg,#ef4444,#dc2626);color:#fff;font-size:1rem;padding:16px;border-radius:14px;margin-top:6px">🚀 Bắt đầu học</button>
-<button class="mb-primary" onclick="autoFetchSubs()" style="background:linear-gradient(135deg,#3b82f6,#2563eb);color:#fff;font-size:1rem;padding:16px;border-radius:14px;margin-top:8px">⚡ Tự động tải & Dịch phụ đề</button>
 <button class="mb-close" onclick="closeYT()" style="margin-top:8px">Hủy</button>
 <div id="ytStatus" style="display:none" class="status"></div>
 </div>
@@ -1800,93 +1799,37 @@ function backToYTHome(){
   document.getElementById('yt-home').style.display='block';
   document.getElementById('yt-player').style.display='none';
 }
-
-async function autoFetchSubs() {
-  var url = document.getElementById('ytUrl').value.trim();
-  var vid = ytExtractVideoId(url);
-  var status = document.getElementById('ytStatus');
+async function autoTranslateJSON(subs, statusEl) {
+  var chunkSize = 15; // Dịch 15 câu mỗi lần
+  var total = subs.length;
   
-  if (!vid) { alert('Vui lòng dán link YouTube hợp lệ trước!'); return; }
-  
-  status.style.display = 'block';
-  status.className = 'status load';
-  status.innerHTML = '<span class="spinner"></span> Đang tải phụ đề gốc từ YouTube...';
-
-  try {
-    // 1. Lấy phụ đề gốc từ API miễn phí
-    var apiRes = await fetch(`https://api.kome.ai/api/tools/youtube-transcripts`, {
-      method: 'POST',
-      headers: { 'Content-Type': 'application/json' },
-      body: JSON.stringify({ video_id: vid, format: true })
-    });
+  for (var i = 0; i < total; i += chunkSize) {
+    var chunk = subs.slice(i, i + chunkSize);
+    var textToTranslate = chunk.map(function(c){ return c.en; }).join('\n');
     
-    var data = await apiRes.json();
-    if (!data.transcript || data.transcript.length === 0) {
-      throw new Error('Video này không có phụ đề. Hãy dùng file JSON AI.');
-    }
-
-    status.innerHTML = '<span class="spinner"></span> Đã có phụ đề gốc. Bắt đầu dịch...</span>';
-
-    // 2. Tạo mảng dữ liệu
-    var srtList = data.transcript.map(function(t) {
-      return { start: t.start, end: t.start + (t.dur || 3), en: t.text, vi: 'Đang dịch...' };
-    });
-
-    // 3. Phát video ngay lập tức để người dùng xem trong lúc chờ dịch
-    ytSubs = srtList;
-    document.getElementById('yt-home').style.display = 'none';
-    document.getElementById('yt-player').style.display = 'block';
-    status.style.display='none';
-
-    ytLoadApi(function(){
-      if(ytPlayer){try{ytPlayer.destroy();}catch(e){}}
-      ytPlayer=new YT.Player('ytPlayerBox',{
-        height:'100%',width:'100%',videoId:vid,
-        playerVars:{playsinline:1,rel:0,modestbranding:1,controls:0,fs:0,disablekb:1,iv_load_policy:3},
-        events:{
-          onReady:function(e){ 
-            e.target.mute(); e.target.playVideo(); ytStartSync(); 
-            var b=document.getElementById('ytMuteBtn');
-            if(b){b.querySelector('.e').textContent='🔇';b.querySelector('span:last-child').textContent='Bật tiếng';}
-          },
-          onStateChange:function(e){ if(e.data===YT.PlayerState.PLAYING) ytStartSync(); }
-        }
-      });
-    });
-
-    // 4. Dịch ngầm cuốn chiếu (Background Translation)
-    var translateInBackground = async function() {
-      var chunkSize = 15; // Dịch 15 câu mỗi lần để không bị block
-      for (var i = 0; i < srtList.length; i += chunkSize) {
-        var chunk = srtList.slice(i, i + chunkSize);
-        var textToTranslate = chunk.map(function(c){ return c.en; }).join('\n');
-        
-        try {
-          var transRes = await fetch(`https://translate.googleapis.com/translate_a/single?client=gtx&sl=en&tl=vi&dt=t&q=${encodeURIComponent(textToTranslate)}`);
-          var transData = await transRes.json();
-          var viTexts = transData[0].map(item => item[0]).join('').split('\n');
-          
-          for (var j = 0; j < chunk.length; j++) {
-            if (viTexts[j]) {
-              srtList[i + j].vi = viTexts[j].replace(/\[.*?\]/g, '').trim();
-            }
-          }
-        } catch(e) {
-          console.log('Lỗi dịch đoạn', i, e);
+    try {
+      var transRes = await fetch(`https://translate.googleapis.com/translate_a/single?client=gtx&sl=en&tl=vi&dt=t&q=${encodeURIComponent(textToTranslate)}`);
+      var transData = await transRes.json();
+      var viTexts = transData[0].map(item => item[0]).join('').split('\n');
+      
+      for (var j = 0; j < chunk.length; j++) {
+        if (viTexts[j]) {
+          subs[i + j].vi = viTexts[j].replace(/\[.*?\]/g, '').trim();
         }
       }
-      var toast = document.getElementById('ytToast');
-      if(toast) { toast.textContent = "✅ Đã dịch xong toàn bộ phụ đề!"; toast.classList.add('show'); setTimeout(()=>toast.classList.remove('show'), 3000); }
-    };
-
-    translateInBackground(); // Bắt đầu dịch ngầm
-
-  } catch (err) {
-    status.className = 'status no';
-    status.textContent = '❌ Lỗi: ' + err.message;
+    } catch(e) {
+      console.log('Lỗi dịch đoạn', i, e);
+    }
+    
+    if(statusEl) {
+      statusEl.innerHTML = `<span class="spinner"></span> Đang tự động dịch... (${Math.min(i + chunkSize, total)}/${total})`;
+    }
+  }
+  if(statusEl) {
+    statusEl.className = 'status ok';
+    statusEl.innerHTML = '✅ Đã dịch xong!';
   }
 }
-
 function startYT(){
   try {
     var url=document.getElementById('ytUrl').value.trim();
@@ -1908,19 +1851,23 @@ function startYT(){
     if(jsonDataCache && jsonDataCache.length > 0) {
       ytSubs = jsonDataCache;
       
-      // NẾU CÓ DÁN SRT, TỰ ĐỘNG GHÉP TIẾNG VIỆT VÀO JSON
+      // Nếu bạn có dán SRT thì ghép theo SRT
       if(srt) {
         var srtData = ytParseSRT(srt);
         ytSubs.forEach(function(jsonSeg) {
-          var midTime = (jsonSeg.start + jsonSeg.end) / 2; // Tìm điểm giữa của câu JSON
+          var midTime = (jsonSeg.start + jsonSeg.end) / 2;
           for (var i = 0; i < srtData.length; i++) {
-            // Nếu điểm giữa nằm trong câu SRT -> Lấy tiếng Việt
             if (midTime >= srtData[i].start && midTime <= srtData[i].end) {
               if(srtData[i].vi) jsonSeg.vi = srtData[i].vi;
               break;
             }
           }
         });
+      } 
+      // NẾU KHÔNG CÓ SRT -> TỰ ĐỘNG DỊCH SANG TIẾNG VIỆT
+      else {
+        status.innerHTML = '<span class="spinner"></span> Đang tự động dịch sang tiếng Việt (Vui lòng đợi)...';
+        autoTranslateJSON(ytSubs, status); // Chạy ngầm, không cần await
       }
       
     } else {
@@ -2620,7 +2567,7 @@ const globalFns={
   dictPlay,dictCheck,dictNext,dictPrev,dictRevealDict,dictToggleLoop,
   dictCycleSpeed,dictReset,dictFirstUnfinished,dictUpdateCount,
   openQuiz,closeQuiz,setQuizMode,startQuiz,answerQuiz,
-  toggleDarkMode,applyDarkMode,autoFetchSubs
+  toggleDarkMode,applyDarkMode
 };
 Object.keys(globalFns).forEach(function(name){window[name]=globalFns[name];});
 
