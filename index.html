@@ -2431,27 +2431,49 @@ function shadowToggleRecord() {
   var btn = document.getElementById('shadowMicBtn');
   var lbl = document.getElementById('shadowMicLabel');
   
+  // Nếu đang ghi âm mà bấm lần nữa thì dừng lại
   if (isRecording) {
     try { recognition.stop(); } catch(e) {}
     return;
   }
   
+  // 1. Tắt tiếng video ngay lập tức
   if (ytPlayer && ytPlayerReady) ytPlayer.pauseVideo();
   
-  // TẠO MỚI MICRO MỖI LẦN BẤM
-  recognition = createRecognition();
-
+  // 2. Đổi trạng thái nút bấm ngay để người dùng biết đã nhấn
   isRecording = true;
   btn.classList.add('recording');
   btn.style.background = '#ef4444';
-  lbl.textContent = 'Đang nghe... (Nhấn để dừng)';
-  
-  try {
-    recognition.start();
-  } catch(e) {
-    stopRecordingUI();
-    ytShowToast('⚠️ Lỗi khởi động micro, vui lòng thử lại!');
-  }
+  lbl.textContent = 'Đang kết nối micro...';
+
+  // 3. CHỜ 0.5 GIÂY để điện thoại nhả âm thanh video, sau đó mới bật Micro
+  setTimeout(function() {
+    recognition = createRecognition(); // Tạo mới hoàn toàn để tránh kẹt
+    
+    recognition.onstart = function() {
+      lbl.textContent = 'Đang nghe... Hãy nói';
+    };
+
+    recognition.onerror = function(event) {
+      // Bỏ qua các lỗi vặt (aborted, no-speech) để không hiện thông báo rác
+      if (event.error === 'not-allowed') {
+        alert('Bạn chưa cấp quyền Micro cho trình duyệt!');
+      } else if (event.error !== 'aborted' && event.error !== 'no-speech') {
+        ytShowToast('⚠️ Lỗi micro: ' + event.error);
+      }
+      stopRecordingUI();
+    };
+
+    recognition.onend = function() {
+      stopRecordingUI();
+    };
+
+    try {
+      recognition.start();
+    } catch(e) {
+      stopRecordingUI();
+    }
+  }, 500); // 500ms = 0.5 giây
 }
 
 function stopRecordingUI() {
