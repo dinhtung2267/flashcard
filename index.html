@@ -365,6 +365,14 @@ body.dark .mb-close{background:linear-gradient(135deg,#4b5563,#374151);color:#e5
   .fill-next,.dict-next{padding:10px!important;font-size:.78rem!important}
   .dict-input{min-height:60px!important;font-size:.85rem!important;padding:8px!important}
 }
+@keyframes slideUp {
+  from { transform: translateY(100%); }
+  to { transform: translateY(0); }
+}
+.dp-highlight {
+  color: #fbbf24;
+  font-weight: 700;
+}
 </style></head><body>
 
 <div id="appLockScreen" style="position:fixed;inset:0;background:linear-gradient(135deg,#667eea 0%,#764ba2 100%);z-index:9999999;display:flex;align-items:center;justify-content:center;padding:20px">
@@ -701,7 +709,37 @@ body.dark .mb-close{background:linear-gradient(135deg,#4b5563,#374151);color:#e5
 
 </div> <!-- KẾT THÚC APPCONTENT -->
 
-<div class="yt-toast" id="ytToast"></div>
+<!-- POPUP TỪ ĐIỂN -->
+<div id="dictPopup" style="display:none; position:fixed; inset:0; background:rgba(0,0,0,0.6); z-index:999999; align-items:flex-end; justify-content:center;">
+  <div style="background:#1e293b; width:100%; max-width:500px; border-radius:24px 24px 0 0; padding:24px; color:#e2e8f0; max-height:85vh; overflow-y:auto; box-shadow:0 -10px 40px rgba(0,0,0,0.5); position:relative; animation: slideUp 0.3s ease-out;">
+    <button onclick="closeDictPopup()" style="position:absolute; top:20px; right:20px; background:rgba(255,255,255,0.1); border:none; color:#94a3b8; width:36px; height:36px; border-radius:50%; font-size:1.2rem; cursor:pointer;">✕</button>
+    
+    <div style="font-size:2.5rem; font-weight:800; color:#fff; margin-bottom:4px; line-height:1.2;" id="dpWord">mountain</div>
+    <div style="font-size:1rem; color:#64748b; display:flex; gap:8px; align-items:center; margin-bottom:16px;">
+      <span id="dpIpa" style="font-style:italic;">/ˈmaʊn.tən/</span>
+      <span>·</span>
+      <span id="dpType" style="color:#94a3b8;">noun</span>
+      <span style="color:#4ade80; font-size:0.8rem;">● A2</span>
+    </div>
+
+    <div style="font-size:1.8rem; font-weight:700; color:#fff; margin-bottom:20px; display:flex; align-items:center; justify-content:space-between;">
+      <span id="dpMeaning">núi</span>
+      <button onclick="speakWordModal(document.getElementById('dpWord').innerText)" style="background:#06b6d4; color:#fff; border:none; width:48px; height:48px; border-radius:50%; font-size:1.2rem; cursor:pointer; display:flex; align-items:center; justify-content:center;">🔊</button>
+    </div>
+
+    <div style="border-left:3px solid #334155; padding-left:12px; margin-bottom:20px;">
+      <div id="dpExample" style="font-size:1.05rem; line-height:1.6; margin-bottom:4px; color:#cbd5e1;">be walking down the mountain, walking to</div>
+      <div id="dpExampleVi" style="font-size:0.95rem; color:#64748b;">đang đi bộ xuống núi, đi bộ đến</div>
+    </div>
+
+    <div id="dpEngDef" style="font-size:1.05rem; line-height:1.6; color:#e2e8f0; margin-bottom:8px;">a large natural elevation of the earth's surface...</div>
+    <div id="dpViDef" style="font-size:0.95rem; line-height:1.6; color:#64748b; margin-bottom:24px;">một vùng đất tự nhiên nhô cao lớn...</div>
+
+    <button onclick="saveDictWord()" style="width:100%; background:rgba(6,182,212,0.15); border:1px solid rgba(6,182,212,0.3); color:#22d3ee; padding:14px; border-radius:12px; font-weight:700; font-size:1rem; cursor:pointer; display:flex; align-items:center; justify-content:center; gap:8px;">
+      <span style="font-size:1.2rem;">🔖</span> Lưu từ
+    </button>
+  </div>
+</div>
 
 <script type="module">
 import { initializeApp } from 'https://www.gstatic.com/firebasejs/10.7.0/firebase-app.js';
@@ -1244,33 +1282,125 @@ function getCurrentKey(){
 function markKeyCool(idx,seconds){if(!keyList[idx])return;keyList[idx].status='cool';keyList[idx].coolUntil=Date.now()+seconds*1000;saveKeyList();renderKeyList();}
 function markKeyDead(idx){if(!keyList[idx])return;keyList[idx].status='dead';saveKeyList();renderKeyList();}
 
+var currentWordInfo = null;
+
 async function showWordInfo(word,ev){
   if(ev)ev.stopPropagation();
   var clean=word.replace(/[^a-zA-Z'-]/g,'').toLowerCase();
   if(!clean||clean.length<2)return;
-  var savedWord=newWords.find(function(w){return w.word.toLowerCase()===clean;});
+  
+  // Hiển thị popup với trạng thái Loading
+  document.getElementById('dictPopup').style.display = 'flex';
+  document.getElementById('dpWord').textContent = clean;
+  document.getElementById('dpIpa').textContent = '...';
+  document.getElementById('dpType').textContent = '';
+  document.getElementById('dpMeaning').textContent = 'Đang tra từ...';
+  document.getElementById('dpExample').innerHTML = '';
+  document.getElementById('dpExampleVi').textContent = '';
+  document.getElementById('dpEngDef').textContent = '';
+  document.getElementById('dpViDef').textContent = '';
+
+  // Kiểm tra cache / đã lưu
+  var savedWord = newWords.find(function(w){return w.word.toLowerCase()===clean;});
   if(savedWord){
-    currentWordInfo=savedWord;
-    document.getElementById('wordmodal-word').textContent=clean;
-    renderWordInfo(savedWord);updateSaveBtn();
-    document.getElementById('wordmodal').classList.add('show');
+    currentWordInfo = savedWord;
+    renderDictPopup(savedWord);
     return;
   }
-  document.getElementById('wordmodal-word').textContent=clean;
-  var info=document.getElementById('wordinfo');
-  document.getElementById('wordmodal').classList.add('show');
-  document.getElementById('savewordbtn').style.display='none';
-  if(wordCache[clean]){currentWordInfo=wordCache[clean];renderWordInfo(wordCache[clean]);updateSaveBtn();return;}
-  info.innerHTML='<div style="text-align:center;padding:20px"><span class="spinner"></span>Đang tra từ...</div>';
-  if(!keyList.length){info.innerHTML='<div style="color:#991b1b">⚠️ Cần key Gemini.</div>';return;}
-  var prompt='Tra từ tiếng Anh "'+clean+'". Trả lời ĐÚNG định dạng JSON (không kèm văn bản khác):\n{"word":"'+clean+'","ipa":"phiên âm","type":"loại từ","meaning":"nghĩa tiếng Việt","example":"câu ví dụ","exampleVi":"nghĩa câu","synonyms":"từ đồng nghĩa"}';
-  try{
-    var text=await callWithRetry(prompt,null,null);
-    var m=text.match(/\{[\s\S]*\}/);if(!m)throw new Error('AI không trả về JSON hợp lệ');
-    var obj=JSON.parse(m[0]);
-    wordCache[clean]=obj;saveWordCache();
-    currentWordInfo=obj;renderWordInfo(obj);updateSaveBtn();
-  }catch(err){info.innerHTML='<div style="color:#991b1b">❌ Lỗi: '+err.message+'</div>';}
+  
+  if(wordCache[clean]){
+    currentWordInfo = wordCache[clean];
+    renderDictPopup(wordCache[clean]);
+    return;
+  }
+
+  if(!keyList.length){
+    document.getElementById('dpMeaning').textContent = '⚠️ Cần nhập Gemini API Key!';
+    return;
+  }
+
+  // Gọi AI
+  var prompt = 'Tra từ tiếng Anh "'+clean+'". Trả lời ĐÚNG định dạng JSON (không kèm văn bản khác):\n' +
+               '{"word":"'+clean+'","ipa":"phiên âm","type":"loại từ (vd: noun, verb)","meaning":"nghĩa tiếng Việt ngắn gọn","example":"câu ví dụ tiếng Anh","exampleVi":"nghĩa câu ví dụ","definitionEn":"giải thích nghĩa bằng tiếng Anh","definitionVi":"giải thích nghĩa bằng tiếng Việt"}';
+  
+  try {
+    var text = await callWithRetry(prompt, null, null);
+    var m = text.match(/\{[\s\S]*\}/);
+    if(!m) throw new Error('AI không trả về JSON hợp lệ');
+    var obj = JSON.parse(m[0]);
+    wordCache[clean] = obj;
+    saveWordCache();
+    currentWordInfo = obj;
+    renderDictPopup(obj);
+  } catch(err) {
+    document.getElementById('dpMeaning').textContent = '❌ Lỗi: ' + err.message;
+  }
+}
+
+function renderDictPopup(obj) {
+  document.getElementById('dpWord').textContent = obj.word || '';
+  document.getElementById('dpIpa').textContent = obj.ipa || '';
+  document.getElementById('dpType').textContent = obj.type || '';
+  document.getElementById('dpMeaning').textContent = obj.meaning || '';
+  
+  // Highlight từ trong câu ví dụ
+  var exEn = obj.example || '';
+  if (obj.word && exEn) {
+    var regex = new RegExp('\\b(' + obj.word + ')\\b', 'gi');
+    exEn = exEn.replace(regex, '<span class="dp-highlight">$1</span>');
+  }
+  document.getElementById('dpExample').innerHTML = exEn;
+  document.getElementById('dpExampleVi').textContent = obj.exampleVi || '';
+  
+  document.getElementById('dpEngDef').textContent = obj.definitionEn || obj.example || '';
+  document.getElementById('dpViDef').textContent = obj.definitionVi || obj.exampleVi || '';
+  
+  // Cập nhật nút Lưu
+  var btn = document.querySelector('#dictPopup button[onclick="saveDictWord()"]');
+  if(btn) {
+    if(isWordSaved(obj.word)) {
+      btn.innerHTML = '<span style="font-size:1.2rem;">✅</span> Đã lưu';
+      btn.style.color = '#4ade80';
+      btn.style.borderColor = 'rgba(74,222,128,0.3)';
+      btn.style.background = 'rgba(74,222,128,0.15)';
+    } else {
+      btn.innerHTML = '<span style="font-size:1.2rem;">🔖</span> Lưu từ';
+      btn.style.color = '#22d3ee';
+      btn.style.borderColor = 'rgba(6,182,212,0.3)';
+      btn.style.background = 'rgba(6,182,212,0.15)';
+    }
+  }
+}
+
+function closeDictPopup() {
+  document.getElementById('dictPopup').style.display = 'none';
+}
+
+function saveDictWord() {
+  if(!currentWordInfo) return;
+  var word = currentWordInfo.word;
+  
+  if(isWordSaved(word)) {
+    newWords = newWords.filter(function(w){return w.word.toLowerCase() !== word.toLowerCase();});
+    saveNewWords();
+    updateNewWordCount();
+    ytShowToast('Đã bỏ lưu từ "' + word + '"');
+  } else {
+    newWords.push({
+      word: currentWordInfo.word,
+      ipa: currentWordInfo.ipa || '',
+      type: currentWordInfo.type || '',
+      meaning: currentWordInfo.meaning || '',
+      example: currentWordInfo.example || '',
+      exampleVi: currentWordInfo.exampleVi || '',
+      synonyms: currentWordInfo.synonyms || '',
+      savedAt: Date.now()
+    });
+    saveNewWords();
+    updateNewWordCount();
+    ytShowToast('✅ Đã lưu từ "' + word + '"!');
+  }
+  renderDictPopup(currentWordInfo);
 }
 function renderWordInfo(obj){
   var info=document.getElementById('wordinfo');var html='';
@@ -2954,7 +3084,8 @@ const globalFns={
   shadowPlayAudio,shadowToggleRecord,shadowCycleSpeed,shadowRenderCurrent,shadowNext,
   openQuiz,closeQuiz,setQuizMode,startQuiz,answerQuiz,
   toggleDarkMode,applyDarkMode,
-  ytToggleSubVi, ytToggleSubEn, ytChangeFontSize
+  ytToggleSubVi, ytToggleSubEn, ytChangeFontSize,
+  closeDictPopup, saveDictWord
 };
 Object.keys(globalFns).forEach(function(name){window[name]=globalFns[name];});
 
