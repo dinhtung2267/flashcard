@@ -183,9 +183,25 @@ body.dark .mb-close{background:linear-gradient(135deg,#4b5563,#374151);color:#e5
 
 #ytSubOutside{background:linear-gradient(180deg,#0f172a 0%,#020617 100%);padding:22px 20px;border-top:1px solid rgba(251,191,36,.25);min-height:140px;position:relative;display:flex;flex-direction:column;justify-content:center}
 #ytSubEn{font-size:var(--yt-sub-size, clamp(1.4rem, 5.5vw, 1.9rem));font-weight:800;color:#f8fafc;line-height:1.5;margin-bottom:14px;text-align:center;text-shadow:0 2px 8px rgba(0,0,0,.5);transition:font-size 0.2s;min-height:1.5em;}
-#ytSubEn .w{padding:3px 6px;margin:0 2px;border-radius:6px;cursor:pointer;display:inline-block}
-#ytSubEn .w.read{background:transparent;color:#94a3b8;opacity:.55}
-#ytSubEn .w.current{background:linear-gradient(135deg,#ef4444,#dc2626);color:#fff;font-weight:900;transform:scale(1.1)}
+#ytSubEn .w{
+  padding: 0 2px; 
+  margin: 0 1px; 
+  cursor: pointer; 
+  display: inline-block;
+  color: #94a3b8; 
+  border-bottom: 3px solid transparent; 
+  position: relative;
+}
+#ytSubEn .w.read{
+  color: #94a3b8;
+}
+#ytSubEn .w.active-w {
+  color: #fbbf24; 
+  background-image: linear-gradient(#fbbf24, #fbbf24);
+  background-repeat: no-repeat;
+  background-position: left bottom;
+  background-size: 0% 3px; 
+}
 #ytSubVi{font-size:calc(var(--yt-sub-size, clamp(1.4rem, 5.5vw, 1.9rem)) * 0.75);color:#fbbf24;line-height:1.5;text-align:center;font-weight:600;padding-top:12px;border-top:1px dashed rgba(251,191,36,.2);transition:font-size 0.2s;min-height:1.5em;}
 #ytSubEn.hidden, #ytSubVi.hidden { visibility: hidden !important; }
 
@@ -2158,14 +2174,19 @@ function renderYTViewList(){
   });
 }
 
-function ytStartSync(){if(ytInterval)clearInterval(ytInterval);ytInterval=setInterval(ytSyncTick,60);}
+function ytStartSync(){if(ytInterval)clearInterval(ytInterval);ytInterval=setInterval(ytSyncTick,30);}
 
 function ytSyncTick(){
   if(!ytPlayer||!ytPlayerReady)return;
   if(ytMode!=='view')return;
+  
   var t;try{t=ytPlayer.getCurrentTime();}catch(e){return;}
   var idx=-1;
-  for(var k=0;k<ytSubs.length;k++){if(t>=ytSubs[k].start&&t<ytSubs[k].end){idx=k;break;}}
+  
+  for(var k=0;k<ytSubs.length;k++){
+    if(t>=ytSubs[k].start&&t<ytSubs[k].end){idx=k;break;}
+  }
+  
   if(idx!==ytCurrentIdx){
     ytCurrentIdx=idx;
     document.querySelectorAll('.yt-item').forEach(function(el,k){el.classList.toggle('active',k===idx);});
@@ -2178,16 +2199,49 @@ function ytSyncTick(){
       ytRenderSub(idx);
     }
   }
+  
   if(idx>=0){
     var s=ytSubs[idx];
     var timings = (s._hasWordTags && s._wordTimings) ? s._wordTimings : s._approxTimings;
+    
     if(timings && timings.length > 0){
-      var aw = -1;
-      for(var wi=0; wi<timings.length; wi++){
-        if(t >= timings[wi].start) aw = wi;
-        if(t <  timings[wi].end && t >= timings[wi].start){ aw = wi; break; }
+      var enEl=document.getElementById('ytSubEn');
+      if(enEl && ytSubEnOn){
+        var words = enEl.querySelectorAll('.w');
+        
+        for(var wi=0; wi<timings.length; wi++){
+          var w = words[wi];
+          if(!w) continue;
+          
+          var wStart = timings[wi].start;
+          var wEnd = timings[wi].end;
+          var wDuration = wEnd - wStart;
+          
+          w.classList.remove('active-w');
+          w.style.backgroundSize = '0% 3px'; // Reset thanh gạch về 0
+
+          if(t >= wEnd){
+            // Đã đọc xong từ này
+            w.classList.add('read');
+          } else if(t >= wStart && t < wEnd){
+            // Đang đọc từ này -> Tính % thời gian để kéo dài gạch
+            w.classList.add('active-w');
+            var progress = (t - wStart) / wDuration;
+            if(progress > 1) progress = 1;
+            w.style.backgroundSize = (progress * 100) + '% 3px';
+            
+            // Đánh dấu các từ phía sau là chưa đọc
+            for(var j = wi + 1; j < words.length; j++){
+              words[j].classList.remove('read', 'active-w');
+              words[j].style.backgroundSize = '0% 3px';
+            }
+            break; // Chỉ xử lý từ hiện tại, các từ khác chờ vòng lặp sau
+          } else {
+            // Chưa đọc tới
+            w.classList.remove('read');
+          }
+        }
       }
-      ytHighlight(idx, aw);
     } else {
       ytHighlightAll(idx);
     }
@@ -2213,29 +2267,22 @@ function ytRenderSub(idx){
 }
 
 function ytHighlight(idx,aw){
-  var enEl=document.getElementById('ytSubEn');
-  if(enEl && ytSubEnOn){
-    enEl.querySelectorAll('.w').forEach(function(w,i){
-      w.classList.remove('read','current');
-      if(i<aw)w.classList.add('read');
-      else if(i===aw)w.classList.add('read','current');
-    });
-  }
-  var ai=document.querySelector('.yt-item[data-idx="'+idx+'"]');
-  if(ai){ai.querySelectorAll('.yt-en .w').forEach(function(w,i){w.classList.remove('read');if(i<=aw)w.classList.add('read');});}
+  // Không cần làm gì vì đã xử lý trực tiếp trong ytSyncTick
 }
 
 function ytHighlightAll(idx){
   var enEl=document.getElementById('ytSubEn');
   if(enEl && ytSubEnOn){
     enEl.querySelectorAll('.w').forEach(function(w){
-      w.classList.remove('read','current');
+      w.classList.remove('active-w');
       w.classList.add('read');
+      w.style.backgroundSize = '0% 3px';
     });
   }
   var ai=document.querySelector('.yt-item[data-idx="'+idx+'"]');
   if(ai){ai.querySelectorAll('.yt-en .w').forEach(function(w){w.classList.add('read');});}
 }
+              
 
 function ytJumpTo(idx){
   if(!ytSubs[idx]||!ytPlayer)return;
