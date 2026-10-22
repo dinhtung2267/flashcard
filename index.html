@@ -1691,19 +1691,7 @@ async function processFile(file){
     await parseAndAddCards(text,status);
   }catch(err){status.className='status no';status.textContent='❌ Lỗi: '+err.message;}
 }
-async function processFile(file){
-  document.getElementById('modal').classList.add('show');
-  var status=document.getElementById('modal-status');
-  status.style.display='block';status.className='status';
-  status.innerHTML='<span class="spinner"></span>Đang đọc file...';
-  try{
-    if(!keyList.length){status.className='status no';status.textContent='⚠️ Chưa có key Gemini.';return;}
-    var content=await fileToText(file);
-    status.innerHTML='<span class="spinner"></span>Đang gửi AI phân tích...';
-    var text=await callWithRetry(buildExtractPrompt(content),null,status);
-    parseAndAddCards(text,status);
-  }catch(err){status.className='status no';status.textContent='❌ Lỗi: '+err.message;}
-}
+
 async function callGeminiWithKey(key,model,prompt,imageData){
   var url='https://generativelanguage.googleapis.com/v1beta/models/'+model+':generateContent?key='+key;
   var body;
@@ -2319,12 +2307,12 @@ function openYT(){
 }
 function closeYT(){
   if(ytPlayer){try{ytPlayer.pauseVideo();}catch(e){}}
-  if(ytInterval){clearInterval(ytInterval);ytInterval=null;}
+  if(ytInterval){cancelAnimationFrame(ytInterval);ytInterval=null;}
   document.getElementById('ytmodal').classList.remove('show');
 }
 function backToYTHome(){
   if(ytPlayer){try{ytPlayer.pauseVideo();}catch(e){}}
-  if(ytInterval){clearInterval(ytInterval);ytInterval=null;}
+  if(ytInterval){cancelAnimationFrame(ytInterval);ytInterval=null;}
   document.getElementById('yt-home').style.display='block';
   document.getElementById('yt-history').style.display='none';
   document.getElementById('yt-player').style.display='none';
@@ -2433,7 +2421,7 @@ function loadYTHistoryItem(idx) {
           if(e.data===YT.PlayerState.PLAYING){
             if(ytMode==='view')ytStartSync();
           }else{
-            if(ytInterval){clearInterval(ytInterval);ytInterval=null;}
+            if(ytInterval){cancelAnimationFrame(ytInterval);ytInterval=null;}
           }
         }
       }
@@ -2583,7 +2571,7 @@ async function startYT(){
             if(e.data===YT.PlayerState.PLAYING){
               if(ytMode==='view')ytStartSync();
             }else{
-              if(ytInterval){clearInterval(ytInterval);ytInterval=null;}
+              if(ytInterval){cancelAnimationFrame(ytInterval);ytInterval=null;}
             }
           }
         }
