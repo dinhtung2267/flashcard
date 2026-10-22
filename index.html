@@ -1662,10 +1662,33 @@ async function processImage(file){
     var b64=await fileToBase64(file);
     status.innerHTML='<span class="spinner"></span>Đang gửi AI phân tích...';
     
-    var prompt = 'Trích xuất TẤT CẢ từ vựng tiếng Anh có trong hình ảnh này.\nCHỈ TRẢ VỀ ĐỊNH DẠNG JSON (Không có bất kỳ văn bản nào khác, không có markdown ```json):\n[{"word":"từ tiếng Anh","ipa":"phiên âm","type":"loại từ","meaning":"nghĩa tiếng Việt","example":"câu ví dụ tiếng Anh","exampleVi":"nghĩa câu"}]\n\nNếu không có từ nào, trả về [].';
+    var prompt = 'Trích xuất TẤT CẢ từ vựng tiếng Anh có trong hình ảnh này.\n' +
+                 'CHỈ TRẢ VỀ ĐỊNH DẠNG JSON (Không có bất kỳ văn bản nào khác, không có markdown):\n' +
+                 '[{"word":"từ tiếng Anh","ipa":"phiên âm","type":"loại từ","meaning":"nghĩa tiếng Việt ngắn gọn","example":"câu ví dụ tiếng Anh thực tế có chứa từ này","exampleVi":"nghĩa câu ví dụ"}]\n' +
+                 'Nếu không có từ nào, trả về [].';
     
     var text=await callWithRetry(prompt,{type:file.type,b64:b64},status);
-    parseAndAddCards(text,status);
+    await parseAndAddCards(text,status);
+  }catch(err){status.className='status no';status.textContent='❌ Lỗi: '+err.message;}
+}
+
+async function processFile(file){
+  document.getElementById('modal').classList.add('show');
+  var status=document.getElementById('modal-status');
+  status.style.display='block';status.className='status';
+  status.innerHTML='<span class="spinner"></span>Đang đọc file...';
+  try{
+    if(!keyList.length){status.className='status no';status.textContent='⚠️ Chưa có key Gemini.';return;}
+    var content=await fileToText(file);
+    status.innerHTML='<span class="spinner"></span>Đang gửi AI phân tích...';
+    
+    var prompt = 'Đọc nội dung sau và trích xuất TẤT CẢ từ vựng:\n\n'+content+'\n\n' +
+                 'Trả về ĐÚNG định dạng JSON (không kèm văn bản khác):\n' +
+                 '[{"word":"từ tiếng Anh","ipa":"phiên âm","type":"loại từ","meaning":"nghĩa tiếng Việt ngắn gọn","example":"câu ví dụ tiếng Anh thực tế có chứa từ này","exampleVi":"nghĩa câu ví dụ"}]\n' +
+                 'Nếu không có từ nào, trả về [].';
+                 
+    var text=await callWithRetry(prompt,null,status);
+    await parseAndAddCards(text,status);
   }catch(err){status.className='status no';status.textContent='❌ Lỗi: '+err.message;}
 }
 async function processFile(file){
@@ -1733,6 +1756,7 @@ async function parseAndAddCards(text,status){
     
     var arr=JSON.parse(m[0]);
     if(!arr.length){status.className='status no';status.textContent='⚠️ Không tìm thấy từ vựng nào.';return;}
+    
     var newCards=[];
     arr.forEach(function(item){newCards.push([item.word||'?',item.ipa||'',item.type||'(n)',item.meaning||'',item.example||'',item.exampleVi||'']);});
     
@@ -1742,6 +1766,41 @@ async function parseAndAddCards(text,status){
     rebuildD(); 
     updateAutoCount(); 
     updateNewWordCount();
+
+    // TỰ ĐỘNG TÌM ẢNH
+    status.innerHTML='<span class="spinner"></span>Đang tự động tìm ảnh minh họa...';
+    var missingWords = arr.filter(function(item) { return !photos[item.word]; });
+    
+    for (var j = 0; j < missingWords.length; j++) {
+        var item = missingWords[j];
+        var query = encodeURIComponent(item.meaning || item.word);
+        try {
+            // Sử dụng API tìm ảnh miễn phí của Pixabay/Unsplash (source.unsplash.com đã ngừng, dùng Pixabay hoặc placeholder)
+            // Ở đây dùng LoremFlickr làm proxy để lấy ảnh theo từ khóa (nghĩa tiếng Việt hoặc tiếng Anh)
+            var imgUrl = `https://loremflickr.com/400/300/${encodeURIComponent(item.word)}`;
+            
+            // Tải ảnh về dưới dạng base64 để lưu vào localStorage
+            await new Promise((resolve) => {
+                var img = new Image();
+                img.crossOrigin = "Anonymous";
+                img.onload = function() {
+                    var canvas = document.createElement('canvas');
+                    var maxSize = 400; var w = img.width, h = img.height;
+                    if(w > h) { if(w > maxSize) { h = h * maxSize / w; w = maxSize; } } 
+                    else { if(h > maxSize) { w = w * maxSize / h; h = maxSize; } }
+                    canvas.width = w; canvas.height = h;
+                    var ctx = canvas.getContext('2d'); ctx.drawImage(img, 0, 0, w, h);
+                    photos[item.word] = canvas.toDataURL('image/jpeg', 0.6);
+                    resolve();
+                };
+                img.onerror = function() { resolve(); }; // Lỗi thì bỏ qua
+                img.src = imgUrl;
+            });
+        } catch (e) {
+            console.log("Lỗi tải ảnh cho từ: " + item.word, e);
+        }
+    }
+    savePhotos();
 
     if(currentUser) {
         status.innerHTML='<span class="spinner"></span>Đang đồng bộ lên Cloud...';
@@ -1760,13 +1819,13 @@ async function parseAndAddCards(text,status){
     }
     
     status.className='status ok';
-    status.textContent='✅ Đã tạo '+newCards.length+' thẻ thành công! Đang đóng...';
+    status.textContent='✅ Đã tạo '+newCards.length+' thẻ và tự động tìm ảnh thành công! Đang đóng...';
     
     setTimeout(function(){
         closeModal();
         i = d.length - newCards.length;
         r();
-    }, 1000);
+    }, 1500);
     
   }catch(err){
     status.className='status no';status.textContent='❌ Lỗi: '+err.message;
