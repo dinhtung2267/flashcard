@@ -1761,13 +1761,11 @@ async function parseAndAddCards(text,status){
     
     for (var j = 0; j < missingWords.length; j++) {
         var item = missingWords[j];
-        var query = encodeURIComponent(item.meaning || item.word);
         try {
-            // Sử dụng API tìm ảnh miễn phí của Pixabay/Unsplash (source.unsplash.com đã ngừng, dùng Pixabay hoặc placeholder)
-            // Ở đây dùng LoremFlickr làm proxy để lấy ảnh theo từ khóa (nghĩa tiếng Việt hoặc tiếng Anh)
-            var imgUrl = `https://loremflickr.com/400/300/${encodeURIComponent(item.word)}`;
+            // Sử dụng Unsplash Source API (ổn định và ít bị chặn CORS hơn)
+            var keyword = encodeURIComponent(item.word);
+            var imgUrl = `https://source.unsplash.com/400x300/?${keyword}`;
             
-            // Tải ảnh về dưới dạng base64 để lưu vào localStorage
             await new Promise((resolve) => {
                 var img = new Image();
                 img.crossOrigin = "Anonymous";
@@ -1781,7 +1779,11 @@ async function parseAndAddCards(text,status){
                     photos[item.word] = canvas.toDataURL('image/jpeg', 0.6);
                     resolve();
                 };
-                img.onerror = function() { resolve(); }; // Lỗi thì bỏ qua
+                img.onerror = function() { 
+                    // Nếu lỗi, thử dùng ảnh placeholder
+                    photos[item.word] = 'https://placehold.co/400x300/EEF2FF/4338CA?text=' + encodeURIComponent(item.word);
+                    resolve(); 
+                };
                 img.src = imgUrl;
             });
         } catch (e) {
