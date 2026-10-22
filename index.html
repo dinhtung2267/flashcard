@@ -1755,16 +1755,16 @@ async function parseAndAddCards(text,status){
     updateAutoCount(); 
     updateNewWordCount();
 
-    // TỰ ĐỘNG TÌM ẢNH
+    // TỰ ĐỘNG TÌM ẢNH THẬT
     status.innerHTML='<span class="spinner"></span>Đang tự động tìm ảnh minh họa...';
     var missingWords = arr.filter(function(item) { return !photos[item.word]; });
     
     for (var j = 0; j < missingWords.length; j++) {
         var item = missingWords[j];
         try {
-            // Sử dụng Unsplash Source API (ổn định và ít bị chặn CORS hơn)
-            var keyword = encodeURIComponent(item.word);
-            var imgUrl = `https://source.unsplash.com/400x300/?${keyword}`;
+            // Sử dụng API lấy ảnh ngẫu nhiên từ từ khóa (LoremFlickr thường trả về ảnh thật)
+            var keyword = encodeURIComponent(item.word.replace(/\s+/g, ''));
+            var imgUrl = `https://loremflickr.com/400/300/${keyword}/all`;
             
             await new Promise((resolve) => {
                 var img = new Image();
@@ -1780,8 +1780,7 @@ async function parseAndAddCards(text,status){
                     resolve();
                 };
                 img.onerror = function() { 
-                    // Nếu lỗi, thử dùng ảnh placeholder
-                    photos[item.word] = 'https://placehold.co/400x300/EEF2FF/4338CA?text=' + encodeURIComponent(item.word);
+                    // NẾU LỖI: Không lưu ảnh rác, để trống cho người dùng tự upload
                     resolve(); 
                 };
                 img.src = imgUrl;
@@ -1809,7 +1808,7 @@ async function parseAndAddCards(text,status){
     }
     
     status.className='status ok';
-    status.textContent='✅ Đã tạo '+newCards.length+' thẻ và tự động tìm ảnh thành công! Đang đóng...';
+    status.textContent='✅ Đã tạo '+newCards.length+' thẻ thành công! Đang đóng...';
     
     setTimeout(function(){
         closeModal();
