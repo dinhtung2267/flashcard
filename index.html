@@ -1,4 +1,4 @@
-<!DOCTYPE html>
+ <!DOCTYPE html>
 <html><head><meta charset="utf-8"><meta name="viewport" content="width=device-width,initial-scale=1,maximum-scale=1"><title>Flashcard Nghề Nghiệp</title><style>
 @import url('https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700;800;900&display=swap');
 *{box-sizing:border-box}
@@ -2383,7 +2383,7 @@ function loadYTHistoryItem(idx) {
 }
 
 async function autoTranslateJSON(subs, statusEl) {
-  var chunkSize = 10; 
+  var chunkSize = 15;
   var total = subs.length;
   for (var i = 0; i < total; i += chunkSize) {
     var chunk = subs.slice(i, i + chunkSize);
@@ -2397,7 +2397,6 @@ async function autoTranslateJSON(subs, statusEl) {
       }
     } catch(e) { console.log('Lỗi dịch đoạn', i, e); }
     if(statusEl) { statusEl.innerHTML = `<span class="spinner"></span> Đang tự động dịch... (${Math.min(i + chunkSize, total)}/${total})`; }
-    await new Promise(r => setTimeout(r, 500)); 
   }
   if(statusEl) { statusEl.className = 'status ok'; statusEl.innerHTML = '✅ Đã dịch xong!'; }
 }
@@ -2405,66 +2404,83 @@ async function autoTranslateJSON(subs, statusEl) {
 async function startYT(){
   try {
     var url=document.getElementById('ytUrl').value.trim();
+    var srt=document.getElementById('ytSrt').value.trim();
     var status=document.getElementById('ytStatus');
     status.style.display='block';status.className='status';
     
     if(!url){status.className='status no';status.textContent='⚠️ Chưa nhập link!';return;}
     
+    if(!jsonDataCache && !srt){
+      status.className='status no';status.textContent='⚠️ Vui lòng chọn file JSON hoặc nhập SRT!';return;
+    }
+    
     var vid=ytExtractVideoId(url);
     if(!vid){status.className='status no';status.textContent='❌ Link không hợp lệ!';return;}
 
-    status.innerHTML = '<span class="spinner"></span> Đang tự động lấy phụ đề...';
-
-    // ⚠️ THAY LINK CLOUDFLARE CỦA BẠN VÀO ĐÂY
-    var WORKER_URL = "https://still-hat-53df.vuongdinhtung207.workers.dev/"; 
-    
-    try {
-        var res = await fetch(WORKER_URL + "?v=" + vid);
-        if (!res.ok) throw new Error("Không lấy được phụ đề");
-        
-        var xmlText = await res.text();
-        
-        var parser = new DOMParser();
-        var xmlDoc = parser.parseFromString(xmlText, "text/xml");
-        var texts = xmlDoc.getElementsByTagName("text");
-        
-        ytSubs = [];
-        for (var i = 0; i < texts.length; i++) {
-            var start = parseFloat(texts[i].getAttribute("start"));
-            var dur = parseFloat(texts[i].getAttribute("dur"));
-            var textContent = texts[i].textContent;
-            
-            var txtNode = document.createElement("textarea");
-            txtNode.innerHTML = textContent;
-            var cleanText = txtNode.value;
-
-            ytSubs.push({
-                start: start,
-                end: start + dur,
-                en: cleanText,
-                vi: "",
-                _wordTimings: null,
-                _hasWordTags: false
-            });
-        }
-
-        if (ytSubs.length === 0) throw new Error("Không tìm thấy câu nào");
-
-        status.innerHTML = '<span class="spinner"></span> Đang tự động dịch sang tiếng Việt...';
-        await autoTranslateJSON(ytSubs, status);
-
-        ytSubs = ytSplitLongSubs(ytSubs, MAX_CHARS_EN);
-        
-        ytSubs.forEach(function(sub){
-            if(sub._hasWordTags && sub._wordTimings && sub._wordTimings.length > 0) return;
-            sub._hasWordTags = false;
-            sub._wordTimings = null;
-            sub._approxTimings = ytApproximateWordTimings(sub);
+    if(jsonDataCache && jsonDataCache.length > 0) {
+      ytSubs = jsonDataCache;
+      if(srt) {
+        var srtData = ytParseSRT(srt);
+        ytSubs.forEach(function(jsonSeg) {
+          var midTime = (jsonSeg.start + jsonSeg.end) / 2;
+          for (var i = 0; i < srtData.length; i++) {
+            if (midTime >= srtData[i].start && midTime <= srtData[i].end) {
+              if(srtData[i].vi) jsonSeg.vi = srtData[i].vi;
+              break;
+            }
+          }
         });
-
-    } catch (err) {
-        status.className='status no';status.textContent='❌ Lỗi tự động: '+err.message+' (Thử nhập SRT thủ công)';return;
+      } else {
+        status.innerHTML = '<span class="spinner"></span> Đang tự động dịch sang tiếng Việt (Vui lòng đợi)...';
+        await autoTranslateJSON(ytSubs, status);
+      }
+    } else {
+      ytSubs = ytParseSRT(srt);
     }
+    
+    if(!ytSubs || !ytSubs.length){status.className='status no';status.textContent='❌ Lỗi định dạng phụ đề!';return;}
+
+    var taggedCount = 0;
+    for(var si=0;si<ytSubs.length;si++){
+      if(ytSubs[si]._wordTimings && ytSubs[si]._wordTimings.length > 0){
+        ytSubs[si]._hasWordTags = true;
+        taggedCount++;
+      } else {
+        ytSubs[si]._hasWordTags = false;
+        ytSubs[si]._wordTimings = null;
+      }
+    }
+
+    ytSubs = ytSplitLongSubs(ytSubs, MAX_CHARS_EN);
+
+    ytSubs.forEach(function(sub){
+      if(sub._hasWordTags && sub._wordTimings && sub._wordTimings.length > 0) return;
+      sub._hasWordTags   = false;
+      sub._wordTimings   = null;
+      sub._approxTimings = ytApproximateWordTimings(sub);
+    });
+
+    var ytTitle = "Video Youtube";
+    if(ytPlayer && ytPlayer.getVideoData) {
+      ytTitle = ytPlayer.getVideoData().title;
+    }
+    
+    var existingIdx = ytHistory.findIndex(function(item) { return item.url === url; });
+    var historyItem = {
+      url: url,
+      title: ytTitle,
+      srt: srt,
+      subs: ytSubs,
+      date: Date.now()
+    };
+    
+    if(existingIdx >= 0) {
+      ytHistory[existingIdx] = historyItem;
+    } else {
+      ytHistory.unshift(historyItem);
+    }
+    if(ytHistory.length > 20) ytHistory = ytHistory.slice(0, 20);
+    saveYtHistory();
 
     renderYTViewList();
     document.getElementById('yt-home').style.display='none';
@@ -2485,6 +2501,14 @@ async function startYT(){
             ytPlayerReady=true;ytMuted=false; 
             e.target.unMute();
             e.target.playVideo();
+            
+            var realTitle = e.target.getVideoData().title;
+            var hIdx = ytHistory.findIndex(function(item) { return item.url === url; });
+            if(hIdx >= 0 && realTitle) {
+              ytHistory[hIdx].title = realTitle;
+              saveYtHistory();
+            }
+
             ytSubViOn = true; ytSubEnOn = true;
             document.documentElement.style.setProperty('--yt-sub-size', ytFontSize + 'px');
             var viEl = document.getElementById('ytSubVi');
@@ -2500,7 +2524,7 @@ async function startYT(){
             if(e.data===YT.PlayerState.PLAYING){
               if(ytMode==='view')ytStartSync();
             }else{
-              if(ytInterval){cancelAnimationFrame(ytInterval);ytInterval=null;}
+              if(ytInterval){clearInterval(ytInterval);ytInterval=null;}
             }
           }
         }
@@ -2511,6 +2535,7 @@ async function startYT(){
     status.style.display='block';
     status.className='status no';
     status.textContent='❌ Lỗi: ' + err.message;
+    console.error(err);
   }
 }
 
